@@ -109,6 +109,7 @@ export const aircraftCatalog: Aircraft[] = [
     crew: '05 tripulantes',
     weight: '70.307 kg (MTOW)',
     sketchfabModelId: '5acfb2eb4f204f51ab418856c116b68e',
+    coverImage: 'covers/c130(cover).jpg',
     notes: [
       'Verifique o plano de reabastecimento antes da missão e confirme pontos de contato.',
       'Monitore pressão de combustível e status da formação durante operações em voo.',
@@ -143,6 +144,7 @@ export const aircraftCatalog: Aircraft[] = [
     crew: '02 tripulantes',
     weight: '87.000 kg (MTOW)',
     sketchfabModelId: '6376f92b7d1b45a0bb11921e836fcba8',
+    coverImage: 'covers/kc390(cover).jpg',
     notes: [
       'Confirme a configuração de carga e o manifesto antes do despacho.',
       'Verifique os sistemas de freio e rampa antes de qualquer operação de carga/descarga.',
@@ -158,6 +160,40 @@ export const aircraftCatalog: Aircraft[] = [
       { name: 'Manual de operações — C-390 Millennium', meta: 'PDF · 4,0 MB · revisão 03/2025' },
       { name: 'Checklist de transporte de carga', meta: 'PDF · 1,3 MB · revisão 01/2025' },
       { name: 'Guia de missão tática', meta: 'PDF · 1,4 MB · revisão 06/2025' },
+    ],
+  },
+  {
+    id: 'hermes-450',
+    name: 'Elbit Systems Hermes 450',
+    manufacturer: 'Elbit Systems',
+    category: 'Veículo aéreo não tripulado',
+    role: 'Reconhecimento, vigilância e apoio de inteligência',
+    origin: 'Brasil / Israel',
+    status: 'Operacional',
+    year: '2006',
+    length: '10,5 m',
+    wingspan: '13,0 m',
+    height: '3,6 m',
+    maxSpeed: '213 km/h',
+    range: '1.500 km',
+    crew: '0 tripulantes',
+    weight: '1.270 kg (MTOW)',
+    sketchfabModelId: '6f240fa4bc654c32a81702ad5b00b0e8',
+    notes: [
+      'Verifique os sensores e o enlace de dados antes de iniciar a missão.',
+      'Confirme a condição do ponto de pouso e a integridade do sistema de recuperação automática.',
+      'Mantenha o canal de controle seguro para evitar interferência e perda de enlace.'
+    ],
+    procedures: [
+      { title: 'Planejamento de missão de reconhecimento', body: 'Defina a área de patrulha, configure os sensores e valide as coordenadas de retorno automático.' },
+      { title: 'Preparação de sistemas', body: 'Verifique o enlace de dados, a alimentação do UAV e os sistemas de navegação antes da decolagem.' },
+      { title: 'Operação de vigilância', body: 'Monitore continuamente vídeo e telemetria enquanto o Hermes 450 realiza a missão de ISR.' },
+      { title: 'Recuperação e pouso', body: 'Execute a recuperação no ponto designado e confirme o estado dos patins antes de liberar a área.' },
+    ],
+    manuals: [
+      { name: 'Manual de operações — Hermes 450', meta: 'PDF · 2,8 MB · revisão 06/2025' },
+      { name: 'Checklist de prevenção de perda de enlace', meta: 'PDF · 1,0 MB · revisão 04/2025' },
+      { name: 'Guia de missão ISR', meta: 'PDF · 1,3 MB · revisão 09/2024' },
     ],
   },
   {
@@ -177,6 +213,7 @@ export const aircraftCatalog: Aircraft[] = [
     crew: '01 piloto',
     weight: '12.794 kg (MTOW)',
     sketchfabModelId: 'f8b4a2dc190144d6843878e0907db73a',
+    coverImage: 'covers/f5(cover).jpg',
     notes: [
       'Verifique o armamento e os pontos de pylons antes da decolagem.',
       'Monitore a pressão do óleo e o sistema de combustível durante a subida.',
@@ -245,6 +282,7 @@ export const aircraftCatalog: Aircraft[] = [
     crew: '02 pilotos',
     weight: '5.400 kg (MTOW)',
     sketchfabModelId: 'b8121278dc4d4ef6b969efff5b813b92',
+    coverImage: 'covers/a29biplace(cover).jpg',
     notes: [
       'Confirme a missão de vigilância e a configuração de câmera/armamento antes da decolagem.',
       'Verifique a comunicação entre piloto e observador na cabine traseira.',
@@ -279,6 +317,7 @@ export const aircraftCatalog: Aircraft[] = [
     crew: '03 tripulantes',
     weight: '65.000 kg (MTOW)',
     sketchfabModelId: '2462855a3ad041f49256ba36353eb2cd',
+    coverImage: 'covers/p190(cover).png',
     notes: [
       'Projete a missão com ênfase em vigilância marítima e comunicação com unidades navais.',
       'Confirme os sensores embarcados e sistemas de busca antes de qualquer saída.',
@@ -313,6 +352,7 @@ export const aircraftCatalog: Aircraft[] = [
     crew: '01 piloto',
     weight: '17.600 kg (MTOW)',
     sketchfabModelId: 'c3035e5684ba4edf86cf1feea006f228',
+    coverImage: 'covers/mirrage(cover).jpg',
     notes: [
       'Confirme a configuração de armamento ar-ar e o radar antes de sair em missão.',
       'Monitore temperatura de motor e a resposta dos controles de voo em altas velocidades.',
@@ -347,6 +387,7 @@ export const aircraftCatalog: Aircraft[] = [
     crew: '02 tripulantes',
     weight: '5.670 kg (MTOW)',
     sketchfabModelId: 'fc86191cab494c4c84c1a6ab576b179c',
+    coverImage: 'covers/t27(cover).jpg',
     notes: [
       'Verifique a configuração de treino e o armamento leve antes da decolagem.',
       'Confirme os parâmetros de motor e a comunicação entre instrutor e aluno.',
@@ -362,40 +403,6 @@ export const aircraftCatalog: Aircraft[] = [
       { name: 'Manual de operações — T-27M Tucano', meta: 'PDF · 3,0 MB · revisão 07/2024' },
       { name: 'Checklist de treinamento avançado', meta: 'PDF · 1,1 MB · revisão 05/2024' },
       { name: 'Guia de apoio leve', meta: 'PDF · 1,0 MB · revisão 09/2024' },
-    ],
-  },
-  {
-    id: 'emb-314-super-tucano-a29',
-    name: 'EMB 314 Super Tucano A-29',
-    manufacturer: 'Embraer',
-    category: 'Aeronave de ataque leve',
-    role: 'Apoio aéreo aproximado e contrainsurgência',
-    origin: 'Brasil',
-    status: 'Operacional',
-    year: '2003',
-    length: '11,94 m',
-    wingspan: '11,14 m',
-    height: '4,55 m',
-    maxSpeed: '593 km/h',
-    range: '1.852 km',
-    crew: '02 tripulantes',
-    weight: '5.400 kg (MTOW)',
-    sketchfabModelId: '59480740a63b4fdea1807f6ea166fe26',
-    notes: [
-      'Verifique o armamento leve e a configuração de sensores antes da missão.',
-      'Confirme a coordenação entre piloto e observador em missões de apoio aproximado.',
-      'Avalie as condições do terreno e as rotas de fuga para operações de baixo nível.'
-    ],
-    procedures: [
-      { title: 'Preparação de missão de apoio', body: 'Confirme combustível, mísseis e bombas de precisão, e valide a missão com o comando de solo.' },
-      { title: 'Ataque em baixa altitude', body: 'Use velocidade reduzida e conhecimento do terreno para minimizar riscos durante ataques de precisão.' },
-      { title: 'Reconhecimento armado', body: 'Monitore o sistema de vigilância e comunique alvos importantes antes de engajar.' },
-      { title: 'Pouso tático', body: 'Faça aproximação estável e utilize flaps corretamente em pistas curtas ou improvisadas.' },
-    ],
-    manuals: [
-      { name: 'Manual de operações — EMB 314 Super Tucano', meta: 'PDF · 3,3 MB · revisão 04/2025' },
-      { name: 'Checklist de armamento e apoio próximo', meta: 'PDF · 1,2 MB · revisão 12/2024' },
-      { name: 'Guia de missão de contrainsurgência', meta: 'PDF · 1,1 MB · revisão 08/2024' },
     ],
   },
   {
@@ -415,6 +422,7 @@ export const aircraftCatalog: Aircraft[] = [
     crew: '02 tripulantes',
     weight: '5.400 kg (MTOW)',
     sketchfabModelId: 'e417dad6c8a74004a63f4c0c18459d64',
+    coverImage: 'covers/a29-eda01(cover).png',
     notes: [
       'Confirme a configuração de carga e os sensores de vigilância antes do voo.',
       'Verifique os sistemas de comunicação entre piloto e observador durante as operações EDA.',

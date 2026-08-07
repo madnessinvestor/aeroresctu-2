@@ -179,6 +179,7 @@ export const aircraftCatalog: Aircraft[] = [
     crew: '0 tripulantes',
     weight: '1.270 kg (MTOW)',
     sketchfabModelId: '6f240fa4bc654c32a81702ad5b00b0e8',
+    coverImage: 'covers/hermes450.jpg',
     notes: [
       'Verifique os sensores e o enlace de dados antes de iniciar a missão.',
       'Confirme a condição do ponto de pouso e a integridade do sistema de recuperação automática.',

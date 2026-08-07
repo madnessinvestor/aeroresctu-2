@@ -1,6 +1,6 @@
 {
   "id": "amx-a1",
-  "name": "AMX A-1",
+  "name": "AMX A-1A",
   "sourceModel": "FABv A1 AMX_TFC",
   "format": "Microsoft Flight Simulator MDL",
   "conversionStatus": "ready-for-threejs-conversion",

@@ -1,3 +1,24 @@
+export type ManualLink = {
+  name: string;
+  meta: string;
+  url?: string;
+};
+
+export type GalleryItem = {
+  title: string;
+  url?: string;
+};
+
+export type VideoLink = {
+  title: string;
+  url: string;
+};
+
+export type AircraftVisualization = {
+  label: string;
+  sketchfabModelId: string;
+};
+
 export type Aircraft = {
   id: string;
   name: string;
@@ -14,17 +35,32 @@ export type Aircraft = {
   range: string;
   crew: string;
   weight: string;
+  pobMax: string;
+  designacaoFab?: string;
+  fabricanteDetalhe?: string;
+  categoriaContraIncendio?: string;
+  alturaSoloCockpit?: string;
+  combustivel?: string;
+  quantidadeSaidas?: string;
+  assentoEjetavel?: string;
+  sistemaDefesa?: string;
+  motor?: string;
+  armamentoFixo?: string;
+  armamentosCompativeis?: string;
   sketchfabModelId?: string;
+  overviewModels?: AircraftVisualization[];
   coverImage?: string;
   notes: string[];
   procedures: { title: string; body: string }[];
-  manuals: { name: string; meta: string }[];
+  manuals: ManualLink[];
+  gallery?: GalleryItem[];
+  videos?: VideoLink[];
 };
 
 export const aircraftCatalog: Aircraft[] = [
   {
     id: 'amx-a1',
-    name: 'AMX A-1',
+    name: 'AMX A-1A',
     manufacturer: 'Embraer / AMX International',
     category: 'Aeronave de ataque',
     role: 'Apoio aéreo tático',
@@ -38,7 +74,23 @@ export const aircraftCatalog: Aircraft[] = [
     range: '3.330 km',
     crew: '01 piloto',
     weight: '13.000 kg',
+    pobMax: '01 pessoa a bordo',
+    designacaoFab: 'A-1A/M',
+    fabricanteDetalhe: 'AMX International (Aeritalia, Aermacchi e Embraer)',
+    categoriaContraIncendio: '03',
+    alturaSoloCockpit: '2,18 m (estimativa, não oficial)',
+    combustivel: 'QAV-1 (Querosene de Aviação)',
+    quantidadeSaidas: '01',
+    assentoEjetavel: 'Sim (Zero-Zero)',
+    sistemaDefesa: 'RWR (Radar Warning Receiver), Chaff e Flare',
+    motor: '1 × Rolls-Royce Spey RB.168 Mk.807 Turbofan',
+    armamentoFixo: '2 × Canhões DEFA 554 (Mk.164) de 30 mm',
+    armamentosCompativeis: 'Mísseis Ar-Ar, Mísseis Ar-Superfície, Bombas Convencionais, Bombas Guiadas e Foguetes',
     sketchfabModelId: 'c776611d54b9490ebd088415fc44bd4a',
+    overviewModels: [
+      { label: 'Visão geral', sketchfabModelId: 'c776611d54b9490ebd088415fc44bd4a' },
+      { label: 'Cockpit', sketchfabModelId: '152d9eb1b8b94533bdc933950190d7e8' },
+    ],
     coverImage: 'covers/a1a(cover).jpg',
     notes: [
       'Confirmar configuração de armamento e carga externa antes da aproximação.',
@@ -52,14 +104,26 @@ export const aircraftCatalog: Aircraft[] = [
       { title: 'Triagem e extração', body: 'Priorize o piloto, estabilize a área e coordene a extração com o responsável por trauma.' },
     ],
     manuals: [
-      { name: 'Ficha de emergência — AMX A-1', meta: 'PDF · 2,4 MB · revisão 03/2024' },
+      { name: 'Ficha de emergência — AMX A-1A', meta: 'PDF · 2,4 MB · revisão 03/2024' },
       { name: 'Mapa de zonas de risco', meta: 'PDF · 890 KB · revisão 11/2023' },
       { name: 'Procedimento SESCINC 14.2', meta: 'PDF · 1,1 MB · revisão 08/2024' },
+      { name: 'Manual operacional — AMX A-1A', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1Rbota7ZNj8Ke4BXDodDiTBLTUzwjA1gn/view?usp=drive_link' },
+      { name: 'Manual técnico — AMX A-1A', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1zOtB0KwnBmDlTMGQn-2_WSRwbmeMK_ry/view?usp=drive_link' },
+    ],
+    videos: [
+      { title: 'A-1 AMX: O Caça-Bombardeiro Ítalo-Brasileiro!', url: 'https://www.youtube.com/watch?v=pZ0cl6Ay5EE&t=944s' },
+      { title: 'AMX: a história do martelo da Força Aérea Brasileira - DOC #211', url: 'https://www.youtube.com/watch?v=GASjh7U181M&t=1310s' },
+      { title: 'Brazilian Air Force: A-1 AMX Fighter-Bomber in action - Caça-Bombardeiro A-1 AMX em Ação', url: 'https://www.youtube.com/watch?v=3bIYfjXPfaA' },
+      { title: 'Detalhes do A1 AMX da Força Aérea Brasileira | Base Aérea de Canoas - RS ✈️', url: 'https://www.youtube.com/shorts/uK7HkCPIzUc' },
+      { title: 'AMX A-1: O INCRÍVEL Caça-Bombardeiro BRASILEIRO que Fez História🛩️🧐#amx #a1 #aviação #aviation', url: 'https://www.youtube.com/shorts/lB7yrCSRw3I' },
+      { title: 'A-1 AMX Tiro Terrestre com canhões 30mm', url: 'https://www.youtube.com/shorts/bPMVCHJZ088' },
+      { title: 'Caça A-1M AMX disparando tiro de canhão e lançando flare! . Força Aérea Brasileira.', url: 'https://www.youtube.com/watch?v=RlxNfSMyx48' },
+      { title: 'AMX A1 voo em formação', url: 'https://www.youtube.com/watch?v=z0C61hY2_HM' },
     ],
   },
   {
     id: 'amx-a1mb',
-    name: 'AMX A-1MB',
+    name: 'AMX A-1B',
     manufacturer: 'Embraer / AMX International',
     category: 'Aeronave de ataque',
     role: 'Apoio aéreo tático biplace',
@@ -73,7 +137,23 @@ export const aircraftCatalog: Aircraft[] = [
     range: '3.330 km',
     crew: '02 pilotos',
     weight: '13.800 kg',
+    pobMax: '02 pessoas a bordo',
+    designacaoFab: 'A-1A/M',
+    fabricanteDetalhe: 'AMX International (Aeritalia, Aermacchi e Embraer)',
+    categoriaContraIncendio: '03',
+    alturaSoloCockpit: '2,18 m do P1 e 2,31 m do P2, estimativas, não oficiais',
+    combustivel: 'QAV-1 (Querosene de Aviação)',
+    quantidadeSaidas: '01',
+    assentoEjetavel: 'Sim (Zero-Zero)',
+    sistemaDefesa: 'RWR (Radar Warning Receiver), Chaff e Flare',
+    motor: '1 × Rolls-Royce Spey RB.168 Mk.807 Turbofan',
+    armamentoFixo: '2 × Canhões DEFA 554 (Mk.164) de 30 mm',
+    armamentosCompativeis: 'Mísseis Ar-Ar, Mísseis Ar-Superfície, Bombas Convencionais, Bombas Guiadas e Foguetes',
     sketchfabModelId: 'cb85ef04082148bb9e93374a209c00f0',
+    overviewModels: [
+      { label: 'Visão geral', sketchfabModelId: 'cb85ef04082148bb9e93374a209c00f0' },
+      { label: 'Cockpit', sketchfabModelId: '152d9eb1b8b94533bdc933950190d7e8' },
+    ],
     coverImage: 'covers/a1b(cover).jpg',
     notes: [
       'Confirme a ocupação da cabine traseira antes de iniciar inspeção de emergência.',
@@ -87,9 +167,21 @@ export const aircraftCatalog: Aircraft[] = [
       { title: 'Evacuação dupla', body: 'No caso de emergência, priorize a evacuação pela frente e depois pela escotilha traseira, mantendo estabilidade da aeronave.' },
     ],
     manuals: [
-      { name: 'Ficha de emergência — AMX A-1MB', meta: 'PDF · 2,6 MB · revisão 04/2024' },
+      { name: 'Ficha de emergência — AMX A-1B', meta: 'PDF · 2,6 MB · revisão 04/2024' },
       { name: 'Checklist de operação biplace', meta: 'PDF · 1,1 MB · revisão 12/2023' },
       { name: 'Procedimento SESCINC 14.3', meta: 'PDF · 1,2 MB · revisão 09/2024' },
+      { name: 'Manual operacional — AMX A-1B', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1Rbota7ZNj8Ke4BXDodDiTBLTUzwjA1gn/view?usp=drive_link' },
+      { name: 'Manual técnico — AMX A-1B', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1zOtB0KwnBmDlTMGQn-2_WSRwbmeMK_ry/view?usp=drive_link' },
+    ],
+    videos: [
+      { title: 'A-1 AMX: O Caça-Bombardeiro Ítalo-Brasileiro!', url: 'https://www.youtube.com/watch?v=pZ0cl6Ay5EE&t=944s' },
+      { title: 'AMX: a história do martelo da Força Aérea Brasileira - DOC #211', url: 'https://www.youtube.com/watch?v=GASjh7U181M&t=1310s' },
+      { title: 'Brazilian Air Force: A-1 AMX Fighter-Bomber in action - Caça-Bombardeiro A-1 AMX em Ação', url: 'https://www.youtube.com/watch?v=3bIYfjXPfaA' },
+      { title: 'Detalhes do A1 AMX da Força Aérea Brasileira | Base Aérea de Canoas - RS ✈️', url: 'https://www.youtube.com/shorts/uK7HkCPIzUc' },
+      { title: 'AMX A-1: O INCRÍVEL Caça-Bombardeiro BRASILEIRO que Fez História🛩️🧐#amx #a1 #aviação #aviation', url: 'https://www.youtube.com/shorts/lB7yrCSRw3I' },
+      { title: 'A-1 AMX Tiro Terrestre com canhões 30mm', url: 'https://www.youtube.com/shorts/bPMVCHJZ088' },
+      { title: 'Caça A-1M AMX disparando tiro de canhão e lançando flare! . Força Aérea Brasileira.', url: 'https://www.youtube.com/watch?v=RlxNfSMyx48' },
+      { title: 'AMX A1 voo em formação', url: 'https://www.youtube.com/watch?v=z0C61hY2_HM' },
     ],
   },
   {
@@ -108,7 +200,19 @@ export const aircraftCatalog: Aircraft[] = [
     range: '3.800 km',
     crew: '05 tripulantes',
     weight: '70.307 kg (MTOW)',
-    sketchfabModelId: '5acfb2eb4f204f51ab418856c116b68e',
+    pobMax: '97 pessoas a bordo',
+    categoriaContraIncendio: '06',
+    combustivel: 'JP-5 / Jet A / combustível para turbopropulsão',
+    quantidadeSaidas: '02 (porta principal e porta lateral / evacuação)',
+    motor: '4 × turbopropulsores Allison T56-A-16',
+    armamentoFixo: 'Não previsto em função principal',
+    armamentosCompativeis: 'Reabastecimento em voo, carga tática, logística e transporte de tropas',
+    sistemaDefesa: 'Sistemas de navegação, comunicação e proteção de bordo em configuração militar',
+    sketchfabModelId: 'f5fae27c4270472fac399055699facb4',
+    overviewModels: [
+      { label: 'Visão geral 1', sketchfabModelId: 'f5fae27c4270472fac399055699facb4' },
+      { label: 'Visão geral 2', sketchfabModelId: '5acfb2eb4f204f51ab418856c116b68e' },
+    ],
     coverImage: 'covers/c130(cover).jpg',
     notes: [
       'Verifique o plano de reabastecimento antes da missão e confirme pontos de contato.',
@@ -143,6 +247,14 @@ export const aircraftCatalog: Aircraft[] = [
     range: '4.815 km',
     crew: '02 tripulantes',
     weight: '87.000 kg (MTOW)',
+    pobMax: '82 pessoas a bordo',
+    categoriaContraIncendio: '06',
+    combustivel: 'Jet A-1 / JP-8 para operação militar',
+    quantidadeSaidas: '02 (rampa e acessos laterais)',
+    motor: '2 × turbofans IAE V2500-E5',
+    armamentoFixo: 'Não dotada de armamento fixo',
+    armamentosCompativeis: 'Cargas, veículos, tropas e suporte tático de transporte',
+    sistemaDefesa: 'Sistemas de navegação, proteção eletrônica e operação de carga com apoio de missão',
     sketchfabModelId: '6376f92b7d1b45a0bb11921e836fcba8',
     coverImage: 'covers/kc390(cover).jpg',
     notes: [
@@ -178,6 +290,13 @@ export const aircraftCatalog: Aircraft[] = [
     range: '1.500 km',
     crew: '0 tripulantes',
     weight: '1.270 kg (MTOW)',
+    pobMax: '0 pessoas a bordo',
+    combustivel: 'Combustível de motores de combustão interna para operação de ISR',
+    quantidadeSaidas: 'Sem cabine tripulada',
+    motor: 'Motor de combustão interna de baixo consumo com acionamento de roto',
+    armamentoFixo: 'Sem armamento fixo embarcado',
+    armamentosCompativeis: 'Carga de sensores, câmeras, acessórios ISR e pacote de missão',
+    sistemaDefesa: 'Enlace de dados, controle remoto e recuperação automática',
     sketchfabModelId: '6f240fa4bc654c32a81702ad5b00b0e8',
     coverImage: 'covers/hermes450.jpg',
     notes: [
@@ -213,6 +332,14 @@ export const aircraftCatalog: Aircraft[] = [
     range: '2.530 km',
     crew: '01 piloto',
     weight: '12.794 kg (MTOW)',
+    pobMax: '01 pessoa a bordo',
+    categoriaContraIncendio: '03',
+    combustivel: 'JP-4 / Jet A para operação de caça leve',
+    quantidadeSaidas: '01 (cabo e acesso de tripulação)',
+    motor: '2 × turbojatos General Electric J85-GE-21A',
+    armamentoFixo: '2 × canhões M39 de 20 mm',
+    armamentosCompativeis: 'Mísseis ar-ar, bombas convencionais e foguetes de apoio',
+    sistemaDefesa: 'Radar de aeronave, sistemas de aviação e proteção de cabine',
     sketchfabModelId: 'f8b4a2dc190144d6843878e0907db73a',
     coverImage: 'covers/f5(cover).jpg',
     notes: [
@@ -248,6 +375,14 @@ export const aircraftCatalog: Aircraft[] = [
     range: '1.852 km',
     crew: '02 pilotos',
     weight: '5.400 kg (MTOW)',
+    pobMax: '02 pessoas a bordo',
+    categoriaContraIncendio: '02',
+    combustivel: 'Jet A-1 / QAV-1 para operação leve',
+    quantidadeSaidas: '01 escotilha de acesso e saída de emergência',
+    motor: '1 × turbopropulsor Pratt & Whitney Canada PT6A-68C',
+    armamentoFixo: '2 × canhões leves de apoio, configuração variável',
+    armamentosCompativeis: 'Bombas, rockets, kits de tiro e apoio leve ao solo',
+    sistemaDefesa: 'Sistemas de apoio de navegação e suporte de missão',
     sketchfabModelId: '987ef78a923941f7bed9b306f37513ca',
     coverImage: 'covers/a29a(cover).jpg?v=2',
     notes: [
@@ -283,6 +418,14 @@ export const aircraftCatalog: Aircraft[] = [
     range: '1.852 km',
     crew: '02 pilotos',
     weight: '5.400 kg (MTOW)',
+    pobMax: '02 pessoas a bordo',
+    categoriaContraIncendio: '02',
+    combustivel: 'Jet A-1 / QAV-1 para operação de apoio',
+    quantidadeSaidas: '01 escotilha de acesso e saída de emergência',
+    motor: '1 × turbopropulsor Pratt & Whitney Canada PT6A-68C',
+    armamentoFixo: '2 × canhões leves de apoio, configuração variável',
+    armamentosCompativeis: 'Bombas, rockets, câmera e apoio vigilância de baixa intensidade',
+    sistemaDefesa: 'Sistemas de navegação, comunicação e missão de vigilância',
     sketchfabModelId: 'b8121278dc4d4ef6b969efff5b813b92',
     coverImage: 'covers/a29biplace(cover).jpg',
     notes: [
@@ -318,6 +461,14 @@ export const aircraftCatalog: Aircraft[] = [
     range: '8.000 km',
     crew: '03 tripulantes',
     weight: '65.000 kg (MTOW)',
+    pobMax: '03 pessoas a bordo',
+    categoriaContraIncendio: '06',
+    combustivel: 'Combustível de aeronave de patrulha com reservas de missão',
+    quantidadeSaidas: '02 saídas principais com acesso de tripulação',
+    motor: '2 × turbofans compatibles com configuração de patrulha',
+    armamentoFixo: 'Sem armamento fixo principal',
+    armamentosCompativeis: 'Sensores marítimos, busca de superfície e suporte de missão naval',
+    sistemaDefesa: 'Sistemas de vigilância, radar e comunicação naval',
     sketchfabModelId: '2462855a3ad041f49256ba36353eb2cd',
     coverImage: 'covers/p190(cover).png',
     notes: [
@@ -353,6 +504,13 @@ export const aircraftCatalog: Aircraft[] = [
     range: '1.550 km',
     crew: '01 piloto',
     weight: '17.600 kg (MTOW)',
+    pobMax: '01 pessoa a bordo',
+    combustivel: 'JP-4 / jet fuel de operação militar',
+    quantidadeSaidas: '01 escotilha com saída de emergência',
+    motor: '1 × turbofan SNECMA M53-P2 com pós-combustão',
+    armamentoFixo: '2 × canhões de 30 mm (configuração específica)',
+    armamentosCompativeis: 'Mísseis ar-ar, bombas e foguetes de suporte',
+    sistemaDefesa: 'Radar multimodo, proteção de sistemas e cabine dosado para interceptação',
     sketchfabModelId: 'c3035e5684ba4edf86cf1feea006f228',
     coverImage: 'covers/mirrage(cover).jpg',
     notes: [
@@ -388,6 +546,14 @@ export const aircraftCatalog: Aircraft[] = [
     range: '1.550 km',
     crew: '02 tripulantes',
     weight: '5.670 kg (MTOW)',
+    pobMax: '02 pessoas a bordo',
+    categoriaContraIncendio: '02',
+    combustivel: 'Combustível turboélice de treinamento/ataque leve',
+    quantidadeSaidas: '01 escotilha e acesso de cabine dupla',
+    motor: '1 × turbopropulsor Pratt & Whitney Canada PT6A-25C',
+    armamentoFixo: 'Sem canhão fixo em configuração padrão',
+    armamentosCompativeis: 'Rockets, bombas leves e carga de treinamento',
+    sistemaDefesa: 'Sistemas básicos de segurança, cockpit e suporte de navegação',
     sketchfabModelId: 'fc86191cab494c4c84c1a6ab576b179c',
     coverImage: 'covers/t27(cover).jpg',
     notes: [
@@ -408,6 +574,53 @@ export const aircraftCatalog: Aircraft[] = [
     ],
   },
   {
+    id: 'saab-jas-39-gripen-brasil',
+    name: 'F-39 Gripen',
+    manufacturer: 'Saab AB',
+    category: 'Aeronave de caça',
+    role: 'Superioridade aérea e apoio tático',
+    origin: 'Suécia / Brasil',
+    status: 'Operacional',
+    year: '2022',
+    length: '14,10 m',
+    wingspan: '8,60 m',
+    height: '4,50 m',
+    maxSpeed: '2.204 km/h',
+    range: '3.200 km',
+    crew: '01 piloto',
+    weight: '16.000 kg (MTOW)',
+    pobMax: '01 pessoa a bordo',
+    categoriaContraIncendio: '03',
+    combustivel: 'Combustível de turbofan para operação tática',
+    quantidadeSaidas: '01 ejetor com acesso à cabine',
+    motor: '1 × turbofan General Electric F404-GE-39 com pós-combustão',
+    armamentoFixo: '1 × canhão de 27 mm (configuração operacional específica)',
+    armamentosCompativeis: 'Mísseis ar-ar, bombas e sistemas de apoio de combate',
+    sistemaDefesa: 'Radar avançado, blindagem mínima e proteção eletrônica de missão',
+    sketchfabModelId: '6879b342504047c4a646d366889efeac',
+    overviewModels: [
+      { label: 'Visão geral', sketchfabModelId: '6879b342504047c4a646d366889efeac' },
+      { label: 'Cockpit', sketchfabModelId: '95514f2eb89d4429959d434009887cdd' },
+    ],
+    coverImage: '',
+    notes: [
+      'Confirmar configuração de armamento e carga externa antes da aproximação.',
+      'Conferir estado dos sistemas sensores e comunicação antes do lançamento de missão.',
+      'Respeitar zona de exclusão e manter acompanhamento técnico durante integração operacional.',
+    ],
+    procedures: [
+      { title: 'Planejamento de missão', body: 'Defina perfil de voo, alvo e zona de operação antes de autorização para saída.' },
+      { title: 'Checklist de arremetida', body: 'Verifique antes da decolagem os sistemas de navegação, comunicação e prontidão de armas.' },
+      { title: 'Acesso à cabine', body: 'Use o procedimento de acesso e siga sinalização para evitar remoção de equipamentos críticos.' },
+      { title: 'Retorno seguro', body: 'Monitore combustível, energia e sinalização operacional para entrada segura em área designada.' },
+    ],
+    manuals: [
+      { name: 'Manual de operações — Gripen', meta: 'PDF · revisão operacional' },
+      { name: 'Checklist de operação e apoio', meta: 'PDF · revisão local' },
+      { name: 'Guia de missões de apoio', meta: 'PDF · revisão tática' },
+    ],
+  },
+  {
     id: 'a-29a-super-tucano-eda',
     name: 'Embraer A-29A Super Tucano EDA',
     manufacturer: 'Embraer',
@@ -423,6 +636,8 @@ export const aircraftCatalog: Aircraft[] = [
     range: '1.852 km',
     crew: '02 tripulantes',
     weight: '5.400 kg (MTOW)',
+    pobMax: '02 pessoas a bordo',
+    categoriaContraIncendio: '02',
     sketchfabModelId: 'e417dad6c8a74004a63f4c0c18459d64',
     coverImage: 'covers/a29-eda01(cover).png',
     notes: [

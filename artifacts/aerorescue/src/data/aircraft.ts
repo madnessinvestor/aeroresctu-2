@@ -14,6 +14,7 @@ export type Aircraft = {
   range: string;
   crew: string;
   weight: string;
+  sketchfabModelId?: string;
   notes: string[];
   procedures: { title: string; body: string }[];
   manuals: { name: string; meta: string }[];
@@ -36,6 +37,7 @@ export const aircraftCatalog: Aircraft[] = [
     range: '3.330 km',
     crew: '01 piloto',
     weight: '13.000 kg',
+    sketchfabModelId: 'c776611d54b9490ebd088415fc44bd4a',
     notes: [
       'Confirmar configuração de armamento e carga externa antes da aproximação.',
       'A entrada na área de exaustão exige comunicação com o chefe de equipe.',

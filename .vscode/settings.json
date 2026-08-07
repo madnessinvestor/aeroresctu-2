@@ -1,0 +1,14 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^cd /workspaces/aeroresctu-2 && python - <<'PY'\nfrom pathlib import Path\np=Path\\('artifacts/aerorescue/src/data/aircraft\\.ts'\\)\ntext=p\\.read_text\\(\\)\nprint\\(repr\\(text\\[-300:\\]\\)\\)\nPY$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^cd /workspaces/aeroresctu-2 && pnpm --dir artifacts/aerorescue run typecheck$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "mkdir": true,
+        "cp": true
+    }
+}

@@ -1,1 +1,2 @@
 - [Modelo AMX anexado](amx-model-format.md) — o pacote original usa o formato nativo Microsoft Flight Simulator `.mdl`; a conversão web deve preservar os arquivos-fonte.
+- [Setup de projeto importado](imported-project-setup.md) — metadados podem existir sem registro de artefato; valide pelo workflow e pela porta quando necessário.

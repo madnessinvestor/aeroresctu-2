@@ -1,0 +1,571 @@
+# Projeto: AeroRescue – Catálogo 3D de Aeronaves e Procedimentos de Resgate
+
+Quero desenvolver um aplicativo chamado **AeroRescue**, um catálogo digital de aeronaves voltado ao treinamento e à consulta rápida de informações essenciais para **Bombeiros de Aeródromo (SESCINC)** e equipes de resposta a emergências aeronáuticas.
+
+O objetivo é criar uma plataforma moderna, intuitiva e organizada, reunindo em um único aplicativo as principais informações necessárias durante treinamentos, instruções e consultas operacionais.
+
+O aplicativo deverá funcionar em:
+
+* Windows (Desktop)
+* Android
+* iOS
+
+A interface deverá ser totalmente responsiva, adaptando-se automaticamente ao tamanho da tela de celulares, tablets, notebooks e computadores.
+
+O foco principal é que qualquer bombeiro de aeródromo consiga abrir o aplicativo, selecionar uma aeronave e, em poucos segundos, acessar todas as informações importantes para identificação da aeronave, procedimentos de resgate e consulta dos manuais.
+
+---
+
+# Interface
+
+Quero uma interface moderna, simples e intuitiva.
+
+Utilizar tema escuro.
+
+Evitar menus complicados.
+
+Toda navegação deverá ser rápida e fluida.
+
+---
+
+# Tela Inicial
+
+Na tela inicial deverá existir:
+
+* Campo de pesquisa
+* Lista de aeronaves
+* Favoritos
+* Últimas aeronaves acessadas
+* Categorias
+
+Exemplos:
+
+* Aviões
+* Helicópteros
+* Civis
+* Militares
+* Transporte
+* Caça
+* Treinamento
+
+Ao selecionar uma aeronave abrir sua página.
+
+---
+
+# Modelo 3D
+
+Cada aeronave deverá possuir um modelo 3D.
+
+Utilizar:
+
+* React Three Fiber
+* Three.js
+* Drei
+
+O usuário poderá:
+
+* girar livremente a aeronave;
+* movimentar a câmera;
+* aproximar;
+* afastar;
+* alterar o ângulo de visão;
+* visualizar em tela cheia;
+* resetar a câmera;
+* alterar iluminação;
+* alterar fundo.
+
+Toda movimentação deverá ser suave.
+
+---
+
+# Atalhos da Câmera
+
+Criar botões de acesso rápido:
+
+* 🌍 Visão Geral
+* 🛫 Cabine
+* 🚪 Portas
+* 🛞 Trem de Pouso
+* 🪽 Asas
+* 🔥 Motores
+* 📦 Compartimento de Carga
+* 🧭 Cauda
+
+Ao clicar em qualquer botão, a câmera deverá mover-se automaticamente para aquela região da aeronave.
+
+---
+
+# Cockpit
+
+Adicionar um botão:
+
+🛫 Cockpit
+
+Ao clicar:
+
+* entrar automaticamente na cabine;
+* carregar o modelo interno;
+* permitir visão em primeira pessoa;
+* permitir navegação em 360°;
+* permitir zoom;
+* possuir botão para retornar à visão externa.
+
+Caso a aeronave não possua cockpit modelado, ocultar automaticamente o botão.
+
+---
+
+# Hotspots
+
+Adicionar pontos interativos no modelo 3D.
+
+Os hotspots poderão existir:
+
+* exterior;
+* cockpit;
+* cabine;
+* compartimento de carga.
+
+Ao clicar em um hotspot deverá abrir:
+
+* Nome
+* Descrição
+* Função
+* Como funciona
+* Procedimentos relacionados
+* Imagens
+* Vídeos
+* Referência ao manual correspondente
+
+---
+
+# Qualidade Gráfica
+
+Adicionar configurações de qualidade:
+
+* SD
+* HD
+* Ultra HD (caso exista)
+
+Caso exista apenas um modelo, utilizá-lo automaticamente.
+
+Exemplo:
+
+* exterior_sd.glb
+* exterior_hd.glb
+* cockpit_sd.glb
+* cockpit_hd.glb
+
+---
+
+# Ficha Técnica
+
+Adicionar um botão chamado:
+
+📖 Ficha Técnica
+
+Ao clicar deverá abrir uma página contendo informações rápidas da aeronave.
+
+## Informações Gerais
+
+* Nome
+* Modelo
+* Fabricante
+* País de origem
+* Operador
+* Categoria
+* Missão
+* Primeiro voo
+* Foto principal
+
+## Dimensões
+
+* Comprimento
+* Envergadura
+* Altura
+* Peso vazio
+* Peso máximo de decolagem
+
+## Motores
+
+* Quantidade
+* Modelo
+* Fabricante
+* Tipo
+* Potência ou empuxo
+
+## Combustível
+
+* Tipo de combustível
+* Capacidade interna
+* Capacidade com tanques adicionais (quando houver)
+
+## Capacidade
+
+* Quantidade de pilotos
+* Quantidade de tripulantes
+* Quantidade máxima de ocupantes
+* Capacidade de passageiros
+* Capacidade de carga
+
+## Saídas
+
+* Quantidade de portas
+* Quantidade de saídas de emergência
+* Escotilhas
+* Portas de carga
+
+## Sistemas
+
+* Sistema hidráulico
+* Sistema elétrico
+* Sistema pneumático
+* Sistema de combustível
+* Sistema de oxigênio
+* Sistema de navegação
+* Sistema de comunicação
+* Sistema de pressurização
+* Sistema anti-incêndio
+
+## Sistemas de Defesa (quando houver)
+
+* Chaff
+* Flare
+* ECM
+* RWR
+* MAWS
+* DIRCM
+
+Caso a aeronave não possua sistemas defensivos, exibir "Não possui".
+
+## Armamentos (quando houver)
+
+* Canhões
+* Metralhadoras
+* Bombas
+* Mísseis
+* Foguetes
+* Quantidade de pontos externos
+
+Caso seja uma aeronave civil, ocultar automaticamente esta seção.
+
+---
+
+# Informações para Bombeiros
+
+Criar uma seção exclusiva para consulta rápida contendo:
+
+* Categoria Contraincêndio ICAO
+* Quantidade estimada de combustível
+* Localização das baterias
+* Localização da APU
+* Cilindros de oxigênio
+* Acumuladores hidráulicos
+* Assentos ejetáveis
+* Cargas pirotécnicas
+* Paraquedas balístico
+* Principais riscos
+* Observações importantes para o resgate
+
+Essa tela deverá servir como consulta rápida antes da abertura do Manual de Resgate.
+
+---
+
+# Galeria de Fotos
+
+Adicionar um botão:
+
+📷 Fotos
+
+Ao clicar abrir uma galeria contendo fotografias reais da aeronave.
+
+Permitir:
+
+* miniaturas;
+* zoom;
+* tela cheia;
+* navegação entre imagens;
+* deslizar no celular;
+* legendas.
+
+Organizar automaticamente por categorias:
+
+* Exterior
+* Cockpit
+* Cabine
+* Compartimento de carga
+* Motores
+* Trem de pouso
+* Asas
+* Cauda
+* Manutenção
+* Resgate
+
+No futuro quero relacionar fotografias diretamente aos componentes do modelo 3D.
+
+---
+
+# Manuais
+
+Adicionar uma seção:
+
+📚 Manuais
+
+Cada aeronave poderá possuir:
+
+* Manual de Voo
+* Manual de Manutenção
+* Manual de Resgate
+* Checklist
+* Outros documentos
+
+Todos deverão abrir em um visualizador interno de PDF.
+
+Permitir:
+
+* pesquisa;
+* zoom;
+* troca de páginas;
+* tela cheia;
+* download opcional.
+
+---
+
+# Manual de Resgate
+
+Adicionar um botão específico:
+
+🚒 Manual de Resgate
+
+Ao clicar abrir imediatamente o PDF correspondente.
+
+No futuro quero integrar IA para responder perguntas utilizando exclusivamente o conteúdo desse manual.
+
+---
+
+# Procedimentos
+
+Adicionar uma seção:
+
+📋 Procedimentos
+
+Ela poderá conter:
+
+* Procedimentos Normais
+* Procedimentos de Emergência
+* Startup
+* Shutdown
+* Abastecimento
+* Reboque
+* Evacuação
+* Combate a Incêndio
+* Resgate
+
+Cada procedimento poderá conter:
+
+* Texto
+* Imagens
+* Vídeos
+* Anexos
+
+---
+
+# Organização do Projeto
+
+Quero um projeto extremamente organizado.
+
+Separar claramente:
+
+* components
+* pages
+* services
+* hooks
+* utils
+* styles
+* assets
+* models
+* data
+
+Evitar arquivos muito grandes.
+
+Cada componente deverá possuir apenas uma responsabilidade.
+
+Documentar bem o código.
+
+---
+
+# Estrutura das Aeronaves
+
+Criar uma pasta principal chamada:
+
+```text
+aircraft/
+```
+
+Cada aeronave possuirá sua própria pasta.
+
+Exemplo:
+
+```text
+aircraft/
+
+KC390/
+
+info.json
+
+thumbnail.jpg
+
+models/
+
+    exterior_hd.glb
+    exterior_sd.glb
+
+    cockpit_hd.glb
+    cockpit_sd.glb
+
+manuals/
+
+    flight_manual.pdf
+
+    maintenance_manual.pdf
+
+    rescue_manual.pdf
+
+gallery/
+
+    exterior/
+    cockpit/
+    cabin/
+    cargo/
+    engines/
+    landing_gear/
+    wings/
+    tail/
+    rescue/
+
+procedures/
+
+hotspots/
+
+    exterior.json
+
+    cockpit.json
+```
+
+Sempre que eu criar uma nova pasta dentro de **aircraft**, o aplicativo deverá detectar automaticamente essa aeronave e adicioná-la ao catálogo, sem necessidade de alterar qualquer código.
+
+---
+
+# Organização dos Arquivos
+
+Todas as informações ficarão em:
+
+```text
+info.json
+```
+
+Modelos 3D:
+
+```text
+models/
+```
+
+Manuais:
+
+```text
+manuals/
+```
+
+Fotos:
+
+```text
+gallery/
+```
+
+Procedimentos:
+
+```text
+procedures/
+```
+
+Hotspots:
+
+```text
+hotspots/
+```
+
+Não quero alterar código para adicionar novas aeronaves.
+
+Quero apenas copiar uma nova pasta para `aircraft`.
+
+---
+
+# Banco de Dados
+
+Utilizar Supabase para armazenar:
+
+* Usuários
+* Favoritos
+* Histórico
+* Configurações
+* Notas pessoais
+* Progresso do usuário
+
+Os modelos, imagens e documentos deverão permanecer organizados na estrutura do projeto.
+
+---
+
+# Tecnologias
+
+Frontend:
+
+* React
+* TypeScript
+* Vite
+* Tailwind CSS
+
+3D:
+
+* Three.js
+* React Three Fiber
+* Drei
+
+PDF:
+
+* PDF.js
+
+Pesquisa:
+
+* Fuse.js
+
+Banco:
+
+* Supabase
+
+---
+
+# Futuras Implementações
+
+Estruturar o projeto para facilitar futuras implementações:
+
+* abertura de portas;
+* abertura de compartimentos;
+* animação do trem de pouso;
+* animação dos flaps;
+* animação dos motores;
+* animação das hélices;
+* animação dos rotores;
+* iluminação interna e externa;
+* realidade aumentada (AR);
+* realidade virtual (VR);
+* integração com IA para responder perguntas utilizando os manuais e a ficha técnica;
+* destaque visual de componentes importantes diretamente sobre o modelo 3D, como baterias, APU, tanques de combustível, portas, saídas de emergência e outros itens relevantes para o resgate.
+
+---
+
+# Objetivo Final
+
+Quero que o **AeroRescue** seja um catálogo digital de aeronaves com foco em procedimentos de resgate para Bombeiros de Aeródromo. O aplicativo deve permitir visualizar aeronaves em 3D, explorar seus principais componentes, consultar rapidamente a ficha técnica, acessar fotografias reais, abrir manuais de voo, manutenção e resgate, além de disponibilizar procedimentos operacionais de forma organizada e intuitiva.
+
+O projeto deve ser limpo, modular, bem documentado e preparado para suportar centenas de aeronaves. A inclusão de uma nova aeronave deverá ser feita apenas adicionando uma nova pasta dentro do diretório `aircraft`, contendo seus modelos 3D, informações, fotografias, manuais e procedimentos, sem necessidade de modificar o código-fonte.
+
+O resultado esperado é uma ferramenta moderna, rápida e confiável para treinamento, consulta e apoio às equipes de Bombeiros de Aeródromo.

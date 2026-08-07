@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "AeroRescue"
+description = "Catálogo digital de aeronaves para treinamento e consulta rápida de procedimentos de resgate por equipes de bombeiros de aeródromo. Inclui pesquisa, fichas técnicas, preparação operacional e visualização 3D."
+version = "1.0.0"
+id = "artifacts/aerorescue"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23016
+
+[services.development]
+run = "pnpm --filter @workspace/aerorescue run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/aerorescue", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/aerorescue/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23016"
+BASE_PATH = "/"

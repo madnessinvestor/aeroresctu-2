@@ -1,0 +1,1 @@
+- [Modelo AMX anexado](amx-model-format.md) — o pacote original usa o formato nativo Microsoft Flight Simulator `.mdl`; a conversão web deve preservar os arquivos-fonte.

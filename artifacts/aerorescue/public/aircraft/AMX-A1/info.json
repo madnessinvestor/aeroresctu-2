@@ -1,0 +1,11 @@
+{
+  "id": "amx-a1",
+  "name": "AMX A-1",
+  "sourceModel": "FABv A1 AMX_TFC",
+  "format": "Microsoft Flight Simulator MDL",
+  "conversionStatus": "ready-for-threejs-conversion",
+  "models": {
+    "exterior": "models/AMX-1A.mdl",
+    "cockpit": "models/AMX-1A_interior.mdl"
+  }
+}

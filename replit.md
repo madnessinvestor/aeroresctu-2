@@ -1,6 +1,6 @@
-# [Project name]
+# AeroRescue
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+Catálogo digital de aeronaves para treinamento e consulta rápida de procedimentos de resgate por Bombeiros de Aeródromo (SESCINC).
 
 ## Run & Operate
 
@@ -22,23 +22,31 @@ _Replace the heading above with the project's name, and this line with one sente
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `artifacts/aerorescue/src/App.tsx` — shell, catálogo, ficha da aeronave e navegação.
+- `artifacts/aerorescue/src/data/aircraft.ts` — dados tipados das aeronaves catalogadas.
+- `artifacts/aerorescue/src/index.css` — tema visual e componentes de interface.
+- `artifacts/aerorescue/public/aircraft/AMX-A1/` — conteúdo original do primeiro modelo anexado.
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- A primeira entrega usa dados locais e `localStorage` para manter a experiência funcional sem exigir uma conta ou conexão externa.
+- O catálogo é organizado por pastas em `public/aircraft`, preservando a separação entre conteúdo operacional e código de interface.
+- O modelo anexado foi preservado no formato nativo `.mdl`; a conversão para `.glb` ficou separada para não alterar o arquivo original.
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+- Catálogo com pesquisa, filtros, favoritos e histórico recente.
+- Ficha do AMX A-1 com visualizador técnico, hotspots, controles de zoom, reset e tela cheia.
+- Consulta operacional com alertas para bombeiros, procedimentos, galeria técnica e biblioteca de manuais.
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+- Interface em português, tema escuro na navegação e foco em consulta rápida para equipes SESCINC.
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- O pacote RAR contém modelos Microsoft Flight Simulator em `.mdl`, não arquivos web `.glb`/`.gltf`; a conversão deve ser feita como etapa própria antes de habilitar Three.js com o modelo real.
+- O build manual do Vite precisa de `PORT` e `BASE_PATH`; o workflow já injeta essas variáveis automaticamente.
 
 ## Pointers
 

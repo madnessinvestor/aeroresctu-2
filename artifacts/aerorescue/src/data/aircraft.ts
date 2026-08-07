@@ -602,7 +602,7 @@ export const aircraftCatalog: Aircraft[] = [
       { label: 'Visão geral', sketchfabModelId: '6879b342504047c4a646d366889efeac' },
       { label: 'Cockpit', sketchfabModelId: '95514f2eb89d4429959d434009887cdd' },
     ],
-    coverImage: '',
+    coverImage: 'covers/f39gripen(cover).avif',
     notes: [
       'Confirmar configuração de armamento e carga externa antes da aproximação.',
       'Conferir estado dos sistemas sensores e comunicação antes do lançamento de missão.',

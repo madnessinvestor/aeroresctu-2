@@ -338,7 +338,8 @@ export const aircraftCatalog: Aircraft[] = [
     sketchfabModelId: '7e1a4794553a42aba4de54ac55bea2cd',
     overviewModels: [
       { label: 'Visão geral 1', sketchfabModelId: '7e1a4794553a42aba4de54ac55bea2cd' },
-      { label: 'Visão geral 2', sketchfabModelId: '0ba298df69ad4f2989dd7ba49baac645' },
+      { label: 'Visão geral 2', sketchfabModelId: 'f8b4a2dc190144d6843878e0907db73a' },
+      { label: 'Visão geral 3', sketchfabModelId: '0ba298df69ad4f2989dd7ba49baac645' },
     ],
     coverImage: 'covers/f5(cover).jpg',
     notes: [
@@ -434,6 +435,10 @@ export const aircraftCatalog: Aircraft[] = [
     sistemaDefesa: 'Sistemas de navegação, comunicação e missão de vigilância',
     sketchfabModelId: 'b8121278dc4d4ef6b969efff5b813b92',
     coverImage: 'covers/a29biplace(cover).jpg',
+    overviewModels: [
+      { label: 'Visão geral 1', sketchfabModelId: 'b8121278dc4d4ef6b969efff5b813b92' },
+      { label: 'Visão geral 2', sketchfabModelId: 'ad14e4e33ac4482998784249bb11d7f8' },
+    ],
     notes: [
       'Confirme a missão de vigilância e a configuração de câmera/armamento antes da decolagem.',
       'Verifique a comunicação entre piloto e observador na cabine traseira.',
@@ -738,6 +743,7 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'Jet A-1 / JP-4',
     quantidadeSaidas: '01 escotilha de acesso',
     motor: '1 × turbofan Pratt & Whitney J52-P-8A',
+    coverImage: 'covers/ah2sabre(cover).jpeg',
     notes: [
       'A aeronave AH-2 Sabre da Marinha foi operada em missões de ataque embarcado e apoio aos navios.',
       'Certifique-se de que a escotilha principal esteja liberada antes de qualquer intervenção de solo.',
@@ -775,6 +781,7 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'QAV-1 (Querosene de Aviação)',
     quantidadeSaidas: '01 porta de acesso lateral',
     motor: '2 × Pratt & Whitney Canada PT6A-34 turbopropulsores',
+    coverImage: 'covers/c95(cover).jpg',
     notes: [
       'O C-95 Bandeirante é um dos pilares do transporte leve da FAB e da aviação militar brasileira.',
       'Verifique a configuração de carga antes do embarque de tropas ou material sensível.',
@@ -813,6 +820,7 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'QAV-1 (Querosene de Aviação)',
     quantidadeSaidas: '01 porta de acesso lateral',
     motor: '2 × Pratt & Whitney Canada PT6A turbopropulsores',
+    coverImage: 'covers/c97(cover).jpg',
     sketchfabModelId: 'd56a29f322e745e083f742a039944bba',
     notes: [
       'O C-97 representa uma variante de transporte e apoio logístico de média capacidade da FAB.',
@@ -860,6 +868,7 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'QAV-1 (Querosene de Aviação)',
     quantidadeSaidas: '01 porta de acesso lateral',
     motor: '2 × Pratt & Whitney Canada PT6A turbopropulsores',
+    coverImage: 'covers/c98(cover).jpeg',
     sketchfabModelId: '404534bb5c1e453cbecd7f03fe6d2d56',
     notes: [
       'O C-98 é usado pela FAB para apoio tático e missões de transporte especializadas.',
@@ -898,6 +907,7 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'Jet A-1 / QAV-1',
     quantidadeSaidas: '02 portas de passageiros e rampa de carga',
     motor: '2 × turbopropulsores General Electric CT7-9C',
+    coverImage: 'covers/c105(cover).jpg',
     sketchfabModelId: '53d19a021b224151bc5e7cc01a96eb77',
     notes: [
       'O C-105 Amazonas é um transporte militar de média capacidade usado em missões de patrulha e carga.',
@@ -940,6 +950,7 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'QAV-1 (Querosene de Aviação)',
     quantidadeSaidas: '01 porta de carga / evacuação',
     motor: '2 × turbopropulsores Pratt & Whitney Canada PT6A-27',
+    coverImage: 'covers/c115(cover).jpg',
     notes: [
       'O C-115 Buffalo é valioso em operações de transporte tático e desembarque de tropas em bases avançadas.',
       'A rampa traseira facilita o carregamento rápido de carga e equipamentos pesados.',
@@ -956,7 +967,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 'er-99-awacs',
-    name: 'Embraer ER-99',
+    name: 'E/R-99 (EMB 145)',
     manufacturer: 'Embraer',
     category: 'Aerotransporte de vigilância',
     role: 'Alerta aéreo antecipado e controle de batalha',
@@ -973,9 +984,14 @@ export const aircraftCatalog: Aircraft[] = [
     pobMax: '28 pessoas a bordo',
     categoriaContraIncendio: '06',
     designacaoFab: 'ER-99',
+    sketchfabModelId: '952a9403acd7409991f2ae35b46ddd19',
+    overviewModels: [
+      { label: 'Visão geral', sketchfabModelId: '952a9403acd7409991f2ae35b46ddd19' },
+    ],
     combustivel: 'Jet A-1 / QAV-1',
     quantidadeSaidas: '02 portas laterais',
     motor: '2 × turbofans Honeywell TFE731-20',
+    coverImage: 'covers/er99(cover).jpg',
     notes: [
       'O ER-99 é a plataforma de vigilância aérea e comando de missão da FAB.',
       'O radar embarcado e a equipe de missão são críticos para operações de controle de espaço aéreo.',
@@ -1022,6 +1038,7 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'QAV-1 (Querosene de Aviação)',
     quantidadeSaidas: '01 porta lateral',
     motor: '2 × turbopropulsores Pratt & Whitney Canada PT6A-34',
+    coverImage: 'covers/p95(cover).jpg',
     notes: [
       'O P-95 Bandeirulha é empregado em patrulha marítima e vigilância costeira para a FAB.',
       'Verifique os sensores marítimos e sistemas de comunicação antes de iniciar operações no mar.',
@@ -1058,6 +1075,7 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'Jet A-1 / QAV-1',
     quantidadeSaidas: '02 portas laterais',
     motor: '2 × turbofans Honeywell TFE731-3A-200G',
+    coverImage: 'covers/r35(cover).jpg',
     notes: [
       'O R-35AM é utilizado pela FAB em transporte rápido de autoridades, deslocamento de equipes e reconhecimento leve.',
       'Verifique a configuração de cabine e os sistemas de pressurização antes de cada voo.',
@@ -1094,6 +1112,7 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'Jet A-1 / QAV-1',
     quantidadeSaidas: '03 portas laterais / escotilhas',
     motor: '4 × turbopropulsores Allison T56-A-14',
+    coverImage: 'covers/p3(cover).jpg',
     notes: [
       'O P-3 Orion é a principal plataforma brasileira de patrulha marítima e guerra ASW.',
       'A missão requer verificação de sensores, sonares e sistemas de armas antes da decolagem.',
@@ -1129,6 +1148,7 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'JP-8 / combustível para motores piston',
     quantidadeSaidas: 'Lançamento por catapulta e recuperação por plataforma',
     motor: '1 × motor pistão Rotax 914 F',
+    coverImage: 'covers/rq1(cover).jpg',
     notes: [
       'O RQ-1 Marinha opera como plataforma UAV de inteligência e vigilância para o Brasil.',
       'A preparação exige verificação de sensores, enlace de dados e constatação de lançamento seguro.',
@@ -1163,6 +1183,7 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'JP-8 / combustível para motores a pistão',
     quantidadeSaidas: 'Lançamento por catapulta e recuperação por gancho / plataforma',
     motor: '1 × motor Rotax 915 iS',
+    coverImage: 'covers/rq900hermes(cover).jpg',
     notes: [
       'O RQ-900 é uma plataforma UAV da FAB para missões ISR embarcadas e costeiras.',
       'A preparação inclui validação do enlace de comunicação, sensores e procedimento de lançamento.',
@@ -1199,6 +1220,7 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'Gasolina de Aviação / Mogas especial',
     quantidadeSaidas: '01 porta lateral',
     motor: '1 × Lycoming O-540-A4B5',
+    coverImage: 'covers/t25(cover).jpg',
     notes: [
       'O T-25 Universal é usado pela FAB para treinamento básico de pilotos e instrução inicial.',
       'Realize inspeções rigorosas das superfícies de voo e do trem de pouso antes do voo.',
@@ -1234,6 +1256,7 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'Jet A-1 / QAV-1',
     quantidadeSaidas: '04 portas laterais / saídas de emergência',
     motor: '2 × turbofans CFM International CFM56-5B',
+    coverImage: 'covers/vc2(cover).jpg',
     notes: [
       'O VC-2 é a aeronave presidencial da FAB para transporte de autoridades em missões de estado.',
       'Verifique os sistemas VIP, comunicações seguras e protocolos de bordo antes de cada voo.',
@@ -1269,6 +1292,7 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'Jet A-1 / QAV-1',
     quantidadeSaidas: '04 portas laterais / saídas de emergência',
     motor: '2 × turbofans General Electric CF34-10E',
+    coverImage: 'covers/vc99(cover).jpg',
     notes: [
       'O VC-99 é usado pela FAB para missões de transporte de autoridades em configurações VIP e de apoio.',
       'A aeronave exige procedimentos reforçados de segurança e embarque diferenciado para passageiros de estado.',

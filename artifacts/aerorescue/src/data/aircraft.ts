@@ -389,7 +389,7 @@ export const aircraftCatalog: Aircraft[] = [
     armamentosCompativeis: 'Bombas, rockets, kits de tiro e apoio leve ao solo',
     sistemaDefesa: 'Sistemas de apoio de navegação e suporte de missão',
     sketchfabModelId: '987ef78a923941f7bed9b306f37513ca',
-    coverImage: 'covers/a29a(cover).jpg?v=2',
+    coverImage: 'covers/a29a(cover).jpg',
     notes: [
       'Confirme a preparação do armamento leve e sistemas de tiro antes da missão.',
       'Cheque a pressurização da cabine traseira e a comunicação entre os dois pilotos.',

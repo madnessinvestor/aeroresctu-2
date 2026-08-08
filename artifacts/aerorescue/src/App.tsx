@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { Link, Route, Router as WouterRouter, Switch, useLocation, useParams } from 'wouter';
 import { ArrowRight, BookOpen, Check, ChevronDown, CircleHelp, ClipboardList, Crosshair, FileText, Gauge, Heart, History, Layers3, Maximize2, Menu, Minimize2, Move3d, Plane, Play, Rotate3d, Search, SlidersHorizontal, Sparkles, ZoomIn, ZoomOut } from 'lucide-react';
 import NotFound from '@/pages/not-found';
@@ -6,12 +6,85 @@ import { aircraftCatalog, quickFilters, type Aircraft } from '@/data/aircraft';
 
 type Toast = string | null;
 
+type FireCategoryRow = {
+  categoria: string;
+  anv: string;
+  nome: string;
+  cat_contraincendio: string | number;
+};
+
+const fireCategoryRows: FireCategoryRow[] = [
+  { categoria: 'Asa Fixa', anv: 'KC-30', nome: 'KC-30', cat_contraincendio: 8 },
+  { categoria: 'Asa Fixa', anv: 'C-130', nome: 'C-130 Hércules', cat_contraincendio: 6 },
+  { categoria: 'Asa Fixa', anv: 'KC-390', nome: 'KC-390 Millennium', cat_contraincendio: 6 },
+  { categoria: 'Asa Fixa', anv: 'P-3AM', nome: 'P-3AM Orion', cat_contraincendio: 6 },
+  { categoria: 'Asa Fixa', anv: 'E-99M', nome: 'E-99M', cat_contraincendio: 6 },
+  { categoria: 'Asa Fixa', anv: 'R-99', nome: 'R-99', cat_contraincendio: 6 },
+  { categoria: 'Asa Fixa', anv: 'VC-1', nome: 'Airbus A319', cat_contraincendio: 6 },
+  { categoria: 'Asa Fixa', anv: 'VC-2', nome: 'Embraer 190', cat_contraincendio: 6 },
+  { categoria: 'Asa Fixa', anv: 'C-99', nome: 'Embraer 145', cat_contraincendio: 6 },
+  { categoria: 'Asa Fixa', anv: 'C-105', nome: 'C-105 Amazonas', cat_contraincendio: 5 },
+  { categoria: 'Asa Fixa', anv: 'IU-50', nome: 'Legacy 500', cat_contraincendio: 4 },
+  { categoria: 'Asa Fixa', anv: 'C-97', nome: 'C-97 Brasília', cat_contraincendio: 4 },
+  { categoria: 'Asa Fixa', anv: 'IU-93', nome: 'Hawker', cat_contraincendio: 3 },
+  { categoria: 'Asa Fixa', anv: 'C-95', nome: 'C-95M Bandeirante', cat_contraincendio: 3 },
+  { categoria: 'Asa Fixa', anv: 'F-5', nome: 'F-5M Tiger II', cat_contraincendio: 3 },
+  { categoria: 'Asa Fixa', anv: 'P-95', nome: 'P-95M Bandeirulha', cat_contraincendio: 3 },
+  { categoria: 'Asa Fixa', anv: 'R-35AM', nome: 'Learjet 35A', cat_contraincendio: 3 },
+  { categoria: 'Asa Fixa', anv: 'V-35', nome: 'Learjet 35A', cat_contraincendio: 3 },
+  { categoria: 'Asa Fixa', anv: 'A-1', nome: 'A-1M', cat_contraincendio: 3 },
+  { categoria: 'Asa Fixa', anv: 'F-39', nome: 'F-39E Gripen', cat_contraincendio: 3 },
+  { categoria: 'Asa Fixa', anv: 'A-29', nome: 'A-29 Super Tucano', cat_contraincendio: 2 },
+  { categoria: 'Asa Fixa', anv: 'C-98', nome: 'C-98A Grand Caravan', cat_contraincendio: 2 },
+  { categoria: 'Asa Fixa', anv: 'T-27', nome: 'T-27M Tucano', cat_contraincendio: 2 },
+  { categoria: 'Asa Fixa', anv: 'T-25', nome: 'T-25M Universal', cat_contraincendio: 1 },
+  { categoria: 'Asa Rotativa', anv: 'H-60L', nome: 'H-60L Black Hawk', cat_contraincendio: 'H2 – CAT 3' },
+  { categoria: 'Asa Rotativa', anv: 'H-36', nome: 'H-36 Caracal', cat_contraincendio: 'H2 – CAT 3' },
+  { categoria: 'Asa Rotativa', anv: 'VH-35', nome: 'VH-35', cat_contraincendio: 'H2 – CAT 3' },
+  { categoria: 'Asa Rotativa', anv: 'AH-2', nome: 'AH-2 Sabre', cat_contraincendio: 'H2 – CAT 3' },
+  { categoria: 'Asa Rotativa', anv: 'H-50', nome: 'H-50 Esquilo', cat_contraincendio: 'H1 – CAT 2' },
+];
+
+const fireCategoryGroups = fireCategoryRows.reduce<Record<string, FireCategoryRow[]>>((acc, row) => {
+  if (!acc[row.categoria]) acc[row.categoria] = [];
+  acc[row.categoria].push(row);
+  return acc;
+}, {});
+
+type ReferenceType = 'Asa Fixa' | 'Asa Rotativa';
+
+type ReferenceRule = {
+  range: string;
+  width?: string;
+  category: string;
+  aerodrome?: string;
+};
+
+const fixedWingReference: ReferenceRule[] = [
+  { range: '0 a 9 exclusive', width: '2', category: '1' },
+  { range: '9 a 12 exclusive', width: '2', category: '2' },
+  { range: '12 a 18 exclusive', width: '3', category: '3' },
+  { range: '18 a 24 exclusive', width: '4', category: '4' },
+  { range: '24 a 28 exclusive', width: '4', category: '5' },
+  { range: '28 a 39 exclusive', width: '5', category: '6' },
+  { range: '39 a 49 exclusive', width: '5', category: '7' },
+  { range: '49 a 61 exclusive', width: '7', category: '8' },
+  { range: '61 a 76 exclusive', width: '7', category: '9' },
+  { range: '76 a 90 exclusive', width: '8', category: '10' },
+];
+
+const rotaryWingReference: ReferenceRule[] = [
+  { range: '0 a 15 exclusive', category: 'H1', aerodrome: '2' },
+  { range: '15 a 24 exclusive', category: 'H2', aerodrome: '3' },
+  { range: '24 a 35 exclusive', category: 'H3', aerodrome: '4' },
+];
+
 function Brand() {
   return <Link href="/" className="brand" data-testid="link-brand"><span className="brand-mark"><Plane size={18} strokeWidth={2.6} /></span><span><span className="brand-name">AERORESCUE</span><span className="brand-sub">catálogo operacional · SESCINC</span></span></Link>;
 }
 function Shell({ children }: { children: ReactNode }) {
   const [location] = useLocation();
-  return <div className="app-shell"><header className="topbar"><Brand /><nav className="topnav" aria-label="Navegação principal"><Link href="/" className={`nav-link ${location === '/' ? 'active' : ''}`} data-testid="link-catalogo"><Layers3 size={15} /> Catálogo</Link><a className="nav-link" href="#operacional" data-testid="link-consulta"><Crosshair size={15} /> Consulta operacional</a><a className="nav-link" href="#biblioteca" data-testid="link-biblioteca"><BookOpen size={15} /> Biblioteca</a></nav><div className="topbar-spacer" /><div className="status-pill" data-testid="status-offline"><span className="status-dot" /> banco local sincronizado</div><span className="profile-badge" data-testid="text-profile">BS</span><div className="mobile-nav"><Link href="/" className="nav-link active" data-testid="link-mobile-home"><Menu size={17} /></Link></div></header>{children}</div>;
+  return <div className="app-shell"><header className="topbar"><Brand /><nav className="topnav" aria-label="Navegação principal"><Link href="/" className={`nav-link ${location === '/' ? 'active' : ''}`} data-testid="link-catalogo"><Layers3 size={15} /> Catálogo</Link></nav><div className="topbar-spacer" /><div className="status-pill" data-testid="status-offline"><span className="status-dot" /> banco local sincronizado</div><span className="profile-badge" data-testid="text-profile">BS</span><div className="mobile-nav"><Link href="/" className="nav-link active" data-testid="link-mobile-home"><Menu size={17} /></Link></div></header>{children}</div>;
 }
 function AircraftArt({ large = false }: { large?: boolean }) {
   return <div className={large ? 'viewer-plane' : 'plane-card-art'} aria-label="Silhueta ilustrativa do AMX A-1"><span className="fuselage" /><span className="nose" /><span className="wing" /><span className="tail" /><span className="canopy" /><span className="stripe" /></div>;
@@ -21,11 +94,23 @@ function AircraftCard({ aircraft, favorite, onFavorite }: { aircraft: Aircraft; 
   return <div className="aircraft-card fade-in" data-testid={`card-aircraft-${aircraft.id}`}><Link href={`/aeronaves/${aircraft.id}`}><div className={`aircraft-visual${coverUrl ? ' has-cover' : ''}`}>{coverUrl ? <img className="aircraft-cover" src={coverUrl} alt={`${aircraft.name} cover`} /> : <AircraftArt />}</div><div className="card-info"><div className="card-topline"><span className="card-tag">{aircraft.category}</span><span style={{ color: '#5a9b7a', fontSize: 10 }}>● {aircraft.status}</span></div><h2 className="card-title">{aircraft.name}</h2><div className="card-meta">{aircraft.manufacturer} · {aircraft.origin}</div><div className="card-specs"><div><span className="spec-val">{aircraft.maxSpeed}</span><span className="spec-label">vel. máx.</span></div><div><span className="spec-val">{aircraft.length}</span><span className="spec-label">comprimento</span></div><div><span className="spec-val">{aircraft.crew}</span><span className="spec-label">tripulação</span></div></div></div></Link><button className={`favorite-toggle ${favorite ? 'on' : ''}`} onClick={onFavorite} aria-label={favorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos'} data-testid={`button-favorite-${aircraft.id}`}><Heart size={16} fill={favorite ? 'currentColor' : 'none'} /></button></div>;
 }
 function HomePage() {
-  const [query, setQuery] = useState(''); const [filter, setFilter] = useState('Todos'); const [favorites, setFavorites] = useState<string[]>(() => JSON.parse(localStorage.getItem('aerorescue:favorites') || '[]')); const [toast, setToast] = useState<Toast>(null); const [filtersOpen, setFiltersOpen] = useState(false); const [history] = useState(() => JSON.parse(localStorage.getItem('aerorescue:history') || '[]') as string[]);
+  const [query, setQuery] = useState(''); const [filter, setFilter] = useState('Todos'); const [favorites, setFavorites] = useState<string[]>(() => JSON.parse(localStorage.getItem('aerorescue:favorites') || '[]')); const [toast, setToast] = useState<Toast>(null); const [filtersOpen, setFiltersOpen] = useState(false); const [viewMode, setViewMode] = useState<'Aeronaves' | 'Categoria Contraincêndio'>('Aeronaves'); const [history] = useState(() => JSON.parse(localStorage.getItem('aerorescue:history') || '[]') as string[]);
+  const [activeReference, setActiveReference] = useState<ReferenceType | null>(null);
+  const fixedReferenceRef = useRef<HTMLDivElement | null>(null);
+  const rotaryReferenceRef = useRef<HTMLDivElement | null>(null);
+
+  const scrollToReference = (type: ReferenceType) => {
+    const target = type === 'Asa Fixa' ? fixedReferenceRef.current : rotaryReferenceRef.current;
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setActiveReference(type);
+    }
+  };
   useEffect(() => localStorage.setItem('aerorescue:favorites', JSON.stringify(favorites)), [favorites]);
   const toggleFavorite = (id: string) => { const exists = favorites.includes(id); setFavorites(exists ? favorites.filter((item) => item !== id) : [...favorites, id]); setToast(exists ? 'Removido dos favoritos' : 'AMX A-1 salvo nos favoritos'); window.setTimeout(() => setToast(null), 2200); };
   const filtered = useMemo(() => aircraftCatalog.filter((aircraft) => { const matchesQuery = `${aircraft.name} ${aircraft.manufacturer} ${aircraft.category}`.toLowerCase().includes(query.toLowerCase()); const matchesFilter = filter === 'Todos' || (filter === 'Favoritos' && favorites.includes(aircraft.id)) || (filter === 'Jatos' && aircraft.category.toLowerCase().includes('jato')) || (filter === 'Helicópteros' && aircraft.category.toLowerCase().includes('helicóptero')); return matchesQuery && matchesFilter; }), [query, filter, favorites]);
-  return <main className="page-wrap"><div className="fade-in"><div className="eyebrow">base de consulta · atualização local 04.2024</div><h1 className="page-title">Aeronaves para resposta rápida.</h1><p className="page-lede">Ficha técnica, pontos de acesso, riscos e procedimentos reunidos para a decisão segura da equipe SESCINC.</p></div><div className="search-row fade-in stagger-1"><label className="search-box"><Search size={17} /><input data-testid="input-search-aircraft" type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Buscar por modelo, fabricante ou função..." /><span style={{ font: '10px var(--app-font-mono)', color: '#9ba8a8' }}>⌘ K</span></label><button className={`filter-btn ${filtersOpen ? 'active' : ''}`} onClick={() => setFiltersOpen(!filtersOpen)} data-testid="button-toggle-filters"><SlidersHorizontal size={15} /> Filtros <ChevronDown size={14} /></button></div><div className="catalog-grid"><section><div className="result-head"><div><span className="section-kicker">inventário de aeronaves</span><div className="result-count">{filtered.length} resultado{filtered.length !== 1 ? 's' : ''}<span> / {aircraftCatalog.length} catalogado</span></div></div><select className="sort-select" aria-label="Ordenar resultados" data-testid="select-sort"><option>Mais consultados</option><option>Ordem alfabética</option></select></div>{(filtersOpen || filter !== 'Todos') && <div style={{ display: 'flex', gap: 7, flexWrap: 'wrap', marginBottom: 15 }}><span className="section-kicker" style={{ alignSelf: 'center', marginRight: 5 }}>filtrar por</span>{quickFilters.map((item) => <button key={item} className={`filter-btn ${filter === item ? 'active' : ''}`} style={{ height: 31, padding: '0 10px', fontSize: 10 }} onClick={() => setFilter(item)} data-testid={`button-filter-${item.toLowerCase()}`}>{item}</button>)}</div>}<div className="aircraft-grid">{filtered.length ? filtered.map((aircraft) => <AircraftCard key={aircraft.id} aircraft={aircraft} favorite={favorites.includes(aircraft.id)} onFavorite={() => toggleFavorite(aircraft.id)} />) : <div className="empty-state"><Search size={25} /><h3>Nenhuma aeronave encontrada</h3><p>Não há resultados para “{query}”. Tente outro modelo ou limpe os filtros.</p><button className="outline-btn" onClick={() => { setQuery(''); setFilter('Todos'); }} data-testid="button-clear-search">Limpar busca</button></div>}</div></section><aside><div className="side-panel"><div className="side-heading"><span><History size={14} style={{ verticalAlign: 'middle', marginRight: 6 }} /> histórico recente</span><small>{history.length || 1} item</small></div><div className="history-row"><div className="history-thumb"><AircraftArt /></div><div><div className="history-name">AMX A-1</div><div className="history-time">consultado agora</div></div></div></div><div className="side-panel" id="operacional"><div className="side-heading"><span><Sparkles size={14} style={{ verticalAlign: 'middle', marginRight: 6 }} /> para a sua operação</span></div><ul className="tip-list"><li><ClipboardList size={14} /> Procedimentos revisados para treinamento e resposta.</li><li><CircleHelp size={14} /> Use os hotspots para localizar acessos e zonas críticas.</li></ul></div></aside></div>{toast && <div className="toast" role="status" data-testid="status-toast"><Check size={14} style={{ verticalAlign: 'middle', marginRight: 7, color: '#efb349' }} />{toast}</div>}</main>;
+  const showAero = viewMode === 'Aeronaves';
+  return <main className="page-wrap"><div className="fade-in"><div className="eyebrow">base de consulta · atualização local 04.2024</div><h1 className="page-title">Aeronaves para resposta rápida.</h1><p className="page-lede">Ficha técnica, pontos de acesso, riscos e procedimentos reunidos para a decisão segura da equipe SESCINC.</p></div><div className="tab-row fade-in stagger-1" style={{ marginBottom: 20 }}><button className={`filter-btn ${showAero ? 'active' : ''}`} onClick={() => setViewMode('Aeronaves')} data-testid="button-tab-aeronaves">Aeronaves</button><button className={`filter-btn ${!showAero ? 'active' : ''}`} onClick={() => setViewMode('Categoria Contraincêndio')} data-testid="button-tab-contraincendio">Categoria Contraincêndio</button></div><div className="fire-category-panel fade-in stagger-1" style={showAero ? { display: 'none' } : undefined}><div className="text-card"><div className="info-heading"><span><Sparkles size={15} className="heading-icon" style={{ verticalAlign: 'middle', marginRight: 7 }} /> Categoria Contraincêndio</span><span className="section-kicker">Tabela de FABCAT</span></div><p style={{ marginBottom: 20 }}>Categoria Contraincêndio por tipo de aeronave, com classificação FABCAT segundo o catálogo mais recente da FAB.</p>{Object.entries(fireCategoryGroups).map(([categoria, rows]) => (<div className="category-section" key={categoria}><h3>{categoria === 'Asa Fixa' ? '✈️ Asa Fixa' : '🚁 Asa Rotativa'}</h3><div className="category-table-wrapper"><table className="category-table"><thead><tr className="category-row category-row-header"><th>ANV</th><th>Nome / Modelo</th><th>Categoria</th></tr></thead><tbody>{rows.map((row) => (<tr key={`${row.categoria}-${row.anv}`} className="category-row"><td>{row.anv}</td><td><strong>{row.nome}</strong></td><td>{row.cat_contraincendio}</td></tr>))}</tbody></table></div></div>))}<div className="note-card"><strong>Nota:</strong> para o R-35, a documentação do COMAER apresenta <strong>R-35AM</strong> e identifica a aeronave como <strong>Learjet 35</strong>. A FAB atualmente lista <strong>R-99</strong> e <strong>E-99M</strong> como designações separadas. Além disso, a designação correta no catálogo atual da FAB é <strong>H-60L Black Hawk</strong>, não UH-60.</div></div></div><div className="search-row fade-in stagger-1" style={showAero ? undefined : { display: 'none' }}><label className="search-box"><Search size={17} /><input data-testid="input-search-aircraft" type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Buscar por modelo, fabricante ou função..." /><span style={{ font: '10px var(--app-font-mono)', color: '#9ba8a8' }}>⌘ K</span></label><button className={`filter-btn ${filtersOpen ? 'active' : ''}`} onClick={() => setFiltersOpen(!filtersOpen)} data-testid="button-toggle-filters"><SlidersHorizontal size={15} /> Filtros <ChevronDown size={14} /></button></div><div className="catalog-grid" style={showAero ? undefined : { display: 'none' }}><section><div className="result-head"><div><span className="section-kicker">inventário de aeronaves</span><div className="result-count">{filtered.length} resultado{filtered.length !== 1 ? 's' : ''}<span> / {aircraftCatalog.length} catalogado</span></div></div><select className="sort-select" aria-label="Ordenar resultados" data-testid="select-sort"><option>Mais consultados</option><option>Ordem alfabética</option></select></div>{(filtersOpen || filter !== 'Todos') && <div style={{ display: 'flex', gap: 7, flexWrap: 'wrap', marginBottom: 15 }}><span className="section-kicker" style={{ alignSelf: 'center', marginRight: 5 }}>filtrar por</span>{quickFilters.map((item) => <button key={item} className={`filter-btn ${filter === item ? 'active' : ''}`} style={{ height: 31, padding: '0 10px', fontSize: 10 }} onClick={() => setFilter(item)} data-testid={`button-filter-${item.toLowerCase()}`}>{item}</button>)}</div>}<div className="aircraft-grid">{filtered.length ? filtered.map((aircraft) => <AircraftCard key={aircraft.id} aircraft={aircraft} favorite={favorites.includes(aircraft.id)} onFavorite={() => toggleFavorite(aircraft.id)} />) : <div className="empty-state"><Search size={25} /><h3>Nenhuma aeronave encontrada</h3><p>Não há resultados para “{query}”. Tente outro modelo ou limpe os filtros.</p><button className="outline-btn" onClick={() => { setQuery(''); setFilter('Todos'); }} data-testid="button-clear-search">Limpar busca</button></div>}</div></section><aside><div className="side-panel"><div className="side-heading"><span><History size={14} style={{ verticalAlign: 'middle', marginRight: 6 }} /> histórico recente</span><small>{history.length || 1} item</small></div><div className="history-row"><div className="history-thumb"><AircraftArt /></div><div><div className="history-name">AMX A-1</div><div className="history-time">consultado agora</div></div></div></div><div className="side-panel" id="operacional"><div className="side-heading"><span><Sparkles size={14} style={{ verticalAlign: 'middle', marginRight: 6 }} /> para a sua operação</span></div><ul className="tip-list"><li><ClipboardList size={14} /> Procedimentos revisados para treinamento e resposta.</li><li><CircleHelp size={14} /> Use os hotspots para localizar acessos e zonas críticas.</li></ul></div></aside></div>{toast && <div className="toast" role="status" data-testid="status-toast"><Check size={14} style={{ verticalAlign: 'middle', marginRight: 7, color: '#efb349' }} />{toast}</div>}</main>;
 }
 function Viewer({ aircraft }: { aircraft: Aircraft }) {
   const [selected, setSelected] = useState(1); const [overviewIndex, setOverviewIndex] = useState(0); const [fullscreen, setFullscreen] = useState(false); const [toast, setToast] = useState<Toast>(null); const hotspotText: Record<number, string> = { 1: 'Cabine e canopy — acesso primário do piloto.', 2: 'Ponto de parada — manter equipe fora da exaustão.', 3: 'Área de cauda — atenção à deriva e superfícies móveis.' }; const showToast = (message: string) => { setToast(message); window.setTimeout(() => setToast(null), 1800); };

@@ -1,154 +1,225 @@
-import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
-import { createRoot } from 'react-dom/client';
-import { Link, Route, Router as WouterRouter, Switch, useLocation, useParams } from 'wouter';
-import { ArrowRight, BookOpen, Check, ChevronDown, CircleHelp, ClipboardList, Crosshair, FileText, Gauge, Heart, History, Layers3, Maximize2, Menu, Minimize2, Move3d, Plane, Play, Rotate3d, Search, SlidersHorizontal, Sparkles, ZoomIn, ZoomOut } from 'lucide-react';
-import NotFound from '@/pages/not-found';
-import { aircraftCatalog, quickFilters, type Aircraft } from '@/data/aircraft';
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
-type Toast = string | null;
-
-type FireCategoryRow = {
-  categoria: string;
-  anv: string;
-  nome: string;
-  cat_contraincendio: string | number;
-};
-
-const fireCategoryRows: FireCategoryRow[] = [
-  { categoria: 'Asa Fixa', anv: 'KC-30', nome: 'KC-30', cat_contraincendio: 8 },
-  { categoria: 'Asa Fixa', anv: 'C-130', nome: 'C-130 Hércules', cat_contraincendio: 6 },
-  { categoria: 'Asa Fixa', anv: 'KC-390', nome: 'KC-390 Millennium', cat_contraincendio: 6 },
-  { categoria: 'Asa Fixa', anv: 'P-3AM', nome: 'P-3AM Orion', cat_contraincendio: 6 },
-  { categoria: 'Asa Fixa', anv: 'E-99M', nome: 'E-99M', cat_contraincendio: 6 },
-  { categoria: 'Asa Fixa', anv: 'R-99', nome: 'R-99', cat_contraincendio: 6 },
-  { categoria: 'Asa Fixa', anv: 'VC-1', nome: 'Airbus A319', cat_contraincendio: 6 },
-  { categoria: 'Asa Fixa', anv: 'VC-2', nome: 'Embraer 190', cat_contraincendio: 6 },
-  { categoria: 'Asa Fixa', anv: 'C-99', nome: 'Embraer 145', cat_contraincendio: 6 },
-  { categoria: 'Asa Fixa', anv: 'C-105', nome: 'C-105 Amazonas', cat_contraincendio: 5 },
-  { categoria: 'Asa Fixa', anv: 'IU-50', nome: 'Legacy 500', cat_contraincendio: 4 },
-  { categoria: 'Asa Fixa', anv: 'C-97', nome: 'C-97 Brasília', cat_contraincendio: 4 },
-  { categoria: 'Asa Fixa', anv: 'IU-93', nome: 'Hawker', cat_contraincendio: 3 },
-  { categoria: 'Asa Fixa', anv: 'C-95', nome: 'C-95M Bandeirante', cat_contraincendio: 3 },
-  { categoria: 'Asa Fixa', anv: 'F-5', nome: 'F-5M Tiger II', cat_contraincendio: 3 },
-  { categoria: 'Asa Fixa', anv: 'P-95', nome: 'P-95M Bandeirulha', cat_contraincendio: 3 },
-  { categoria: 'Asa Fixa', anv: 'R-35AM', nome: 'Learjet 35A', cat_contraincendio: 3 },
-  { categoria: 'Asa Fixa', anv: 'V-35', nome: 'Learjet 35A', cat_contraincendio: 3 },
-  { categoria: 'Asa Fixa', anv: 'A-1', nome: 'A-1M', cat_contraincendio: 3 },
-  { categoria: 'Asa Fixa', anv: 'F-39', nome: 'F-39E Gripen', cat_contraincendio: 3 },
-  { categoria: 'Asa Fixa', anv: 'A-29', nome: 'A-29 Super Tucano', cat_contraincendio: 2 },
-  { categoria: 'Asa Fixa', anv: 'C-98', nome: 'C-98A Grand Caravan', cat_contraincendio: 2 },
-  { categoria: 'Asa Fixa', anv: 'T-27', nome: 'T-27M Tucano', cat_contraincendio: 2 },
-  { categoria: 'Asa Fixa', anv: 'T-25', nome: 'T-25M Universal', cat_contraincendio: 1 },
-  { categoria: 'Asa Rotativa', anv: 'H-60L', nome: 'H-60L Black Hawk', cat_contraincendio: 'H2 – CAT 3' },
-  { categoria: 'Asa Rotativa', anv: 'H-36', nome: 'H-36 Caracal', cat_contraincendio: 'H2 – CAT 3' },
-  { categoria: 'Asa Rotativa', anv: 'VH-35', nome: 'VH-35', cat_contraincendio: 'H2 – CAT 3' },
-  { categoria: 'Asa Rotativa', anv: 'AH-2', nome: 'AH-2 Sabre', cat_contraincendio: 'H2 – CAT 3' },
-  { categoria: 'Asa Rotativa', anv: 'H-50', nome: 'H-50 Esquilo', cat_contraincendio: 'H1 – CAT 2' },
-];
-
-const fireCategoryGroups = fireCategoryRows.reduce<Record<string, FireCategoryRow[]>>((acc, row) => {
-  if (!acc[row.categoria]) acc[row.categoria] = [];
-  acc[row.categoria].push(row);
-  return acc;
-}, {});
-
-type ReferenceType = 'Asa Fixa' | 'Asa Rotativa';
-
-type ReferenceRule = {
-  range: string;
-  width?: string;
-  category: string;
-  aerodrome?: string;
-};
-
-const fixedWingReference: ReferenceRule[] = [
-  { range: '0 a 9 exclusive', width: '2', category: '1' },
-  { range: '9 a 12 exclusive', width: '2', category: '2' },
-  { range: '12 a 18 exclusive', width: '3', category: '3' },
-  { range: '18 a 24 exclusive', width: '4', category: '4' },
-  { range: '24 a 28 exclusive', width: '4', category: '5' },
-  { range: '28 a 39 exclusive', width: '5', category: '6' },
-  { range: '39 a 49 exclusive', width: '5', category: '7' },
-  { range: '49 a 61 exclusive', width: '7', category: '8' },
-  { range: '61 a 76 exclusive', width: '7', category: '9' },
-  { range: '76 a 90 exclusive', width: '8', category: '10' },
-];
-
-const rotaryWingReference: ReferenceRule[] = [
-  { range: '0 a 15 exclusive', category: 'H1', aerodrome: '2' },
-  { range: '15 a 24 exclusive', category: 'H2', aerodrome: '3' },
-  { range: '24 a 35 exclusive', category: 'H3', aerodrome: '4' },
-];
-
-function FireCategoryReference() {
-  return <section className="reference-section" aria-labelledby="reference-title"><div className="reference-heading"><div><span className="section-kicker">planilha técnica de consulta</span><h2 id="reference-title">Como calcular a Categoria Contraincêndio da Aeronave?</h2></div><span className="reference-badge"><ClipboardList size={13} /> REFERÊNCIA</span></div><p className="reference-intro">A Categoria Contraincêndio da Aeronave é determinada de acordo com as características dimensionais da aeronave. O método de classificação varia conforme a aeronave seja de asa fixa ou asa rotativa.</p><div className="reference-grid"><div className="reference-card"><div className="reference-card-heading"><span><Plane size={15} /> Como calcular — Asa Fixa</span><span className="section-kicker">categorias 1 — 10</span></div><p>Para aeronaves de asa fixa, determina-se inicialmente a categoria pelo comprimento total da aeronave. Em seguida, verifica-se a largura máxima da fuselagem. Caso a largura máxima da fuselagem ultrapasse o limite estabelecido para a categoria determinada pelo comprimento, a aeronave será enquadrada na categoria imediatamente superior.</p><div className="category-table-wrapper"><table className="category-table reference-table"><thead><tr><th>Comprimento total do avião (m)</th><th>Largura máxima da fuselagem (m)</th><th>Categoria</th></tr></thead><tbody>{fixedWingReference.map((row) => <tr key={`${row.range}-${row.category}`}><td>{row.range}</td><td>{row.width}</td><td><strong>{row.category}</strong></td></tr>)}</tbody></table></div></div><div className="reference-card"><div className="reference-card-heading"><span><Plane size={15} /> Como calcular — Asa Rotativa</span><span className="section-kicker">categorias H1 — H3</span></div><p>Para aeronaves de asa rotativa, a categoria é determinada pelo comprimento total do helicóptero, incluindo os rotores.</p><div className="category-table-wrapper"><table className="category-table reference-table"><thead><tr><th>Comprimento total do helicóptero (m)</th><th>Categoria do helicóptero</th><th>Categoria do aeródromo</th></tr></thead><tbody>{rotaryWingReference.map((row) => <tr key={`${row.range}-${row.category}`}><td>{row.range}</td><td><strong>{row.category}</strong></td><td>{row.aerodrome}</td></tr>)}</tbody></table></div></div></div></section>;
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --font-sans: var(--app-font-sans);
+  --font-mono: var(--app-font-mono);
+  --radius-lg: var(--radius);
 }
 
-function Brand() {
-  return <Link href="/" className="brand" data-testid="link-brand"><span className="brand-mark"><Plane size={18} strokeWidth={2.6} /></span><span><span className="brand-name">AERORESCUE</span><span className="brand-sub">catálogo operacional · SESCINC</span></span></Link>;
+:root {
+  --background: 210 25% 94%;
+  --foreground: 205 42% 13%;
+  --border: 205 20% 82%;
+  --input: 205 20% 78%;
+  --ring: 36 90% 54%;
+  --card: 210 27% 98%;
+  --card-foreground: 205 42% 13%;
+  --primary: 205 42% 20%;
+  --primary-foreground: 48 35% 97%;
+  --secondary: 205 23% 89%;
+  --secondary-foreground: 205 42% 20%;
+  --muted: 207 20% 87%;
+  --muted-foreground: 205 16% 43%;
+  --accent: 36 90% 54%;
+  --accent-foreground: 205 42% 13%;
+  --destructive: 4 68% 47%;
+  --app-font-sans: 'DM Sans', sans-serif;
+  --app-font-mono: 'Space Mono', monospace;
+  --font-display: 'Barlow Condensed', sans-serif;
+  --radius: 12px;
 }
-function Shell({ children }: { children: ReactNode }) {
-  const [location] = useLocation();
-  return <div className="app-shell"><header className="topbar"><Brand /><nav className="topnav" aria-label="Navegação principal"><Link href="/" className={`nav-link ${location === '/' ? 'active' : ''}`} data-testid="link-catalogo"><Layers3 size={15} /> Catálogo</Link></nav><div className="topbar-spacer" /><div className="status-pill" data-testid="status-offline"><span className="status-dot" /> banco local sincronizado</div><span className="profile-badge" data-testid="text-profile">BS</span><div className="mobile-nav"><Link href="/" className="nav-link active" data-testid="link-mobile-home"><Menu size={17} /></Link></div></header>{children}</div>;
-}
-function AircraftArt({ large = false }: { large?: boolean }) {
-  return <div className={large ? 'viewer-plane' : 'plane-card-art'} aria-label="Silhueta ilustrativa do AMX A-1"><span className="fuselage" /><span className="nose" /><span className="wing" /><span className="tail" /><span className="canopy" /><span className="stripe" /></div>;
-}
-function AircraftCard({ aircraft, favorite, onFavorite }: { aircraft: Aircraft; favorite: boolean; onFavorite: () => void }) {
-  const coverUrl = aircraft.coverImage ? `${import.meta.env.BASE_URL}${aircraft.coverImage}` : undefined;
-  return <div className="aircraft-card fade-in" data-testid={`card-aircraft-${aircraft.id}`}><Link href={`/aeronaves/${aircraft.id}`}><div className={`aircraft-visual${coverUrl ? ' has-cover' : ''}`}>{coverUrl ? <img className="aircraft-cover" src={coverUrl} alt={`${aircraft.name} cover`} /> : <AircraftArt />}</div><div className="card-info"><div className="card-topline"><span className="card-tag">{aircraft.category}</span><span style={{ color: '#5a9b7a', fontSize: 10 }}>● {aircraft.status}</span></div><h2 className="card-title">{aircraft.name}</h2><div className="card-meta">{aircraft.manufacturer} · {aircraft.origin}</div><div className="card-specs"><div><span className="spec-val">{aircraft.maxSpeed}</span><span className="spec-label">vel. máx.</span></div><div><span className="spec-val">{aircraft.length}</span><span className="spec-label">comprimento</span></div><div><span className="spec-val">{aircraft.crew}</span><span className="spec-label">tripulação</span></div></div></div></Link><button className={`favorite-toggle ${favorite ? 'on' : ''}`} onClick={onFavorite} aria-label={favorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos'} data-testid={`button-favorite-${aircraft.id}`}><Heart size={16} fill={favorite ? 'currentColor' : 'none'} /></button></div>;
-}
-function HomePage() {
-  const [query, setQuery] = useState(''); const [filter, setFilter] = useState('Todos'); const [favorites, setFavorites] = useState<string[]>(() => JSON.parse(localStorage.getItem('aerorescue:favorites') || '[]')); const [toast, setToast] = useState<Toast>(null); const [filtersOpen, setFiltersOpen] = useState(false); const [viewMode, setViewMode] = useState<'Aeronaves' | 'Categoria Contraincêndio'>('Aeronaves'); const [history] = useState(() => JSON.parse(localStorage.getItem('aerorescue:history') || '[]') as string[]);
-  const [activeReference, setActiveReference] = useState<ReferenceType | null>(null);
-  const fixedReferenceRef = useRef<HTMLDivElement | null>(null);
-  const rotaryReferenceRef = useRef<HTMLDivElement | null>(null);
 
-  const scrollToReference = (type: ReferenceType) => {
-    const target = type === 'Asa Fixa' ? fixedReferenceRef.current : rotaryReferenceRef.current;
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      setActiveReference(type);
-    }
-  };
-  useEffect(() => localStorage.setItem('aerorescue:favorites', JSON.stringify(favorites)), [favorites]);
-  const toggleFavorite = (id: string) => { const exists = favorites.includes(id); setFavorites(exists ? favorites.filter((item) => item !== id) : [...favorites, id]); setToast(exists ? 'Removido dos favoritos' : 'AMX A-1 salvo nos favoritos'); window.setTimeout(() => setToast(null), 2200); };
-  const filtered = useMemo(() => aircraftCatalog.filter((aircraft) => { const matchesQuery = `${aircraft.name} ${aircraft.manufacturer} ${aircraft.category}`.toLowerCase().includes(query.toLowerCase()); const matchesFilter = filter === 'Todos' || (filter === 'Favoritos' && favorites.includes(aircraft.id)) || (filter === 'Jatos' && aircraft.category.toLowerCase().includes('jato')) || (filter === 'Helicópteros' && aircraft.category.toLowerCase().includes('helicóptero')); return matchesQuery && matchesFilter; }), [query, filter, favorites]);
-  const showAero = viewMode === 'Aeronaves';
-  useEffect(() => {
-    if (showAero) return;
-    const host = document.querySelector('.fire-category-panel .text-card');
-    const firstCatalogSection = host?.querySelector('.category-section');
-    if (!host || !firstCatalogSection) return;
-    const container = document.createElement('div');
-    container.dataset.referenceSection = 'true';
-    host.insertBefore(container, firstCatalogSection);
-    const root = createRoot(container);
-    root.render(<FireCategoryReference />);
-    return () => {
-      root.unmount();
-      container.remove();
-    };
-  }, [showAero]);
-  return <main className="page-wrap"><div className="fade-in"><div className="eyebrow">base de consulta · atualização local 04.2024</div><h1 className="page-title">Aeronaves para resposta rápida.</h1><p className="page-lede">Ficha técnica, pontos de acesso, riscos e procedimentos reunidos para a decisão segura da equipe SESCINC.</p></div><div className="tab-row fade-in stagger-1" style={{ marginBottom: 20 }}><button className={`filter-btn ${showAero ? 'active' : ''}`} onClick={() => setViewMode('Aeronaves')} data-testid="button-tab-aeronaves">Aeronaves</button><button className={`filter-btn ${!showAero ? 'active' : ''}`} onClick={() => setViewMode('Categoria Contraincêndio')} data-testid="button-tab-contraincendio">Categoria Contraincêndio</button></div><div className="fire-category-panel fade-in stagger-1" style={showAero ? { display: 'none' } : undefined}><div className="text-card"><div className="info-heading"><span><Sparkles size={15} className="heading-icon" style={{ verticalAlign: 'middle', marginRight: 7 }} /> Categoria Contraincêndio</span><span className="section-kicker">Tabela de FABCAT</span></div><p style={{ marginBottom: 20 }}>Categoria Contraincêndio por tipo de aeronave, com classificação FABCAT segundo o catálogo mais recente da FAB.</p>{Object.entries(fireCategoryGroups).map(([categoria, rows]) => (<div className="category-section" key={categoria}><h3>{categoria === 'Asa Fixa' ? '✈️ Asa Fixa' : '🚁 Asa Rotativa'}</h3><div className="category-table-wrapper"><table className="category-table"><thead><tr className="category-row category-row-header"><th>ANV</th><th>Nome / Modelo</th><th>Categoria</th></tr></thead><tbody>{rows.map((row) => (<tr key={`${row.categoria}-${row.anv}`} className="category-row"><td>{row.anv}</td><td><strong>{row.nome}</strong></td><td>{row.cat_contraincendio}</td></tr>))}</tbody></table></div></div>))}<div className="note-card"><strong>Nota:</strong> para o R-35, a documentação do COMAER apresenta <strong>R-35AM</strong> e identifica a aeronave como <strong>Learjet 35</strong>. A FAB atualmente lista <strong>R-99</strong> e <strong>E-99M</strong> como designações separadas. Além disso, a designação correta no catálogo atual da FAB é <strong>H-60L Black Hawk</strong>, não UH-60.</div></div></div><div className="search-row fade-in stagger-1" style={showAero ? undefined : { display: 'none' }}><label className="search-box"><Search size={17} /><input data-testid="input-search-aircraft" type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Buscar por modelo, fabricante ou função..." /><span style={{ font: '10px var(--app-font-mono)', color: '#9ba8a8' }}>⌘ K</span></label><button className={`filter-btn ${filtersOpen ? 'active' : ''}`} onClick={() => setFiltersOpen(!filtersOpen)} data-testid="button-toggle-filters"><SlidersHorizontal size={15} /> Filtros <ChevronDown size={14} /></button></div><div className="catalog-grid" style={showAero ? undefined : { display: 'none' }}><section><div className="result-head"><div><span className="section-kicker">inventário de aeronaves</span><div className="result-count">{filtered.length} resultado{filtered.length !== 1 ? 's' : ''}<span> / {aircraftCatalog.length} catalogado</span></div></div><select className="sort-select" aria-label="Ordenar resultados" data-testid="select-sort"><option>Mais consultados</option><option>Ordem alfabética</option></select></div>{(filtersOpen || filter !== 'Todos') && <div style={{ display: 'flex', gap: 7, flexWrap: 'wrap', marginBottom: 15 }}><span className="section-kicker" style={{ alignSelf: 'center', marginRight: 5 }}>filtrar por</span>{quickFilters.map((item) => <button key={item} className={`filter-btn ${filter === item ? 'active' : ''}`} style={{ height: 31, padding: '0 10px', fontSize: 10 }} onClick={() => setFilter(item)} data-testid={`button-filter-${item.toLowerCase()}`}>{item}</button>)}</div>}<div className="aircraft-grid">{filtered.length ? filtered.map((aircraft) => <AircraftCard key={aircraft.id} aircraft={aircraft} favorite={favorites.includes(aircraft.id)} onFavorite={() => toggleFavorite(aircraft.id)} />) : <div className="empty-state"><Search size={25} /><h3>Nenhuma aeronave encontrada</h3><p>Não há resultados para “{query}”. Tente outro modelo ou limpe os filtros.</p><button className="outline-btn" onClick={() => { setQuery(''); setFilter('Todos'); }} data-testid="button-clear-search">Limpar busca</button></div>}</div></section><aside><div className="side-panel"><div className="side-heading"><span><History size={14} style={{ verticalAlign: 'middle', marginRight: 6 }} /> histórico recente</span><small>{history.length || 1} item</small></div><div className="history-row"><div className="history-thumb"><AircraftArt /></div><div><div className="history-name">AMX A-1</div><div className="history-time">consultado agora</div></div></div></div><div className="side-panel" id="operacional"><div className="side-heading"><span><Sparkles size={14} style={{ verticalAlign: 'middle', marginRight: 6 }} /> para a sua operação</span></div><ul className="tip-list"><li><ClipboardList size={14} /> Procedimentos revisados para treinamento e resposta.</li><li><CircleHelp size={14} /> Use os hotspots para localizar acessos e zonas críticas.</li></ul></div></aside></div>{toast && <div className="toast" role="status" data-testid="status-toast"><Check size={14} style={{ verticalAlign: 'middle', marginRight: 7, color: '#efb349' }} />{toast}</div>}</main>;
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100dvh;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: var(--app-font-sans);
+  -webkit-font-smoothing: antialiased;
 }
-function Viewer({ aircraft }: { aircraft: Aircraft }) {
-  const [selected, setSelected] = useState(1); const [overviewIndex, setOverviewIndex] = useState(0); const [fullscreen, setFullscreen] = useState(false); const [toast, setToast] = useState<Toast>(null); const hotspotText: Record<number, string> = { 1: 'Cabine e canopy — acesso primário do piloto.', 2: 'Ponto de parada — manter equipe fora da exaustão.', 3: 'Área de cauda — atenção à deriva e superfícies móveis.' }; const showToast = (message: string) => { setToast(message); window.setTimeout(() => setToast(null), 1800); };
-  const overviewModels = aircraft.overviewModels && aircraft.overviewModels.length > 0 ? aircraft.overviewModels : aircraft.sketchfabModelId ? [{ label: 'Visão geral 1', sketchfabModelId: aircraft.sketchfabModelId }] : [];
-  const selectedModel = overviewModels[overviewIndex] || overviewModels[0] || null;
-  const embedUrl = selectedModel ? `https://sketchfab.com/models/${selectedModel.sketchfabModelId}/embed?autostart=1&ui_infos=0&ui_controls=1&ui_annots=0&ui_watermark=0` : null;
-  return <div className={`viewer ${fullscreen ? 'viewer-fullscreen' : ''}`} data-testid="viewer-3d"><div className="viewer-grid" /><div className="viewer-label">{aircraft.name} / VISUALIZAÇÃO TÉCNICA</div>{overviewModels.length > 1 && <div className="viewer-overview-switch"><div className="viewer-switcher" aria-label="Seleção de visão geral">{overviewModels.map((model, index) => <button key={model.label} className={`viewer-mode-button ${index === overviewIndex ? 'active' : ''}`} onClick={() => { setOverviewIndex(index); showToast(model.label); }} data-testid={`button-overview-${index + 1}`}>{model.label}</button>)}</div></div>}{embedUrl ? <iframe title={`${aircraft.name} ${selectedModel.label} 3D model`} src={embedUrl} frameBorder="0" allow="autoplay; fullscreen; vr; accelerometer; magnetometer; gyroscope" allowFullScreen className="viewer-iframe" /> : <><div className="viewer-label">{aircraft.name} / VISUALIZAÇÃO TÉCNICA</div><div className="viewer-legend"><span className="legend-dot" /> HOTSPOTS ATIVOS</div><AircraftArt large />{[1, 2, 3].map((n) => <button key={n} className={`hotspot ${n === 1 ? 'one' : n === 2 ? 'two' : 'three'} ${selected === n ? 'selected' : ''}`} onClick={() => setSelected(n)} data-testid={`button-hotspot-${n}`}>{n.toString().padStart(2, '0')}</button>)}<div className="hotspot-note" data-testid="text-hotspot-note"><strong style={{ display: 'block', color: '#efb349', fontSize: 10, marginBottom: 3 }}>PONTO {selected.toString().padStart(2, '0')}</strong>{hotspotText[selected]}</div><div className="viewer-tools"><div className="viewer-controls"><button className="viewer-tool" onClick={() => showToast('Rotação resetada')} aria-label="Resetar câmera" data-testid="button-reset-camera"><Rotate3d size={14} /></button><button className="viewer-tool" onClick={() => showToast('Mais zoom')} aria-label="Aumentar zoom" data-testid="button-zoom-in"><ZoomIn size={14} /></button><button className="viewer-tool" onClick={() => showToast('Menos zoom')} aria-label="Diminuir zoom" data-testid="button-zoom-out"><ZoomOut size={14} /></button><button className="viewer-tool" onClick={() => { setFullscreen(!fullscreen); showToast(fullscreen ? 'Janela restaurada' : 'Visualizador expandido'); }} aria-label="Tela cheia" data-testid="button-fullscreen">{fullscreen ? <Minimize2 size={14} /> : <Maximize2 size={14} />}</button></div><span className="viewer-mode"><Move3d size={12} style={{ verticalAlign: 'middle', marginRight: 5 }} /> arraste para explorar · roda para zoom</span></div></>}</div>;
+button, input { font: inherit; }
+button { cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+
+.app-shell { min-height: 100dvh; background: hsl(var(--background)); }
+.topbar {
+  height: 72px; display:flex; align-items:center; gap: 24px; padding: 0 32px;
+  background: #102f42; color: #f2f0e8; border-bottom: 1px solid rgba(255,255,255,.12);
 }
-function DetailPage() {
-  const { id } = useParams<{ id: string }>(); const aircraft = aircraftCatalog.find((item) => item.id === id) || aircraftCatalog[0]; const [activeTab, setActiveTab] = useState('Visão geral'); const [favorite, setFavorite] = useState(() => JSON.parse(localStorage.getItem('aerorescue:favorites') || '[]').includes(aircraft.id)); const [toast, setToast] = useState<Toast>(null);
-  useEffect(() => { const history = JSON.parse(localStorage.getItem('aerorescue:history') || '[]'); localStorage.setItem('aerorescue:history', JSON.stringify([aircraft.id, ...history.filter((item: string) => item !== aircraft.id)].slice(0, 5))); }, [aircraft.id]);
-  const toggleFavorite = () => { const favorites = JSON.parse(localStorage.getItem('aerorescue:favorites') || '[]') as string[]; const next = favorites.includes(aircraft.id) ? favorites.filter((item) => item !== aircraft.id) : [...favorites, aircraft.id]; localStorage.setItem('aerorescue:favorites', JSON.stringify(next)); setFavorite(!favorite); setToast(!favorite ? 'AMX A-1 salvo nos favoritos' : 'Removido dos favoritos'); window.setTimeout(() => setToast(null), 2200); };
-  const tabs = ['Visão geral', 'Manuais', 'Galeria', 'Vídeos'];
-  const coverUrl = aircraft.coverImage ? `${import.meta.env.BASE_URL}${aircraft.coverImage}` : undefined;
-  const galleryItems = aircraft.gallery && aircraft.gallery.length > 0 ? aircraft.gallery : [{ title: aircraft.name, url: coverUrl }];
-  const videoItems = aircraft.videos && aircraft.videos.length > 0 ? aircraft.videos : [];
-  return <main className="page-wrap"><div className="crumb"><Link href="/" data-testid="link-breadcrumb-catalogo">Catálogo</Link><ArrowRight size={12} /><span>{aircraft.name}</span></div><div className="detail-head"><div><div className="eyebrow">ficha da aeronave · código AR-001</div><h1 className="page-title">{aircraft.name}</h1><p className="page-lede">{aircraft.manufacturer} · {aircraft.role} · <span style={{ color: '#4e9974' }}>● {aircraft.status}</span></p></div><div className="detail-actions"><button className="outline-btn" onClick={() => window.print()} data-testid="button-print"><FileText size={15} /><span>Imprimir ficha</span></button><button className={`outline-btn ${favorite ? 'filter-btn active' : ''}`} onClick={toggleFavorite} data-testid="button-detail-favorite"><Heart size={15} fill={favorite ? 'currentColor' : 'none'} /><span>{favorite ? 'Favoritado' : 'Favoritar'}</span></button></div></div><div className="detail-grid"><Viewer aircraft={aircraft} /><div><div className="info-card"><div className="info-heading"><span><Gauge size={15} className="heading-icon" style={{ verticalAlign: 'middle', marginRight: 7 }} /> ficha técnica</span><span className="section-kicker">SI / métrico</span></div><div className="metric-list"><div className="metric"><span className="metric-label">categoria</span><span className="metric-value">{aircraft.category}</span></div><div className="metric"><span className="metric-label">papel operacional</span><span className="metric-value">{aircraft.role}</span></div><div className="metric"><span className="metric-label">origem</span><span className="metric-value">{aircraft.origin}</span></div><div className="metric"><span className="metric-label">tripulação</span><span className="metric-value">{aircraft.crew}</span></div><div className="metric"><span className="metric-label">POB max.</span><span className="metric-value">{aircraft.pobMax}</span></div><div className="metric"><span className="metric-label">entrada em serviço</span><span className="metric-value">{aircraft.year}</span></div><div className="metric"><span className="metric-label">comprimento</span><span className="metric-value">{aircraft.length}</span></div><div className="metric"><span className="metric-label">envergadura</span><span className="metric-value">{aircraft.wingspan}</span></div><div className="metric"><span className="metric-label">altura</span><span className="metric-value">{aircraft.height}</span></div><div className="metric"><span className="metric-label">velocidade máx.</span><span className="metric-value">{aircraft.maxSpeed}</span></div><div className="metric"><span className="metric-label">alcance</span><span className="metric-value">{aircraft.range}</span></div><div className="metric"><span className="metric-label">peso máx. decolagem</span><span className="metric-value">{aircraft.weight}</span></div>{aircraft.designacaoFab && <div className="metric"><span className="metric-label">Designação FAB</span><span className="metric-value">{aircraft.designacaoFab}</span></div>}{aircraft.fabricanteDetalhe && <div className="metric"><span className="metric-label">Fabricante</span><span className="metric-value">{aircraft.fabricanteDetalhe}</span></div>}{aircraft.categoriaContraIncendio && <div className="metric"><span className="metric-label">Categoria Contraincêndio</span><span className="metric-value">{aircraft.categoriaContraIncendio}</span></div>}{aircraft.alturaSoloCockpit && <div className="metric"><span className="metric-label">Altura solo ao cockpit</span><span className="metric-value">{aircraft.alturaSoloCockpit}</span></div>}{aircraft.combustivel && <div className="metric"><span className="metric-label">Combustível</span><span className="metric-value">{aircraft.combustivel}</span></div>}{aircraft.quantidadeSaidas && <div className="metric"><span className="metric-label">Quantidade de saídas</span><span className="metric-value">{aircraft.quantidadeSaidas}</span></div>}{aircraft.assentoEjetavel && <div className="metric"><span className="metric-label">Assento ejetável</span><span className="metric-value">{aircraft.assentoEjetavel}</span></div>}{aircraft.sistemaDefesa && <div className="metric"><span className="metric-label">Sistema de defesa</span><span className="metric-value">{aircraft.sistemaDefesa}</span></div>}{aircraft.motor && <div className="metric"><span className="metric-label">Motor</span><span className="metric-value">{aircraft.motor}</span></div>}{aircraft.armamentoFixo && <div className="metric"><span className="metric-label">Armamento fixo</span><span className="metric-value">{aircraft.armamentoFixo}</span></div>}{aircraft.armamentosCompativeis && <div className="metric"><span className="metric-label">Armamentos compatíveis</span><span className="metric-value">{aircraft.armamentosCompativeis}</span></div>}</div></div></div></div><nav className="tab-bar" aria-label="Seções da ficha">{tabs.map((tab) => <button key={tab} className={`tab ${activeTab === tab ? 'active' : ''}`} onClick={() => setActiveTab(tab)} data-testid={`tab-${tab.toLowerCase().replaceAll(' ', '-')}`}>{tab}</button>)}</nav><div className="tab-content">{activeTab === 'Visão geral' && <div className="two-column"><div className="text-card"><h3>Perfil operacional</h3><p>{aircraft.name} é uma {aircraft.category.toLowerCase()} com {aircraft.role.toLowerCase()}. A configuração operacional atual está alinhada com {aircraft.origin} e com {aircraft.crew.toLowerCase()} na tripulação.</p></div></div>}{activeTab === 'Manuais' && <div className="text-card" id="biblioteca"><h3>Manuais</h3><p style={{ marginBottom: 15 }}>Links de referência do Google Drive.</p><div className="manual-list">{aircraft.manuals.map((manual) => <div className="manual-row" key={manual.name}><span className="manual-icon"><FileText size={16} /></span><span><span className="manual-name">{manual.name}</span><span className="manual-meta">{manual.meta}</span></span><a className="icon-btn" href={manual.url || '#'} target="_blank" rel="noreferrer" data-testid={`button-open-manual-${manual.name.slice(0, 5)}`}>Abrir <ArrowRight size={13} /></a></div>)}</div></div>}{activeTab === 'Galeria' && <div className="text-card"><h3>Galeria</h3><p style={{ marginBottom: 15 }}>Fotos de referência para apoio operacional.</p><div className="gallery-grid">{galleryItems.map((item, index) => <div className="gallery-tile" key={`${item.title}-${index}`} data-testid={`gallery-image-${index + 1}`}>{item.url && <img className="gallery-image" src={item.url} alt={item.title} />}</div>)}</div></div>}{activeTab === 'Vídeos' && <div className="text-card"><h3>Vídeos</h3><div className="manual-list">{videoItems.length ? videoItems.map((video, index) => <div className="manual-row" key={`${video.title}-${index}`}><span className="manual-icon"><Play size={16} /></span><span><span className="manual-name">{video.title}</span><a className="manual-meta" href={video.url} target="_blank" rel="noreferrer">{video.url}</a></span></div>) : <div className="manual-row"><span className="manual-icon"><Play size={16} /></span><span><span className="manual-name">Vídeos em breve</span><span className="manual-meta">Links do YouTube serão adicionados aqui.</span></span></div>}</div></div>}</div>{toast && <div className="toast" role="status" data-testid="status-detail-toast"><Check size={14} style={{ verticalAlign: 'middle', marginRight: 7, color: '#efb349' }} />{toast}</div>}</main>;
-}
-function Router() { return <Switch><Route path="/" component={HomePage} /><Route path="/aeronaves/:id" component={DetailPage} /><Route component={NotFound} /></Switch>; }
-function App() { return <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}><Shell><Router /></Shell></WouterRouter>; }
-export default App;
+.brand { display:flex; align-items:center; gap:11px; min-width: 208px; }
+.brand-mark { width: 34px; height:34px; display:grid; place-items:center; color:#102f42; background:#efac38; border-radius:9px; transform: skew(-8deg); }
+.brand-name { font-family:var(--font-display); letter-spacing:.06em; font-weight:700; font-size:25px; line-height:1; }
+.brand-sub { color:#9eb2bb; font-size:10px; letter-spacing:.13em; text-transform:uppercase; margin-top:4px; }
+.topnav { display:flex; gap: 6px; align-items:center; }
+.nav-link { display:flex; align-items:center; gap:8px; padding:9px 12px; border-radius:8px; color:#b4c5ca; font-size:13px; transition:background .2s, color .2s; }
+.nav-link:hover, .nav-link.active { background:rgba(255,255,255,.09); color:#fff; }
+.nav-link.active { box-shadow: inset 0 -2px #efac38; }
+.topbar-spacer { flex:1; }
+.status-pill { display:flex; align-items:center; gap:7px; color:#b4c5ca; font-size:11px; font-family:var(--app-font-mono); }
+.status-dot { width:7px;height:7px;background:#67b58b;border-radius:50%; box-shadow:0 0 0 3px rgba(103,181,139,.16); }
+.profile-badge { width:32px;height:32px;border-radius:50%; display:grid;place-items:center; background:#326477; color:#f4f1e5; font-size:12px; font-weight:700; }
+.mobile-nav { display:none; }
+.page-wrap { max-width: 1440px; margin:0 auto; padding: 38px 40px 70px; }
+.eyebrow { color:#bc7720; text-transform:uppercase; letter-spacing:.16em; font-size:11px; font-family:var(--app-font-mono); font-weight:700; }
+.display { font-family:var(--font-display); letter-spacing:-.025em; }
+.page-title { margin:7px 0 0; font-family:var(--font-display); font-size:46px; line-height:.98; color:#17384b; font-weight:700; }
+.page-lede { color:#5e727b; max-width:670px; font-size:14px; line-height:1.55; margin:12px 0 0; }
+.section-kicker { font-family:var(--app-font-mono); color:#6c8188; text-transform:uppercase; letter-spacing:.12em; font-size:10px; font-weight:700; }
+.search-row { display:flex; gap:10px; margin-top:28px; }
+.search-box { display:flex; align-items:center; gap:10px; max-width:620px; flex:1; background:#f7f5ed; border:1px solid #ccd6d6; border-radius:9px; padding:0 14px; height:46px; color:#70858b; }
+.search-box:focus-within { border-color:#d99429; box-shadow:0 0 0 3px rgba(217,148,41,.14); }
+.search-box input { outline:none; background:transparent; border:0; width:100%; color:#17384b; font-size:13px; }
+.filter-btn, .outline-btn, .icon-btn { border:1px solid #c7d3d5; background:#f7f5ed; color:#224657; height:42px; border-radius:8px; display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:0 14px; font-weight:600; font-size:12px; transition:transform .2s, background .2s, border .2s; }
+.filter-btn:hover, .outline-btn:hover, .icon-btn:hover { background:#e9eeea; border-color:#9fb3b7; transform:translateY(-1px); }
+.filter-btn.active { color:#8f5a11; border-color:#d99b3a; background:#f9ebcf; }
+.primary-btn { border:0; height:42px; padding:0 17px; display:inline-flex; align-items:center; gap:8px; border-radius:8px; background:#e6a332; color:#1c3340; font-size:12px; font-weight:700; transition:transform .2s, background .2s; }
+.primary-btn:hover { background:#f0b54a; transform:translateY(-1px); }
+.catalog-grid { display:grid; grid-template-columns:minmax(0, 1fr) 290px; gap:25px; margin-top:36px; align-items:start; }
+.result-head { display:flex; align-items:end; justify-content:space-between; margin-bottom:14px; }
+.result-count { font-family:var(--font-display); font-size:25px; color:#21475b; }
+.result-count span { color:#8a9a9d; font-family:var(--app-font-mono); font-size:11px; margin-left:9px; }
+.sort-select { border:0; background:transparent; color:#6d7e83; font-size:12px; outline:none; }
+.aircraft-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+.aircraft-card { overflow:hidden; min-height:268px; border:1px solid #c9d5d6; border-radius:12px; background:#f8f7f1; transition:transform .22s, box-shadow .22s, border .22s; position:relative; }
+.aircraft-card:hover { transform:translateY(-3px); border-color:#b1c4c6; box-shadow:0 11px 25px rgba(35,67,76,.1); }
+.aircraft-visual { height:146px; position:relative; overflow:hidden; background:linear-gradient(145deg,#c9d9d6,#e6e7dc 48%,#a9c0c2); }
+.aircraft-visual.has-cover { background:transparent; }
+.aircraft-cover { display:block; width:100%; height:100%; object-fit:cover; }
+.aircraft-visual:before { content:''; position:absolute; inset:0; opacity:.18; background-image:linear-gradient(135deg,transparent 45%,#244a59 46%,transparent 47%), linear-gradient(45deg,transparent 48%,#244a59 49%,transparent 50%); background-size:39px 39px; }
+.aircraft-visual:after { content:'AER. // 001'; position:absolute; right:12px; bottom:10px; font:9px var(--app-font-mono); color:#345866; letter-spacing:.12em; }
+.favorite-toggle { position:absolute; top:11px; right:11px; z-index:2; width:30px;height:30px; border:1px solid rgba(30,65,77,.18); background:rgba(248,247,241,.76); color:#587079; border-radius:7px; display:grid;place-items:center; }
+.favorite-toggle.on { color:#a46c14; background:#f7e9c9; border-color:#e0b76a; }
+.aircraft-visual { isolation:isolate; overflow:hidden; }
+.plane-card-art { position:absolute; width:79%; height:78px; left:11%; top:34px; transform:rotate(-7deg); transform-origin:center; }
+.plane-card-art .fuselage { position:absolute; width:76%; height:19%; left:13%; top:42%; border-radius:70% 20% 30% 70%; background:#2b5666; box-shadow:inset -15px 1px #183b4c; }
+.plane-card-art .nose { position:absolute; left:4%; top:43%; width:16%; height:17%; background:#254b5b; border-radius:90% 20% 20% 90%; }
+.plane-card-art .wing { position:absolute; width:48%; height:12%; left:25%; top:30%; background:#356b79; clip-path:polygon(0 45%,100% 0,75% 100%,0 63%); }
+.plane-card-art .tail { position:absolute; width:20%; height:35%; left:74%; top:18%; background:#2f6170; clip-path:polygon(0 100%,45% 0,100% 100%); }
+.plane-card-art .cockpit { position:absolute; width:17%;height:8%;left:19%;top:42%;border-radius:70%;background:#98b2b5;transform:rotate(-8deg); }
+.card-info { padding:14px 15px 15px; }
+.card-topline { display:flex; justify-content:space-between; align-items:center; }
+.card-tag { border-radius:4px; padding:4px 6px; font:9px var(--app-font-mono); color:#2e6972; background:#dceae6; text-transform:uppercase; letter-spacing:.06em; }
+.card-title { font-family:var(--font-display); color:#173c4d; font-size:25px; margin:9px 0 2px; }
+.card-meta { font-size:11px; color:#76878b; }
+.card-specs { display:flex; gap:16px; border-top:1px solid #dde3dd; margin-top:13px; padding-top:11px; }
+.spec-val { display:block; color:#234a5d; font:11px var(--app-font-mono); font-weight:700; }
+.spec-label { display:block; color:#819092; font-size:9px; margin-top:3px; text-transform:uppercase; letter-spacing:.04em; }
+.side-panel { background:#f5f4ee; border:1px solid #ccd7d7; border-radius:11px; padding:18px; }
+.side-panel + .side-panel { margin-top:14px; }
+.side-heading { color:#264c5d; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:space-between; }
+.side-heading small { color:#9b6b22; font:10px var(--app-font-mono); }
+.history-row { display:flex; gap:9px; padding:12px 0 0; margin-top:12px; border-top:1px solid #dce2df; }
+.history-thumb { width:42px;height:31px; border-radius:5px; background:linear-gradient(140deg,#b7cfcc,#e4e5dc); position:relative; overflow:hidden; }
+.history-thumb .plane-card-art { width:92%; height:18px; left:4%; top:6px; transform:rotate(-7deg) scale(.82); }
+.history-name { font-size:11px; color:#355968; font-weight:700; }
+.history-time { font:9px var(--app-font-mono); color:#9aabad; margin-top:3px; }
+.tip-list { margin:14px 0 0; padding:0; list-style:none; }
+.tip-list li { display:flex; align-items:flex-start; gap:8px; color:#6d7e83; font-size:11px; line-height:1.4; margin-top:10px; }
+.tip-list svg { color:#b5771c; flex:0 0 auto; margin-top:1px; }
+.empty-state { border:1px dashed #b8cacc; border-radius:12px; padding:50px 30px; text-align:center; background:#f5f5ef; color:#728589; grid-column:1/-1; }
+.empty-state h3 { color:#315666; font-family:var(--font-display); font-size:25px; margin:13px 0 5px; }
+.empty-state p { font-size:12px; margin:0 auto 17px; max-width:320px; }
+
+/* Detail */
+.detail-head { display:flex; justify-content:space-between; gap:20px; align-items:flex-start; }
+.crumb { display:flex; align-items:center; gap:7px; color:#71868a; font-size:11px; margin-bottom:13px; }
+.crumb a:hover { color:#a66a16; }
+.detail-actions { display:flex; gap:8px; }
+.detail-grid { display:grid; grid-template-columns:minmax(0,1.35fr) minmax(290px,.72fr); gap:14px; margin-top:20px; align-items:start; }
+.viewer { min-height:505px; border-radius:13px; background:#142e3b; border:1px solid #2a5362; overflow:hidden; position:relative; box-shadow:0 15px 30px rgba(29,59,70,.14); }
+.viewer-fullscreen { position:fixed; inset:18px; z-index:20; min-height:0; border-radius:13px; }
+.viewer-grid { position:absolute; inset:0; background-image:linear-gradient(rgba(135,184,187,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(135,184,187,.12) 1px,transparent 1px); background-size:42px 42px; mask-image:linear-gradient(to bottom,black,transparent 90%); }
+.viewer-label { position:absolute; top:18px; left:19px; color:#b9d0cd; font:10px var(--app-font-mono); letter-spacing:.11em; }
+.viewer-overview-switch { position:absolute; z-index:2; top:38px; left:19px; display:flex; align-items:center; }
+.viewer-switcher { display:flex; gap:6px; padding:4px; border-radius:8px; background:rgba(25,56,65,.88); border:1px solid rgba(242,201,134,.45); }
+.viewer-mode-button { border:1px solid transparent; background:transparent; color:#b9d0cd; font:9px var(--app-font-mono); padding:4px 9px; border-radius:6px; }
+.viewer-mode-button.active { border-color:#eeb85d; background:#274d58; color:#ffe0ad; }
+.viewer-legend { position:absolute; top:18px;right:19px;display:flex;align-items:center;gap:7px;color:#91b3b4;font:9px var(--app-font-mono); }
+.legend-dot { width:7px;height:7px;border-radius:50%;background:#e8ab40; box-shadow:0 0 0 3px rgba(232,171,64,.18); }
+.viewer-plane { position:absolute; inset:19% 8% 18%; transform:rotate(-4deg); }
+.viewer-plane .fuselage { position:absolute; width:75%; height:15%; left:12%; top:43%; background:#6e9094; border-radius:80% 18% 24% 70%; box-shadow:inset -26px -4px 0 #436a76, inset 23px 4px 0 #8caeb0; }
+.viewer-plane .nose { position:absolute; width:17%; height:15%; left:4%; top:43%; background:#527984; border-radius:90% 22% 10% 90%; }
+.viewer-plane .wing { position:absolute; width:51%; height:45%; left:26%; top:26%; background:#587f89; clip-path:polygon(0 39%,100% 0,81% 55%,96% 100%,0 58%); opacity:.95; }
+.viewer-plane .tail { position:absolute; width:19%; height:34%; left:76%; top:25%; background:#72979b; clip-path:polygon(0 100%,48% 0,100% 100%); }
+.viewer-plane .canopy { position:absolute; width:18%;height:8%;left:19%;top:43%; background:#bbd2ce;border-radius:80%; transform:rotate(-8deg); }
+.viewer-plane .stripe { position:absolute; width:52%;height:2px;left:25%;top:50%;background:#e4a13a;opacity:.9; }
+.hotspot { position:absolute; width:29px;height:29px; border:1px solid #f2b348; color:#eab041; background:#193c49; border-radius:50%; display:grid; place-items:center; font:10px var(--app-font-mono); box-shadow:0 0 0 5px rgba(232,171,64,.12); transition:transform .2s, background .2s; }
+.hotspot:hover, .hotspot.selected { background:#e1a33a; color:#17384b; transform:scale(1.12); }
+.hotspot.one { left:28%;top:41%; }.hotspot.two { left:54%;top:52%; }.hotspot.three { left:72%;top:34%; }
+.hotspot-note { position:absolute; left:20px; bottom:66px; padding:10px 12px; background:rgba(13,40,50,.86); border-left:2px solid #e2a63b; color:#d8e3df; font-size:10px; max-width:200px; line-height:1.4; }
+.viewer-tools { position:absolute; left:16px; bottom:15px; right:16px; display:flex; justify-content:space-between; align-items:center; }
+.viewer-controls { display:flex; gap:5px; }
+.viewer-tool { width:31px;height:31px;border:1px solid rgba(187,213,210,.23);background:rgba(9,32,42,.7);color:#b3cac7;border-radius:6px;display:grid;place-items:center; }
+..viewer-tool:hover { background:#275666; color:#e7ae47; }
+.viewer-mode { color:#8eadae; font:9px var(--app-font-mono); }
+.viewer-iframe { position:absolute; inset:0; width:100%; height:100%; border:none; }
+.info-card { border:1px solid #cad6d5; background:#f7f6ef; border-radius:12px; padding:10px; }
+.info-card + .info-card { margin-top:8px; }
+.info-heading { display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #dde3df; padding-bottom:7px; margin-bottom:1px; color:#224b5e; font-weight:700; font-size:10px; }
+.info-heading .heading-icon { color:#b7771d; }
+.metric-list { display:grid; grid-template-columns:1fr 1fr; gap:0; }
+.metric { padding:6px 0; border-bottom:1px solid #e1e5df; }
+.metric:nth-child(odd) { margin-right:10px; border-right:1px solid #e1e5df; padding-right:8px; }
+.metric-label { display:block; text-transform:uppercase; letter-spacing:.05em; font-size:7px; color:#8a9896; line-height:1.1; }
+.metric-value { display:block; margin-top:3px; font:10px var(--app-font-mono); color:#2a5564; font-weight:700; line-height:1.15; overflow-wrap:anywhere; word-break:break-word; }
+.danger-card { background:#f8f0df; border-color:#e2c789; }
+.risk-row { display:flex; gap:10px; align-items:flex-start; padding-top:12px; color:#725e38; font-size:11px; line-height:1.4; }
+.risk-row svg { flex:0 0 auto; color:#c07a1c; }
+.tab-bar { display:flex; gap:5px; border-bottom:1px solid #ccd8d7; margin-top:32px; overflow:auto; }
+.tab { border:0;background:none;color:#728487;padding:12px 14px 11px;font-size:12px;font-weight:600;white-space:nowrap;border-bottom:2px solid transparent; }
+.tab:hover { color:#254d5d; }.tab.active { color:#a56c1d; border-bottom-color:#dda13c; }
+.tab-content { margin-top:20px; }
+.two-column { display:grid; grid-template-columns:1.2fr .8fr; gap:20px; }
+.text-card { border:1px solid #cbd7d6; background:#f7f6f0; padding:20px; border-radius:11px; }
+.text-card h3 { font-family:var(--font-display); font-size:24px;color:#234a5c;margin:0 0 9px; }
+.text-card p { color:#64777b; font-size:12px; line-height:1.65; margin:0; }
+.procedure-list { margin:0;padding:0;list-style:none; }.procedure-list li { display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #dee5e0;color:#61777c;font-size:11px;line-height:1.45; }.step-no { font:11px var(--app-font-mono); color:#b8761d; font-weight:700; }.procedure-list strong { color:#315767; display:block; margin-bottom:3px; }
+.gallery-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }.gallery-tile { min-height:140px; border-radius:10px; background:linear-gradient(140deg,#b4cbc8,#e5e6dc 55%,#7899a0); border:1px solid #b8cbca; position:relative; overflow:hidden; }.gallery-tile:after { content:'CATALOGO'; position:absolute; bottom:9px;left:10px; font:9px var(--app-font-mono); color:#2f5b68; }.gallery-tile:nth-child(2){background:linear-gradient(145deg,#d3c6a8,#f0ece0 48%,#8499a0)}.gallery-tile:nth-child(3){background:linear-gradient(145deg,#5b7980,#d3dcd5 65%,#9cabb0)} .gallery-tile:nth-child(4){background:linear-gradient(145deg,#c4d1ca,#e5d9be 45%,#69838c)}.gallery-tile .gallery-image { width:100%; height:100%; min-height:140px; object-fit:cover; position:absolute; inset:0; }
+.category-table-wrapper { overflow-x:auto; margin-top:16px; }
+.category-table { width:100%; border-collapse:collapse; border:1px solid #dce4e3; background:#fff; color:#234a5c; }
+.category-table th, .category-table td { padding:14px 16px; text-align:left; border-bottom:1px solid #e8eeed; font-size:12px; color:#234a5c; }
+.category-table th { text-transform:uppercase; letter-spacing:.08em; color:#2c4d58; background:#f3f7f5; font-weight:700; border-bottom:2px solid #cfd9d7; }
+.category-table tbody tr:last-child td { border-bottom:none; }
+.category-row td strong { color:#234a5c; }
+.note-card { margin-top:24px; padding:16px 18px; border-radius:11px; background:#eef2f0; border:1px solid #d6e0dd; color:#35555b; font-size:12px; line-height:1.6; }
+.category-section + .category-section { margin-top:26px; }
+.reference-section { margin:24px 0 6px; padding:20px; border:1px solid #cbd7d6; border-radius:11px; background:#eef3f0; }
+.reference-heading { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+.reference-heading h2 { margin:5px 0 0; color:#234a5c; font-family:var(--font-display); font-size:25px; line-height:1.1; text-transform:uppercase; }
+.reference-badge { display:inline-flex; align-items:center; gap:5px; flex:0 0 auto; padding:5px 7px; border-radius:4px; color:#2e6972; background:#dceae6; font:9px var(--app-font-mono); letter-spacing:.06em; }
+.reference-intro { max-width:780px; margin:12px 0 20px !important; }
+.reference-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+.reference-card { min-width:0; padding:15px; border:1px solid #cbd8d6; border-radius:9px; background:#f9faf6; scroll-margin-top:20px; }
+.reference-card.is-active { border-color:#dda13c; box-shadow:0 0 0 2px rgba(221,161,60,.14); }
+.reference-card-heading { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:10px; }
+.reference-card-heading > span:first-child { display:inline-flex; align-items:center; gap:6px; color:#315767; font-family:var(--font-display); font-size:17px; font-weight:700; text-transform:uppercase; }
+.reference-card-heading svg { color:#a56c1d; }
+.reference-card p { min-height:112px; margin:0 0 14px; color:#64777b; font-size:11px; line-height:1.55; }
+.reference-table { min-width:500px; }
+.reference-table th, .reference-table td { padding:10px 11px; font-size:10px; }
+.manual-list { display:grid; gap:10px; }.manual-row { display:flex; align-items:center; gap:12px; border:1px solid #ccd8d6; background:#f7f6f0; border-radius:9px; padding:13px 14px; }.manual-icon { width:33px;height:33px;display:grid;place-items:center;border-radius:7px;background:#e9e0c9;color:#a86f1e; }.manual-name { color:#315667;font-size:12px;font-weight:700; }.manual-meta { color:#899696;font:9px var(--app-font-mono);margin-top:3px; }.manual-row .icon-btn { margin-left:auto;height:31px;padding:0 10px; }
+.toast { position:fixed; right:22px; bottom:22px; z-index:30; padding:12px 15px; border:1px solid #cad7d3; background:#173b4b; color:#eef2e8; border-radius:8px; box-shadow:0 10px 25px rgba(18,50,62,.2); font-size:12px; animation:toast-in .25s ease both; }
+@keyframes toast-in { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+.fade-in { animation:fade-in .45s ease both; }.stagger-1{animation-delay:.06s}.stagger-2{animation-delay:.12s}.stagger-3{animation-delay:.18s}
+@keyframes fade-in { from { opacity:0; transform:translateY(7px); } to {opacity:1; transform:translateY(0);} }
+@media (max-width: 900px) { .topbar{padding:0 20px}.topnav{display:none}.mobile-nav{display:flex;margin-left:auto;gap:4px}.mobile-nav .nav-link{padding:8px}.status-pill{display:none}.page-wrap{padding:30px 22px 60px}.catalog-grid,.detail-grid,.two-column{grid-template-columns:1fr}.reference-grid{grid-template-columns:1fr}.side-panel{display:none}.detail-grid{margin-top:20px}.viewer{min-height:430px}.aircraft-grid{grid-template-columns:repeat(2,minmax(0,1fr))} }
+@media (max-width: 560px) { .topbar{height:64px;padding:0 15px}.brand{min-width:0}.brand-name{font-size:22px}.brand-sub{display:none}.page-wrap{padding:25px 15px 50px}.page-title{font-size:39px}.search-row{flex-wrap:wrap}.search-box{min-width:100%}.aircraft-grid{grid-template-columns:1fr}.detail-head{display:block}.detail-actions{margin-top:16px}.viewer{min-height:350px}.viewer-plane{inset:23% 4% 22%}.hotspot-note{bottom:61px}.gallery-grid{grid-template-columns:1fr 1fr}.metric-list{grid-template-columns:1fr}.metric:nth-child(odd){margin-right:0;border-right:0;padding-right:0}.detail-actions .outline-btn{padding:0 10px}.detail-actions .outline-btn span{display:none}.reference-section{padding:15px}.reference-heading{display:block}.reference-heading h2{font-size:22px}.reference-badge{margin-top:10px}.reference-card-heading{display:block}.reference-card-heading .section-kicker{display:block;margin-top:6px}.reference-card p{min-height:0} }

@@ -1,0 +1,140 @@
+Quero fazer uma alteração na aba "CONTRAINCÊNDIO" do meu aplicativo.
+
+Antes de alterar qualquer coisa, analise como essa aba está estruturada atualmente e mantenha o mesmo padrão visual e de componentes do projeto.
+
+Não crie uma nova aba e não crie uma nova página.
+
+Dentro da aba CONTRAINCÊNDIO, quero adicionar no TOPO uma nova seção chamada:
+
+"Como calcular a Categoria Contraincêndio da Aeronave?"
+
+Essa seção deve vir ANTES das atuais seções "ASA FIXA" e "ASA ROTATIVA".
+
+A organização final da aba deve ficar assim:
+
+CONTRAINCÊNDIO
+
+1. COMO CALCULAR A CATEGORIA CONTRAINCÊNDIO DA AERONAVE?
+   - Tabela de referência para ASA FIXA
+   - Tabela de referência para ASA ROTATIVA
+
+2. ASA FIXA
+   - Lista atual das aeronaves de asa fixa
+
+3. ASA ROTATIVA
+   - Lista atual das aeronaves de asa rotativa
+
+
+A primeira seção deve funcionar como uma PLANILHA/TABELA TÉCNICA DE CONSULTA, e não apenas como texto.
+
+Coloque uma explicação curta no início:
+
+"A Categoria Contraincêndio da Aeronave é determinada de acordo com as características dimensionais da aeronave. O método de classificação varia conforme a aeronave seja de asa fixa ou asa rotativa."
+
+Depois crie a tabela:
+
+-----------------------------------
+COMO CALCULAR — ASA FIXA
+-----------------------------------
+
+Texto:
+
+"Para aeronaves de asa fixa, determina-se inicialmente a categoria pelo comprimento total da aeronave. Em seguida, verifica-se a largura máxima da fuselagem. Caso a largura máxima da fuselagem ultrapasse o limite estabelecido para a categoria determinada pelo comprimento, a aeronave será enquadrada na categoria imediatamente superior."
+
+Tabela:
+
+COMPRIMENTO TOTAL DO AVIÃO (m) | LARGURA MÁXIMA DA FUSELAGEM (m) | CATEGORIA
+
+0 a 9 exclusive | 2 | 1
+9 a 12 exclusive | 2 | 2
+12 a 18 exclusive | 3 | 3
+18 a 24 exclusive | 4 | 4
+24 a 28 exclusive | 4 | 5
+28 a 39 exclusive | 5 | 6
+39 a 49 exclusive | 5 | 7
+49 a 61 exclusive | 7 | 8
+61 a 76 exclusive | 7 | 9
+76 a 90 exclusive | 8 | 10
+
+
+Depois criar:
+
+-----------------------------------
+COMO CALCULAR — ASA ROTATIVA
+-----------------------------------
+
+Texto:
+
+"Para aeronaves de asa rotativa, a categoria é determinada pelo comprimento total do helicóptero, incluindo os rotores."
+
+Tabela:
+
+COMPRIMENTO TOTAL DO HELICÓPTERO (m) | CATEGORIA DO HELICÓPTERO | CATEGORIA DO AERÓDROMO
+
+0 a 15 exclusive | H1 | 2
+15 a 24 exclusive | H2 | 3
+24 a 35 exclusive | H3 | 4
+
+
+IMPORTANTE:
+
+Essas duas tabelas são tabelas de REFERÊNCIA para mostrar como a categoria contraincêndio é determinada.
+
+NÃO alterar as aeronaves que já estão cadastradas.
+
+NÃO alterar as categorias que já estão cadastradas.
+
+NÃO remover nenhuma informação existente.
+
+Depois dessas duas tabelas, devem continuar aparecendo normalmente as atuais seções:
+
+"ASA FIXA"
+
+e
+
+"ASA ROTATIVA"
+
+com todas as aeronaves que já existem no aplicativo.
+
+DESIGN:
+
+Quero que essas duas tabelas pareçam uma planilha técnica profissional integrada ao aplicativo.
+
+Não quero simplesmente duas tabelas jogadas na página.
+
+Utilize o mesmo padrão visual que já existe no projeto:
+- mesmas cores;
+- mesmas fontes;
+- mesmos cards;
+- mesmos bordas;
+- mesmos espaçamentos;
+- mesmos estilos de tabela;
+- mesmos ícones, se já existirem.
+
+Se o aplicativo já possuir componentes de tabela/card, reutilize-os.
+
+Organize visualmente a primeira seção de forma clara, por exemplo:
+
+[ COMO CALCULAR A CATEGORIA CONTRAINCÊNDIO ]
+
+[ ✈ ASA FIXA ]
+[ PLANILHA DE REFERÊNCIA ]
+
+[ 🚁 ASA ROTATIVA ]
+[ PLANILHA DE REFERÊNCIA ]
+
+E somente depois:
+
+[ ✈ ASA FIXA ]
+[ AERONAVES CADASTRADAS ]
+
+[ 🚁 ASA ROTATIVA ]
+[ AERONAVES CADASTRADAS ]
+
+As tabelas precisam funcionar bem no celular. Se não houver espaço suficiente, permitir rolagem horizontal da tabela sem quebrar o layout.
+
+Quero que a seção tenha aparência de uma ferramenta técnica de consulta aeronáutica, limpa, organizada e profissional.
+
+Não altere nenhuma outra funcionalidade do aplicativo.
+
+Primeiro analise a estrutura atual da aba CONTRAINCÊNDIO e depois implemente essa alteração.

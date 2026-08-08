@@ -335,9 +335,9 @@ export const aircraftCatalog: Aircraft[] = [
     armamentoFixo: '2 × canhões M39 de 20 mm',
     armamentosCompativeis: 'Mísseis ar-ar, bombas convencionais e foguetes de apoio',
     sistemaDefesa: 'Radar de aeronave, sistemas de aviação e proteção de cabine',
-    sketchfabModelId: 'f8b4a2dc190144d6843878e0907db73a',
+    sketchfabModelId: '7e1a4794553a42aba4de54ac55bea2cd',
     overviewModels: [
-      { label: 'Visão geral 1', sketchfabModelId: 'f8b4a2dc190144d6843878e0907db73a' },
+      { label: 'Visão geral 1', sketchfabModelId: '7e1a4794553a42aba4de54ac55bea2cd' },
       { label: 'Visão geral 2', sketchfabModelId: '0ba298df69ad4f2989dd7ba49baac645' },
     ],
     coverImage: 'covers/f5(cover).jpg',
@@ -793,7 +793,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 'c-97-fab',
-    name: 'Embraer C-97',
+    name: 'C-97 (EMB 120 Brasilia)',
     manufacturer: 'Embraer',
     category: 'Transporte militar',
     role: 'Transporte logístico e patrulha',
@@ -813,6 +813,7 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'QAV-1 (Querosene de Aviação)',
     quantidadeSaidas: '01 porta de acesso lateral',
     motor: '2 × Pratt & Whitney Canada PT6A turbopropulsores',
+    sketchfabModelId: 'd56a29f322e745e083f742a039944bba',
     notes: [
       'O C-97 representa uma variante de transporte e apoio logístico de média capacidade da FAB.',
       'As operações podem incluir transporte de pessoal, vistorias e apoio a unidades embarcadas.',
@@ -859,6 +860,7 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'QAV-1 (Querosene de Aviação)',
     quantidadeSaidas: '01 porta de acesso lateral',
     motor: '2 × Pratt & Whitney Canada PT6A turbopropulsores',
+    sketchfabModelId: '404534bb5c1e453cbecd7f03fe6d2d56',
     notes: [
       'O C-98 é usado pela FAB para apoio tático e missões de transporte especializadas.',
       'As inspeções de pré-voo devem focar nas superfícies de controle e no sistema de combustível.',
@@ -896,6 +898,7 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'Jet A-1 / QAV-1',
     quantidadeSaidas: '02 portas de passageiros e rampa de carga',
     motor: '2 × turbopropulsores General Electric CT7-9C',
+    sketchfabModelId: '53d19a021b224151bc5e7cc01a96eb77',
     notes: [
       'O C-105 Amazonas é um transporte militar de média capacidade usado em missões de patrulha e carga.',
       'Verifique a rampa de carga e a integridade das portas antes do embarque de material pesado.',

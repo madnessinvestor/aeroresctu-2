@@ -1034,7 +1034,7 @@ export const aircraftCatalog: Aircraft[] = [
     overviewModels: [
       { label: 'Visão geral', sketchfabModelId: '952a9403acd7409991f2ae35b46ddd19' },
     ],
-    coverImage: 'covers/er99(cover).jpg',
+    coverImage: 'covers/e99(cover).jpg',
     notes: [
       'O E-99M é a versão modernizada do ER-99 com radar e sistemas de missão atualizados.',
       'Focado em alerta aéreo antecipado e comando de batalha, opera com equipe especializada em inteligência.',
@@ -1081,7 +1081,7 @@ export const aircraftCatalog: Aircraft[] = [
     overviewModels: [
       { label: 'Visão geral', sketchfabModelId: '952a9403acd7409991f2ae35b46ddd19' },
     ],
-    coverImage: 'covers/er99(cover).jpg',
+    coverImage: 'covers/r99(cover).jpg',
     notes: [
       'O R-99 é a plataforma de reconhecimento da FAB com sensores de imageamento e eletrônicos de vigilância.',
       'As missões de reconhecimento exigem precisão nos sensores e comunicação constante com a base.',

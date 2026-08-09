@@ -60,7 +60,7 @@ export type Aircraft = {
 export const aircraftCatalog: Aircraft[] = [
   {
     id: 'amx-a1',
-    name: 'AMX A-1A',
+    name: 'A-1A (AMX)',
     manufacturer: 'Embraer / AMX International',
     category: 'Aeronave de ataque',
     role: 'Apoio aéreo tático',
@@ -120,7 +120,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 'amx-a1mb',
-    name: 'AMX A-1B',
+    name: 'A-1B (AMX)',
     manufacturer: 'Embraer / AMX International',
     category: 'Aeronave de ataque',
     role: 'Apoio aéreo tático biplace',
@@ -180,7 +180,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 'kc-130',
-    name: 'Lockheed KC-130 Hercules',
+    name: 'KC-130 (Hercules / C-130)',
     manufacturer: 'Lockheed Martin',
     category: 'Transporte logístico',
     role: 'Reabastecimento em voo e apoio aéreo',
@@ -227,7 +227,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 'c-390-millennium',
-    name: 'Embraer C-390 Millennium',
+    name: 'KC-390 (Millennium)',
     manufacturer: 'Embraer',
     category: 'Transporte militar',
     role: 'Transporte tático e logística',
@@ -270,7 +270,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 'hermes-450',
-    name: 'Elbit Systems Hermes 450',
+    name: 'RQ-450 (Hermes 450)',
     manufacturer: 'Elbit Systems',
     category: 'Veículo aéreo não tripulado',
     role: 'Reconhecimento, vigilância e apoio de inteligência',
@@ -313,7 +313,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 'f-5-fab',
-    name: 'Northrop F-5 Tiger II',
+    name: 'F-5E (Tiger II / F-5E)',
     manufacturer: 'Northrop',
     category: 'Caça leve',
     role: 'Intercepção e ataque tático',
@@ -369,7 +369,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 'a-29a-super-tucano',
-    name: 'Embraer A-29A Super Tucano',
+    name: 'A-29A (Super Tucano)',
     manufacturer: 'Embraer',
     category: 'Aeronave de ataque leve',
     role: 'Apoio aéreo aproximado e treinamento avançado',
@@ -411,7 +411,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 'a-29b-super-tucano',
-    name: 'Embraer A-29B Super Tucano',
+    name: 'A-29B (Super Tucano)',
     manufacturer: 'Embraer',
     category: 'Aeronave de ataque leve',
     role: 'Apoio aéreo aproximado e vigilância',
@@ -458,7 +458,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 'p-190-patrulha-maritima',
-    name: 'Embraer P-190 Patrulha Marítima',
+    name: 'P-190 (Patrulha Marítima)',
     manufacturer: 'Embraer',
     category: 'Patrulha marítima',
     role: 'Vigilância e apoio naval',
@@ -501,7 +501,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 'mirage-2000-c-ayrton-senna',
-    name: 'Dassault Mirage 2000-C Ayrton Senna',
+    name: 'F-2000C (Mirage 2000C)',
     manufacturer: 'Dassault Aviation',
     category: 'Caça multirole',
     role: 'Interceptação e superioridade aérea',
@@ -544,7 +544,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 't-27m-tucano',
-    name: 'Embraer T-27M Tucano',
+    name: 'T-27M (Tucano / EMB 312)',
     manufacturer: 'Embraer',
     category: 'Treinamento e ataque leve',
     role: 'Treinamento avançado e apoio em missões leves',
@@ -585,7 +585,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 'saab-jas-39-gripen-brasil',
-    name: 'F-39 Gripen',
+    name: 'F-39E (Gripen E)',
     manufacturer: 'Saab AB',
     category: 'Aeronave de caça',
     role: 'Superioridade aérea e apoio tático',
@@ -632,7 +632,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 'a-29a-super-tucano-eda',
-    name: 'Embraer A-29A Super Tucano EDA',
+    name: 'A-29A (Super Tucano / EDA)',
     manufacturer: 'Embraer',
     category: 'Aeronave de ataque leve',
     role: 'Apoio aéreo aproximado e patrulha',
@@ -669,7 +669,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 'uh-60-black-hawk',
-    name: 'H-60L Black Hawk',
+    name: 'H-60L (Black Hawk / UH-60L)',
     manufacturer: 'Sikorsky Aircraft Corporation',
     category: 'Helicóptero utilitário',
     role: 'Transporte tático, apoio logístico e busca e salvamento',
@@ -723,7 +723,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 'ah-2-sabre-marinha',
-    name: 'Douglas AH-2 Sabre',
+    name: 'AH-2 (Sabre / Mi-35M)',
     manufacturer: 'Douglas / McDonnell Douglas',
     category: 'Aeronave de ataque embarcada',
     role: 'Ataque leve e apoio embarcado',
@@ -761,7 +761,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 'c-95-bandeirante',
-    name: 'Embraer C-95 Bandeirante',
+    name: 'C-95 (Bandeirante / EMB 110)',
     manufacturer: 'Embraer',
     category: 'Transporte militar',
     role: 'Transporte de tropas e carga leve',
@@ -800,7 +800,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 'c-97-fab',
-    name: 'C-97 (EMB 120 Brasilia)',
+    name: 'C-97 (Brasília / EMB 120)',
     manufacturer: 'Embraer',
     category: 'Transporte militar',
     role: 'Transporte logístico e patrulha',
@@ -848,7 +848,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 'c-98-fab',
-    name: 'Embraer C-98',
+    name: 'C-98 (Caravan / Cessna 208)',
     manufacturer: 'Embraer',
     category: 'Transporte militar',
     role: 'Transporte de carga e apoio tático',
@@ -887,7 +887,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 'c-105-amazonas',
-    name: 'Embraer C-105 Amazonas',
+    name: 'C-105 (Amazonas / C-295)',
     manufacturer: 'CASA / Embraer',
     category: 'Transporte militar',
     role: 'Transporte tático e patrulha semiaérea',
@@ -930,7 +930,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 'c-115-buffalo',
-    name: 'DHC-5 C-115 Buffalo',
+    name: 'C-115 (Buffalo / DHC-5)',
     manufacturer: 'de Havilland Canada',
     category: 'Transporte militar',
     role: 'Transporte tático e apoio de curta distância',
@@ -967,7 +967,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 'atr-72-600',
-    name: 'ATR 72-600',
+    name: 'ATR 72 (ATR 72-600)',
     manufacturer: 'ATR',
     category: 'Aeronave civil',
     role: 'Transporte regional de passageiros',
@@ -1008,11 +1008,58 @@ export const aircraftCatalog: Aircraft[] = [
     ],
   },
   {
-    id: 'er-99-awacs',
-    name: 'E/R-99 (EMB 145)',
+    id: 'e-99m',
+    name: 'E-99M (EMB 145 AEW&C)',
     manufacturer: 'Embraer',
     category: 'Aerotransporte de vigilância',
-    role: 'Alerta aéreo antecipado e controle de batalha',
+    role: 'Alerta aéreo antecipado e comando de batalha',
+    origin: 'Brasil',
+    status: 'Operacional',
+    year: '2006',
+    length: '29,87 m',
+    wingspan: '26,30 m',
+    height: '9,70 m',
+    maxSpeed: '890 km/h',
+    range: '4.500 km',
+    crew: '02 pilotos + equipe de missão',
+    weight: '23.500 kg (MTOW)',
+    pobMax: '28 pessoas a bordo',
+    categoriaContraIncendio: '06',
+    designacaoFab: 'E-99M',
+    fabricanteDetalhe: 'Embraer / Operado pela FAB',
+    combustivel: 'Jet A-1 / QAV-1',
+    quantidadeSaidas: '02 portas laterais',
+    motor: '2 × turbofans Honeywell TFE731-20',
+    sketchfabModelId: '952a9403acd7409991f2ae35b46ddd19',
+    overviewModels: [
+      { label: 'Visão geral', sketchfabModelId: '952a9403acd7409991f2ae35b46ddd19' },
+    ],
+    coverImage: 'covers/er99(cover).jpg',
+    notes: [
+      'O E-99M é a versão modernizada do ER-99 com radar e sistemas de missão atualizados.',
+      'Focado em alerta aéreo antecipado e comando de batalha, opera com equipe especializada em inteligência.',
+      'Verifique os sistemas de comunicação e radar antes de cada voo de patrulha.'
+    ],
+    procedures: [
+      { title: 'Preparação de missão', body: 'Confirme a equipe de missão, os sistemas de radar e a conectividade de dados antes do voo.' },
+      { title: 'Checklist pré-voo', body: 'Verifique todos os painéis de aviação e o funcionamento dos sistemas de missão.' },
+    ],
+    manuals: [
+      { name: 'Abordagem do E-99M.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/13bQ_FMWnNDG7Iy01n45mDUMpNvVsITau/view?usp=drive_link' },
+      { name: 'Manual de Procedimentos e Abordagem do E-99M Ala 2.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/18fZnmPLqq7f8MwDNalAle9VR52Qre8DeF/view?usp=drive_link' },
+      { name: 'Extrato do Manual de Resgate e Salvamento do Galpão de SBO da EEAR (E-99M).pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1Ii9o0mz9tWrOSZcDZLaND-jNSbNt04eW/view?usp=drive_link' },
+    ],
+    videos: [
+      { title: 'E-99M Missão', url: 'https://drive.google.com/file/d/1qQiervq-PPZwfq06_vQW6DxZPk-bB9N2/view?usp=drive_link' },
+      { title: 'E-99M FAB', url: 'https://drive.google.com/file/d/1SsWbitMtMSbUScjpgV3XJapxzVGSqtNe/view?usp=drive_link' },
+    ],
+  },
+  {
+    id: 'r-99',
+    name: 'R-99 (EMB 145)',
+    manufacturer: 'Embraer',
+    category: 'Aerotransporte de reconhecimento',
+    role: 'Reconhecimento e vigilância eletrônica',
     origin: 'Brasil',
     status: 'Operacional',
     year: '2001',
@@ -1025,42 +1072,37 @@ export const aircraftCatalog: Aircraft[] = [
     weight: '23.500 kg (MTOW)',
     pobMax: '28 pessoas a bordo',
     categoriaContraIncendio: '06',
-    designacaoFab: 'ER-99',
+    designacaoFab: 'R-99',
+    fabricanteDetalhe: 'Embraer / Operado pela FAB',
+    combustivel: 'Jet A-1 / QAV-1',
+    quantidadeSaidas: '02 portas laterais',
+    motor: '2 × turbofans Honeywell TFE731-20',
     sketchfabModelId: '952a9403acd7409991f2ae35b46ddd19',
     overviewModels: [
       { label: 'Visão geral', sketchfabModelId: '952a9403acd7409991f2ae35b46ddd19' },
     ],
-    combustivel: 'Jet A-1 / QAV-1',
-    quantidadeSaidas: '02 portas laterais',
-    motor: '2 × turbofans Honeywell TFE731-20',
     coverImage: 'covers/er99(cover).jpg',
     notes: [
-      'O ER-99 é a plataforma de vigilância aérea e comando de missão da FAB.',
-      'O radar embarcado e a equipe de missão são críticos para operações de controle de espaço aéreo.',
-      'As comunicações e sistemas eletrônicos devem ser verificados antes de cada patrulha.'
+      'O R-99 é a plataforma de reconhecimento da FAB com sensores de imageamento e eletrônicos de vigilância.',
+      'As missões de reconhecimento exigem precisão nos sensores e comunicação constante com a base.',
+      'A estrutura da aeronave permite coleta de dados em longo alcance e altitudes médias.'
     ],
     procedures: [
-      { title: 'Verificação de missão', body: 'Confirme a equipe de missão, os sistemas de radar e a conectividade de dados antes do voo.' },
-      { title: 'Checklist de pré-voo', body: 'Verifique todos os painéis de aviação e o funcionamento dos sistemas de missão.' },
+      { title: 'Configuração de sensores', body: 'Ajuste e teste os sensores de imageamento e os sistemas de comunicações antes da decolagem.' },
+      { title: 'Execução de missão', body: 'Planeje as áreas de patrulha e estabeleça relatórios de dados e comunicações com o controle.' },
     ],
-      manuals: [
-    { name: 'Abordagem do ER-99.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/13bQ_FMWnNDG7Iy01n45mDUMpNvVsITau/view?usp=drive_link' },
-    { name: 'Manual de Procedimentos e Abordagem do ER-99 Ala 2.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/18fZnmPLqq7f8MwUDnAle9VR52Qre8DeF/view?usp=drive_link' },
-    { name: 'Extrato do Manual de Resgate e Salvamento do Galpão de SBO da EEAR (ER-99).pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1Ii9o0mz9tWrOSZcDZLaND-jNSbNt04eW/view?usp=drive_link' },
-  ],
-  videos: [
-    { title: 'DSCF1693.MOV', url: 'https://drive.google.com/file/d/1qQiervq-PPZwfq06_vQW6DxZPk-bB9N2/view?usp=drive_link' },
-    { title: 'DSCF1701.MOV', url: 'https://drive.google.com/file/d/1SsWbitMtMSbUScjpgV3XJapxzVGSqtNe/view?usp=drive_link' },
-    { title: 'DSCF1694.MOV', url: 'https://drive.google.com/file/d/1c3peqqfugaKssgb-EnY2H6OJEeeTNQgt/view?usp=drive_link' },
-    { title: 'DSCF1696.MOV', url: 'https://drive.google.com/file/d/1RavXIld5hksz-Eh8nsOCs5QvMMfYrb8c/view?usp=drive_link' },
-    { title: 'DSCF1697.MOV', url: 'https://drive.google.com/file/d/1Dw2qWywyYMd3j8UFPOqjaR5e1b2n66Zw/view?usp=drive_link' },
-    { title: 'DSCF1698.MOV', url: 'https://drive.google.com/file/d/189CC-oVG58CLMbmnNhBUPBj5g7DaNQO-/view?usp=drive_link' },
-    { title: 'DSCF1700.MOV', url: 'https://drive.google.com/file/d/1g5vpkP6d2cjdnfexMUsKemJDuiALBAVP/view?usp=drive_link' },
-  ],
+    manuals: [
+      { name: 'Abordagem do R-99.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/13bQ_FMWnNDG7Iy01n45mDUMpNvVsITau/view?usp=drive_link' },
+      { name: 'Manual de Procedimentos e Abordagem do R-99 Ala 2.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/18fZnmPLqq7f8MwDNalAle9VR52Qre8DeF/view?usp=drive_link' },
+    ],
+    videos: [
+      { title: 'R-99 Reconhecimento', url: 'https://drive.google.com/file/d/1qQiervq-PPZwfq06_vQW6DxZPk-bB9N2/view?usp=drive_link' },
+      { title: 'R-99 FAB', url: 'https://drive.google.com/file/d/1SsWbitMtMSbUScjpgV3XJapxzVGSqtNe/view?usp=drive_link' },
+    ],
   },
   {
     id: 'p-95-bandeirulha',
-    name: 'Embraer P-95 Bandeirulha',
+    name: 'P-95BM (Bandeirulha / EMB 111)',
     manufacturer: 'Embraer',
     category: 'Patrulha marítima',
     role: 'Patrulha marítima e busca',
@@ -1097,7 +1139,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 'r-35am',
-    name: 'Learjet R-35AM',
+    name: 'R-35AM (Learjet)',
     manufacturer: 'Bombardier / Learjet',
     category: 'Transporte executivo militar',
     role: 'Transporte rápido de pessoal e missões de reconhecimento',
@@ -1134,7 +1176,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 'p-3-orion',
-    name: 'Lockheed P-3 Orion',
+    name: 'P-3AM (Orion / P-3C)',
     manufacturer: 'Lockheed Martin',
     category: 'Patrulha marítima',
     role: 'Patrulha marítima, ASW e ISR',
@@ -1176,7 +1218,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 'cirrus-sr22',
-    name: 'Cirrus SR22',
+    name: 'SR22 (Cirrus SR22)',
     manufacturer: 'Cirrus Aircraft',
     category: 'Aeronave civil',
     role: 'Aviação geral e transporte executivo leve',
@@ -1218,7 +1260,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 'cessna-172',
-    name: 'Cessna 172 Skyhawk',
+    name: 'C-172 (Skyhawk / Cessna 172)',
     manufacturer: 'Cessna Aircraft Company',
     category: 'Aeronave civil',
     role: 'Treinamento e turismo',
@@ -1260,7 +1302,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 'rq-1-marinha',
-    name: 'RQ-1 Marinha',
+    name: 'RQ-1 (ScanEagle)',
     manufacturer: 'General Atomics',
     category: 'Veículo aéreo não tripulado',
     role: 'Inteligência, vigilância e reconhecimento',
@@ -1295,7 +1337,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 'rq-900-fab',
-    name: 'RQ-900 FAB',
+    name: 'RQ-900 (Hermes 900)',
     manufacturer: 'General Atomics / Embraer',
     category: 'Veículo aéreo não tripulado',
     role: 'Inteligência, vigilância e reconhecimento (ISR)',
@@ -1331,7 +1373,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 't-25-universal',
-    name: 'Neiva T-25 Universal',
+    name: 'T-25 (Universal)',
     manufacturer: 'Indústria Aeronáutica Neiva / Embraer',
     category: 'Treinamento',
     role: 'Treinamento básico e transporte leve',
@@ -1367,7 +1409,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 'vc-2-airbus',
-    name: 'Airbus VC-2',
+    name: 'VC-2 (Embraer 190)',
     manufacturer: 'Airbus',
     category: 'Transporte VIP',
     role: 'Transporte presidencial e de autoridades',
@@ -1403,7 +1445,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 'vc-99-embraer',
-    name: 'Embraer VC-99',
+    name: 'VC-99 (Legacy / ERJ-135)',
     manufacturer: 'Embraer',
     category: 'Transporte VIP',
     role: 'Transporte de autoridades e apoio de estado',
@@ -1439,7 +1481,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 'h-36-caracal',
-    name: 'Airbus H-36 Caracal',
+    name: 'H-36 (Caracal / EC725)',
     manufacturer: 'Airbus Helicopters',
     category: 'Helicóptero',
     role: 'Transporte de tropas e resgate',
@@ -1483,7 +1525,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 'h-125',
-    name: 'Airbus H-125',
+    name: 'H-125 (AS350)',
     manufacturer: 'Airbus Helicopters',
     category: 'Helicóptero',
     role: 'Transporte leve e apoio tático',
@@ -1521,7 +1563,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 'h-50-esquilo',
-    name: 'Airbus H-50 Esquilo',
+    name: 'H-50 (Esquilo / AS350)',
     manufacturer: 'Airbus Helicopters',
     category: 'Helicóptero',
     role: 'Transporte leve e observação',
@@ -1559,7 +1601,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 'c-99',
-    name: 'Embraer C-99',
+    name: 'C-99 (EMB 145)',
     manufacturer: 'Embraer',
     category: 'Transporte militar',
     role: 'Transporte de carga e pessoal',
@@ -1580,7 +1622,7 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'Jet A-1 / QAV-1',
     quantidadeSaidas: '02 portas laterais',
     motor: '2 × turbopropulsores Pratt & Whitney Canada PT6A-34',
-    coverImage: 'covers/c99(cover).svg',
+    coverImage: 'covers/c99(cover).jpg',
     notes: [
       'O C-99 é a variante militar do EMB 110 Bandeirante, usado em transporte de carga e pessoal.',
       'Verifique a rampa de carga e a distribuição de peso antes de cada missão.',
@@ -1596,7 +1638,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 'kc-30',
-    name: 'Airbus KC-30 MRTT',
+    name: 'KC-30 (A330 MRTT / Airbus A330)',
     manufacturer: 'Airbus Defence and Space',
     category: 'Reabastecimento em voo',
     role: 'Reabastecimento em voo e transporte estratégico',
@@ -1617,7 +1659,7 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'Jet A-1 / JP-8',
     quantidadeSaidas: '06 portas laterais / escotilhas de emergência',
     motor: '4 × turbofans Rolls-Royce Trent 772',
-    coverImage: 'covers/kc30(cover).svg',
+    coverImage: 'covers/kc30(cover).jpg',
     notes: [
       'O KC-30 é usado para reabastecimento aéreo e transporte estratégico de tropas e carga.',
       'A configuração de missão inclui tanques de combustível e sistemas de sondagem para reabastecimento em voo.',
@@ -1633,7 +1675,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 'u-100-phenom',
-    name: 'Embraer U-100 Phenom',
+    name: 'U-100 (Phenom / Phenom 100)',
     manufacturer: 'Embraer',
     category: 'Jato executivo',
     role: 'Transporte executivo leve',
@@ -1671,7 +1713,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 'iu-50-legacy-500',
-    name: 'Embraer IU-50 Legacy 500',
+    name: 'IU-50 (Legacy 500)',
     manufacturer: 'Embraer',
     category: 'Jato executivo',
     role: 'Transporte executivo de médio alcance',
@@ -1692,7 +1734,7 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'Jet A-1',
     quantidadeSaidas: '04 portas de passageiros',
     motor: '2 × turbofans Pratt & Whitney Canada PW305A',
-    coverImage: 'covers/iu50-legacy-500(cover).svg',
+    coverImage: 'covers/iu50-legacy-500(cover).jpg',
     notes: [
       'O Legacy 500 é um jato executivo de médio porte usado em missões de transporte VIP e executivo.',
       'A cabine pressurizada e o alcance estendido tornam o Legacy 500 apropriado para voos internacionais de médio alcance.',
@@ -1708,7 +1750,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 'iu-93-hawker',
-    name: 'Hawker IU-93',
+    name: 'IU-93 (Hawker 800)',
     manufacturer: 'Hawker Beechcraft',
     category: 'Jato executivo',
     role: 'Transporte executivo médio',
@@ -1729,7 +1771,7 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'Jet A-1',
     quantidadeSaidas: '02 portas de passageiros',
     motor: '2 × turbofans Honeywell TFE731-5BR',
-    coverImage: 'covers/iu93-hawker(cover).svg',
+    coverImage: 'covers/iu93-hawker(cover).jpg',
     notes: [
       'O IU-93 Hawker é um jato executivo de médio porte usado para transporte de autoridades e missões de estado.',
       'Confirme a cabine, o sistema de conexão de dados e a documentação de passageiros antes de voar.',
@@ -1745,7 +1787,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 'vc-1',
-    name: 'VC-1 Ipanema',
+    name: 'VC-1 (Airbus A319CJ)',
     manufacturer: 'Embraer / FAB',
     category: 'Transporte VIP',
     role: 'Transporte de autoridades e VIP',
@@ -1766,7 +1808,7 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'Jet A-1',
     quantidadeSaidas: '02 portas laterais',
     motor: '2 × turbofans Pratt & Whitney Canada PW535E',
-    coverImage: 'covers/vc1(cover).svg',
+    coverImage: 'covers/vc1(cover).avif',
     notes: [
       'O VC-1 é configurado para transporte VIP e missões diplomáticas de curta e média distância.',
       'Verifique o serviço de bordo e a proteção de dignitários antes do embarque.',
@@ -1782,7 +1824,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 'vh-35',
-    name: 'VH-35',
+    name: 'VH-35 (S-76)',
     manufacturer: 'Sikorsky Aircraft',
     category: 'Helicóptero VIP',
     role: 'Transporte de autoridades e dignitários',
@@ -1803,7 +1845,7 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'JP-8 / Turbina a combustível de aviação',
     quantidadeSaidas: '02 portas laterais',
     motor: '2 × turboshafts General Electric T700',
-    coverImage: 'covers/vh35(cover).svg',
+    coverImage: 'covers/vh35(cover).jpg',
     notes: [
       'O VH-35 é empregado em missões de transporte VIP de alta proteção.',
       'O uso da aeronave exige coordenação com segurança e equipes de escolta em solo.',
@@ -1819,7 +1861,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 'vh-36',
-    name: 'VH-36',
+    name: 'VH-36 (Caracal / EC725)',
     manufacturer: 'Airbus Helicopters',
     category: 'Helicóptero VIP',
     role: 'Transporte VIP e resgate',
@@ -1840,7 +1882,7 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'JP-8 / Turbina a combustível de aviação',
     quantidadeSaidas: '02 portas laterais',
     motor: '2 × turboshafts Turbomeca Makila 2A1',
-    coverImage: 'covers/vh36(cover).svg',
+    coverImage: 'covers/vh36(cover).jpg',
     notes: [
       'O VH-36 é equipado para transporte de autoridades e operações de resgate de alto valor.',
       'A aeronave opera em missões sensíveis com requisitos especiais de segurança.',

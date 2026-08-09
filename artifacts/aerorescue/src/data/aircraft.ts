@@ -16,7 +16,8 @@ export type VideoLink = {
 
 export type AircraftVisualization = {
   label: string;
-  sketchfabModelId: string;
+  sketchfabModelId?: string;
+  url?: string;
 };
 
 export type Aircraft = {
@@ -990,7 +991,11 @@ export const aircraftCatalog: Aircraft[] = [
     motor: '2 × turbopropulsores Pratt & Whitney Canada PW127M',
     sketchfabModelId: '0e34ef43107b4917b1dd0c25a6e56a5c',
     overviewModels: [
-      { label: 'Visão geral', sketchfabModelId: '0e34ef43107b4917b1dd0c25a6e56a5c' },
+      { label: 'Visão geral 1', sketchfabModelId: '71c93795bfac43b29cc5968a9ff5d791' },
+      { label: 'Visão geral 2', sketchfabModelId: '1e1a7186f7444d288675262fcee44744' },
+      { label: 'Visão geral 3', sketchfabModelId: '0e34ef43107b4917b1dd0c25a6e56a5c' },
+      { label: 'Cockpit', sketchfabModelId: '5fbfd7db08f741fba7d0abbfb42e334a' },
+      { label: 'Tour Virtual', url: 'https://www.eyerevolution.co.uk/tours/NAC/ATR72600/' },
     ],
     coverImage: 'covers/atr72-600(cover).jpg',
     notes: [
@@ -1281,9 +1286,12 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'Avgas 100LL',
     quantidadeSaidas: '01 porta lateral',
     motor: '1 × Lycoming IO-360-L2A',
-    sketchfabModelId: '3924196d2ccf42c0ac8458d8f16a7910',
+    sketchfabModelId: 'd1b15841c29c43d0862667300bad55a4',
     overviewModels: [
-      { label: 'Visão geral', sketchfabModelId: '3924196d2ccf42c0ac8458d8f16a7910' },
+      { label: 'Visão geral 1', sketchfabModelId: 'd1b15841c29c43d0862667300bad55a4' },
+      { label: 'Visão geral 2', sketchfabModelId: '4e8c5bf635164a85b3932dcbe959bfdd' },
+      { label: 'Visão geral 3', sketchfabModelId: '3924196d2ccf42c0ac8458d8f16a7910' },
+      { label: 'Visão geral 4', sketchfabModelId: '742c4eaee8a84420a12b931114903bdd' },
     ],
     coverImage: 'covers/cessna-172(cover).jpg',
     notes: [

@@ -1127,6 +1127,10 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'QAV-1 (Querosene de Aviação)',
     quantidadeSaidas: '01 porta lateral',
     motor: '2 × turbopropulsores Pratt & Whitney Canada PT6A-34',
+    sketchfabModelId: '57bab3431a4d4e36861959011460fee4',
+    overviewModels: [
+      { label: 'Visão geral 1', sketchfabModelId: '57bab3431a4d4e36861959011460fee4' },
+    ],
     coverImage: 'covers/p95(cover).jpg',
     notes: [
       'O P-95 Bandeirulha é empregado em patrulha marítima e vigilância costeira para a FAB.',
@@ -1137,10 +1141,10 @@ export const aircraftCatalog: Aircraft[] = [
       { title: 'Checklist de patrulha', body: 'Confirme sensores de vigilância, rádios marítimos e combustível para a missão.' },
       { title: 'Inspeção pré-voo', body: 'Verifique asas e flaps, além dos sistemas de navegação para operação sobre o mar.' },
     ],
-      manuals: [
-    { name: 'Extrato do Manual de Resgate e Salvamento do Galpão de SBO da EEAR (P-95).pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1ohv1e3kzY7TfXcYYBHOLPuxO5VTPMDje/view?usp=drive_link' },
-    { name: 'Instrução P-95.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/15BZgkPC0UaiNkhV5fjGTYm0JPPiBmjJO/view?usp=drive_link' },
-  ],
+    manuals: [
+      { name: 'Extrato do Manual de Resgate e Salvamento do Galpão de SBO da EEAR (P-95).pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1ohv1e3kzY7TfXcYYBHOLPuxO5VTPMDje/view?usp=drive_link' },
+      { name: 'Instrução P-95.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/15BZgkPC0UaiNkhV5fjGTYm0JPPiBmjJO/view?usp=drive_link' },
+    ],
   },
   {
     id: 'r-35am',
@@ -1592,7 +1596,11 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'JP-8 / Turbina a combustível de aviação',
     quantidadeSaidas: '01 porta de serviço lateral',
     motor: '1 × turboshaft Turbomeca Arriel 2D',
-    sketchfabModelId: 'b4884fa65da445d9bdf6b2c3767a829e',
+    sketchfabModelId: '032bc23309b3407b97c83858026f0615',
+    overviewModels: [
+      { label: 'Visão geral 1', sketchfabModelId: '032bc23309b3407b97c83858026f0615' },
+      { label: 'Visão geral 2', sketchfabModelId: '9f060f4056d54fe59815fcb3844029b5' },
+    ],
     coverImage: 'covers/h50-esquilo(cover).jpg',
     notes: [
       'O H-50 Esquilo é empregado em patrulha, observação e apoio de força leve.',

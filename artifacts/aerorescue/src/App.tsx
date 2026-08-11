@@ -151,13 +151,11 @@ function AircraftCard({
   aircraft,
   favorite,
   viewMode,
-  index,
   onFavorite,
 }: {
   aircraft: Aircraft;
   favorite: boolean;
   viewMode: 'grid' | 'list';
-  index: number;
   onFavorite: () => void;
 }) {
   const coverUrl = aircraft.coverImage ? `${import.meta.env.BASE_URL}${aircraft.coverImage}` : undefined;
@@ -166,20 +164,26 @@ function AircraftCard({
   if (isListView) {
     return (
       <div className="aircraft-card fade-in list-view" data-testid={`card-aircraft-${aircraft.id}`}>
-        <div className="list-index">{String(index).padStart(2, '0')}</div>
+        <div className="aircraft-thumb">
+          {coverUrl ? <img className="aircraft-thumb-image" src={coverUrl} alt={`${aircraft.name} cover`} /> : <AircraftArt />}
+        </div>
         <Link href={`/aeronaves/${aircraft.id}`} className="list-main-link">
           <div className="card-info">
             <div className="card-topline">
               <span className="card-tag">{aircraft.category}</span>
               <span style={{ color: '#5a9b7a', fontSize: 10 }}>● {aircraft.status}</span>
             </div>
-            <h2 className="card-title">{aircraft.name}</h2>
-            <div className="card-meta">{aircraft.manufacturer} · {aircraft.origin}</div>
-            <div className="card-summary">
-              <span>{aircraft.role}</span>
-              <span>{aircraft.maxSpeed}</span>
-              <span>{aircraft.crew}</span>
-              {aircraft.categoriaContraIncendio && <span>{aircraft.categoriaContraIncendio}</span>}
+            <div className="list-identity-row">
+              <h2 className="card-title">{aircraft.name}</h2>
+              <div className="card-meta">{aircraft.manufacturer} · {aircraft.origin}</div>
+            </div>
+            <div className="list-metrics">
+              <span><em>vel. máx.</em><strong>{aircraft.maxSpeed}</strong></span>
+              <span><em>comprimento</em><strong>{aircraft.length}</strong></span>
+              <span><em>tripulação</em><strong>{aircraft.crew}</strong></span>
+              {aircraft.categoriaContraIncendio && (
+                <span><em>cat. contraincêndio</em><strong>{aircraft.categoriaContraIncendio}</strong></span>
+              )}
             </div>
           </div>
         </Link>
@@ -374,7 +378,6 @@ function HomePage() {
                   aircraft={aircraft}
                   favorite={favorites.includes(aircraft.id)}
                   viewMode={viewMode}
-                  index={index + 1}
                   onFavorite={() => toggleFavorite(aircraft.id)}
                 />
               ))

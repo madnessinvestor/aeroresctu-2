@@ -301,9 +301,13 @@ a { color: inherit; text-decoration: none; }
 .card-tag { border-radius:4px; padding:4px 6px; font:9px var(--app-font-mono); color:#2e6972; background:#dceae6; text-transform:uppercase; letter-spacing:.06em; }
 .card-title { font-family:var(--font-display); color:#173c4d; font-size:25px; margin:9px 0 2px; }
 .card-meta { font-size:11px; color:#76878b; }
-.card-specs { display:flex; gap:16px; border-top:1px solid #dde3dd; margin-top:13px; padding-top:11px; }
+.card-specs { display:flex; flex-wrap:wrap; gap:12px 14px; border-top:1px solid #dde3dd; margin-top:13px; padding-top:11px; }
+.spec-item { display:flex; flex-direction:column; gap:4px; min-width:0; }
 .spec-val { display:block; color:#234a5d; font:11px var(--app-font-mono); font-weight:700; }
-.spec-label { display:block; color:#819092; font-size:9px; margin-top:3px; text-transform:uppercase; letter-spacing:.04em; }
+.spec-label { display:block; color:#819092; font-size:9px; text-transform:uppercase; letter-spacing:.04em; }
+
+:root[data-theme='dark'] .spec-val { color: hsl(var(--foreground)); }
+:root[data-theme='dark'] .spec-label { color: hsl(var(--muted-foreground)); }
 .side-panel { background:hsl(var(--card)); border:1px solid hsl(var(--border)); border-radius:11px; padding:18px; }
 .side-panel + .side-panel { margin-top:14px; }
 .side-heading { color:#264c5d; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:space-between; }

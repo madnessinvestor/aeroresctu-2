@@ -214,26 +214,26 @@ function AircraftCard({
           <h2 className="card-title">{aircraft.name}</h2>
           <div className="card-meta">{aircraft.manufacturer} · {aircraft.origin}</div>
           <div className="card-specs">
-            <div>
-              <span className="spec-val">{aircraft.maxSpeed}</span>
+            <div className="spec-item">
               <span className="spec-label">vel. máx.</span>
+              <span className="spec-val">{aircraft.maxSpeed}</span>
             </div>
-            <div>
-              <span className="spec-val">{aircraft.length}</span>
+            <div className="spec-item">
               <span className="spec-label">comprimento</span>
+              <span className="spec-val">{aircraft.length}</span>
             </div>
-            <div>
-              <span className="spec-val">{aircraft.crew}</span>
+            <div className="spec-item">
               <span className="spec-label">tripulação</span>
+              <span className="spec-val">{aircraft.crew}</span>
             </div>
-            <div>
-              <span className="spec-val">{aircraft.pobMax}</span>
+            <div className="spec-item">
               <span className="spec-label">POB max.</span>
+              <span className="spec-val">{aircraft.pobMax}</span>
             </div>
             {aircraft.categoriaContraIncendio && (
-              <div>
-                <span className="spec-val">{aircraft.categoriaContraIncendio}</span>
+              <div className="spec-item">
                 <span className="spec-label">cat. contraincêndio</span>
+                <span className="spec-val">{aircraft.categoriaContraIncendio}</span>
               </div>
             )}
           </div>

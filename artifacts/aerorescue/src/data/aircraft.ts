@@ -1898,6 +1898,12 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'JP-8 / Turbina a combustível de aviação',
     quantidadeSaidas: '02 portas laterais',
     motor: '2 × turboshafts Turbomeca Makila 2A1',
+    sketchfabModelId: 'dcf40e814e3a4f559644d97d6e286dfa',
+    overviewModels: [
+      { label: 'Visão geral 1', sketchfabModelId: 'dcf40e814e3a4f559644d97d6e286dfa' },
+      { label: 'Visão geral 2', sketchfabModelId: 'ffeea4e7a8384abb8bee8ff562338e63' },
+      { label: 'REVO', sketchfabModelId: '008f1b92055147208371f9fa6b6fabe5' },
+    ],
     coverImage: 'covers/vh36(cover).jpg',
     notes: [
       'O VH-36 é equipado para transporte de autoridades e operações de resgate de alto valor.',

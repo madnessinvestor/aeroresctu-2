@@ -86,6 +86,19 @@
   color: hsl(var(--foreground));
 }
 
+:root[data-theme='dark'] .filter-btn.active,
+:root[data-theme='dark'] .view-mode-button.active {
+  background: rgba(243, 180, 72, 0.18);
+  border-color: rgba(243, 180, 72, 0.8);
+  color: #fef0c7;
+  box-shadow: inset 0 0 0 1px rgba(243, 180, 72, 0.22);
+}
+
+:root[data-theme='dark'] .filter-btn.active:hover,
+:root[data-theme='dark'] .view-mode-button.active:hover {
+  background: rgba(243, 180, 72, 0.24);
+}
+
 :root[data-theme='dark'] .info-heading,
 :root[data-theme='dark'] .reference-card-header,
 :root[data-theme='dark'] .reference-section-heading,

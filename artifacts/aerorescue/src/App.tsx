@@ -181,6 +181,7 @@ function AircraftCard({
               <span><em>vel. máx.</em><strong>{aircraft.maxSpeed}</strong></span>
               <span><em>comprimento</em><strong>{aircraft.length}</strong></span>
               <span><em>tripulação</em><strong>{aircraft.crew}</strong></span>
+              <span><em>POB max.</em><strong>{aircraft.pobMax}</strong></span>
               {aircraft.categoriaContraIncendio && (
                 <span><em>cat. contraincêndio</em><strong>{aircraft.categoriaContraIncendio}</strong></span>
               )}
@@ -224,6 +225,10 @@ function AircraftCard({
             <div>
               <span className="spec-val">{aircraft.crew}</span>
               <span className="spec-label">tripulação</span>
+            </div>
+            <div>
+              <span className="spec-val">{aircraft.pobMax}</span>
+              <span className="spec-label">POB max.</span>
             </div>
             {aircraft.categoriaContraIncendio && (
               <div>

@@ -137,16 +137,16 @@ a { color: inherit; text-decoration: none; }
 .view-mode-button:hover { background:hsl(var(--secondary)); }
 .view-mode-button.active { border-color:hsl(var(--accent)); background:hsl(var(--accent) / .18); color:hsl(var(--accent-foreground)); }
 
-.aircraft-card.list-view { display: grid; grid-template-columns: 98px minmax(0, 1fr) auto; gap: 16px; align-items: center; min-height: 108px; padding: 12px 14px; }
-.aircraft-card.list-view .aircraft-visual { min-height: 94px; border-radius: 12px; overflow: hidden; }
-.aircraft-card.list-view .aircraft-cover { object-fit: cover; }
+.aircraft-card.list-view { display: grid; grid-template-columns: 54px minmax(0, 1fr) auto; gap: 14px; align-items: center; min-height: 92px; padding: 12px 16px 12px 12px; }
+.aircraft-card.list-view .list-index { display:grid; place-items:center; width:44px; height:44px; border-radius:10px; background:linear-gradient(145deg,#edf3f0,#dfece7); color:#213f50; font:700 12px var(--app-font-mono); letter-spacing:.08em; border:1px solid rgba(27,61,71,.12); }
+.aircraft-card.list-view .list-main-link { text-decoration:none; min-width:0; }
 .aircraft-card.list-view .card-info { padding: 0; }
-.aircraft-card.list-view .card-topline { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 4px; }
+.aircraft-card.list-view .card-topline { display: flex; align-items: center; justify-content: flex-start; gap: 10px; margin-bottom: 4px; }
 .aircraft-card.list-view .card-title { font-size: 18px; line-height: 1.15; margin: 0; }
 .aircraft-card.list-view .card-meta { font-size: 11px; margin-bottom: 8px; color: #5e727b; }
 .aircraft-card.list-view .card-summary { display: flex; flex-wrap: wrap; gap: 8px 12px; font-size: 11px; color: #5e727b; }
 .aircraft-card.list-view .card-summary span { background:hsl(var(--border) / .14); border-radius:999px; padding: 5px 10px; }
-.aircraft-card.list-view .favorite-toggle { top: 12px; right: 12px; }
+.aircraft-card.list-view .favorite-toggle { top: 50%; right: 12px; transform: translateY(-50%); }
 .aircraft-card { overflow:hidden; min-height:268px; border:1px solid hsl(var(--border)); border-radius:12px; background:hsl(var(--card)); transition:transform .22s, box-shadow .22s, border .22s; position:relative; }
 .aircraft-card:hover { transform:translateY(-3px); border-color:hsl(var(--border)); box-shadow:0 11px 25px rgba(35,67,76,.1); }
 :root[data-theme='dark'] .aircraft-card:hover { box-shadow:0 11px 25px rgba(0,0,0,.24); }

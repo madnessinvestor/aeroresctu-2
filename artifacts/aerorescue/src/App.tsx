@@ -147,15 +147,120 @@ function Shell({ children, theme, onToggleTheme }: { children: ReactNode; theme:
 function AircraftArt({ large = false }: { large?: boolean }) {
   return <div className={large ? 'viewer-plane' : 'plane-card-art'} aria-label="Silhueta ilustrativa do AMX A-1"><span className="fuselage" /><span className="nose" /><span className="wing" /><span className="tail" /><span className="canopy" /><span className="stripe" /></div>;
 }
-function AircraftCard({ aircraft, favorite, viewMode, onFavorite }: { aircraft: Aircraft; favorite: boolean; viewMode: 'grid' | 'list' | 'table'; onFavorite: () => void }) {
+function AircraftCard({
+  aircraft,
+  favorite,
+  viewMode,
+  index,
+  onFavorite,
+}: {
+  aircraft: Aircraft;
+  favorite: boolean;
+  viewMode: 'grid' | 'list';
+  index: number;
+  onFavorite: () => void;
+}) {
   const coverUrl = aircraft.coverImage ? `${import.meta.env.BASE_URL}${aircraft.coverImage}` : undefined;
   const isListView = viewMode === 'list';
-  return <div className={`aircraft-card fade-in${isListView ? ' list-view' : ''}`} data-testid={`card-aircraft-${aircraft.id}`}><Link href={`/aeronaves/${aircraft.id}`}><div className={`aircraft-visual${coverUrl ? ' has-cover' : ''}`}>{coverUrl ? <img className="aircraft-cover" src={coverUrl} alt={`${aircraft.name} cover`} /> : <AircraftArt />}</div><div className="card-info"><div className="card-topline"><span className="card-tag">{aircraft.category}</span><span style={{ color: '#5a9b7a', fontSize: 10 }}>● {aircraft.status}</span></div><h2 className="card-title">{aircraft.name}</h2><div className="card-meta">{aircraft.manufacturer} · {aircraft.origin}</div>{isListView ? <div className="card-summary"><span>{aircraft.role}</span><span>{aircraft.maxSpeed}</span><span>{aircraft.crew}</span>{aircraft.categoriaContraIncendio && <span>{aircraft.categoriaContraIncendio}</span>}</div> : <div className="card-specs"><div><span className="spec-val">{aircraft.maxSpeed}</span><span className="spec-label">vel. máx.</span></div><div><span className="spec-val">{aircraft.length}</span><span className="spec-label">comprimento</span></div><div><span className="spec-val">{aircraft.crew}</span><span className="spec-label">tripulação</span></div>{aircraft.categoriaContraIncendio && <div><span className="spec-val">{aircraft.categoriaContraIncendio}</span><span className="spec-label">cat. contraincêndio</span></div>}</div>}</div></Link><button className={`favorite-toggle ${favorite ? 'on' : ''}`} onClick={onFavorite} aria-label={favorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos'} data-testid={`button-favorite-${aircraft.id}`}><Heart size={16} fill={favorite ? 'currentColor' : 'none'} /></button></div>;
+
+  if (isListView) {
+    return (
+      <div className="aircraft-card fade-in list-view" data-testid={`card-aircraft-${aircraft.id}`}>
+        <div className="list-index">{String(index).padStart(2, '0')}</div>
+        <Link href={`/aeronaves/${aircraft.id}`} className="list-main-link">
+          <div className="card-info">
+            <div className="card-topline">
+              <span className="card-tag">{aircraft.category}</span>
+              <span style={{ color: '#5a9b7a', fontSize: 10 }}>● {aircraft.status}</span>
+            </div>
+            <h2 className="card-title">{aircraft.name}</h2>
+            <div className="card-meta">{aircraft.manufacturer} · {aircraft.origin}</div>
+            <div className="card-summary">
+              <span>{aircraft.role}</span>
+              <span>{aircraft.maxSpeed}</span>
+              <span>{aircraft.crew}</span>
+              {aircraft.categoriaContraIncendio && <span>{aircraft.categoriaContraIncendio}</span>}
+            </div>
+          </div>
+        </Link>
+        <button
+          className={`favorite-toggle ${favorite ? 'on' : ''}`}
+          onClick={onFavorite}
+          aria-label={favorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
+          data-testid={`button-favorite-${aircraft.id}`}
+        >
+          <Heart size={16} fill={favorite ? 'currentColor' : 'none'} />
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="aircraft-card fade-in" data-testid={`card-aircraft-${aircraft.id}`}>
+      <Link href={`/aeronaves/${aircraft.id}`}>
+        <div className={`aircraft-visual${coverUrl ? ' has-cover' : ''}`}>
+          {coverUrl ? <img className="aircraft-cover" src={coverUrl} alt={`${aircraft.name} cover`} /> : <AircraftArt />}
+        </div>
+        <div className="card-info">
+          <div className="card-topline">
+            <span className="card-tag">{aircraft.category}</span>
+            <span style={{ color: '#5a9b7a', fontSize: 10 }}>● {aircraft.status}</span>
+          </div>
+          <h2 className="card-title">{aircraft.name}</h2>
+          <div className="card-meta">{aircraft.manufacturer} · {aircraft.origin}</div>
+          <div className="card-specs">
+            <div>
+              <span className="spec-val">{aircraft.maxSpeed}</span>
+              <span className="spec-label">vel. máx.</span>
+            </div>
+            <div>
+              <span className="spec-val">{aircraft.length}</span>
+              <span className="spec-label">comprimento</span>
+            </div>
+            <div>
+              <span className="spec-val">{aircraft.crew}</span>
+              <span className="spec-label">tripulação</span>
+            </div>
+            {aircraft.categoriaContraIncendio && (
+              <div>
+                <span className="spec-val">{aircraft.categoriaContraIncendio}</span>
+                <span className="spec-label">cat. contraincêndio</span>
+              </div>
+            )}
+          </div>
+        </div>
+      </Link>
+      <button
+        className={`favorite-toggle ${favorite ? 'on' : ''}`}
+        onClick={onFavorite}
+        aria-label={favorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
+        data-testid={`button-favorite-${aircraft.id}`}
+      >
+        <Heart size={16} fill={favorite ? 'currentColor' : 'none'} />
+      </button>
+    </div>
+  );
 }
+
 function HomePage() {
-  const [query, setQuery] = useState(''); const [filter, setFilter] = useState('Todos'); const [sortBy, setSortBy] = useState('Mais consultados'); const [viewMode, setViewMode] = useState<'grid' | 'list' | 'table'>('grid'); const [favorites, setFavorites] = useState<string[]>(() => JSON.parse(localStorage.getItem('aerorescue:favorites') || '[]')); const [toast, setToast] = useState<Toast>(null); const [filtersOpen, setFiltersOpen] = useState(false); const [history] = useState(() => JSON.parse(localStorage.getItem('aerorescue:history') || '[]') as string[]);
+  const [query, setQuery] = useState('');
+  const [filter, setFilter] = useState('Todos');
+  const [sortBy, setSortBy] = useState('Mais consultados');
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
+  const [favorites, setFavorites] = useState<string[]>(() => JSON.parse(localStorage.getItem('aerorescue:favorites') || '[]'));
+  const [toast, setToast] = useState<Toast>(null);
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const [history] = useState(() => JSON.parse(localStorage.getItem('aerorescue:history') || '[]') as string[]);
+
   useEffect(() => localStorage.setItem('aerorescue:favorites', JSON.stringify(favorites)), [favorites]);
-  const toggleFavorite = (id: string) => { const exists = favorites.includes(id); setFavorites(exists ? favorites.filter((item) => item !== id) : [...favorites, id]); setToast(exists ? 'Removido dos favoritos' : 'AMX A-1 salvo nos favoritos'); window.setTimeout(() => setToast(null), 2200); };
+
+  const toggleFavorite = (id: string) => {
+    const exists = favorites.includes(id);
+    setFavorites(exists ? favorites.filter((item) => item !== id) : [...favorites, id]);
+    setToast(exists ? 'Removido dos favoritos' : 'AMX A-1 salvo nos favoritos');
+    window.setTimeout(() => setToast(null), 2200);
+  };
+
   const filtered = useMemo(() => aircraftCatalog.filter((aircraft) => {
     const matchesQuery = `${aircraft.name} ${aircraft.manufacturer} ${aircraft.category}`.toLowerCase().includes(query.toLowerCase());
     const category = aircraft.category.toLowerCase();
@@ -168,19 +273,178 @@ function HomePage() {
       || (filter === 'Transporte' && category.includes('transporte'));
     return matchesQuery && matchesFilter;
   }), [query, filter, favorites]);
+
   const sorted = useMemo(() => {
     if (sortBy === 'Ordem alfabética') {
       return [...filtered].sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
     }
     return filtered;
   }, [filtered, sortBy]);
+
   const viewOptions = [
     { value: 'grid', label: 'Grade' },
     { value: 'list', label: 'Lista' },
-    { value: 'table', label: 'Tabela' },
   ] as const;
-  return <main className="page-wrap"><div className="search-row fade-in stagger-1"><label className="search-box"><Search size={17} /><input data-testid="input-search-aircraft" type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Buscar por modelo, fabricante ou função..." /><span style={{ font: '10px var(--app-font-mono)', color: '#9ba8a8' }}>⌘ K</span></label><button className={`filter-btn ${filtersOpen ? 'active' : ''}`} onClick={() => setFiltersOpen(!filtersOpen)} data-testid="button-toggle-filters"><SlidersHorizontal size={15} /> Filtros <ChevronDown size={14} /></button></div><div className="catalog-grid"><section><div className="result-head"><div><span className="section-kicker">inventário de aeronaves</span><div className="result-count">{sorted.length} resultado{sorted.length !== 1 ? 's' : ''}<span> / {aircraftCatalog.length} catalogado</span></div></div><div style={{ display: 'flex', alignItems: 'center', gap: 14 }}><select className="sort-select" aria-label="Ordenar resultados" data-testid="select-sort" value={sortBy} onChange={(event) => setSortBy(event.target.value)}><option>Mais consultados</option><option>Ordem alfabética</option></select><div className="view-mode-switch" role="group" aria-label="Modo de visualização de catálogo">{viewOptions.map((option) => <button key={option.value} type="button" className={`view-mode-button ${viewMode === option.value ? 'active' : ''}`} onClick={() => setViewMode(option.value)} data-testid={`button-view-${option.value}`}>{option.label}</button>)}</div></div></div>{(filtersOpen || filter !== 'Todos') && <div style={{ display: 'flex', gap: 7, flexWrap: 'wrap', marginBottom: 15 }}><span className="section-kicker" style={{ alignSelf: 'center', marginRight: 5 }}>filtrar por</span>{quickFilters.map((item) => <button key={item} className={`filter-btn ${filter === item ? 'active' : ''}`} style={{ height: 31, padding: '0 10px', fontSize: 10 }} onClick={() => setFilter(item)} data-testid={`button-filter-${item.toLowerCase()}`}>{item}</button>)}</div>}{viewMode === 'table' ? <table className="catalog-table"><thead><tr><th>Aeronave</th><th>Fabricante</th><th>Função</th><th>Status</th></tr></thead><tbody>{sorted.length ? sorted.map((aircraft) => <tr key={aircraft.id}><td><Link href={`/aeronaves/${aircraft.id}`}>{aircraft.name}</Link></td><td>{aircraft.manufacturer}</td><td>{aircraft.role}</td><td>{aircraft.status}</td></tr>) : <tr><td colSpan={4}><div className="empty-state"><Search size={25} /><h3>Nenhuma aeronave encontrada</h3><p>Não há resultados para “{query}”. Tente outro modelo ou limpe os filtros.</p><button className="outline-btn" onClick={() => { setQuery(''); setFilter('Todos'); }} data-testid="button-clear-search">Limpar busca</button></div></td></tr>}</tbody></table> : <div className={`aircraft-grid${viewMode === 'list' ? ' list' : ''}`}>{sorted.length ? sorted.map((aircraft) => <AircraftCard key={aircraft.id} aircraft={aircraft} favorite={favorites.includes(aircraft.id)} viewMode={viewMode} onFavorite={() => toggleFavorite(aircraft.id)} />) : <div className="empty-state"><Search size={25} /><h3>Nenhuma aeronave encontrada</h3><p>Não há resultados para “{query}”. Tente outro modelo ou limpe os filtros.</p><button className="outline-btn" onClick={() => { setQuery(''); setFilter('Todos'); }} data-testid="button-clear-search">Limpar busca</button></div>}</div>} </section><aside><div className="side-panel"><div className="side-heading"><span><History size={14} style={{ verticalAlign: 'middle', marginRight: 6 }} /> histórico recente</span><small>{history.length || 1} item</small></div><div className="history-row"><div className="history-thumb"><AircraftArt /></div><div><div className="history-name">AMX A-1</div><div className="history-time">consultado agora</div></div></div></div><div className="side-panel" id="operacional"><div className="side-heading"><span><Sparkles size={14} style={{ verticalAlign: 'middle', marginRight: 6 }} /> para a sua operação</span></div><ul className="tip-list"><li><ClipboardList size={14} /> Procedimentos revisados para treinamento e resposta.</li><li><CircleHelp size={14} /> Use os hotspots para localizar acessos e zonas críticas.</li></ul></div></aside></div>{toast && <div className="toast" role="status" data-testid="status-toast"><Check size={14} style={{ verticalAlign: 'middle', marginRight: 7, color: '#efb349' }} />{toast}</div>}</main>;
+
+  return (
+    <main className="page-wrap">
+      <div className="search-row fade-in stagger-1">
+        <label className="search-box">
+          <Search size={17} />
+          <input
+            data-testid="input-search-aircraft"
+            type="search"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="Buscar por modelo, fabricante ou função..."
+          />
+          <span style={{ font: '10px var(--app-font-mono)', color: '#9ba8a8' }}>⌘ K</span>
+        </label>
+        <button
+          className={`filter-btn ${filtersOpen ? 'active' : ''}`}
+          onClick={() => setFiltersOpen(!filtersOpen)}
+          data-testid="button-toggle-filters"
+        >
+          <SlidersHorizontal size={15} /> Filtros <ChevronDown size={14} />
+        </button>
+      </div>
+
+      <div className="catalog-grid">
+        <section>
+          <div className="result-head">
+            <div>
+              <span className="section-kicker">inventário de aeronaves</span>
+              <div className="result-count">
+                {sorted.length} resultado{sorted.length !== 1 ? 's' : ''}
+                <span> / {aircraftCatalog.length} catalogado</span>
+              </div>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+              <select
+                className="sort-select"
+                aria-label="Ordenar resultados"
+                data-testid="select-sort"
+                value={sortBy}
+                onChange={(event) => setSortBy(event.target.value)}
+              >
+                <option>Mais consultados</option>
+                <option>Ordem alfabética</option>
+              </select>
+
+              <div className="view-mode-switch" role="group" aria-label="Modo de visualização de catálogo">
+                {viewOptions.map((option) => (
+                  <button
+                    key={option.value}
+                    type="button"
+                    className={`view-mode-button ${viewMode === option.value ? 'active' : ''}`}
+                    onClick={() => setViewMode(option.value)}
+                    data-testid={`button-view-${option.value}`}
+                  >
+                    {option.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {(filtersOpen || filter !== 'Todos') && (
+            <div style={{ display: 'flex', gap: 7, flexWrap: 'wrap', marginBottom: 15 }}>
+              <span className="section-kicker" style={{ alignSelf: 'center', marginRight: 5 }}>
+                filtrar por
+              </span>
+              {quickFilters.map((item) => (
+                <button
+                  key={item}
+                  className={`filter-btn ${filter === item ? 'active' : ''}`}
+                  style={{ height: 31, padding: '0 10px', fontSize: 10 }}
+                  onClick={() => setFilter(item)}
+                  data-testid={`button-filter-${item.toLowerCase()}`}
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+          )}
+
+          <div className={`aircraft-grid${viewMode === 'list' ? ' list' : ''}`}>
+            {sorted.length ? (
+              sorted.map((aircraft, index) => (
+                <AircraftCard
+                  key={aircraft.id}
+                  aircraft={aircraft}
+                  favorite={favorites.includes(aircraft.id)}
+                  viewMode={viewMode}
+                  index={index + 1}
+                  onFavorite={() => toggleFavorite(aircraft.id)}
+                />
+              ))
+            ) : (
+              <div className="empty-state">
+                <Search size={25} />
+                <h3>Nenhuma aeronave encontrada</h3>
+                <p>Não há resultados para “{query}”. Tente outro modelo ou limpe os filtros.</p>
+                <button
+                  className="outline-btn"
+                  onClick={() => {
+                    setQuery('');
+                    setFilter('Todos');
+                  }}
+                  data-testid="button-clear-search"
+                >
+                  Limpar busca
+                </button>
+              </div>
+            )}
+          </div>
+        </section>
+
+        <aside>
+          <div className="side-panel">
+            <div className="side-heading">
+              <span>
+                <History size={14} style={{ verticalAlign: 'middle', marginRight: 6 }} /> histórico recente
+              </span>
+              <small>{history.length || 1} item</small>
+            </div>
+            <div className="history-row">
+              <div className="history-thumb">
+                <AircraftArt />
+              </div>
+              <div>
+                <div className="history-name">AMX A-1</div>
+                <div className="history-time">consultado agora</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="side-panel" id="operacional">
+            <div className="side-heading">
+              <span>
+                <Sparkles size={14} style={{ verticalAlign: 'middle', marginRight: 6 }} /> para a sua operação
+              </span>
+            </div>
+            <ul className="tip-list">
+              <li>
+                <ClipboardList size={14} /> Procedimentos revisados para treinamento e resposta.
+              </li>
+              <li>
+                <CircleHelp size={14} /> Use os hotspots para localizar acessos e zonas críticas.
+              </li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+
+      {toast && (
+        <div className="toast" role="status" data-testid="status-toast">
+          <Check size={14} style={{ verticalAlign: 'middle', marginRight: 7, color: '#efb349' }} />
+          {toast}
+        </div>
+      )}
+    </main>
+  );
 }
+
 function CategoryPage() {
   return <main className="page-wrap"><div className="crumb"><Link href="/" data-testid="link-breadcrumb-catalogo">Catálogo</Link><ArrowRight size={12} /><span>Categoria Contraincêndio</span></div><div className="info-heading" style={{ marginBottom: 22 }}><span><Sparkles size={15} className="heading-icon" style={{ verticalAlign: 'middle', marginRight: 8 }} /> Categoria Contraincêndio</span><span className="section-kicker">FABCAT e aeronaves registradas</span></div><FireCategoryReference /></main>;
 }

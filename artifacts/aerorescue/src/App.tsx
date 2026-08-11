@@ -54,6 +54,19 @@ function getVideoEmbedUrl(url: string) {
   return getDrivePreviewUrl(url) ?? getYoutubeEmbedUrl(url);
 }
 
+function normalizeOverviewLabel(label: string) {
+  if (/^Visão geral(?:\s*\d+)?$/i.test(label)) {
+    return label.replace(/^Visão geral/i, 'Ilustração');
+  }
+  if (/^Cockpit$/i.test(label)) {
+    return 'Ilustração Cockpit';
+  }
+  if (/^REVO$/i.test(label)) {
+    return 'Ilustração REVO';
+  }
+  return label;
+}
+
 const fireCategoryRows: FireCategoryRow[] = [
   { categoria: 'Asa Fixa', anv: 'KC-30', nome: 'KC-30', cat_contraincendio: 8 },
   { categoria: 'Asa Fixa', anv: 'C-130', nome: 'C-130 Hércules', cat_contraincendio: 6 },
@@ -168,7 +181,8 @@ function CategoryPage() {
 
 function Viewer({ aircraft }: { aircraft: Aircraft }) {
   const [selected, setSelected] = useState(1); const [overviewIndex, setOverviewIndex] = useState(0); const [fullscreen, setFullscreen] = useState(false); const [toast, setToast] = useState<Toast>(null); const hotspotText: Record<number, string> = { 1: 'Cabine e canopy — acesso primário do piloto.', 2: 'Ponto de parada — manter equipe fora da exaustão.', 3: 'Área de cauda — atenção à deriva e superfícies móveis.' }; const showToast = (message: string) => { setToast(message); window.setTimeout(() => setToast(null), 1800); };
-  const overviewModels = aircraft.overviewModels && aircraft.overviewModels.length > 0 ? aircraft.overviewModels : aircraft.sketchfabModelId ? [{ label: 'Visão geral 1', sketchfabModelId: aircraft.sketchfabModelId }] : [];
+  const rawOverviewModels = aircraft.overviewModels && aircraft.overviewModels.length > 0 ? aircraft.overviewModels : aircraft.sketchfabModelId ? [{ label: 'Visão geral 1', sketchfabModelId: aircraft.sketchfabModelId }] : [];
+  const overviewModels = rawOverviewModels.map((model) => ({ ...model, label: normalizeOverviewLabel(model.label) }));
   const selectedModel = overviewModels[overviewIndex] || overviewModels[0] || null;
   const embedUrl = selectedModel?.url
     ? selectedModel.url

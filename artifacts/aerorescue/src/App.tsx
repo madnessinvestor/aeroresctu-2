@@ -67,6 +67,15 @@ function normalizeOverviewLabel(label: string) {
   return label;
 }
 
+function formatCompactMetric(value: string | number | undefined) {
+  if (value === undefined || value === null || value === '') return '0';
+  const text = String(value).trim();
+  if (!text) return '0';
+  const match = text.match(/(\d+)/);
+  if (match) return match[1];
+  return text.toLowerCase() === 'sem tripulação' ? '0' : text;
+}
+
 const fireCategoryRows: FireCategoryRow[] = [
   { categoria: 'Asa Fixa', anv: 'KC-30', nome: 'KC-30', cat_contraincendio: 8 },
   { categoria: 'Asa Fixa', anv: 'C-130', nome: 'C-130 Hércules', cat_contraincendio: 6 },
@@ -178,13 +187,8 @@ function AircraftCard({
               <div className="card-meta">{aircraft.manufacturer} · {aircraft.origin}</div>
             </div>
             <div className="list-metrics">
-              <span><em>vel. máx.</em><strong>{aircraft.maxSpeed}</strong></span>
-              <span><em>comprimento</em><strong>{aircraft.length}</strong></span>
-              <span><em>tripulação</em><strong>{aircraft.crew}</strong></span>
-              <span><em>POB max.</em><strong>{aircraft.pobMax}</strong></span>
-              {aircraft.categoriaContraIncendio && (
-                <span><em>cat. contraincêndio</em><strong>{aircraft.categoriaContraIncendio}</strong></span>
-              )}
+              <span><em>tripulação</em><strong>{formatCompactMetric(aircraft.crew)}</strong></span>
+              <span><em>POB max.</em><strong>{formatCompactMetric(aircraft.pobMax)}</strong></span>
             </div>
           </div>
         </Link>
@@ -196,6 +200,11 @@ function AircraftCard({
         >
           <Heart size={16} fill={favorite ? 'currentColor' : 'none'} />
         </button>
+        {aircraft.categoriaContraIncendio && (
+          <div className="fire-badge" data-testid={`badge-fire-${aircraft.id}`}>
+            {aircraft.categoriaContraIncendio}
+          </div>
+        )}
       </div>
     );
   }
@@ -215,27 +224,13 @@ function AircraftCard({
           <div className="card-meta">{aircraft.manufacturer} · {aircraft.origin}</div>
           <div className="card-specs">
             <div className="spec-item">
-              <span className="spec-label">vel. máx.</span>
-              <span className="spec-val">{aircraft.maxSpeed}</span>
-            </div>
-            <div className="spec-item">
-              <span className="spec-label">comprimento</span>
-              <span className="spec-val">{aircraft.length}</span>
-            </div>
-            <div className="spec-item">
               <span className="spec-label">tripulação</span>
-              <span className="spec-val">{aircraft.crew}</span>
+              <span className="spec-val">{formatCompactMetric(aircraft.crew)}</span>
             </div>
             <div className="spec-item">
               <span className="spec-label">POB max.</span>
-              <span className="spec-val">{aircraft.pobMax}</span>
+              <span className="spec-val">{formatCompactMetric(aircraft.pobMax)}</span>
             </div>
-            {aircraft.categoriaContraIncendio && (
-              <div className="spec-item">
-                <span className="spec-label">cat. contraincêndio</span>
-                <span className="spec-val">{aircraft.categoriaContraIncendio}</span>
-              </div>
-            )}
           </div>
         </div>
       </Link>
@@ -247,6 +242,11 @@ function AircraftCard({
       >
         <Heart size={16} fill={favorite ? 'currentColor' : 'none'} />
       </button>
+      {aircraft.categoriaContraIncendio && (
+        <div className="fire-badge" data-testid={`badge-fire-${aircraft.id}`}>
+          {aircraft.categoriaContraIncendio}
+        </div>
+      )}
     </div>
   );
 }

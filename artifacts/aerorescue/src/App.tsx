@@ -101,6 +101,10 @@ function isCivilAircraft(category: string) {
   return /civil|vip|executivo/i.test(category);
 }
 
+function isMilitaryAircraft(category: string) {
+  return !isCivilAircraft(category);
+}
+
 function getAircraftTypeLabel(aircraft: Aircraft) {
   return isCivilAircraft(aircraft.category) ? 'Civil' : 'Militar';
 }
@@ -509,8 +513,8 @@ function HomePage() {
     const matchesQuery = `${aircraft.name} ${aircraft.manufacturer} ${aircraft.category}`.toLowerCase().includes(query.toLowerCase());
     const category = aircraft.category.toLowerCase();
     const matchesFilter = filter === 'Todos'
-      || (filter === 'Civis' && category.includes('civil'))
-      || (filter === 'Militares' && category.includes('militar'))
+      || (filter === 'Civis' && isCivilAircraft(aircraft.category))
+      || (filter === 'Militares' && isMilitaryAircraft(aircraft.category))
       || (filter === 'Aviões' && category.includes('jato'))
       || (filter === 'Helicópteros' && category.includes('helicóptero'));
     return matchesQuery && matchesFilter;

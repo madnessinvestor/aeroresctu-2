@@ -994,7 +994,7 @@ export const aircraftCatalog: Aircraft[] = [
     crew: '02 tripulantes',
     weight: '23.000 kg (MTOW)',
     pobMax: '78 pessoas a bordo',
-    categoriaContraIncendio: '06',
+    categoriaContraIncendio: '05',
     designacaoFab: 'ATR 72-600',
     fabricanteDetalhe: 'ATR (Aerei da Trasporto Regionale)',
     combustivel: 'Jet A-1 / QAV-1',

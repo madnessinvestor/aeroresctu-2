@@ -296,88 +296,67 @@ function Shell({ children, theme, onSetTheme }: { children: ReactNode; theme: Th
     <div className="app-shell">
       <header className="topbar">
         <Brand />
+
         <div className="topbar-actions">
-          <nav className="topnav" aria-label="Navegação principal">
-            <Link href="/" className={`nav-link ${location === '/' ? 'active' : ''}`} data-testid="link-catalogo"><Layers3 size={15} /> Catálogo</Link>
-            <Link href="/categoria" className={`nav-link ${location === '/categoria' ? 'active' : ''}`} data-testid="link-contraincendio"><Sparkles size={15} /> Categoria Contraincêndio</Link>
-          </nav>
-
-          <div className="desktop-theme-panel" aria-label="Seletor de tema">
+          <div className="mobile-menu-wrap">
             <button
+              className="mobile-menu-toggle"
               type="button"
-              className={`desktop-theme-option ${theme === 'light' ? 'active' : ''}`}
-              onClick={() => onSetTheme('light')}
+              aria-label="Abrir menu de navegação"
+              aria-expanded={mobileMenuOpen}
+              onClick={() => setMobileMenuOpen((open) => !open)}
+              data-testid="button-mobile-menu"
             >
-              Claro
+              <Menu size={18} />
             </button>
-            <button
-              type="button"
-              className={`desktop-theme-option ${theme === 'dark' ? 'active' : ''}`}
-              onClick={() => onSetTheme('dark')}
-            >
-              Escuro
-            </button>
-          </div>
-        </div>
 
-        <div className="mobile-menu-wrap">
-          <button
-            className="mobile-menu-toggle"
-            type="button"
-            aria-label="Abrir menu de navegação"
-            aria-expanded={mobileMenuOpen}
-            onClick={() => setMobileMenuOpen((open) => !open)}
-            data-testid="button-mobile-menu"
-          >
-            <Menu size={18} />
-          </button>
+            {mobileMenuOpen && (
+              <div className="mobile-menu" role="menu" aria-label="Menu do site">
+                <Link
+                  href="/"
+                  className={`nav-link ${location === '/' ? 'active' : ''}`}
+                  data-testid="link-mobile-home"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <Layers3 size={15} /> Catálogo
+                </Link>
+                <Link
+                  href="/categoria"
+                  className={`nav-link ${location === '/categoria' ? 'active' : ''}`}
+                  data-testid="link-mobile-contraincendio"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <Sparkles size={15} /> Categoria Contraincêndio
+                </Link>
 
-          {mobileMenuOpen && (
-            <div className="mobile-menu" role="menu" aria-label="Menu mobile">
-              <Link
-                href="/"
-                className={`nav-link ${location === '/' ? 'active' : ''}`}
-                data-testid="link-mobile-home"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <Layers3 size={15} /> Catálogo
-              </Link>
-              <Link
-                href="/categoria"
-                className={`nav-link ${location === '/categoria' ? 'active' : ''}`}
-                data-testid="link-mobile-contraincendio"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <Sparkles size={15} /> Categoria Contraincêndio
-              </Link>
-
-              <div className="mobile-theme-panel" aria-label="Seletor de tema">
-                <span className="mobile-theme-label">Tema</span>
-                <div className="mobile-theme-segment">
-                  <button
-                    type="button"
-                    className={`mobile-theme-option ${theme === 'light' ? 'active' : ''}`}
-                    onClick={() => {
-                      setMobileMenuOpen(false);
-                      onSetTheme('light');
-                    }}
-                  >
-                    Claro
-                  </button>
-                  <button
-                    type="button"
-                    className={`mobile-theme-option ${theme === 'dark' ? 'active' : ''}`}
-                    onClick={() => {
-                      setMobileMenuOpen(false);
-                      onSetTheme('dark');
-                    }}
-                  >
-                    Escuro
-                  </button>
+                <div className="mobile-theme-panel" aria-label="Seletor de tema">
+                  <span className="mobile-theme-label">Tema</span>
+                  <div className="mobile-theme-segment">
+                    <button
+                      type="button"
+                      className={`mobile-theme-option ${theme === 'light' ? 'active' : ''}`}
+                      onClick={() => {
+                        setMobileMenuOpen(false);
+                        onSetTheme('light');
+                      }}
+                    >
+                      Claro
+                    </button>
+                    <button
+                      type="button"
+                      className={`mobile-theme-option ${theme === 'dark' ? 'active' : ''}`}
+                      onClick={() => {
+                        setMobileMenuOpen(false);
+                        onSetTheme('dark');
+                      }}
+                    >
+                      Escuro
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </header>
       {children}

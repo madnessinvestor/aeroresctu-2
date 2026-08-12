@@ -252,7 +252,7 @@ a { color: inherit; text-decoration: none; }
 .result-count-inline { margin: 12px 0 14px; display:flex; justify-content:flex-end; }
 .result-count { font-family:var(--font-display); font-size:15px; color:#21475b; letter-spacing:-.02em; }
 .result-count span { color:#8a9a9d; font-family:var(--app-font-mono); font-size:11px; margin-left:9px; }
-.sort-select { border:0; background:transparent; color:#6d7e83; font-size:12px; outline:none; }
+.sort-select { border:0; background:transparent; color:#314c58; font-size:12px; font-weight:600; outline:none; }
 .aircraft-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
 .aircraft-grid.list { grid-template-columns:1fr; }
 .aircraft-table { width:100%; }
@@ -260,8 +260,8 @@ a { color: inherit; text-decoration: none; }
 .catalog-table th, .catalog-table td { padding:14px 12px; border:1px solid hsl(var(--border)); }
 .catalog-table th { text-align:left; background:hsl(var(--card)); font-weight:700; }
 .catalog-table tbody tr:hover { background:hsl(var(--secondary)); }
-.catalog-controls { display:flex; align-items:flex-end; justify-content:space-between; gap:clamp(12px, 2vw, 28px); width:100%; max-width:760px; margin-left:auto; flex-wrap:wrap; }
-.control-group { display:flex; flex-direction:column; align-items:flex-start; gap:5px; flex:1 1 160px; min-width:140px; }
+.catalog-controls { display:flex; align-items:flex-end; justify-content:space-between; gap:clamp(12px, 2vw, 28px); width:100%; max-width:760px; margin-left:auto; flex-wrap:nowrap; }
+.control-group { display:flex; flex-direction:column; align-items:flex-start; gap:5px; flex:1 1 0; min-width:0; }
 .control-label { font-size:10px; color:#6e8188; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
 .view-mode-switch { display:flex; gap:6px; align-items:center; margin-left:14px; }
 .view-mode-button { border:1px solid hsl(var(--border)); background:hsl(var(--card)); color:hsl(var(--foreground)); border-radius:8px; padding:9px 12px; font-size:12px; cursor:pointer; transition:background .2s, border-color .2s; }

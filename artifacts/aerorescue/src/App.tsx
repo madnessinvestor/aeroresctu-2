@@ -97,12 +97,8 @@ function formatFireCategoryDisplay(value: string | number | undefined) {
   return text;
 }
 
-function isMilitaryAircraft(category: string) {
-  return /militar/i.test(category);
-}
-
 function isCivilAircraft(category: string) {
-  return !isMilitaryAircraft(category) && /civil|vip|executivo/i.test(category);
+  return /civil|vip|executivo/i.test(category);
 }
 
 function getAircraftIdentificationLabel(aircraft: Aircraft) {

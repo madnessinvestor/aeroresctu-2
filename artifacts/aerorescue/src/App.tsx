@@ -397,7 +397,6 @@ function HomePage() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
   const [favorites, setFavorites] = useState<string[]>(() => JSON.parse(localStorage.getItem('aerorescue:favorites') || '[]'));
   const [toast, setToast] = useState<Toast>(null);
-  const [filtersOpen, setFiltersOpen] = useState(false);
   const [history] = useState(() => JSON.parse(localStorage.getItem('aerorescue:history') || '[]') as string[]);
 
   useEffect(() => localStorage.setItem('aerorescue:favorites', JSON.stringify(favorites)), [favorites]);
@@ -413,12 +412,10 @@ function HomePage() {
     const matchesQuery = `${aircraft.name} ${aircraft.manufacturer} ${aircraft.category}`.toLowerCase().includes(query.toLowerCase());
     const category = aircraft.category.toLowerCase();
     const matchesFilter = filter === 'Todos'
-      || (filter === 'Favoritos' && favorites.includes(aircraft.id))
       || (filter === 'Civis' && category.includes('civil'))
       || (filter === 'Militares' && category.includes('militar'))
-      || (filter === 'Jatos' && category.includes('jato'))
-      || (filter === 'Helicópteros' && category.includes('helicóptero'))
-      || (filter === 'Transporte' && category.includes('transporte'));
+      || (filter === 'Aviões' && category.includes('jato'))
+      || (filter === 'Helicópteros' && category.includes('helicóptero'));
     return matchesQuery && matchesFilter;
   }), [query, filter, favorites]);
 
@@ -475,23 +472,26 @@ function HomePage() {
         </label>
       </div>
 
+      <div className="result-count-inline" style={{ marginTop: 12, marginBottom: 14 }}>
+        <div className="result-count">{aircraftCatalog.length} aeronaves catalogadas</div>
+      </div>
+
       <div className="catalog-grid">
         <section>
           <div className="result-head">
-            <div>
-              <div className="result-count">
-                {aircraftCatalog.length} aeronaves catalogadas
-              </div>
-            </div>
+            <div />
             <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-              <button
-                className={`filter-btn ${filtersOpen ? 'active' : ''}`}
-                onClick={() => setFiltersOpen(!filtersOpen)}
-                data-testid="button-toggle-filters"
-                style={{ height: 33 }}
+              <select
+                className="sort-select"
+                aria-label="Filtrar resultados"
+                data-testid="select-filter"
+                value={filter}
+                onChange={(event) => setFilter(event.target.value)}
               >
-                <SlidersHorizontal size={15} /> Filtros <ChevronDown size={14} />
-              </button>
+                {quickFilters.map((item) => (
+                  <option key={item} value={item}>{item}</option>
+                ))}
+              </select>
 
               <select
                 className="sort-select"
@@ -520,25 +520,6 @@ function HomePage() {
               </div>
             </div>
           </div>
-
-          {(filtersOpen || filter !== 'Todos') && (
-            <div style={{ display: 'flex', gap: 7, flexWrap: 'wrap', marginBottom: 15 }}>
-              <span className="section-kicker" style={{ alignSelf: 'center', marginRight: 5 }}>
-                filtrar por
-              </span>
-              {quickFilters.map((item) => (
-                <button
-                  key={item}
-                  className={`filter-btn ${filter === item ? 'active' : ''}`}
-                  style={{ height: 31, padding: '0 10px', fontSize: 10 }}
-                  onClick={() => setFilter(item)}
-                  data-testid={`button-filter-${item.toLowerCase()}`}
-                >
-                  {item}
-                </button>
-              ))}
-            </div>
-          )}
 
           <div className={`aircraft-grid${viewMode === 'list' ? ' list' : ''}`}>
             {sorted.length ? (

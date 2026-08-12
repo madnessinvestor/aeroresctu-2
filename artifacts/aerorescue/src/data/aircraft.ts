@@ -1920,4 +1920,4 @@ export const aircraftCatalog: Aircraft[] = [
   },
 ];
 
-export const quickFilters = ['Todos', 'Civis', 'Militares', 'Jatos', 'Transporte', 'Helicópteros', 'Favoritos'];
+export const quickFilters = ['Todos', 'Civis', 'Militares', 'Aviões', 'Helicópteros'];

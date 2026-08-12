@@ -286,7 +286,7 @@ function FireCategoryReference() {
 }
 
 function Brand() {
-  return <Link href="/" className="brand" data-testid="link-brand"><span className="brand-mark"><Plane size={18} strokeWidth={2.6} /></span><span><span className="brand-name">AERORESCUE</span><span className="brand-sub">catálogo operacional · SESCINC</span></span></Link>;
+  return <Link href="/" className="brand" data-testid="link-brand"><span className="brand-mark"><Plane size={18} strokeWidth={2.6} /></span><span className="brand-name">AERORESCUE</span></Link>;
 }
 function Shell({ children, theme, onSetTheme }: { children: ReactNode; theme: ThemeMode; onSetTheme: (mode: ThemeMode) => void; }) {
   const [location] = useLocation();

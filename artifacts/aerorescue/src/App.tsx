@@ -166,20 +166,104 @@ const rotaryWingReference: ReferenceRule[] = [
 function FireCategoryReference() {
   return (
     <section className="reference-section" aria-labelledby="reference-title">
-      <div className="reference-section-heading">
-        <h2 id="reference-title">Categoria Contraincêndio</h2>
-      </div>
-
-      <div className="reference-grid reference-grid-single">
-        <div className="reference-card reference-card-compact">
-          <p className="reference-intro">
+      <div className="reference-grid">
+        <div className="reference-card">
+          <div className="reference-card-header">
+            <span className="reference-card-title">Categoria Contraincêndio</span>
+          </div>
+          <p className="reference-copy">
             A Categoria Contraincêndio da Aeronave é determinada conforme as características dimensionais da aeronave,
             sendo definida por critérios específicos para asa fixa e asa rotativa. Essa classificação orienta a
             compatibilidade operacional e de proteção contra incêndio no entorno da aeronave.
           </p>
-          <p className="reference-footnote">
+          <p className="reference-copy">
             <strong>Referências:</strong> [1] RBAC 153 — ANAC · [2] ICA 92-1/2025 — COMAER
           </p>
+        </div>
+
+        <div className="reference-card">
+          <div className="reference-card-header">
+            <span className="reference-card-title"><Plane size={15} /> Aeronaves de Asa Fixa (CAT-AV 1 - 10)</span>
+            <span className="reference-pill">CAT-AV 1 - 10</span>
+          </div>
+          <p className="reference-copy">Para aeronaves de asa fixa, determina-se inicialmente a categoria pelo comprimento total da aeronave. Em seguida, verifica-se a largura máxima da fuselagem. Caso a largura máxima da fuselagem ultrapasse o limite estabelecido para a categoria determinada pelo comprimento, a aeronave será enquadrada na categoria imediatamente superior.</p>
+          <div className="category-table-wrapper">
+            <table className="category-table reference-table">
+              <thead>
+                <tr>
+                  <th>Comprimento total do avião (m)</th>
+                  <th>Largura máxima da fuselagem (m)</th>
+                  <th>Categoria</th>
+                </tr>
+              </thead>
+              <tbody>
+                {fixedWingReference.map((row) => (
+                  <tr key={`${row.range}-${row.category}`}>
+                    <td>{row.range}</td>
+                    <td>{row.width}</td>
+                    <td><strong>{row.category}</strong></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div className="reference-card">
+          <div className="reference-card-header">
+            <span className="reference-card-title"><Rotate3d size={15} /> Asa Rotativa (CAT HL H1 - H3)</span>
+            <span className="reference-pill">CAT HL H1 - H3</span>
+          </div>
+          <p className="reference-copy">Para aeronaves de asa rotativa, a categoria é determinada pelo comprimento total do helicóptero, incluindo os rotores.</p>
+          <div className="category-table-wrapper">
+            <table className="category-table reference-table">
+              <thead>
+                <tr>
+                  <th>Comprimento total do helicóptero (m)</th>
+                  <th>Categoria</th>
+                  <th>Área de pouso</th>
+                </tr>
+              </thead>
+              <tbody>
+                {rotaryWingReference.map((row) => (
+                  <tr key={`${row.range}-${row.category}`}>
+                    <td>{row.range}</td>
+                    <td><strong>{row.category}</strong></td>
+                    <td>{row.aerodrome}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div className="reference-card">
+          <div className="reference-card-header">
+            <span className="reference-card-title"><Plane size={15} /> Categoria Contraincêndio de Aeronaves de Asa Fixa e Rotativa</span>
+          </div>
+          <p className="reference-copy">Esta tabela apresenta a categoria de contraincêndio atribuída a cada aeronave do inventário operacional.</p>
+          <div className="category-table-wrapper">
+            <table className="category-table reference-table">
+              <thead>
+                <tr>
+                  <th>Categoria</th>
+                  <th>Anv</th>
+                  <th>Nome</th>
+                  <th>Categoria Contraincêndio</th>
+                </tr>
+              </thead>
+              <tbody>
+                {fireCategoryRows.map((row) => (
+                  <tr key={`${row.categoria}-${row.anv}`}>
+                    <td>{row.categoria}</td>
+                    <td>{row.anv}</td>
+                    <td>{row.nome}</td>
+                    <td><strong>{row.cat_contraincendio}</strong></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </section>

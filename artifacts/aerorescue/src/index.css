@@ -444,11 +444,14 @@ a { color: inherit; text-decoration: none; }
 .reference-shell { display:flex; flex-direction:column; gap:14px; margin:18px 0 8px; }
 .reference-intro { border:1px solid #dce4e3; background:#f2f1e8; padding:14px 16px; border-radius:12px; }
 .reference-intro p { font-size:12px; line-height:1.65; color:#476069; margin:0; }
-.reference-grid { display:grid; gap:12px; grid-template-columns:repeat(2,minmax(0,1fr)); }
+.reference-section { width:100%; max-width:1400px; margin:0 auto; }
+.reference-grid { display:grid; gap:12px; grid-template-columns:repeat(2,minmax(0,1fr)); width:100%; }
 .reference-grid-single { grid-template-columns:1fr; }
-.reference-card { border:1px solid #d4dfdc; border-radius:12px; background:linear-gradient(135deg,#fbfaf6 0%,#f4f0e7 100%); padding:16px; box-shadow:inset 0 1px 0 rgba(255,255,255,.6); }
+.reference-card { border:1px solid #d4dfdc; border-radius:12px; background:linear-gradient(135deg,#fbfaf6 0%,#f4f0e7 100%); padding:16px; box-shadow:inset 0 1px 0 rgba(255,255,255,.6); width:100%; min-width:0; }
 .reference-card-compact { padding:18px 20px; }
 .reference-card-header { display:flex; align-items:center; justify-content:space-between; gap:10px; padding-bottom:10px; border-bottom:1px solid #dce4e3; margin-bottom:10px; }
+.reference-table-wrapper { width:100%; overflow-x:auto; }
+.category-table { width:100%; min-width:640px; }
 .reference-card-title { display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:700; color:#214759; letter-spacing:.06em; text-transform:uppercase; }
 .reference-card-title svg { flex-shrink:0; }
 .reference-pill { font:9px var(--app-font-mono); letter-spacing:.1em; text-transform:uppercase; color:#a66d1b; background:#f5e2bb; border:1px solid #e6c887; border-radius:999px; padding:4px 8px; }

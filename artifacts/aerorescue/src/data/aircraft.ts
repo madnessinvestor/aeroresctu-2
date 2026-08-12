@@ -1669,7 +1669,7 @@ export const aircraftCatalog: Aircraft[] = [
     crew: '04 tripulantes',
     weight: '233.000 kg (MTOW)',
     pobMax: '60 pessoas a bordo',
-    categoriaContraIncendio: '06',
+    categoriaContraIncendio: '08',
     designacaoFab: 'KC-30',
     fabricanteDetalhe: 'Airbus Defence and Space / Operado pela FAB',
     combustivel: 'Jet A-1 / JP-8',

@@ -97,6 +97,15 @@ function formatFireCategoryDisplay(value: string | number | undefined) {
   return text;
 }
 
+function getFireCategoryRank(value?: string) {
+  if (!value) return -1;
+
+  const matches = Array.from(String(value).matchAll(/\d+/g), (match) => Number(match[0]));
+  if (matches.length === 0) return -1;
+
+  return Math.max(...matches);
+}
+
 const fireCategoryRows: FireCategoryRow[] = [
   { categoria: 'Asa Fixa', anv: 'KC-30', nome: 'KC-30', cat_contraincendio: 8 },
   { categoria: 'Asa Fixa', anv: 'C-130', nome: 'C-130 Hércules', cat_contraincendio: 6 },
@@ -517,6 +526,26 @@ function HomePage() {
       });
     }
 
+    if (sortBy === 'Maior Categoria Contraincêndio') {
+      return next.sort((a, b) => {
+        const aRank = getFireCategoryRank(a.categoriaContraIncendio);
+        const bRank = getFireCategoryRank(b.categoriaContraIncendio);
+
+        if (aRank !== bRank) return bRank - aRank;
+        return a.name.localeCompare(b.name, undefined, { sensitivity: 'base' });
+      });
+    }
+
+    if (sortBy === 'Menor Categoria Contraincêndio') {
+      return next.sort((a, b) => {
+        const aRank = getFireCategoryRank(a.categoriaContraIncendio);
+        const bRank = getFireCategoryRank(b.categoriaContraIncendio);
+
+        if (aRank !== bRank) return aRank - bRank;
+        return a.name.localeCompare(b.name, undefined, { sensitivity: 'base' });
+      });
+    }
+
     return next;
   }, [filtered, sortBy, history, favorites]);
 
@@ -578,6 +607,8 @@ function HomePage() {
                   <option>Ordem alfabética</option>
                   <option>Mais consultados</option>
                   <option>Favoritos</option>
+                  <option>Maior Categoria Contraincêndio</option>
+                  <option>Menor Categoria Contraincêndio</option>
                 </select>
               </div>
 
@@ -662,21 +693,163 @@ function CategoryPage() {
 }
 
 function Viewer({ aircraft }: { aircraft: Aircraft }) {
-  const [selected, setSelected] = useState(1); const [overviewIndex, setOverviewIndex] = useState(0); const [fullscreen, setFullscreen] = useState(false); const [toast, setToast] = useState<Toast>(null); const hotspotText: Record<number, string> = { 1: 'Cabine e canopy — acesso primário do piloto.', 2: 'Ponto de parada — manter equipe fora da exaustão.', 3: 'Área de cauda — atenção à deriva e superfícies móveis.' }; const showToast = (message: string) => { setToast(message); window.setTimeout(() => setToast(null), 1800); };
-  const rawOverviewModels = aircraft.overviewModels && aircraft.overviewModels.length > 0 ? aircraft.overviewModels : aircraft.sketchfabModelId ? [{ label: 'Visão geral 1', sketchfabModelId: aircraft.sketchfabModelId }] : [];
-  const overviewModels = rawOverviewModels.map((model) => ({ ...model, label: normalizeOverviewLabel(model.label) }));
+  const [selected, setSelected] = useState(1);
+  const [overviewIndex, setOverviewIndex] = useState(0);
+  const [fullscreen, setFullscreen] = useState(false);
+  const [toast, setToast] = useState<Toast>(null);
+
+  const hotspotText: Record<number, string> = {
+    1: 'Cabine e canopy — acesso primário do piloto.',
+    2: 'Ponto de parada — manter equipe fora da exaustão.',
+    3: 'Área de cauda — atenção à deriva e superfícies móveis.',
+  };
+
+  const showToast = (message: string) => {
+    setToast(message);
+    window.setTimeout(() => setToast(null), 1800);
+  };
+
+  const rawOverviewModels = aircraft.overviewModels && aircraft.overviewModels.length > 0
+    ? aircraft.overviewModels
+    : aircraft.sketchfabModelId
+      ? [{ label: 'Visão geral 1', sketchfabModelId: aircraft.sketchfabModelId }]
+      : [];
+
+  const overviewModels = rawOverviewModels.map((model) => ({
+    ...model,
+    label: normalizeOverviewLabel(model.label),
+  }));
+
   const selectedModel = overviewModels[overviewIndex] || overviewModels[0] || null;
   const embedUrl = selectedModel?.url
     ? selectedModel.url
     : selectedModel?.sketchfabModelId
       ? `https://sketchfab.com/models/${selectedModel.sketchfabModelId}/embed?autostart=1&ui_infos=0&ui_controls=1&ui_annots=0&ui_watermark=0`
       : null;
-  return <div className={`viewer ${fullscreen ? 'viewer-fullscreen' : ''}`} data-testid="viewer-3d"><div className="viewer-grid" /><div className="viewer-label">{aircraft.name} / VISUALIZAÇÃO TÉCNICA</div>{overviewModels.length > 1 && <div className="viewer-overview-switch"><div className="viewer-switcher" aria-label="Seleção de visão geral">{overviewModels.map((model, index) => <button key={model.label} className={`viewer-mode-button ${index === overviewIndex ? 'active' : ''}`} onClick={() => { setOverviewIndex(index); showToast(model.label); }} data-testid={`button-overview-${index + 1}`}>{model.label}</button>)}</div></div>}{embedUrl ? <><div className="viewer-model-reference"><span className="model-ref-label">Modelos disponíveis:</span><div className="model-ref-list">{overviewModels.map((model) => <a key={model.label} href={`https://sketchfab.com/models/${model.sketchfabModelId}`} target="_blank" rel="noreferrer" className="model-ref-link">{model.label}</a>)}</div></div><iframe title={`${aircraft.name} ${selectedModel.label} 3D model`} src={embedUrl} frameBorder="0" allow="autoplay; fullscreen; vr; accelerometer; magnetometer; gyroscope" allowFullScreen className="viewer-iframe" /></> : <><div className="viewer-label">{aircraft.name} / VISUALIZAÇÃO TÉCNICA</div><div className="viewer-legend"><span className="legend-dot" /> HOTSPOTS ATIVOS</div><AircraftArt large />{[1, 2, 3].map((n) => <button key={n} className={`hotspot ${n === 1 ? 'one' : n === 2 ? 'two' : 'three'} ${selected === n ? 'selected' : ''}`} onClick={() => setSelected(n)} data-testid={`button-hotspot-${n}`}>{n.toString().padStart(2, '0')}</button>)}<div className="hotspot-note" data-testid="text-hotspot-note"><strong style={{ display: 'block', color: '#efb349', fontSize: 10, marginBottom: 3 }}>PONTO {selected.toString().padStart(2, '0')}</strong>{hotspotText[selected]}</div><div className="viewer-tools"><div className="viewer-controls"><button className="viewer-tool" onClick={() => showToast('Rotação resetada')} aria-label="Resetar câmera" data-testid="button-reset-camera"><Rotate3d size={14} /></button><button className="viewer-tool" onClick={() => showToast('Mais zoom')} aria-label="Aumentar zoom" data-testid="button-zoom-in"><ZoomIn size={14} /></button><button className="viewer-tool" onClick={() => showToast('Menos zoom')} aria-label="Diminuir zoom" data-testid="button-zoom-out"><ZoomOut size={14} /></button><button className="viewer-tool" onClick={() => { setFullscreen(!fullscreen); showToast(fullscreen ? 'Janela restaurada' : 'Visualizador expandido'); }} aria-label="Tela cheia" data-testid="button-fullscreen">{fullscreen ? <Minimize2 size={14} /> : <Maximize2 size={14} />}</button></div><span className="viewer-mode"><Move3d size={12} style={{ verticalAlign: 'middle', marginRight: 5 }} /> arraste para explorar · roda para zoom</span></div></>}</div>;
+
+  return (
+    <div className={`viewer ${fullscreen ? 'viewer-fullscreen' : ''}`} data-testid="viewer-3d">
+      <div className="viewer-grid" />
+      <div className="viewer-label">{aircraft.name} / VISUALIZAÇÃO TÉCNICA</div>
+
+      {overviewModels.length > 1 && (
+        <div className="viewer-overview-switch">
+          <div className="viewer-switcher" aria-label="Seleção de visão geral">
+            {overviewModels.map((model, index) => (
+              <button
+                key={model.label}
+                className={`viewer-mode-button ${index === overviewIndex ? 'active' : ''}`}
+                onClick={() => {
+                  setOverviewIndex(index);
+                  showToast(model.label);
+                }}
+                data-testid={`button-overview-${index + 1}`}
+              >
+                {model.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {embedUrl ? (
+        <>
+          <div className="viewer-model-reference">
+            <span className="model-ref-label">Modelos disponíveis:</span>
+            <div className="model-ref-list">
+              {overviewModels.map((model) => (
+                <a
+                  key={model.label}
+                  href={`https://sketchfab.com/models/${model.sketchfabModelId}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="model-ref-link"
+                >
+                  {model.label}
+                </a>
+              ))}
+            </div>
+          </div>
+          <iframe
+            title={`${aircraft.name} ${selectedModel.label} 3D model`}
+            src={embedUrl}
+            frameBorder="0"
+            allow="autoplay; fullscreen; vr; accelerometer; magnetometer; gyroscope"
+            allowFullScreen
+            className="viewer-iframe"
+          />
+        </>
+      ) : (
+        <>
+          <div className="viewer-label">{aircraft.name} / VISUALIZAÇÃO TÉCNICA</div>
+          <div className="viewer-legend"><span className="legend-dot" /> HOTSPOTS ATIVOS</div>
+          <AircraftArt large />
+          {[1, 2, 3].map((n) => (
+            <button
+              key={n}
+              className={`hotspot ${n === 1 ? 'one' : n === 2 ? 'two' : 'three'} ${selected === n ? 'selected' : ''}`}
+              onClick={() => setSelected(n)}
+              data-testid={`button-hotspot-${n}`}
+            >
+              {n.toString().padStart(2, '0')}
+            </button>
+          ))}
+          <div className="hotspot-note" data-testid="text-hotspot-note">
+            <strong style={{ display: 'block', color: '#efb349', fontSize: 10, marginBottom: 3 }}>
+              PONTO {selected.toString().padStart(2, '0')}
+            </strong>
+            {hotspotText[selected]}
+          </div>
+          <div className="viewer-tools">
+            <div className="viewer-controls">
+              <button className="viewer-tool" onClick={() => setFullscreen((value) => !value)}>
+                {fullscreen ? 'Fechar vista' : 'Ampliar vista'}
+              </button>
+              <button className="viewer-tool" onClick={() => showToast(`Hotspot ${selected.toString().padStart(2, '0')}`)}>
+                Detalhe {selected.toString().padStart(2, '0')}
+              </button>
+            </div>
+          </div>
+        </>
+      )}
+
+      {toast && (
+        <div className="toast" role="status" data-testid="status-viewer-toast">
+          <Check size={14} style={{ verticalAlign: 'middle', marginRight: 7, color: '#efb349' }} />
+          {toast}
+        </div>
+      )}
+    </div>
+  );
 }
+
 function DetailPage() {
-  const { id } = useParams<{ id: string }>(); const aircraft = aircraftCatalog.find((item) => item.id === id) || aircraftCatalog[0]; const [activeTab, setActiveTab] = useState('Visão geral'); const [favorite, setFavorite] = useState(() => JSON.parse(localStorage.getItem('aerorescue:favorites') || '[]').includes(aircraft.id)); const [toast, setToast] = useState<Toast>(null);
-  useEffect(() => { const history = JSON.parse(localStorage.getItem('aerorescue:history') || '[]'); localStorage.setItem('aerorescue:history', JSON.stringify([aircraft.id, ...history.filter((item: string) => item !== aircraft.id)].slice(0, 5))); }, [aircraft.id]);
-  const toggleFavorite = () => { const favorites = JSON.parse(localStorage.getItem('aerorescue:favorites') || '[]') as string[]; const next = favorites.includes(aircraft.id) ? favorites.filter((item) => item !== aircraft.id) : [...favorites, aircraft.id]; localStorage.setItem('aerorescue:favorites', JSON.stringify(next)); setFavorite(!favorite); setToast(!favorite ? 'AMX A-1 salvo nos favoritos' : 'Removido dos favoritos'); window.setTimeout(() => setToast(null), 2200); };
+  const { id } = useParams<{ id: string }>();
+  const aircraft = aircraftCatalog.find((item) => item.id === id) || aircraftCatalog[0];
+  const [activeTab, setActiveTab] = useState('Visão geral');
+  const [favorite, setFavorite] = useState(() => JSON.parse(localStorage.getItem('aerorescue:favorites') || '[]').includes(aircraft.id));
+  const [toast, setToast] = useState<Toast>(null);
+
+  useEffect(() => {
+    const history = JSON.parse(localStorage.getItem('aerorescue:history') || '[]');
+    localStorage.setItem(
+      'aerorescue:history',
+      JSON.stringify([aircraft.id, ...history.filter((item: string) => item !== aircraft.id)].slice(0, 5)),
+    );
+  }, [aircraft.id]);
+
+  const toggleFavorite = () => {
+    const favorites = JSON.parse(localStorage.getItem('aerorescue:favorites') || '[]') as string[];
+    const next = favorites.includes(aircraft.id)
+      ? favorites.filter((item) => item !== aircraft.id)
+      : [...favorites, aircraft.id];
+
+    localStorage.setItem('aerorescue:favorites', JSON.stringify(next));
+    setFavorite(!favorite);
+    setToast(!favorite ? 'AMX A-1 salvo nos favoritos' : 'Removido dos favoritos');
+    window.setTimeout(() => setToast(null), 2200);
+  };
+
   const tabs = ['Visão geral', 'Material', 'Galeria', 'Vídeos'];
   const coverUrl = aircraft.coverImage ? `${import.meta.env.BASE_URL}${aircraft.coverImage}` : undefined;
   const galleryItems = aircraft.gallery && aircraft.gallery.length > 0 ? aircraft.gallery : [{ title: aircraft.name, url: coverUrl }];
@@ -688,8 +861,243 @@ function DetailPage() {
   const selectedMaterial = materialItems[selectedMaterialIndex] || materialItems[0] || null;
   const selectedVideoEmbedUrl = selectedVideo ? getVideoEmbedUrl(selectedVideo.url) : null;
   const selectedMaterialEmbedUrl = selectedMaterial?.url ? getDrivePreviewUrl(selectedMaterial.url) : null;
-  return <main className="page-wrap"><div className="crumb"><Link href="/" data-testid="link-breadcrumb-catalogo">Catálogo</Link><ArrowRight size={12} /><span>{aircraft.name}</span></div><div className="detail-head"><div><div className="eyebrow">ficha da aeronave · código AR-001</div><h1 className="page-title">{aircraft.name}</h1><p className="page-lede">{aircraft.manufacturer} · {aircraft.role} · <span style={{ color: '#4e9974' }}>● {aircraft.status}</span></p></div><div className="detail-actions"><button className="outline-btn" onClick={() => window.print()} data-testid="button-print"><FileText size={15} /><span>Imprimir ficha</span></button><button className={`outline-btn ${favorite ? 'filter-btn active' : ''}`} onClick={toggleFavorite} data-testid="button-detail-favorite"><Heart size={15} fill={favorite ? 'currentColor' : 'none'} /><span>{favorite ? 'Favoritado' : 'Favoritar'}</span></button></div></div><div className="detail-grid"><Viewer aircraft={aircraft} /><div><div className="info-card"><div className="info-heading"><span><Gauge size={15} className="heading-icon" style={{ verticalAlign: 'middle', marginRight: 7 }} /> ficha informativa</span><span className="section-kicker">SI / métrico</span></div><div className="metric-list"><div className="metric"><span className="metric-label">categoria</span><span className="metric-value">{aircraft.category}</span></div><div className="metric"><span className="metric-label">papel operacional</span><span className="metric-value">{aircraft.role}</span></div><div className="metric"><span className="metric-label">origem</span><span className="metric-value">{aircraft.origin}</span></div><div className="metric"><span className="metric-label">tripulação</span><span className="metric-value">{aircraft.crew}</span></div><div className="metric"><span className="metric-label">POB max.</span><span className="metric-value">{aircraft.pobMax}</span></div><div className="metric"><span className="metric-label">entrada em serviço</span><span className="metric-value">{aircraft.year}</span></div><div className="metric"><span className="metric-label">comprimento</span><span className="metric-value">{aircraft.length}</span></div><div className="metric"><span className="metric-label">envergadura</span><span className="metric-value">{aircraft.wingspan}</span></div><div className="metric"><span className="metric-label">altura</span><span className="metric-value">{aircraft.height}</span></div><div className="metric"><span className="metric-label">velocidade máx.</span><span className="metric-value">{aircraft.maxSpeed}</span></div><div className="metric"><span className="metric-label">alcance</span><span className="metric-value">{aircraft.range}</span></div><div className="metric"><span className="metric-label">peso máx. decolagem</span><span className="metric-value">{aircraft.weight}</span></div>{aircraft.designacaoFab && <div className="metric"><span className="metric-label">Designação FAB</span><span className="metric-value">{aircraft.designacaoFab}</span></div>}{aircraft.fabricanteDetalhe && <div className="metric"><span className="metric-label">Fabricante</span><span className="metric-value">{aircraft.fabricanteDetalhe}</span></div>}{aircraft.categoriaContraIncendio && <div className="metric"><span className="metric-label">Categoria Contraincêndio</span><span className="metric-value">{aircraft.categoriaContraIncendio}</span></div>}{aircraft.alturaSoloCockpit && <div className="metric"><span className="metric-label">Altura solo ao cockpit</span><span className="metric-value">{aircraft.alturaSoloCockpit}</span></div>}{aircraft.combustivel && <div className="metric"><span className="metric-label">Combustível</span><span className="metric-value">{aircraft.combustivel}</span></div>}{aircraft.quantidadeSaidas && <div className="metric"><span className="metric-label">Quantidade de saídas</span><span className="metric-value">{aircraft.quantidadeSaidas}</span></div>}{aircraft.assentoEjetavel && <div className="metric"><span className="metric-label">Assento ejetável</span><span className="metric-value">{aircraft.assentoEjetavel}</span></div>}{aircraft.sistemaDefesa && <div className="metric"><span className="metric-label">Sistema de defesa</span><span className="metric-value">{aircraft.sistemaDefesa}</span></div>}{aircraft.motor && <div className="metric"><span className="metric-label">Motor</span><span className="metric-value">{aircraft.motor}</span></div>}{aircraft.armamentoFixo && <div className="metric"><span className="metric-label">Armamento fixo</span><span className="metric-value">{aircraft.armamentoFixo}</span></div>}{aircraft.armamentosCompativeis && <div className="metric"><span className="metric-label">Armamentos compatíveis</span><span className="metric-value">{aircraft.armamentosCompativeis}</span></div>}</div></div><p className="info-note">As informações apresentadas são destinadas à consulta e podem variar conforme versão, configuração ou fonte.</p></div></div><nav className="tab-bar" aria-label="Seções da ficha">{tabs.map((tab) => <button key={tab} className={`tab ${activeTab === tab ? 'active' : ''}`} onClick={() => setActiveTab(tab)} data-testid={`tab-${tab.toLowerCase().replaceAll(' ', '-')}`}>{tab}</button>)}</nav><div className="tab-content">{activeTab === 'Visão geral' && <div className="two-column"><div className="text-card"><h3>Perfil operacional</h3><p>{aircraft.name} é uma {aircraft.category.toLowerCase()} com {aircraft.role.toLowerCase()}. A configuração operacional atual está alinhada com {aircraft.origin} e com {aircraft.crew.toLowerCase()} na tripulação.</p></div></div>}{activeTab === 'Material' && <div className="text-card" id="biblioteca"><h3>Material</h3><p style={{ marginBottom: 15 }}>Links de referência do Google Drive.</p><div className="video-player-mold">{selectedMaterial ? selectedMaterialEmbedUrl ? <iframe className="video-mold-frame" src={selectedMaterialEmbedUrl} title={selectedMaterial.name} frameBorder="0" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowFullScreen /> : <div className="video-mold-placeholder">Este material não pode ser visualizado neste player.</div> : <div className="video-mold-placeholder">Selecione um material para visualizar.</div>}</div><div className="video-list">{materialItems.length ? materialItems.map((manual, index) => { return (<button type="button" className={`manual-row video-row ${selectedMaterialIndex === index ? 'active' : ''}`} key={`${manual.name}-${index}`} onClick={() => setSelectedMaterialIndex(index)} data-testid={`button-select-manual-${index}`}><span className="manual-icon"><FileText size={16} /></span><span><span className="manual-name">{manual.name}</span><span className="manual-meta">{manual.meta}</span></span><a className="icon-btn" href={manual.url || '#'} target="_blank" rel="noreferrer" onClick={(event) => event.stopPropagation()}>Abrir <ArrowRight size={13} /></a></button>); }) : <div className="manual-row"><span className="manual-icon"><FileText size={16} /></span><span><span className="manual-name">Material em breve</span><span className="manual-meta">Links do Google Drive serão adicionados aqui.</span></span></div>}</div></div>}{activeTab === 'Galeria' && <div className="text-card"><h3>Galeria</h3><p style={{ marginBottom: 15 }}>Fotos de referência para apoio operacional.</p><div className="gallery-grid">{galleryItems.map((item, index) => <div className="gallery-tile" key={`${item.title}-${index}`} data-testid={`gallery-image-${index + 1}`}>{item.url && <img className="gallery-image" src={item.url} alt={item.title} />}</div>)}</div></div>}{activeTab === 'Vídeos' && <div className="text-card" id="videos-section"><h3>Vídeos</h3><div className="video-player-mold">{selectedVideo ? selectedVideoEmbedUrl ? <iframe className="video-mold-frame" src={selectedVideoEmbedUrl} title={selectedVideo.title} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowFullScreen referrerPolicy="strict-origin-when-cross-origin" /> : <div className="video-mold-placeholder">Este vídeo não pode ser reproduzido neste player.</div> : <div className="video-mold-placeholder">Selecione um vídeo para reproduzir.</div>}</div><div className="video-list">{videoItems.length ? videoItems.map((video, index) => { return (<button type="button" className={`manual-row video-row ${selectedVideoIndex === index ? 'active' : ''}`} key={`${video.title}-${index}`} onClick={() => setSelectedVideoIndex(index)} data-testid={`button-select-video-${index}`}><span className="manual-icon"><Play size={16} /></span><span><span className="manual-name">{video.title}</span><span className="manual-meta">{video.url}</span></span><a className="icon-btn" href={video.url} target="_blank" rel="noreferrer" onClick={(event) => event.stopPropagation()}>Abrir <ArrowRight size={13} /></a></button>); }) : <div className="manual-row"><span className="manual-icon"><Play size={16} /></span><span><span className="manual-name">Vídeos em breve</span><span className="manual-meta">Links do YouTube serão adicionados aqui.</span></span></div>}</div></div>}</div>{toast && <div className="toast" role="status" data-testid="status-detail-toast"><Check size={14} style={{ verticalAlign: 'middle', marginRight: 7, color: '#efb349' }} />{toast}</div>}</main>;
+
+  return (
+    <main className="page-wrap">
+      <div className="crumb">
+        <Link href="/" data-testid="link-breadcrumb-catalogo">Catálogo</Link>
+        <ArrowRight size={12} />
+        <span>{aircraft.name}</span>
+      </div>
+
+      <div className="detail-head">
+        <div>
+          <div className="eyebrow">ficha da aeronave · código AR-001</div>
+          <h1 className="page-title">{aircraft.name}</h1>
+          <p className="page-lede">
+            {aircraft.manufacturer} · {aircraft.role} · <span style={{ color: '#4e9974' }}>● {aircraft.status}</span>
+          </p>
+        </div>
+
+        <div className="detail-actions">
+          <button className="outline-btn" onClick={() => window.print()} data-testid="button-print">
+            <FileText size={15} />
+            <span>Imprimir ficha</span>
+          </button>
+          <button className={`outline-btn ${favorite ? 'filter-btn active' : ''}`} onClick={toggleFavorite} data-testid="button-detail-favorite">
+            <Heart size={15} fill={favorite ? 'currentColor' : 'none'} />
+            <span>{favorite ? 'Favoritado' : 'Favoritar'}</span>
+          </button>
+        </div>
+      </div>
+
+      <div className="detail-grid">
+        <div className="detail-info-panel">
+          <Viewer aircraft={aircraft} />
+
+          <div className="info-card">
+            <div className="info-heading">
+              <span>
+                <Gauge size={15} className="heading-icon" style={{ verticalAlign: 'middle', marginRight: 7 }} />
+                ficha informativa
+              </span>
+              <span className="section-kicker">SI / métrico</span>
+            </div>
+
+            <div className="metric-list">
+              <div className="metric"><span className="metric-label">categoria</span><span className="metric-value">{aircraft.category}</span></div>
+              <div className="metric"><span className="metric-label">papel operacional</span><span className="metric-value">{aircraft.role}</span></div>
+              <div className="metric"><span className="metric-label">origem</span><span className="metric-value">{aircraft.origin}</span></div>
+              <div className="metric"><span className="metric-label">tripulação</span><span className="metric-value">{aircraft.crew}</span></div>
+              <div className="metric"><span className="metric-label">POB max.</span><span className="metric-value">{aircraft.pobMax}</span></div>
+              <div className="metric"><span className="metric-label">entrada em serviço</span><span className="metric-value">{aircraft.year}</span></div>
+              <div className="metric"><span className="metric-label">comprimento</span><span className="metric-value">{aircraft.length}</span></div>
+              <div className="metric"><span className="metric-label">envergadura</span><span className="metric-value">{aircraft.wingspan}</span></div>
+              <div className="metric"><span className="metric-label">altura</span><span className="metric-value">{aircraft.height}</span></div>
+              <div className="metric"><span className="metric-label">velocidade máx.</span><span className="metric-value">{aircraft.maxSpeed}</span></div>
+              <div className="metric"><span className="metric-label">alcance</span><span className="metric-value">{aircraft.range}</span></div>
+              <div className="metric"><span className="metric-label">peso máx. decolagem</span><span className="metric-value">{aircraft.weight}</span></div>
+              {aircraft.designacaoFab && <div className="metric"><span className="metric-label">Designação FAB</span><span className="metric-value">{aircraft.designacaoFab}</span></div>}
+              {aircraft.fabricanteDetalhe && <div className="metric"><span className="metric-label">Fabricante</span><span className="metric-value">{aircraft.fabricanteDetalhe}</span></div>}
+              {aircraft.categoriaContraIncendio && <div className="metric"><span className="metric-label">Categoria Contraincêndio</span><span className="metric-value">{aircraft.categoriaContraIncendio}</span></div>}
+              {aircraft.alturaSoloCockpit && <div className="metric"><span className="metric-label">Altura solo ao cockpit</span><span className="metric-value">{aircraft.alturaSoloCockpit}</span></div>}
+              {aircraft.combustivel && <div className="metric"><span className="metric-label">Combustível</span><span className="metric-value">{aircraft.combustivel}</span></div>}
+              {aircraft.quantidadeSaidas && <div className="metric"><span className="metric-label">Quantidade de saídas</span><span className="metric-value">{aircraft.quantidadeSaidas}</span></div>}
+              {aircraft.assentoEjetavel && <div className="metric"><span className="metric-label">Assento ejetável</span><span className="metric-value">{aircraft.assentoEjetavel}</span></div>}
+              {aircraft.sistemaDefesa && <div className="metric"><span className="metric-label">Sistema de defesa</span><span className="metric-value">{aircraft.sistemaDefesa}</span></div>}
+              {aircraft.motor && <div className="metric"><span className="metric-label">Motor</span><span className="metric-value">{aircraft.motor}</span></div>}
+              {aircraft.armamentoFixo && <div className="metric"><span className="metric-label">Armamento fixo</span><span className="metric-value">{aircraft.armamentoFixo}</span></div>}
+              {aircraft.armamentosCompativeis && <div className="metric"><span className="metric-label">Armamentos compatíveis</span><span className="metric-value">{aircraft.armamentosCompativeis}</span></div>}
+            </div>
+          </div>
+
+          <p className="info-note">As informações apresentadas são destinadas à consulta e podem variar conforme versão, configuração ou fonte.</p>
+        </div>
+      </div>
+
+      <nav className="tab-bar" aria-label="Seções da ficha">
+        {tabs.map((tab) => (
+          <button
+            key={tab}
+            className={`tab ${activeTab === tab ? 'active' : ''}`}
+            onClick={() => setActiveTab(tab)}
+            data-testid={`tab-${tab.toLowerCase().replaceAll(' ', '-')}`}
+          >
+            {tab}
+          </button>
+        ))}
+      </nav>
+
+      <div className="tab-content">
+        {activeTab === 'Visão geral' && (
+          <div className="two-column">
+            <div className="text-card">
+              <h3>Perfil operacional</h3>
+              <p>
+                {aircraft.name} é uma {aircraft.category.toLowerCase()} com {aircraft.role.toLowerCase()}. A configuração operacional atual está alinhada com {aircraft.origin} e com {aircraft.crew.toLowerCase()} na tripulação.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'Material' && (
+          <div className="text-card" id="biblioteca">
+            <h3>Material</h3>
+            <p style={{ marginBottom: 15 }}>Links de referência do Google Drive.</p>
+
+            <div className="video-player-mold">
+              {selectedMaterial ? (
+                selectedMaterialEmbedUrl ? (
+                  <iframe
+                    className="video-mold-frame"
+                    src={selectedMaterialEmbedUrl}
+                    title={selectedMaterial.name}
+                    frameBorder="0"
+                    allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+                    allowFullScreen
+                  />
+                ) : (
+                  <div className="video-mold-placeholder">Este material não pode ser visualizado neste player.</div>
+                )
+              ) : (
+                <div className="video-mold-placeholder">Selecione um material para visualizar.</div>
+              )}
+            </div>
+
+            <div className="video-list">
+              {materialItems.length ? (
+                materialItems.map((manual, index) => (
+                  <button
+                    type="button"
+                    className={`manual-row video-row ${selectedMaterialIndex === index ? 'active' : ''}`}
+                    key={`${manual.name}-${index}`}
+                    onClick={() => setSelectedMaterialIndex(index)}
+                    data-testid={`button-select-manual-${index}`}
+                  >
+                    <span className="manual-icon"><FileText size={16} /></span>
+                    <span>
+                      <span className="manual-name">{manual.name}</span>
+                      <span className="manual-meta">{manual.meta}</span>
+                    </span>
+                    <a className="icon-btn" href={manual.url || '#'} target="_blank" rel="noreferrer" onClick={(event) => event.stopPropagation()}>
+                      Abrir <ArrowRight size={13} />
+                    </a>
+                  </button>
+                ))
+              ) : (
+                <div className="manual-row">
+                  <span className="manual-icon"><FileText size={16} /></span>
+                  <span>
+                    <span className="manual-name">Material em breve</span>
+                    <span className="manual-meta">Links do Google Drive serão adicionados aqui.</span>
+                  </span>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'Galeria' && (
+          <div className="text-card">
+            <h3>Galeria</h3>
+            <p style={{ marginBottom: 15 }}>Fotos de referência para apoio operacional.</p>
+            <div className="gallery-grid">
+              {galleryItems.map((item, index) => (
+                <div className="gallery-tile" key={`${item.title}-${index}`} data-testid={`gallery-image-${index + 1}`}>
+                  {item.url && <img className="gallery-image" src={item.url} alt={item.title} />}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'Vídeos' && (
+          <div className="text-card" id="videos-section">
+            <h3>Vídeos</h3>
+            <div className="video-player-mold">
+              {selectedVideo ? (
+                selectedVideoEmbedUrl ? (
+                  <iframe
+                    className="video-mold-frame"
+                    src={selectedVideoEmbedUrl}
+                    title={selectedVideo.title}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+                    allowFullScreen
+                    referrerPolicy="strict-origin-when-cross-origin"
+                  />
+                ) : (
+                  <div className="video-mold-placeholder">Este vídeo não pode ser reproduzido neste player.</div>
+                )
+              ) : (
+                <div className="video-mold-placeholder">Selecione um vídeo para reproduzir.</div>
+              )}
+            </div>
+
+            <div className="video-list">
+              {videoItems.length ? (
+                videoItems.map((video, index) => (
+                  <button
+                    type="button"
+                    className={`manual-row video-row ${selectedVideoIndex === index ? 'active' : ''}`}
+                    key={`${video.title}-${index}`}
+                    onClick={() => setSelectedVideoIndex(index)}
+                    data-testid={`button-select-video-${index}`}
+                  >
+                    <span className="manual-icon"><Play size={16} /></span>
+                    <span>
+                      <span className="manual-name">{video.title}</span>
+                      <span className="manual-meta">{video.url}</span>
+                    </span>
+                    <a className="icon-btn" href={video.url} target="_blank" rel="noreferrer" onClick={(event) => event.stopPropagation()}>
+                      Abrir <ArrowRight size={13} />
+                    </a>
+                  </button>
+                ))
+              ) : (
+                <div className="manual-row">
+                  <span className="manual-icon"><Play size={16} /></span>
+                  <span>
+                    <span className="manual-name">Vídeos em breve</span>
+                    <span className="manual-meta">Links do YouTube serão adicionados aqui.</span>
+                  </span>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {toast && (
+        <div className="toast" role="status" data-testid="status-detail-toast">
+          <Check size={14} style={{ verticalAlign: 'middle', marginRight: 7, color: '#efb349' }} />
+          {toast}
+        </div>
+      )}
+    </main>
+  );
 }
+
 function Router() { return <Switch><Route path="/" component={HomePage} /><Route path="/categoria" component={CategoryPage} /><Route path="/aeronaves/:id" component={DetailPage} /><Route component={NotFound} /></Switch>; }
 function App() {
   const [theme, setTheme] = useState<ThemeMode>(() => {

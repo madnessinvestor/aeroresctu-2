@@ -234,7 +234,7 @@ a { color: inherit; text-decoration: none; }
 .status-pill { display:flex; align-items:center; gap:7px; color:hsl(var(--muted-foreground)); font-size:11px; font-family:var(--app-font-mono); }
 .status-dot { width:7px;height:7px;background:#67b58b;border-radius:50%; box-shadow:0 0 0 3px rgba(103,181,139,.16); }
 .profile-badge { display:none; }
-.mobile-nav { display:none; }
+.mobile-menu-wrap { display:none; }
 .page-wrap { max-width: 1440px; margin:0 auto; padding: 38px 40px 70px; }
 .eyebrow { color:#bc7720; text-transform:uppercase; letter-spacing:.16em; font-size:11px; font-family:var(--app-font-mono); font-weight:700; }
 .display { font-family:var(--font-display); letter-spacing:-.025em; }
@@ -481,14 +481,18 @@ a { color: inherit; text-decoration: none; }
 .fade-in { animation:fade-in .45s ease both; }.stagger-1{animation-delay:.06s}.stagger-2{animation-delay:.12s}.stagger-3{animation-delay:.18s}
 @keyframes fade-in { from { opacity:0; transform:translateY(7px); } to {opacity:1; transform:translateY(0);} }
 @media (max-width: 900px) {
-  .topbar{padding:0 20px; flex-wrap:wrap; align-items:center; min-height:72px; gap:12px;}
+  .topbar{position:relative; padding:0 20px; flex-wrap:nowrap; align-items:center; min-height:72px; gap:12px;}
   .topnav{display:none}
-  .topbar-actions{margin-left:0; margin-right:0;}
-  .mobile-nav{display:flex;align-items:center;gap:4px; margin-left:auto;}
-  .mobile-nav .nav-link{padding:8px}
+  .topbar-actions{margin-left:auto; margin-right:0;}
   .status-pill{display:none}
+  .mobile-menu-wrap{display:block; position:relative; z-index:20;}
+  .mobile-menu-toggle{display:inline-flex; align-items:center; justify-content:center; width:38px; height:38px; border-radius:10px; border:1px solid hsl(var(--border)); background:hsl(var(--card)); color:hsl(var(--foreground)); box-shadow:none;}
+  .mobile-menu{position:absolute; top:calc(100% + 10px); right:0; min-width:230px; display:flex; flex-direction:column; gap:8px; padding:10px; border:1px solid hsl(var(--border)); border-radius:12px; background:hsl(var(--card)); box-shadow:0 14px 28px rgba(15, 31, 41, 0.12);}
+  .mobile-menu .nav-link{display:flex; justify-content:flex-start; width:100%; padding:10px 12px; border-radius:8px; background:transparent;}
+  .mobile-menu .nav-link.active{background:hsl(var(--secondary));}
+  .mobile-menu-theme{margin-top:4px; align-self:flex-start;}
   .page-wrap{padding:30px 22px 60px}.catalog-grid,.detail-grid,.two-column{grid-template-columns:1fr}.side-panel{display:none}.detail-grid{margin-top:20px}.viewer{min-height:430px}.aircraft-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.reference-grid{grid-template-columns:1fr}
 }
 @media (max-width: 560px) {
-  .topbar{height:64px;padding:0 15px}.brand{min-width:0}.brand-name{font-size:22px}.brand-sub{display:none}.topbar-actions{gap:8px}.theme-toggle{width:34px;height:34px}.theme-toggle.mobile{width:34px;height:34px}.page-wrap{padding:25px 15px 50px}.page-title{font-size:39px}.search-row{flex-wrap:wrap}.search-box{min-width:100%}.aircraft-grid{grid-template-columns:1fr}.detail-head{display:block}.detail-actions{margin-top:16px}.viewer{min-height:350px}.viewer-plane{inset:23% 4% 22%}.hotspot-note{bottom:61px}.gallery-grid{grid-template-columns:1fr 1fr}.metric-list{grid-template-columns:1fr}.metric:nth-child(odd){margin-right:0;border-right:0;padding-right:0}.detail-actions .outline-btn{padding:0 10px}.detail-actions .outline-btn span{display:none}.reference-card-header,.reference-section-heading{flex-direction:column;align-items:flex-start}
+  .topbar{height:64px;padding:0 15px}.brand{min-width:0}.brand-name{font-size:22px}.brand-sub{display:none}.topbar-actions{gap:8px}.theme-toggle{width:34px;height:34px}.page-wrap{padding:25px 15px 50px}.page-title{font-size:39px}.search-row{flex-wrap:wrap}.search-box{min-width:100%}.aircraft-grid{grid-template-columns:1fr}.detail-head{display:block}.detail-actions{margin-top:16px}.viewer{min-height:350px}.viewer-plane{inset:23% 4% 22%}.hotspot-note{bottom:61px}.gallery-grid{grid-template-columns:1fr 1fr}.metric-list{grid-template-columns:1fr}.metric:nth-child(odd){margin-right:0;border-right:0;padding-right:0}.detail-actions .outline-btn{padding:0 10px}.detail-actions .outline-btn span{display:none}.reference-card-header,.reference-section-heading{flex-direction:column;align-items:flex-start}
 }

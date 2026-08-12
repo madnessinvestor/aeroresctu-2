@@ -290,6 +290,8 @@ function Brand() {
 }
 function Shell({ children, theme, onToggleTheme }: { children: ReactNode; theme: ThemeMode; onToggleTheme: () => void }) {
   const [location] = useLocation();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   return (
     <div className="app-shell">
       <header className="topbar">
@@ -311,9 +313,52 @@ function Shell({ children, theme, onToggleTheme }: { children: ReactNode; theme:
             {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
           </button>
         </div>
-        <div className="mobile-nav">
-          <Link href="/" className={`nav-link ${location === '/' ? 'active' : ''}`} data-testid="link-mobile-home"><Layers3 size={17} /></Link>
-          <Link href="/categoria" className={`nav-link ${location === '/categoria' ? 'active' : ''}`} data-testid="link-mobile-contraincendio"><Sparkles size={17} /></Link>
+
+        <div className="mobile-menu-wrap">
+          <button
+            className="mobile-menu-toggle"
+            type="button"
+            aria-label="Abrir menu de navegação"
+            aria-expanded={mobileMenuOpen}
+            onClick={() => setMobileMenuOpen((open) => !open)}
+            data-testid="button-mobile-menu"
+          >
+            <Menu size={18} />
+          </button>
+
+          {mobileMenuOpen && (
+            <div className="mobile-menu" role="menu" aria-label="Menu mobile">
+              <Link
+                href="/"
+                className={`nav-link ${location === '/' ? 'active' : ''}`}
+                data-testid="link-mobile-home"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <Layers3 size={15} /> Catálogo
+              </Link>
+              <Link
+                href="/categoria"
+                className={`nav-link ${location === '/categoria' ? 'active' : ''}`}
+                data-testid="link-mobile-contraincendio"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <Sparkles size={15} /> Categoria Contraincêndio
+              </Link>
+              <button
+                className="theme-toggle mobile-menu-theme"
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onToggleTheme();
+                }}
+                aria-label={`Alternar para tema ${theme === 'dark' ? 'claro' : 'escuro'}`}
+                title={theme === 'dark' ? 'Ativar tema claro' : 'Ativar tema escuro'}
+                data-testid="button-theme-toggle-mobile"
+              >
+                {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
+              </button>
+            </div>
+          )}
         </div>
       </header>
       {children}

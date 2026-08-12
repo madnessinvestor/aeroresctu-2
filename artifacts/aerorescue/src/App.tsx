@@ -163,6 +163,21 @@ const rotaryWingReference: ReferenceRule[] = [
   { range: '24 a 35 exclusive', category: 'H3', aerodrome: '4' },
 ];
 
+function HelicopterIcon({ size = 15 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true" style={{ display: 'inline-block', verticalAlign: 'middle' }}>
+      <path d="M4 13h11l3-3V9a2 2 0 0 1 2-2h1" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M6 13h8a2 2 0 0 1 2 2v1.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M10 7h5a2 2 0 0 1 2 2v2" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M9 13h-3a2 2 0 0 0-2 2v.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M12 9V4m-2.5 2.5h5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M8 16.5h7" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M5 16.5h2m11 0h2" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="12" cy="12" r="2.5" stroke="currentColor" strokeWidth="1.7" />
+    </svg>
+  );
+}
+
 function FireCategoryReference() {
   return (
     <section className="reference-section" aria-labelledby="reference-title">
@@ -211,7 +226,7 @@ function FireCategoryReference() {
 
         <div className="reference-card">
           <div className="reference-card-header">
-            <span className="reference-card-title"><Rotate3d size={15} /> Categoria Contraincêndio de Aeronaves de Asa Rotativa</span>
+            <span className="reference-card-title"><HelicopterIcon size={15} /> Categoria Contraincêndio de Aeronaves de Asa Rotativa</span>
             <span className="reference-pill">CAT HL H1 - H3</span>
           </div>
           <p className="reference-copy">Para aeronaves de asa rotativa, a categoria é determinada pelo comprimento total do helicóptero, incluindo os rotores.</p>

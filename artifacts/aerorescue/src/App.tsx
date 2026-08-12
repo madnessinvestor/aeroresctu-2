@@ -479,10 +479,8 @@ function HomePage() {
         <section>
           <div className="result-head">
             <div>
-              <span className="section-kicker">inventário de aeronaves</span>
               <div className="result-count">
-                {sorted.length} resultado{sorted.length !== 1 ? 's' : ''}
-                <span> / {aircraftCatalog.length} catalogado</span>
+                {aircraftCatalog.length} aeronaves catalogadas
               </div>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>

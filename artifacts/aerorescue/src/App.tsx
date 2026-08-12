@@ -76,6 +76,27 @@ function formatCompactMetric(value: string | number | undefined) {
   return text.toLowerCase() === 'sem tripulação' ? '0' : text;
 }
 
+function formatFireCategoryDisplay(value: string | number | undefined) {
+  if (value === undefined || value === null || value === '') return '';
+  const text = String(value).trim();
+  if (!text) return '';
+
+  const normalized = text.replace(/[–—-]/g, ' ').replace(/\s+/g, ' ').toUpperCase();
+  const rotorMatch = normalized.match(/H([1-3])/);
+  if (rotorMatch) {
+    const helicopterLevel = Number(rotorMatch[1]);
+    const equivalent = helicopterLevel === 1 ? '2' : helicopterLevel === 2 ? '3' : '4';
+    return `CAT HL H${helicopterLevel} → CAT-AV ${equivalent}`;
+  }
+
+  const fixedMatch = normalized.match(/(\d+)/);
+  if (fixedMatch) {
+    return `CAT-AV ${Number(fixedMatch[1])}`;
+  }
+
+  return text;
+}
+
 const fireCategoryRows: FireCategoryRow[] = [
   { categoria: 'Asa Fixa', anv: 'KC-30', nome: 'KC-30', cat_contraincendio: 8 },
   { categoria: 'Asa Fixa', anv: 'C-130', nome: 'C-130 Hércules', cat_contraincendio: 6 },
@@ -202,7 +223,7 @@ function AircraftCard({
         </button>
         {aircraft.categoriaContraIncendio && (
           <div className="fire-badge" data-testid={`badge-fire-${aircraft.id}`}>
-            {aircraft.categoriaContraIncendio}
+            {formatFireCategoryDisplay(aircraft.categoriaContraIncendio)}
           </div>
         )}
       </div>
@@ -244,7 +265,7 @@ function AircraftCard({
       </button>
       {aircraft.categoriaContraIncendio && (
         <div className="fire-badge" data-testid={`badge-fire-${aircraft.id}`}>
-          {aircraft.categoriaContraIncendio}
+          {formatFireCategoryDisplay(aircraft.categoriaContraIncendio)}
         </div>
       )}
     </div>

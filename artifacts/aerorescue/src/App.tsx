@@ -314,16 +314,6 @@ function Shell({ children, theme, onToggleTheme }: { children: ReactNode; theme:
         <div className="mobile-nav">
           <Link href="/" className={`nav-link ${location === '/' ? 'active' : ''}`} data-testid="link-mobile-home"><Layers3 size={17} /></Link>
           <Link href="/categoria" className={`nav-link ${location === '/categoria' ? 'active' : ''}`} data-testid="link-mobile-contraincendio"><Sparkles size={17} /></Link>
-          <button
-            className="theme-toggle mobile"
-            type="button"
-            onClick={onToggleTheme}
-            aria-label={`Alternar para tema ${theme === 'dark' ? 'claro' : 'escuro'}`}
-            title={theme === 'dark' ? 'Ativar tema claro' : 'Ativar tema escuro'}
-            data-testid="button-theme-toggle-mobile"
-          >
-            {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
-          </button>
         </div>
       </header>
       {children}

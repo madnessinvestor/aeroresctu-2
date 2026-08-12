@@ -473,7 +473,7 @@ function HomePage() {
         </label>
       </div>
 
-      <div className="result-count-inline" style={{ marginTop: 12, marginBottom: 14 }}>
+      <div className="result-count-inline">
         <div className="result-count">{aircraftCatalog.length} aeronaves catalogadas</div>
       </div>
 

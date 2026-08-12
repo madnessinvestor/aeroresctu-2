@@ -198,7 +198,7 @@ function FireCategoryReference() {
 
         <div className="reference-card">
           <div className="reference-card-header">
-            <span className="reference-card-title"><Plane size={15} /> Categoria Contraincêndio de Aeronaves de Asa Fixa</span>
+            <span className="reference-card-title"><Plane size={15} /> Aeronaves de Asa Fixa</span>
             <span className="reference-pill">CAT-AV 1 - 10</span>
           </div>
           <p className="reference-copy">Para aeronaves de asa fixa, determina-se inicialmente a categoria pelo comprimento total da aeronave. Em seguida, verifica-se a largura máxima da fuselagem. Caso a largura máxima da fuselagem ultrapasse o limite estabelecido para a categoria determinada pelo comprimento, a aeronave será enquadrada na categoria imediatamente superior.</p>
@@ -226,7 +226,7 @@ function FireCategoryReference() {
 
         <div className="reference-card">
           <div className="reference-card-header">
-            <span className="reference-card-title"><HelicopterIcon size={15} /> Categoria Contraincêndio de Aeronaves de Asa Rotativa</span>
+            <span className="reference-card-title"><HelicopterIcon size={15} /> Aeronaves de Asa Rotativa</span>
             <span className="reference-pill">CAT HL H1 - H3</span>
           </div>
           <p className="reference-copy">Para aeronaves de asa rotativa, a categoria é determinada pelo comprimento total do helicóptero, incluindo os rotores.</p>
@@ -254,7 +254,7 @@ function FireCategoryReference() {
 
         <div className="reference-card">
           <div className="reference-card-header">
-            <span className="reference-card-title"><Plane size={15} /> Categoria Contraincêndio de Aeronaves de Asa Fixa e Rotativa</span>
+            <span className="reference-card-title"><Plane size={15} /> Categoria Contraincêndio de Aeronaves</span>
           </div>
           <p className="reference-copy">Esta tabela apresenta a categoria de contraincêndio atribuída a cada aeronave do inventário operacional.</p>
           <div className="category-table-wrapper">

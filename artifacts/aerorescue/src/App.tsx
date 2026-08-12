@@ -261,7 +261,7 @@ function FireCategoryReference() {
             <table className="category-table reference-table">
               <thead>
                 <tr>
-                  <th>Categoria</th>
+                  <th>TIPO DE AERONAVE</th>
                   <th>Anv</th>
                   <th>Nome</th>
                   <th>Categoria Contraincêndio</th>

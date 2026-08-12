@@ -214,7 +214,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 .topbar-actions {
-  display:flex; align-items:center; gap:10px; margin-left:auto;
+  display:flex; align-items:center; justify-content:flex-end; gap:10px; margin-left:auto;
 }
 
 .brand { display:flex; align-items:center; gap:11px; min-width: 208px; }
@@ -228,6 +228,18 @@ a { color: inherit; text-decoration: none; }
 .topbar-spacer { flex:1; }
 .profile-badge { display:none; }
 .mobile-menu-wrap { display:block; position:relative; z-index:20; }
+.mobile-menu-toggle {
+  display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px;
+  border-radius:10px; border:1px solid hsl(var(--border)); background:hsl(var(--card)); color:hsl(var(--foreground));
+  box-shadow:none;
+}
+.mobile-menu {
+  position:absolute; top:calc(100% + 10px); right:0; min-width:260px; display:flex; flex-direction:column; gap:8px;
+  padding:10px; border:1px solid hsl(var(--border)); border-radius:12px; background:hsl(var(--card));
+  box-shadow:0 14px 28px rgba(15, 31, 41, 0.12);
+}
+.mobile-menu .nav-link{display:flex; justify-content:flex-start; width:100%; padding:10px 12px; border-radius:8px; background:transparent;}
+.mobile-menu .nav-link.active{background:hsl(var(--secondary));}
 .page-wrap { max-width: 1440px; margin:0 auto; padding: 38px 40px 70px; }
 .eyebrow { color:#bc7720; text-transform:uppercase; letter-spacing:.16em; font-size:11px; font-family:var(--app-font-mono); font-weight:700; }
 .display { font-family:var(--font-display); letter-spacing:-.025em; }

@@ -288,7 +288,7 @@ function FireCategoryReference() {
 function Brand() {
   return <Link href="/" className="brand" data-testid="link-brand"><span className="brand-mark"><Plane size={18} strokeWidth={2.6} /></span><span><span className="brand-name">AERORESCUE</span><span className="brand-sub">catálogo operacional · SESCINC</span></span></Link>;
 }
-function Shell({ children, theme, onToggleTheme }: { children: ReactNode; theme: ThemeMode; onToggleTheme: () => void }) {
+function Shell({ children, theme, onToggleTheme, onSetTheme }: { children: ReactNode; theme: ThemeMode; onToggleTheme: () => void; onSetTheme: (mode: ThemeMode) => void; }) {
   const [location] = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -344,19 +344,32 @@ function Shell({ children, theme, onToggleTheme }: { children: ReactNode; theme:
               >
                 <Sparkles size={15} /> Categoria Contraincêndio
               </Link>
-              <button
-                className="theme-toggle mobile-menu-theme"
-                type="button"
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  onToggleTheme();
-                }}
-                aria-label={`Alternar para tema ${theme === 'dark' ? 'claro' : 'escuro'}`}
-                title={theme === 'dark' ? 'Ativar tema claro' : 'Ativar tema escuro'}
-                data-testid="button-theme-toggle-mobile"
-              >
-                {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
-              </button>
+
+              <div className="mobile-theme-panel" aria-label="Seletor de tema">
+                <span className="mobile-theme-label">Tema</span>
+                <div className="mobile-theme-segment">
+                  <button
+                    type="button"
+                    className={`mobile-theme-option ${theme === 'light' ? 'active' : ''}`}
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      onSetTheme('light');
+                    }}
+                  >
+                    Claro
+                  </button>
+                  <button
+                    type="button"
+                    className={`mobile-theme-option ${theme === 'dark' ? 'active' : ''}`}
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      onSetTheme('dark');
+                    }}
+                  >
+                    Escuro
+                  </button>
+                </div>
+              </div>
             </div>
           )}
         </div>
@@ -744,6 +757,6 @@ function App() {
     window.localStorage.setItem('aerorescue:theme', theme);
   }, [theme]);
 
-  return <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}><Shell theme={theme} onToggleTheme={() => setTheme((current) => (current === 'light' ? 'dark' : 'light'))}><Router /></Shell></WouterRouter>;
+  return <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}><Shell theme={theme} onToggleTheme={() => setTheme((current) => (current === 'light' ? 'dark' : 'light'))} onSetTheme={setTheme}><Router /></Shell></WouterRouter>;
 }
 export default App;

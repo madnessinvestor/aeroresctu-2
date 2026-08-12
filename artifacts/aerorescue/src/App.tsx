@@ -889,7 +889,6 @@ function DetailPage() {
 
       <div className="detail-head">
         <div>
-          <div className="eyebrow">ficha da aeronave · código AR-001</div>
           <h1 className="page-title">{aircraft.name}</h1>
           <p className="page-lede">
             {aircraft.manufacturer} · {aircraft.role} · <span style={{ color: '#4e9974' }}>● {aircraft.status}</span>

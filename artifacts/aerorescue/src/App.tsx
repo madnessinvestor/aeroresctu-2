@@ -182,7 +182,7 @@ function FireCategoryReference() {
   return (
     <section className="reference-section" aria-labelledby="reference-title">
       <div className="reference-grid">
-        <div className="reference-card">
+        <div className="reference-card reference-card-wide">
           <div className="reference-card-header">
             <span className="reference-card-title">Categoria Contraincêndio</span>
           </div>

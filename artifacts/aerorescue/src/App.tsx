@@ -473,13 +473,6 @@ function HomePage() {
           />
           <span style={{ font: '10px var(--app-font-mono)', color: '#9ba8a8' }}>⌘ K</span>
         </label>
-        <button
-          className={`filter-btn ${filtersOpen ? 'active' : ''}`}
-          onClick={() => setFiltersOpen(!filtersOpen)}
-          data-testid="button-toggle-filters"
-        >
-          <SlidersHorizontal size={15} /> Filtros <ChevronDown size={14} />
-        </button>
       </div>
 
       <div className="catalog-grid">
@@ -493,6 +486,15 @@ function HomePage() {
               </div>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+              <button
+                className={`filter-btn ${filtersOpen ? 'active' : ''}`}
+                onClick={() => setFiltersOpen(!filtersOpen)}
+                data-testid="button-toggle-filters"
+                style={{ height: 33 }}
+              >
+                <SlidersHorizontal size={15} /> Filtros <ChevronDown size={14} />
+              </button>
+
               <select
                 className="sort-select"
                 aria-label="Ordenar resultados"

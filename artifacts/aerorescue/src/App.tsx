@@ -300,10 +300,6 @@ function Shell({ children, theme, onSetTheme }: { children: ReactNode; theme: Th
           <Link href="/" className={`nav-link ${location === '/' ? 'active' : ''}`} data-testid="link-catalogo"><Layers3 size={15} /> Catálogo</Link>
           <Link href="/categoria" className={`nav-link ${location === '/categoria' ? 'active' : ''}`} data-testid="link-contraincendio"><Sparkles size={15} /> Categoria Contraincêndio</Link>
         </nav>
-        <div className="topbar-actions">
-          <div className="status-pill" data-testid="status-offline"><span className="status-dot" /> banco local sincronizado</div>
-        </div>
-
         <div className="mobile-menu-wrap">
           <button
             className="mobile-menu-toggle"
@@ -554,7 +550,7 @@ function HomePage() {
       </div>
 
       <div className="catalog-grid">
-        <section>
+        <section className="catalog-main-column">
           <div className="result-head">
             <div />
             <div className="catalog-controls">
@@ -635,42 +631,6 @@ function HomePage() {
             )}
           </div>
         </section>
-
-        <aside>
-          <div className="side-panel">
-            <div className="side-heading">
-              <span>
-                <History size={14} style={{ verticalAlign: 'middle', marginRight: 6 }} /> histórico recente
-              </span>
-              <small>{history.length || 1} item</small>
-            </div>
-            <div className="history-row">
-              <div className="history-thumb">
-                <AircraftArt />
-              </div>
-              <div>
-                <div className="history-name">AMX A-1</div>
-                <div className="history-time">consultado agora</div>
-              </div>
-            </div>
-          </div>
-
-          <div className="side-panel" id="operacional">
-            <div className="side-heading">
-              <span>
-                <Sparkles size={14} style={{ verticalAlign: 'middle', marginRight: 6 }} /> para a sua operação
-              </span>
-            </div>
-            <ul className="tip-list">
-              <li>
-                <ClipboardList size={14} /> Procedimentos revisados para treinamento e resposta.
-              </li>
-              <li>
-                <CircleHelp size={14} /> Use os hotspots para localizar acessos e zonas críticas.
-              </li>
-            </ul>
-          </div>
-        </aside>
       </div>
 
       {toast && (

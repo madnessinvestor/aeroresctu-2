@@ -263,7 +263,6 @@ function FireCategoryReference() {
                 <tr>
                   <th>TIPO DE AERONAVE</th>
                   <th>Anv</th>
-                  <th>Nome</th>
                   <th>Categoria Contraincêndio</th>
                 </tr>
               </thead>
@@ -272,7 +271,6 @@ function FireCategoryReference() {
                   <tr key={`${row.categoria}-${row.anv}`}>
                     <td>{row.categoria}</td>
                     <td>{row.anv}</td>
-                    <td>{row.nome}</td>
                     <td><strong>{row.cat_contraincendio}</strong></td>
                   </tr>
                 ))}

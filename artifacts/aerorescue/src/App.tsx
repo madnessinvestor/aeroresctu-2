@@ -582,7 +582,6 @@ function HomePage() {
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Buscar por modelo, fabricante ou função..."
           />
-          <span style={{ font: '10px var(--app-font-mono)', color: '#9ba8a8' }}>⌘ K</span>
         </label>
       </div>
 

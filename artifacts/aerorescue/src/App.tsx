@@ -242,10 +242,39 @@ function FireCategoryReference() {
             </table>
           </div>
         </div>
+
+        <div className="reference-card">
+          <div className="reference-card-heading">
+            <span><Plane size={15} /> Aeronaves e Categoria Contraincêndio</span>
+            <span className="section-kicker">lista de aeronaves</span>
+          </div>
+          <p>Esta tabela apresenta a categoria de contraincêndio atribuída a cada aeronave do inventário operacional.</p>
+          <div className="category-table-wrapper">
+            <table className="category-table reference-table">
+              <thead>
+                <tr>
+                  <th>Categoria</th>
+                  <th>Anv</th>
+                  <th>Nome</th>
+                  <th>Categoria Contraincêndio</th>
+                </tr>
+              </thead>
+              <tbody>
+                {fireCategoryRows.map((row) => (
+                  <tr key={`${row.categoria}-${row.anv}`}>
+                    <td>{row.categoria}</td>
+                    <td>{row.anv}</td>
+                    <td>{row.nome}</td>
+                    <td><strong>{row.cat_contraincendio}</strong></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </section>
   );
-}rimento total do helicóptero (m)</th><th>Categoria do helicóptero</th><th>Categoria do aeródromo</th></tr></thead><tbody>{rotaryWingReference.map((row) => <tr key={`${row.range}-${row.category}`}><td>{row.range}</td><td><strong>{row.category}</strong></td><td>{row.aerodrome}</td></tr>)}</tbody></table></div></div></div><div className="reference-card"><div className="reference-card-heading"><span><Plane size={15} /> Aeronaves e Categoria Contraincêndio</span><span className="section-kicker">lista de aeronaves</span></div><p>Esta tabela apresenta a categoria de contraincêndio atribuída a cada aeronave do inventário operacional.</p><div className="category-table-wrapper"><table className="category-table reference-table"><thead><tr><th>Categoria</th><th>Anv</th><th>Nome</th><th>Categoria Contraincêndio</th></tr></thead><tbody>{fireCategoryRows.map((row) => <tr key={`${row.categoria}-${row.anv}`}><td>{row.categoria}</td><td>{row.anv}</td><td>{row.nome}</td><td><strong>{row.cat_contraincendio}</strong></td></tr>)}</tbody></table></div></div></section>;
 }
 
 function Brand() {

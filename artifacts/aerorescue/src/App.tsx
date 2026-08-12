@@ -101,6 +101,10 @@ function isCivilAircraft(category: string) {
   return /civil|vip|executivo/i.test(category);
 }
 
+function getAircraftTypeLabel(aircraft: Aircraft) {
+  return isCivilAircraft(aircraft.category) ? 'Civil' : 'Militar';
+}
+
 function getAircraftIdentificationLabel(aircraft: Aircraft) {
   return isCivilAircraft(aircraft.category) ? 'Nome Comercial' : 'Designação FAB';
 }
@@ -411,7 +415,7 @@ function AircraftCard({
         <Link href={`/aeronaves/${aircraft.id}`} className="list-main-link">
           <div className="card-info">
             <div className="card-topline">
-              <span className="card-tag">{aircraft.category}</span>
+              <span className="card-tag">{getAircraftTypeLabel(aircraft)}</span>
               <span style={{ color: '#5a9b7a', fontSize: 10 }}>● {aircraft.status}</span>
             </div>
             <div className="list-identity-row">
@@ -449,7 +453,7 @@ function AircraftCard({
         </div>
         <div className="card-info">
           <div className="card-topline">
-            <span className="card-tag">{aircraft.category}</span>
+            <span className="card-tag">{getAircraftTypeLabel(aircraft)}</span>
             <span style={{ color: '#5a9b7a', fontSize: 10 }}>● {aircraft.status}</span>
           </div>
           <h2 className="card-title">{aircraft.name}</h2>

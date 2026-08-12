@@ -870,6 +870,15 @@ function DetailPage() {
   const selectedVideoEmbedUrl = selectedVideo ? getVideoEmbedUrl(selectedVideo.url) : null;
   const selectedMaterialEmbedUrl = selectedMaterial?.url ? getDrivePreviewUrl(selectedMaterial.url) : null;
 
+  const handlePrint = () => {
+    setActiveTab('Visão geral');
+    document.body.classList.add('print-mode');
+    window.setTimeout(() => {
+      window.print();
+      window.setTimeout(() => document.body.classList.remove('print-mode'), 250);
+    }, 30);
+  };
+
   return (
     <main className="page-wrap">
       <div className="crumb">
@@ -888,7 +897,7 @@ function DetailPage() {
         </div>
 
         <div className="detail-actions">
-          <button className="outline-btn" onClick={() => window.print()} data-testid="button-print">
+          <button className="outline-btn" onClick={handlePrint} data-testid="button-print">
             <FileText size={15} />
             <span>Imprimir ficha</span>
           </button>

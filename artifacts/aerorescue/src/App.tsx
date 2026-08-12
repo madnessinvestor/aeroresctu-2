@@ -252,7 +252,7 @@ function FireCategoryReference() {
           </div>
         </div>
 
-        <div className="reference-card">
+        <div className="reference-card reference-card-wide">
           <div className="reference-card-header">
             <span className="reference-card-title"><Flame size={15} /> Categoria Contraincêndio de Aeronaves</span>
           </div>

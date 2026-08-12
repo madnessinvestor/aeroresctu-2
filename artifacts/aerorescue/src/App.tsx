@@ -302,16 +302,6 @@ function Shell({ children, theme, onToggleTheme, onSetTheme }: { children: React
         </nav>
         <div className="topbar-actions">
           <div className="status-pill" data-testid="status-offline"><span className="status-dot" /> banco local sincronizado</div>
-          <button
-            className="theme-toggle"
-            type="button"
-            onClick={onToggleTheme}
-            aria-label={`Alternar para tema ${theme === 'dark' ? 'claro' : 'escuro'}`}
-            title={theme === 'dark' ? 'Ativar tema claro' : 'Ativar tema escuro'}
-            data-testid="button-theme-toggle"
-          >
-            {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
-          </button>
         </div>
 
         <div className="mobile-menu-wrap">

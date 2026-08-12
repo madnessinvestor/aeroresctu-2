@@ -86,7 +86,7 @@ function formatFireCategoryDisplay(value: string | number | undefined) {
   if (rotorMatch) {
     const helicopterLevel = Number(rotorMatch[1]);
     const equivalent = helicopterLevel === 1 ? '2' : helicopterLevel === 2 ? '3' : '4';
-    return `CAT HL H${helicopterLevel} → CAT-AV ${equivalent}`;
+    return `CAT HL H${helicopterLevel} → ${equivalent}`;
   }
 
   const fixedMatch = normalized.match(/(\d+)/);
@@ -455,6 +455,7 @@ function HomePage() {
     { value: 'grid', label: 'Grade' },
     { value: 'list', label: 'Lista' },
   ] as const;
+  const selectedViewLabel = viewMode === 'grid' ? 'Grade' : 'Lista';
 
   return (
     <main className="page-wrap">
@@ -505,18 +506,21 @@ function HomePage() {
                 <option>Favoritos</option>
               </select>
 
-              <div className="view-mode-switch" role="group" aria-label="Modo de visualização de catálogo">
-                {viewOptions.map((option) => (
-                  <button
-                    key={option.value}
-                    type="button"
-                    className={`view-mode-button ${viewMode === option.value ? 'active' : ''}`}
-                    onClick={() => setViewMode(option.value)}
-                    data-testid={`button-view-${option.value}`}
-                  >
-                    {option.label}
-                  </button>
-                ))}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <span style={{ fontSize: 11, color: '#6e8188', fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase' }}>
+                  Visualização
+                </span>
+                <select
+                  className="sort-select"
+                  aria-label="Visualização do catálogo"
+                  data-testid="select-view-mode"
+                  value={selectedViewLabel}
+                  onChange={(event) => setViewMode(event.target.value === 'Lista' ? 'list' : 'grid')}
+                >
+                  {viewOptions.map((option) => (
+                    <option key={option.value} value={option.label}>{option.label}</option>
+                  ))}
+                </select>
               </div>
             </div>
           </div>

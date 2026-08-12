@@ -396,13 +396,33 @@ a { color: inherit; text-decoration: none; }
 .aircraft-cover { display:block; width:100%; height:100%; object-fit:cover; }
 .aircraft-visual:before { content:''; position:absolute; inset:0; opacity:.18; background-image:linear-gradient(135deg,transparent 45%,#244a59 46%,transparent 47%), linear-gradient(45deg,transparent 48%,#244a59 49%,transparent 50%); background-size:39px 39px; }
 .aircraft-visual:after { content:''; position:absolute; right:12px; bottom:10px; }
-.favorite-toggle { position:absolute; top:11px; right:11px; z-index:2; width:30px;height:30px; border:1px solid rgba(30,65,77,.18); background:rgba(248,247,241,.76); color:#587079; border-radius:7px; display:grid;place-items:center; }
+.favorite-toggle {
+  position:absolute; top:11px; right:11px; z-index:2; width:30px;height:30px;
+  border:1px solid rgba(30,65,77,.18); background:rgba(255,255,255,.28); color:#587079;
+  border-radius:7px; display:grid;place-items:center; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.18);
+}
 .aircraft-card.list-view .favorite-toggle {
   top: 10px;
   right: 10px;
   transform: none;
 }
-.favorite-toggle.on { color:#a46c14; background:#f7e9c9; border-color:#e0b76a; }
+.favorite-toggle.on {
+  color:#a46c14; background:rgba(247,233,201,.72); border-color:rgba(224,183,106,.9);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.25), 0 0 0 1px rgba(168,122,31,.08);
+}
+:root[data-theme='dark'] .favorite-toggle {
+  background: rgba(18, 28, 35, 0.42);
+  border-color: rgba(146, 164, 173, 0.24);
+  color: #dfeaf1;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+}
+:root[data-theme='dark'] .favorite-toggle.on {
+  color: #f6d98e;
+  background: rgba(243, 180, 72, 0.16);
+  border-color: rgba(243, 180, 72, 0.7);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 0 0 1px rgba(243,180,72,0.08);
+}
 .aircraft-visual { isolation:isolate; overflow:hidden; }
 .plane-card-art { position:absolute; width:79%; height:78px; left:11%; top:34px; transform:rotate(-7deg); transform-origin:center; }
 .plane-card-art .fuselage { position:absolute; width:76%; height:19%; left:13%; top:42%; border-radius:70% 20% 30% 70%; background:#2b5666; box-shadow:inset -15px 1px #183b4c; }

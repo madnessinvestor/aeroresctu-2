@@ -374,7 +374,14 @@ function Shell({ children, theme, onSetTheme }: { children: ReactNode; theme: Th
           </div>
         </div>
       </header>
-      {children}
+      <div className="app-content">{children}</div>
+      <footer className="site-footer" aria-label="Rodapé institucional">
+        <div className="site-footer-inner">
+          <div className="site-footer-brand">AeroRescue © 2026</div>
+          <p>Projeto independente e sem fins lucrativos, desenvolvido para contribuir com a atividade de prevenção, salvamento e combate a incêndios em aeródromos.</p>
+          <div className="site-footer-slogan">Sempre prontos para Salvar!</div>
+        </div>
+      </footer>
     </div>
   );
 }

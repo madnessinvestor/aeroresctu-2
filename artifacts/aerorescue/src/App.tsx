@@ -275,7 +275,7 @@ function AircraftCard({
 function HomePage() {
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState('Todos');
-  const [sortBy, setSortBy] = useState('Mais consultados');
+  const [sortBy, setSortBy] = useState('Ordem alfabética');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
   const [favorites, setFavorites] = useState<string[]>(() => JSON.parse(localStorage.getItem('aerorescue:favorites') || '[]'));
   const [toast, setToast] = useState<Toast>(null);
@@ -305,11 +305,36 @@ function HomePage() {
   }), [query, filter, favorites]);
 
   const sorted = useMemo(() => {
+    const next = [...filtered];
+    const historyOrder = new Map(history.map((id, index) => [id, index]));
+    const favoriteIds = new Set(favorites);
+
     if (sortBy === 'Ordem alfabética') {
-      return [...filtered].sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
+      return next.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
     }
-    return filtered;
-  }, [filtered, sortBy]);
+
+    if (sortBy === 'Mais consultados') {
+      return next.sort((a, b) => {
+        const aIndex = historyOrder.get(a.id) ?? Number.MAX_SAFE_INTEGER;
+        const bIndex = historyOrder.get(b.id) ?? Number.MAX_SAFE_INTEGER;
+
+        if (aIndex !== bIndex) return aIndex - bIndex;
+        return a.name.localeCompare(b.name, undefined, { sensitivity: 'base' });
+      });
+    }
+
+    if (sortBy === 'Favoritos') {
+      return next.sort((a, b) => {
+        const aFavorite = favoriteIds.has(a.id) ? 0 : 1;
+        const bFavorite = favoriteIds.has(b.id) ? 0 : 1;
+
+        if (aFavorite !== bFavorite) return aFavorite - bFavorite;
+        return a.name.localeCompare(b.name, undefined, { sensitivity: 'base' });
+      });
+    }
+
+    return next;
+  }, [filtered, sortBy, history, favorites]);
 
   const viewOptions = [
     { value: 'grid', label: 'Grade' },
@@ -357,8 +382,9 @@ function HomePage() {
                 value={sortBy}
                 onChange={(event) => setSortBy(event.target.value)}
               >
-                <option>Mais consultados</option>
                 <option>Ordem alfabética</option>
+                <option>Mais consultados</option>
+                <option>Favoritos</option>
               </select>
 
               <div className="view-mode-switch" role="group" aria-label="Modo de visualização de catálogo">

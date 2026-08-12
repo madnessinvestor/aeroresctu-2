@@ -117,6 +117,10 @@ function getAircraftIdentificationLabel(aircraft: Aircraft) {
   return isCivilAircraft(aircraft.category) ? 'Nome Comercial' : 'Designação FAB';
 }
 
+function getAircraftSummaryLabel(aircraft: Aircraft) {
+  return `${aircraft.category} - ${aircraft.role}`;
+}
+
 function getFireCategoryRank(value?: string) {
   if (!value) return -1;
 
@@ -424,7 +428,7 @@ function AircraftCard({
           <div className="card-info">
             <div className="card-topline">
               <span className="card-tag">{getAircraftTypeLabel(aircraft)}</span>
-              <span style={{ color: '#5a9b7a', fontSize: 10 }}>● {aircraft.status}</span>
+              <span style={{ color: '#5a9b7a', fontSize: 10 }}>{getAircraftSummaryLabel(aircraft)}</span>
             </div>
             <div className="list-identity-row">
               <h2 className="card-title">{aircraft.name}</h2>
@@ -462,7 +466,7 @@ function AircraftCard({
         <div className="card-info">
           <div className="card-topline">
             <span className="card-tag">{getAircraftTypeLabel(aircraft)}</span>
-            <span style={{ color: '#5a9b7a', fontSize: 10 }}>● {aircraft.status}</span>
+            <span style={{ color: '#5a9b7a', fontSize: 10 }}>{getAircraftSummaryLabel(aircraft)}</span>
           </div>
           <h2 className="card-title">{aircraft.name}</h2>
           <div className="card-meta">{aircraft.manufacturer} · {aircraft.origin}</div>
@@ -909,7 +913,7 @@ function DetailPage() {
         <div>
           <h1 className="page-title">{aircraft.name}</h1>
           <p className="page-lede">
-            {aircraft.manufacturer} · {aircraft.role} · <span style={{ color: '#4e9974' }}>● {aircraft.status}</span>
+            {aircraft.manufacturer} · {getAircraftSummaryLabel(aircraft)}
           </p>
         </div>
 

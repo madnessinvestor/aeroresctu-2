@@ -905,11 +905,13 @@ function DetailPage() {
             </div>
 
             <div className="metric-list">
+              {aircraft.categoriaContraIncendio && <div className="metric fire-metric"><span className="metric-label">Categoria Contraincêndio</span><span className="metric-value">{aircraft.categoriaContraIncendio}</span></div>}
+              {aircraft.designacaoFab && <div className="metric"><span className="metric-label">Nome Comercial</span><span className="metric-value">{aircraft.designacaoFab}</span></div>}
+              <div className="metric"><span className="metric-label">tripulação</span><span className="metric-value">{aircraft.crew}</span></div>
+              <div className="metric"><span className="metric-label">POB max.</span><span className="metric-value">{aircraft.pobMax}</span></div>
               <div className="metric"><span className="metric-label">categoria</span><span className="metric-value">{aircraft.category}</span></div>
               <div className="metric"><span className="metric-label">papel operacional</span><span className="metric-value">{aircraft.role}</span></div>
               <div className="metric"><span className="metric-label">origem</span><span className="metric-value">{aircraft.origin}</span></div>
-              <div className="metric"><span className="metric-label">tripulação</span><span className="metric-value">{aircraft.crew}</span></div>
-              <div className="metric"><span className="metric-label">POB max.</span><span className="metric-value">{aircraft.pobMax}</span></div>
               <div className="metric"><span className="metric-label">entrada em serviço</span><span className="metric-value">{aircraft.year}</span></div>
               <div className="metric"><span className="metric-label">comprimento</span><span className="metric-value">{aircraft.length}</span></div>
               <div className="metric"><span className="metric-label">envergadura</span><span className="metric-value">{aircraft.wingspan}</span></div>
@@ -917,9 +919,7 @@ function DetailPage() {
               <div className="metric"><span className="metric-label">velocidade máx.</span><span className="metric-value">{aircraft.maxSpeed}</span></div>
               <div className="metric"><span className="metric-label">alcance</span><span className="metric-value">{aircraft.range}</span></div>
               <div className="metric"><span className="metric-label">peso máx. decolagem</span><span className="metric-value">{aircraft.weight}</span></div>
-              {aircraft.designacaoFab && <div className="metric"><span className="metric-label">Nome Comercial</span><span className="metric-value">{aircraft.designacaoFab}</span></div>}
               {aircraft.fabricanteDetalhe && <div className="metric"><span className="metric-label">Fabricante</span><span className="metric-value">{aircraft.fabricanteDetalhe}</span></div>}
-              {aircraft.categoriaContraIncendio && <div className="metric"><span className="metric-label">Categoria Contraincêndio</span><span className="metric-value">{aircraft.categoriaContraIncendio}</span></div>}
               {aircraft.alturaSoloCockpit && <div className="metric"><span className="metric-label">Altura solo ao cockpit</span><span className="metric-value">{aircraft.alturaSoloCockpit}</span></div>}
               {aircraft.combustivel && <div className="metric"><span className="metric-label">Combustível</span><span className="metric-value">{aircraft.combustivel}</span></div>}
               {aircraft.quantidadeSaidas && <div className="metric"><span className="metric-label">Quantidade de saídas</span><span className="metric-value">{aircraft.quantidadeSaidas}</span></div>}

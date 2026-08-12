@@ -97,6 +97,18 @@ function formatFireCategoryDisplay(value: string | number | undefined) {
   return text;
 }
 
+function isMilitaryAircraft(category: string) {
+  return /militar/i.test(category);
+}
+
+function isCivilAircraft(category: string) {
+  return !isMilitaryAircraft(category) && /civil|vip|executivo/i.test(category);
+}
+
+function getAircraftIdentificationLabel(aircraft: Aircraft) {
+  return isCivilAircraft(aircraft.category) ? 'Nome Comercial' : 'Designação FAB';
+}
+
 function getFireCategoryRank(value?: string) {
   if (!value) return -1;
 
@@ -904,9 +916,20 @@ function DetailPage() {
               <span className="section-kicker">SI / métrico</span>
             </div>
 
+            {aircraft.categoriaContraIncendio && (
+              <div className="fire-category-banner" aria-label="Categoria de contra incêndio">
+                <span className="fire-category-label">Categoria Contraincêndio</span>
+                <strong>{formatFireCategoryDisplay(aircraft.categoriaContraIncendio)}</strong>
+              </div>
+            )}
+
             <div className="metric-list">
-              {aircraft.categoriaContraIncendio && <div className="metric fire-metric"><span className="metric-label">Categoria Contraincêndio</span><span className="metric-value">{aircraft.categoriaContraIncendio}</span></div>}
-              {aircraft.designacaoFab && <div className="metric"><span className="metric-label">Nome Comercial</span><span className="metric-value">{aircraft.designacaoFab}</span></div>}
+              {aircraft.designacaoFab && (
+                <div className="metric">
+                  <span className="metric-label">{getAircraftIdentificationLabel(aircraft)}</span>
+                  <span className="metric-value">{aircraft.designacaoFab}</span>
+                </div>
+              )}
               <div className="metric"><span className="metric-label">tripulação</span><span className="metric-value">{aircraft.crew}</span></div>
               <div className="metric"><span className="metric-label">POB max.</span><span className="metric-value">{aircraft.pobMax}</span></div>
               <div className="metric"><span className="metric-label">categoria</span><span className="metric-value">{aircraft.category}</span></div>

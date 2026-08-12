@@ -917,7 +917,7 @@ function DetailPage() {
               <div className="metric"><span className="metric-label">velocidade máx.</span><span className="metric-value">{aircraft.maxSpeed}</span></div>
               <div className="metric"><span className="metric-label">alcance</span><span className="metric-value">{aircraft.range}</span></div>
               <div className="metric"><span className="metric-label">peso máx. decolagem</span><span className="metric-value">{aircraft.weight}</span></div>
-              {aircraft.designacaoFab && <div className="metric"><span className="metric-label">Designação FAB</span><span className="metric-value">{aircraft.designacaoFab}</span></div>}
+              {aircraft.designacaoFab && <div className="metric"><span className="metric-label">Nome Comercial</span><span className="metric-value">{aircraft.designacaoFab}</span></div>}
               {aircraft.fabricanteDetalhe && <div className="metric"><span className="metric-label">Fabricante</span><span className="metric-value">{aircraft.fabricanteDetalhe}</span></div>}
               {aircraft.categoriaContraIncendio && <div className="metric"><span className="metric-label">Categoria Contraincêndio</span><span className="metric-value">{aircraft.categoriaContraIncendio}</span></div>}
               {aircraft.alturaSoloCockpit && <div className="metric"><span className="metric-label">Altura solo ao cockpit</span><span className="metric-value">{aircraft.alturaSoloCockpit}</span></div>}
@@ -950,13 +950,11 @@ function DetailPage() {
 
       <div className="tab-content">
         {activeTab === 'Visão geral' && (
-          <div className="two-column">
-            <div className="text-card">
-              <h3>Perfil operacional</h3>
-              <p>
-                {aircraft.name} é uma {aircraft.category.toLowerCase()} com {aircraft.role.toLowerCase()}. A configuração operacional atual está alinhada com {aircraft.origin} e com {aircraft.crew.toLowerCase()} na tripulação.
-              </p>
-            </div>
+          <div className="text-card">
+            <h3>Perfil operacional</h3>
+            <p>
+              {aircraft.name} é uma {aircraft.category.toLowerCase()} com {aircraft.role.toLowerCase()}. A configuração operacional atual está alinhada com {aircraft.origin} e com {aircraft.crew.toLowerCase()} na tripulação.
+            </p>
           </div>
         )}
 

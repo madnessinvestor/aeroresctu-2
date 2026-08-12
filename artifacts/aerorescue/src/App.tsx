@@ -208,7 +208,7 @@ function FireCategoryReference() {
                 <tr>
                   <th>Comprimento total do avião (m)</th>
                   <th>Largura máxima da fuselagem (m)</th>
-                  <th>Categoria</th>
+                  <th>Categoria do Avião</th>
                 </tr>
               </thead>
               <tbody>
@@ -235,8 +235,8 @@ function FireCategoryReference() {
               <thead>
                 <tr>
                   <th>Comprimento total do helicóptero (m)</th>
-                  <th>Categoria</th>
-                  <th>Área de pouso</th>
+                  <th>Categoria do Helicóptero</th>
+                  <th>Categoria do Aeródromo</th>
                 </tr>
               </thead>
               <tbody>

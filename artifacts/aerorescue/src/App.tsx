@@ -174,9 +174,6 @@ function FireCategoryReference() {
 
       <div className="reference-grid">
         <div className="reference-card">
-          <div className="reference-card-heading">
-            <span><Sparkles size={15} /> Explicação</span>
-          </div>
           <p className="reference-intro">
             A Categoria Contraincêndio da Aeronave é determinada conforme as características dimensionais da aeronave,
             sendo definida por critérios específicos para asa fixa e asa rotativa. Essa classificação orienta a

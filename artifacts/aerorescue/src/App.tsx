@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Link, Route, Router as WouterRouter, Switch, useLocation, useParams } from 'wouter';
-import { ArrowRight, BookOpen, Check, ChevronDown, CircleHelp, ClipboardList, Crosshair, FileText, Gauge, Heart, History, Layers3, Maximize2, Menu, Minimize2, Moon, Move3d, Plane, Play, Rotate3d, Search, SlidersHorizontal, Sparkles, Sun, ZoomIn, ZoomOut } from 'lucide-react';
+import { ArrowRight, BookOpen, Check, ChevronDown, CircleHelp, ClipboardList, Crosshair, FileText, Flame, Gauge, Heart, History, Layers3, Maximize2, Menu, Minimize2, Moon, Move3d, Plane, Play, Rotate3d, Search, SlidersHorizontal, Sparkles, Sun, ZoomIn, ZoomOut } from 'lucide-react';
 import NotFound from '@/pages/not-found';
 import { aircraftCatalog, quickFilters, type Aircraft, type VideoLink } from '@/data/aircraft';
 
@@ -254,7 +254,7 @@ function FireCategoryReference() {
 
         <div className="reference-card">
           <div className="reference-card-header">
-            <span className="reference-card-title"><Plane size={15} /> Categoria Contraincêndio de Aeronaves</span>
+            <span className="reference-card-title"><Flame size={15} /> Categoria Contraincêndio de Aeronaves</span>
           </div>
           <p className="reference-copy">Esta tabela apresenta a categoria de contraincêndio atribuída a cada aeronave do inventário operacional.</p>
           <div className="category-table-wrapper">

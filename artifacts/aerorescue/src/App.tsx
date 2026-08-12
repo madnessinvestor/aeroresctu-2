@@ -105,6 +105,10 @@ function isMilitaryAircraft(category: string) {
   return !isCivilAircraft(category);
 }
 
+function isFixedWingAircraft(category: string) {
+  return !/helicóptero|rotativa|rotor/i.test(category);
+}
+
 function getAircraftTypeLabel(aircraft: Aircraft) {
   return isCivilAircraft(aircraft.category) ? 'Civil' : 'Militar';
 }
@@ -515,8 +519,8 @@ function HomePage() {
     const matchesFilter = filter === 'Todos'
       || (filter === 'Civis' && isCivilAircraft(aircraft.category))
       || (filter === 'Militares' && isMilitaryAircraft(aircraft.category))
-      || (filter === 'Aviões' && category.includes('jato'))
-      || (filter === 'Helicópteros' && category.includes('helicóptero'));
+      || (filter === 'Aviões' && isFixedWingAircraft(aircraft.category))
+      || (filter === 'Helicópteros' && /helicóptero|rotativa|rotor/i.test(aircraft.category));
     return matchesQuery && matchesFilter;
   }), [query, filter, favorites]);
 

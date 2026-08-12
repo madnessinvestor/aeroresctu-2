@@ -288,7 +288,7 @@ function FireCategoryReference() {
 function Brand() {
   return <Link href="/" className="brand" data-testid="link-brand"><span className="brand-mark"><Plane size={18} strokeWidth={2.6} /></span><span><span className="brand-name">AERORESCUE</span><span className="brand-sub">catálogo operacional · SESCINC</span></span></Link>;
 }
-function Shell({ children, theme, onToggleTheme, onSetTheme }: { children: ReactNode; theme: ThemeMode; onToggleTheme: () => void; onSetTheme: (mode: ThemeMode) => void; }) {
+function Shell({ children, theme, onSetTheme }: { children: ReactNode; theme: ThemeMode; onSetTheme: (mode: ThemeMode) => void; }) {
   const [location] = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -747,6 +747,6 @@ function App() {
     window.localStorage.setItem('aerorescue:theme', theme);
   }, [theme]);
 
-  return <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}><Shell theme={theme} onToggleTheme={() => setTheme((current) => (current === 'light' ? 'dark' : 'light'))} onSetTheme={setTheme}><Router /></Shell></WouterRouter>;
+  return <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}><Shell theme={theme} onSetTheme={setTheme}><Router /></Shell></WouterRouter>;
 }
 export default App;

@@ -481,35 +481,39 @@ function HomePage() {
         <section>
           <div className="result-head">
             <div />
-            <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-              <select
-                className="sort-select"
-                aria-label="Filtrar resultados"
-                data-testid="select-filter"
-                value={filter}
-                onChange={(event) => setFilter(event.target.value)}
-              >
-                {quickFilters.map((item) => (
-                  <option key={item} value={item}>{item}</option>
-                ))}
-              </select>
+            <div className="catalog-controls">
+              <div className="control-group">
+                <span className="control-label">Tipo</span>
+                <select
+                  className="sort-select"
+                  aria-label="Filtrar resultados"
+                  data-testid="select-filter"
+                  value={filter}
+                  onChange={(event) => setFilter(event.target.value)}
+                >
+                  {quickFilters.map((item) => (
+                    <option key={item} value={item}>{item}</option>
+                  ))}
+                </select>
+              </div>
 
-              <select
-                className="sort-select"
-                aria-label="Ordenar resultados"
-                data-testid="select-sort"
-                value={sortBy}
-                onChange={(event) => setSortBy(event.target.value)}
-              >
-                <option>Ordem alfabética</option>
-                <option>Mais consultados</option>
-                <option>Favoritos</option>
-              </select>
+              <div className="control-group">
+                <span className="control-label">Ordenar por</span>
+                <select
+                  className="sort-select"
+                  aria-label="Ordenar resultados"
+                  data-testid="select-sort"
+                  value={sortBy}
+                  onChange={(event) => setSortBy(event.target.value)}
+                >
+                  <option>Ordem alfabética</option>
+                  <option>Mais consultados</option>
+                  <option>Favoritos</option>
+                </select>
+              </div>
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span style={{ fontSize: 11, color: '#6e8188', fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase' }}>
-                  Visualização
-                </span>
+              <div className="control-group">
+                <span className="control-label">Visualização</span>
                 <select
                   className="sort-select"
                   aria-label="Visualização do catálogo"

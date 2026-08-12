@@ -259,6 +259,9 @@ a { color: inherit; text-decoration: none; }
 .catalog-table th, .catalog-table td { padding:14px 12px; border:1px solid hsl(var(--border)); }
 .catalog-table th { text-align:left; background:hsl(var(--card)); font-weight:700; }
 .catalog-table tbody tr:hover { background:hsl(var(--secondary)); }
+.catalog-controls { display:flex; align-items:flex-end; justify-content:flex-end; gap:16px; flex-wrap:wrap; }
+.control-group { display:flex; flex-direction:column; align-items:flex-start; gap:5px; }
+.control-label { font-size:10px; color:#6e8188; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
 .view-mode-switch { display:flex; gap:6px; align-items:center; margin-left:14px; }
 .view-mode-button { border:1px solid hsl(var(--border)); background:hsl(var(--card)); color:hsl(var(--foreground)); border-radius:8px; padding:9px 12px; font-size:12px; cursor:pointer; transition:background .2s, border-color .2s; }
 .view-mode-button:hover { background:hsl(var(--secondary)); }

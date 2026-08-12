@@ -296,10 +296,30 @@ function Shell({ children, theme, onSetTheme }: { children: ReactNode; theme: Th
     <div className="app-shell">
       <header className="topbar">
         <Brand />
-        <nav className="topnav" aria-label="Navegação principal">
-          <Link href="/" className={`nav-link ${location === '/' ? 'active' : ''}`} data-testid="link-catalogo"><Layers3 size={15} /> Catálogo</Link>
-          <Link href="/categoria" className={`nav-link ${location === '/categoria' ? 'active' : ''}`} data-testid="link-contraincendio"><Sparkles size={15} /> Categoria Contraincêndio</Link>
-        </nav>
+        <div className="topbar-actions">
+          <nav className="topnav" aria-label="Navegação principal">
+            <Link href="/" className={`nav-link ${location === '/' ? 'active' : ''}`} data-testid="link-catalogo"><Layers3 size={15} /> Catálogo</Link>
+            <Link href="/categoria" className={`nav-link ${location === '/categoria' ? 'active' : ''}`} data-testid="link-contraincendio"><Sparkles size={15} /> Categoria Contraincêndio</Link>
+          </nav>
+
+          <div className="desktop-theme-panel" aria-label="Seletor de tema">
+            <button
+              type="button"
+              className={`desktop-theme-option ${theme === 'light' ? 'active' : ''}`}
+              onClick={() => onSetTheme('light')}
+            >
+              Claro
+            </button>
+            <button
+              type="button"
+              className={`desktop-theme-option ${theme === 'dark' ? 'active' : ''}`}
+              onClick={() => onSetTheme('dark')}
+            >
+              Escuro
+            </button>
+          </div>
+        </div>
+
         <div className="mobile-menu-wrap">
           <button
             className="mobile-menu-toggle"

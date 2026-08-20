@@ -20,6 +20,16 @@ export type AircraftVisualization = {
   url?: string;
 };
 
+export type AircraftTechnicalVariant = {
+  label: string;
+  designacaoFab?: string;
+  category?: string;
+  role?: string;
+  crew?: string;
+  pobMax?: string;
+  sistemaDefesa?: string;
+};
+
 export type Aircraft = {
   id: string;
   name: string;
@@ -28,6 +38,7 @@ export type Aircraft = {
   role: string;
   origin: string;
   status: string;
+  hidden?: boolean;
   year: string;
   length: string;
   wingspan: string;
@@ -50,6 +61,7 @@ export type Aircraft = {
   armamentosCompativeis?: string;
   sketchfabModelId?: string;
   overviewModels?: AircraftVisualization[];
+  technicalVariants?: Record<string, AircraftTechnicalVariant>;
   coverImage?: string;
   notes: string[];
   procedures: { title: string; body: string }[];
@@ -186,7 +198,7 @@ export const aircraftCatalog: Aircraft[] = [
     category: 'Transporte logístico',
     role: 'Reabastecimento em voo e apoio aéreo',
     origin: 'Estados Unidos',
-    status: 'Operacional',
+    status: 'Desativado',
     year: '1956',
     length: '29,79 m',
     wingspan: '40,41 m',
@@ -212,6 +224,7 @@ export const aircraftCatalog: Aircraft[] = [
     ],
     coverImage: 'covers/c130(cover).jpg',
     notes: [
+      'DESATIVADO',
       'Verifique o plano de reabastecimento antes da missão e confirme pontos de contato.',
       'Monitore pressão de combustível e status da formação durante operações em voo.',
       'Assegure a carga e o manifesto de voo antes do embarque e da decolagem.',
@@ -222,10 +235,7 @@ export const aircraftCatalog: Aircraft[] = [
       { title: 'Acomodação de carga', body: 'Distribua o peso da carga uniformemente e prenda cada pallet conforme o plano de carregamento.' },
       { title: 'Emergência em voo', body: 'No caso de pane hidráulica ou de combustível, execute o procedimento de separação e abandone o contato imediatamente.' },
     ],
-      manuals: [
-    { name: 'Conhecimentos C-130 Hércules.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1epVVxU-1d8E6dN7Izx8_7xaezrNaYWqb/view?usp=drive_link' },
-    { name: 'Lockheed C-130 Hércules.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1OgCY0kzJHvXpGXM5fwHHB6xUgV2pfizv/view?usp=drive_link' },
-  ],
+    manuals: [],
   },
   {
     id: 'c-390-millennium',
@@ -297,6 +307,10 @@ export const aircraftCatalog: Aircraft[] = [
     armamentosCompativeis: 'Carga de sensores, câmeras, acessórios ISR e pacote de missão',
     sistemaDefesa: 'Enlace de dados, controle remoto e recuperação automática',
     sketchfabModelId: '6f240fa4bc654c32a81702ad5b00b0e8',
+    overviewModels: [
+      { label: 'Ilustração 1', sketchfabModelId: '6f240fa4bc654c32a81702ad5b00b0e8' },
+      { label: 'Ilustração 2', sketchfabModelId: '6a5a169d2a4345b4a708b210472c648e' },
+    ],
     coverImage: 'covers/hermes450.jpg',
     notes: [
       'Verifique os sensores e o enlace de dados antes de iniciar a missão.',
@@ -345,6 +359,7 @@ export const aircraftCatalog: Aircraft[] = [
       { label: 'Visão geral 1', sketchfabModelId: '7e1a4794553a42aba4de54ac55bea2cd' },
       { label: 'Visão geral 2', sketchfabModelId: 'f8b4a2dc190144d6843878e0907db73a' },
       { label: 'Visão geral 3', sketchfabModelId: '0ba298df69ad4f2989dd7ba49baac645' },
+      { label: 'Ilustração 4 (Canopy Aberto)', sketchfabModelId: '096f1120d63e43d396d81a93278673d9' },
     ],
     coverImage: 'covers/f5(cover).jpg',
     notes: [
@@ -373,6 +388,99 @@ export const aircraftCatalog: Aircraft[] = [
   ],
   },
   {
+    id: 'aero-boero-ab-115',
+    name: 'Aero Boero (AB-115)',
+    manufacturer: 'Aero Boero',
+    category: 'Aeronave civil',
+    role: 'Aviação geral e treinamento leve',
+    origin: 'Argentina',
+    status: 'Operacional',
+    year: '2006',
+    length: '7,36 m',
+    wingspan: '9,60 m',
+    height: '2,43 m',
+    maxSpeed: '285 km/h',
+    range: '1.100 km',
+    crew: '01 piloto',
+    weight: '1.000 kg (MTOW)',
+    pobMax: '02 pessoas a bordo',
+    designacaoFab: 'AB-115',
+    categoriaContraIncendio: '01',
+    combustivel: 'Avgas 100LL',
+    quantidadeSaidas: '01 porta lateral',
+    motor: '1 × Lycoming AEIO-540',
+    sistemaDefesa: 'Configuração padrão de aviação geral',
+    sketchfabModelId: '5e81c26e101d4e8f8b525aa25031b7bf',
+    overviewModels: [
+      { label: 'Visão geral 1', sketchfabModelId: '5e81c26e101d4e8f8b525aa25031b7bf' },
+    ],
+    coverImage: 'covers/ab115(cover).jpg',
+    notes: [
+      'O Aero Boero AB-115 é um monomotor leve de desempenho de aviação geral e uso universitário ou de treinamento.',
+      'Verifique a preparação da cabine, o combustível e a inspeção do trem de pouso antes de cada voo.',
+      'A operação exige atenção às distâncias de pouso e ao perfil de aproximação em aeródromos menores.',
+    ],
+    procedures: [
+      { title: 'Checklist pré-voo', body: 'Confirme o combustível, a condição do trem de pouso e os controles de voo antes da decolagem.' },
+      { title: 'Operação em aeródromos pequenos', body: 'Mantenha atenção ao peso, vento e distância necessária para pouso e decolagem.' },
+    ],
+    manuals: [
+      { name: 'AB-115 — Manual do Aeronave', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1YnAsCUE_NYThVZ5Z9jnN8m4_6lWkR-Kd/view?usp=sharing' },
+    ],
+  },
+  {
+    id: 'a-4-skyhawk-marinha',
+    name: 'A-4 da Marinha',
+    manufacturer: 'Douglas',
+    category: 'Aeronave de ataque embarcada',
+    role: 'Ataque embarcado e apoio naval',
+    origin: 'Estados Unidos',
+    status: 'Operacional',
+    year: '1954',
+    length: '12,22 m',
+    wingspan: '8,38 m',
+    height: '4,57 m',
+    maxSpeed: '1.160 km/h',
+    range: '2.400 km',
+    crew: '01 piloto',
+    weight: '11.000 kg (MTOW)',
+    pobMax: '01 pessoa a bordo',
+    designacaoFab: 'A-4 Skyhawk',
+    categoriaContraIncendio: '03',
+    combustivel: 'JP-5 / querosene de aviação militar',
+    quantidadeSaidas: '01 escotilha de acesso / saída de emergência',
+    motor: '1 × turbofan Pratt & Whitney J52-P-8A',
+    armamentoFixo: '2 × canhões Mk 12 de 20 mm',
+    armamentosCompativeis: 'Bombas, foguetes, mísseis e cargas táticas de apoio embarcado',
+    sistemaDefesa: 'Radar e proteção de missão da operação naval',
+    sketchfabModelId: 'c5d26ba5a9cd498ba5807a4f01684885',
+    overviewModels: [
+      { label: 'Ilustração 1', sketchfabModelId: 'c5d26ba5a9cd498ba5807a4f01684885' },
+    ],
+    coverImage: 'covers/a4-skyhawk(cover).jpg',
+    notes: [
+      'O A-4 Skyhawk é um avião de ataque leve de alta disponibilidade e uso naval.',
+      'Confirme a configuração de armamento tipo missão e a compatibilidade com as operações embarcadas.',
+      'Atenção especial a área de exaustão e à linha de deslocamento durante a abordagem a porta-aviões.',
+    ],
+    procedures: [
+      { title: 'Checklist de embarque', body: 'Valide o peso, a carga externa e a configuração de pista antes da decolagem.' },
+      { title: 'Operação naval', body: 'Mantenha comunicação constante com a ponte e siga os formatos de abordagem e retorno ao porta-aviões.' },
+    ],
+    manuals: [
+      { name: 'Manual de operações — A-4 Skyhawk', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/15GCTaiE_kHAWv6zMj52EaxgvTpEES56m/view?usp=drive_link' },
+      { name: 'A-4 Skyhawk — manual de referência', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/15yeeU5IxBUtMPh9Q389ljtD7p3lW0Vdt/view?usp=drive_link' },
+      { name: 'A-4 Skyhawk — ficha técnica operacional', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1CdUJcOvlOJWGJlpRf4zONqB82xx61UbL/view?usp=drive_link' },
+    ],
+    videos: [
+      { title: 'A-4 Skyhawk — vídeo de referência 01', url: 'https://drive.google.com/file/d/1cx0joD37iGaf4z1yi4feWzQJn7kAgsbk/view?usp=drive_link' },
+      { title: 'A-4 Skyhawk — vídeo de referência 02', url: 'https://drive.google.com/file/d/1LR5yX4nCrAxOlJyYG_j8R7guZhirl-Wc/view?usp=drive_link' },
+      { title: 'A-4 Skyhawk — vídeo de referência 03', url: 'https://drive.google.com/file/d/1B-pGYXidIwIr7blIb5pUuPlKXloWFV4P/view?usp=drive_link' },
+      { title: 'A-4 Skyhawk — vídeo de referência 04', url: 'https://drive.google.com/file/d/1VlkP9voElPAWGQR0XK2nP7b7VkhhTMlU/view?usp=drive_link' },
+      { title: 'A-4 Skyhawk — vídeo de referência 05', url: 'https://drive.google.com/file/d/1tgF3CdlbxTdijO8DA3OiB6zBELjEuzy2/view?usp=drive_link' },
+    ],
+  },
+  {
     id: 'a-29a-super-tucano',
     name: 'A-29A (Super Tucano)',
     manufacturer: 'Embraer',
@@ -398,11 +506,16 @@ export const aircraftCatalog: Aircraft[] = [
     armamentosCompativeis: 'Bombas, rockets, kits de tiro e apoio leve ao solo',
     sistemaDefesa: 'Sistemas de apoio de navegação e suporte de missão',
     sketchfabModelId: '987ef78a923941f7bed9b306f37513ca',
+    overviewModels: [
+      { label: 'Ilustração 1 (Padrão)', sketchfabModelId: '987ef78a923941f7bed9b306f37513ca' },
+      { label: 'Ilustração 2 (EDA)', sketchfabModelId: 'e417dad6c8a74004a63f4c0c18459d64' },
+    ],
     coverImage: 'covers/a29a(cover).jpg',
     notes: [
       'Confirme a preparação do armamento leve e sistemas de tiro antes da missão.',
       'Cheque a pressurização da cabine traseira e a comunicação entre os dois pilotos.',
-      'Avalie as condições de apoio de solo e defina rotas de fuga para missões de ataque leve.'
+      'Avalie as condições de apoio de solo e defina rotas de fuga para missões de ataque leve.',
+      'Observações do EDA: a variante de patrulha e vigilância incorpora diferenciações de sensores, missão e configuração específica de apoio aéreo, sem alterar a base da ficha técnica do A-29A.',
     ],
     procedures: [
       { title: 'Preparação de missão', body: 'Confirme combustível, munição e zona de operação antes de liberar a saída para missão.' },
@@ -410,10 +523,10 @@ export const aircraftCatalog: Aircraft[] = [
       { title: 'Treinamento de tripulação', body: 'Realize checklists de comunicação e coordene as ações entre os pilotos durante a instrução.' },
       { title: 'Pouso tático', body: 'Use trajetória controlada e atenção a obstáculos em pistas curtas ou campos não-preparados.' },
     ],
-      manuals: [
-    { name: 'Extrato do Manual de Resgate e Salvamento do Galpão de SBO da EEAR (A-29).pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1z1Dvft17P65RWCVSajOCiwpYKd5ezVyn/view?usp=drive_link' },
-    { name: 'Manual de Resgate A-29 Escorpião 2018.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1icNyJmtSDVT0BFmb2n8z6PexNYoWq4wQ/view?usp=drive_link' },
-  ],
+    manuals: [
+      { name: 'Extrato do Manual de Resgate e Salvamento do Galpão de SBO da EEAR (A-29).pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1z1Dvft17P65RWCVSajOCiwpYKd5ezVyn/view?usp=drive_link' },
+      { name: 'Manual de Resgate A-29 Escorpião 2018.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1icNyJmtSDVT0BFmb2n8z6PexNYoWq4wQ/view?usp=drive_link' },
+    ],
   },
   {
     id: 'a-29b-super-tucano',
@@ -458,9 +571,8 @@ export const aircraftCatalog: Aircraft[] = [
       { title: 'Pouso tático', body: 'Prepare a aeronave para pouso rápido em pistas curtas ou estradas, mantendo o controle de velocidade e flaps.' },
     ],
     manuals: [
-      { name: 'Manual de operações — A-29B Super Tucano', meta: 'PDF · 3,3 MB · revisão 03/2025' },
-      { name: 'Checklist de reconhecimento armado', meta: 'PDF · 1,2 MB · revisão 12/2024' },
-      { name: 'Guia de missão de apoio próximo', meta: 'PDF · 1,1 MB · revisão 08/2024' },
+      { name: 'Extrato do Manual de Resgate e Salvamento do Galpão de SBO da EEAR (A-29).pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1z1Dvft17P65RWCVSajOCiwpYKd5ezVyn/view?usp=drive_link' },
+      { name: 'Manual de Resgate A-29 Escorpião 2018.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1icNyJmtSDVT0BFmb2n8z6PexNYoWq4wQ/view?usp=drive_link' },
     ],
   },
   {
@@ -471,6 +583,7 @@ export const aircraftCatalog: Aircraft[] = [
     role: 'Vigilância e apoio naval',
     origin: 'Brasil',
     status: 'Projeto / conceito',
+    hidden: true,
     year: '2024',
     length: '35,00 m',
     wingspan: '32,00 m',
@@ -514,7 +627,7 @@ export const aircraftCatalog: Aircraft[] = [
     category: 'Caça multirole',
     role: 'Interceptação e superioridade aérea',
     origin: 'França',
-    status: 'Operacional (FAB homenagem)',
+    status: 'Desativado',
     year: '1984',
     length: '14,36 m',
     wingspan: '9,13 m',
@@ -535,6 +648,7 @@ export const aircraftCatalog: Aircraft[] = [
     sketchfabModelId: 'c3035e5684ba4edf86cf1feea006f228',
     coverImage: 'covers/mirrage(cover).jpg',
     notes: [
+      'Observação em vermelho: DESATIVADO.',
       'Confirme a configuração de armamento ar-ar e o radar antes de sair em missão.',
       'Monitore temperatura de motor e a resposta dos controles de voo em altas velocidades.',
       'Use procedimentos de interceptação padronizados para operações de defesa aérea.'
@@ -545,11 +659,8 @@ export const aircraftCatalog: Aircraft[] = [
       { title: 'Engajamento ar-ar', body: 'Confirme travamento de alvo e limite de energia antes do disparo do armamento guiado.' },
       { title: 'Pouso em base avançada', body: 'Verifique homologação de pista e condições de vento para pousos em bases alternativas.' },
     ],
-    manuals: [
-      { name: 'Manual de operações — Mirage 2000-C', meta: 'PDF · 3,7 MB · revisão 04/2025' },
-      { name: 'Checklist de interceptação', meta: 'PDF · 1,4 MB · revisão 01/2025' },
-      { name: 'Guia de missão de superioridade aérea', meta: 'PDF · 1,3 MB · revisão 10/2024' },
-    ],
+    manuals: [],
+    videos: [],
   },
   {
     id: 't-27m-tucano',
@@ -577,6 +688,9 @@ export const aircraftCatalog: Aircraft[] = [
     armamentosCompativeis: 'Rockets, bombas leves e carga de treinamento',
     sistemaDefesa: 'Sistemas básicos de segurança, cockpit e suporte de navegação',
     sketchfabModelId: 'fc86191cab494c4c84c1a6ab576b179c',
+    overviewModels: [
+      { label: 'Ilustração 1', sketchfabModelId: '9d7bbd9968274cad8107cbc3e0ea5d5c' },
+    ],
     coverImage: 'covers/t27(cover).jpg',
     notes: [
       'Verifique a configuração de treino e o armamento leve antes da decolagem.',
@@ -621,7 +735,8 @@ export const aircraftCatalog: Aircraft[] = [
     sketchfabModelId: '6879b342504047c4a646d366889efeac',
     overviewModels: [
       { label: 'Visão geral', sketchfabModelId: '6879b342504047c4a646d366889efeac' },
-      { label: 'Cockpit', sketchfabModelId: '95514f2eb89d4429959d434009887cdd' },
+      { label: 'Ilustração 2', sketchfabModelId: 'a2b70c2f92af45d18d95f02b60621dbf' },
+      { label: 'Ilustração 3', sketchfabModelId: 'f4646ccf489341c28c4118de38feface' },
     ],
     coverImage: 'covers/f39gripen(cover).avif',
     notes: [
@@ -640,44 +755,6 @@ export const aircraftCatalog: Aircraft[] = [
     { name: 'Checklist PCI F-39 Gripen.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1WMV5Zxa7EKGBbKuhM0wdnfPnKmPFkhP2/view?usp=drive_link' },
     { name: 'Extrato do Manual de Resgate e Salvamento do Galpão de SBO da EEAR (F-39).pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1i8HucMY_6o-d5G4js0igKwMFQj1wspX8/view?usp=drive_link' },
   ],
-  },
-  {
-    id: 'a-29a-super-tucano-eda',
-    name: 'A-29A (Super Tucano / EDA)',
-    manufacturer: 'Embraer',
-    category: 'Aeronave de ataque leve',
-    role: 'Apoio aéreo aproximado e patrulha',
-    origin: 'Brasil',
-    status: 'Operacional',
-    year: '2006',
-    length: '11,94 m',
-    wingspan: '11,14 m',
-    height: '4,55 m',
-    maxSpeed: '593 km/h',
-    range: '1.852 km',
-    crew: '02 tripulantes',
-    weight: '5.400 kg (MTOW)',
-    pobMax: '02 pessoas a bordo',
-    designacaoFab: 'A-29A',
-    categoriaContraIncendio: '02',
-    sketchfabModelId: 'e417dad6c8a74004a63f4c0c18459d64',
-    coverImage: 'covers/a29-eda01(cover).png',
-    notes: [
-      'Confirme a configuração de carga e os sensores de vigilância antes do voo.',
-      'Verifique os sistemas de comunicação entre piloto e observador durante as operações EDA.',
-      'Avalie a missão de apoio próximo e defina claramente os alvos de prioridade.'
-    ],
-    procedures: [
-      { title: 'Planejamento de missão EDA', body: 'Defina a área de patrulha, o perfil de voo e os pontos de referência para coleta de dados.' },
-      { title: 'Operação de vigilância', body: 'Mantenha altitudes e velocidades constantes para otimizar a coleta de imagens e dados de inteligência.' },
-      { title: 'Apoio aproximado', body: 'Use armamento leve apenas quando necessário e coordene com a equipe de solo para evitar danos colaterais.' },
-      { title: 'Retorno seguro', body: 'Monitore o combustível restante e prepare a aeronave para pouso em pista de retorno ou base alternativa se necessário.' },
-    ],
-    manuals: [
-      { name: 'Manual de operações — A-29A Super Tucano EDA', meta: 'PDF · 3,2 MB · revisão 05/2025' },
-      { name: 'Checklist de vigilância e apoio', meta: 'PDF · 1,2 MB · revisão 01/2025' },
-      { name: 'Guia de missão EDA', meta: 'PDF · 1,1 MB · revisão 09/2024' },
-    ],
   },
   {
     id: 'uh-60-black-hawk',
@@ -708,10 +785,11 @@ export const aircraftCatalog: Aircraft[] = [
     sketchfabModelId: '4682e6566cee481cb94d387fb7845243',
     coverImage: 'covers/h60(cover).png',
     overviewModels: [
-      { label: 'Visão geral 1', sketchfabModelId: '4682e6566cee481cb94d387fb7845243' },
-      { label: 'Visão geral 2', sketchfabModelId: 'b5774b78e817484ca90ac04ba40d8d8d' },
-      { label: 'Visão geral 3', sketchfabModelId: '697d44254628424283c551b4aba908b4' },
-      { label: 'Cockpit', sketchfabModelId: '2b745e5ab64d42968fb26e8c59475b41' },
+      { label: 'Ilustração 1', sketchfabModelId: '3973cb53b59d4ea7847cc89186b166ec' },
+      { label: 'Ilustração 2', sketchfabModelId: 'ee81eb66006b4d8980d0cf9ff6304b69' },
+      { label: 'Ilustração 3', sketchfabModelId: '4682e6566cee481cb94d387fb7845243' },
+      { label: 'Ilustração 4', sketchfabModelId: 'b5774b78e817484ca90ac04ba40d8d8d' },
+      { label: 'Ilustração 5', sketchfabModelId: '697d44254628424283c551b4aba908b4' },
     ],
     notes: [
       'Verifique a condição das pás do rotor e o sistema de transmissão antes da partida.',
@@ -740,7 +818,7 @@ export const aircraftCatalog: Aircraft[] = [
     category: 'Aeronave de ataque embarcada',
     role: 'Ataque leve e apoio embarcado',
     origin: 'Estados Unidos / Brasil',
-    status: 'Histórico / Em acervo',
+    status: 'Desativado',
     year: '1967',
     length: '12,04 m',
     wingspan: '9,47 m',
@@ -755,6 +833,10 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'Jet A-1 / JP-4',
     quantidadeSaidas: '01 escotilha de acesso',
     motor: '1 × turbofan Pratt & Whitney J52-P-8A',
+    overviewModels: [
+      { label: 'Ilustração 1', sketchfabModelId: 'cf353814ef14488599336f752b85d5d4' },
+      { label: 'Ilustração 2', sketchfabModelId: 'da31069c7a614361a4ece92842079969' },
+    ],
     coverImage: 'covers/ah2sabre(cover).jpeg',
     notes: [
       'A aeronave AH-2 Sabre da Marinha foi operada em missões de ataque embarcado e apoio aos navios.',
@@ -794,6 +876,9 @@ export const aircraftCatalog: Aircraft[] = [
     quantidadeSaidas: '01 porta de acesso lateral',
     motor: '2 × Pratt & Whitney Canada PT6A-34 turbopropulsores',
     coverImage: 'covers/c95(cover).jpg',
+    overviewModels: [
+      { label: 'Ilustração 1', sketchfabModelId: 'b66a7caa5a3b411c931011ca617e5f8f' },
+    ],
     notes: [
       'O C-95 Bandeirante é um dos pilares do transporte leve da FAB e da aviação militar brasileira.',
       'Verifique a configuração de carga antes do embarque de tropas ou material sensível.',
@@ -833,7 +918,7 @@ export const aircraftCatalog: Aircraft[] = [
     quantidadeSaidas: '01 porta de acesso lateral',
     motor: '2 × Pratt & Whitney Canada PT6A turbopropulsores',
     coverImage: 'covers/c97(cover).jpg',
-    sketchfabModelId: 'd56a29f322e745e083f742a039944bba',
+    sketchfabModelId: '64e0e5daa0974e60ad686d4a2db0402c',
     notes: [
       'O C-97 representa uma variante de transporte e apoio logístico de média capacidade da FAB.',
       'As operações podem incluir transporte de pessoal, vistorias e apoio a unidades embarcadas.',
@@ -881,7 +966,7 @@ export const aircraftCatalog: Aircraft[] = [
     quantidadeSaidas: '01 porta de acesso lateral',
     motor: '2 × Pratt & Whitney Canada PT6A turbopropulsores',
     coverImage: 'covers/c98(cover).jpeg',
-    sketchfabModelId: '404534bb5c1e453cbecd7f03fe6d2d56',
+    sketchfabModelId: '22c48cda6fd34ebca6264c3ca11a7936',
     notes: [
       'O C-98 é usado pela FAB para apoio tático e missões de transporte especializadas.',
       'As inspeções de pré-voo devem focar nas superfícies de controle e no sistema de combustível.',
@@ -947,7 +1032,7 @@ export const aircraftCatalog: Aircraft[] = [
     category: 'Transporte militar',
     role: 'Transporte tático e apoio de curta distância',
     origin: 'Canadá / Brasil',
-    status: 'Operacional',
+    status: 'Desativado',
     year: '1977',
     length: '22,42 m',
     wingspan: '24,38 m',
@@ -1022,10 +1107,21 @@ export const aircraftCatalog: Aircraft[] = [
     manuals: [
       { name: 'ATR 72-600 Flight Crew Operating Manual', meta: 'Manual de voo típico', url: 'https://www.atr-aircraft.com/wp-content/uploads/2016/05/ATR72-600-FCOM.pdf' },
     ],
+    videos: [
+      { title: 'Saiba Porque a Aviação Regional Precisa do Avião Turboélice. Por dentro do ATR 72-600', url: 'https://www.youtube.com/watch?v=qWa0EIw8jOs' },
+      { title: 'How to open ATR72 Emergency door', url: 'https://www.youtube.com/watch?v=VOb3RojhHkU' },
+      { title: 'ATR 72-600 ENTRANCE DOOR/ LIFE OF A FLIGHT ATTENDANT/ CABIN CREW', url: 'https://www.youtube.com/shorts/xx159jrGxEM' },
+      { title: 'HOW TO OPEN ATR 72-600 AIRCRAFT DOOR/ FLIGHT ATTENDANT LIFE/CABIN CREW VLOG', url: 'https://www.youtube.com/shorts/fUoYPDOveZM' },
+      { title: 'ATR 72-600 AIRCRAFT DOOR OPENING/ FLIGHT ATTENDANT LIFE/ FLY WITH IYETUNDE / CABIN CREW', url: 'https://www.youtube.com/shorts/qb9Y68nCsF4' },
+      { title: 'Brand New Aircraft : ATR 72-600', url: 'https://www.youtube.com/shorts/v82JhkaicA8' },
+      { title: 'ATR 72-600 ATA 26 Fire Protection', url: 'https://www.youtube.com/watch?v=9s8aY6Mg1Ag' },
+      { title: 'ATR 72-600 cockpit', url: 'https://www.youtube.com/shorts/I19Sv8B-F-8' },
+      { title: 'ATR EMERGENCY EVACUATION TRAINING VIDEO', url: 'https://www.youtube.com/watch?v=C1AveJQu280&t=308s' },
+    ],
   },
   {
     id: 'e-99m',
-    name: 'E-99M (EMB 145 AEW&C)',
+    name: 'E/R 99 (EMB 145)',
     manufacturer: 'Embraer',
     category: 'Aerotransporte de vigilância',
     role: 'Alerta aéreo antecipado e comando de batalha',
@@ -1043,12 +1139,44 @@ export const aircraftCatalog: Aircraft[] = [
     categoriaContraIncendio: '06',
     designacaoFab: 'E-99M',
     fabricanteDetalhe: 'Embraer / Operado pela FAB',
+    technicalVariants: {
+      e99m: {
+        label: 'E-99M',
+        designacaoFab: 'E-99M',
+        category: 'Aerotransporte de vigilância',
+        role: 'Alerta aéreo antecipado e comando de batalha',
+        crew: '02 pilotos + equipe de missão',
+        pobMax: '28 pessoas a bordo',
+        sistemaDefesa: 'Radar Erieye, sistemas de comando e controle e enlace tático de dados',
+      },
+      r99a: {
+        label: 'R-99A',
+        designacaoFab: 'R-99A',
+        category: 'Aerotransporte de reconhecimento',
+        role: 'Sensoriamento remoto e reconhecimento aéreo',
+        crew: '02 pilotos + equipe de missão',
+        pobMax: '28 pessoas a bordo',
+        sistemaDefesa: 'Sensores de reconhecimento, sistemas de missão e enlace de dados',
+      },
+      r99b: {
+        label: 'R-99B',
+        designacaoFab: 'R-99B',
+        category: 'Aerotransporte de reconhecimento',
+        role: 'Inteligência, vigilância e reconhecimento eletrônico',
+        crew: '02 pilotos + equipe de missão',
+        pobMax: '28 pessoas a bordo',
+        sistemaDefesa: 'Sensores de inteligência eletrônica, comunicações e sistemas de missão',
+      },
+    },
     combustivel: 'Jet A-1 / QAV-1',
     quantidadeSaidas: '02 portas laterais',
     motor: '2 × turbofans Honeywell TFE731-20',
     sketchfabModelId: '952a9403acd7409991f2ae35b46ddd19',
     overviewModels: [
-      { label: 'Visão geral', sketchfabModelId: '952a9403acd7409991f2ae35b46ddd19' },
+      { label: 'Ilustração 1 (E-99M)', sketchfabModelId: 'afc65ee8c9c54892bedc7f51778dc713' },
+      { label: 'Ilustração 2 (E-99M)', sketchfabModelId: 'cd6255fc27424f2c9cbb4e2edb7ce720' },
+      { label: 'Ilustração 3 (R-99B)', sketchfabModelId: '561a931e940e444f943d221da988d1f2' },
+      { label: 'Ilustração 4 (R-99A - New E-99M)', sketchfabModelId: 'c1bac016be9c4e96a697df74bfc89f11' },
     ],
     coverImage: 'covers/e99(cover).jpg',
     notes: [
@@ -1061,9 +1189,11 @@ export const aircraftCatalog: Aircraft[] = [
       { title: 'Checklist pré-voo', body: 'Verifique todos os painéis de aviação e o funcionamento dos sistemas de missão.' },
     ],
     manuals: [
+      { name: 'Manual de Procedimentos e Abordagem do E-99M Ala 2.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/18fZnmPLqq7f8MwUDnAle9VR52Qre8DeF/view?usp=drive_link' },
       { name: 'Abordagem do E-99M.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/13bQ_FMWnNDG7Iy01n45mDUMpNvVsITau/view?usp=drive_link' },
-      { name: 'Manual de Procedimentos e Abordagem do E-99M Ala 2.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/18fZnmPLqq7f8MwDNalAle9VR52Qre8DeF/view?usp=drive_link' },
       { name: 'Extrato do Manual de Resgate e Salvamento do Galpão de SBO da EEAR (E-99M).pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1Ii9o0mz9tWrOSZcDZLaND-jNSbNt04eW/view?usp=drive_link' },
+      { name: 'Manual de Procedimentos e Abordagem do ER-99 Ala 2', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1IW1GXw0evTSkdw5gZx0zqlcxesILJQUS/view?usp=drive_link' },
+      { name: 'Instrução do ER99', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1G1Wgw8tkIsLVoHeGSHE3OBeDBru037nK/view?usp=drive_link' },
     ],
     videos: [
       { title: 'E-99M Missão', url: 'https://drive.google.com/file/d/1qQiervq-PPZwfq06_vQW6DxZPk-bB9N2/view?usp=drive_link' },
@@ -1078,6 +1208,7 @@ export const aircraftCatalog: Aircraft[] = [
     role: 'Reconhecimento e vigilância eletrônica',
     origin: 'Brasil',
     status: 'Operacional',
+    hidden: true,
     year: '2001',
     length: '29,87 m',
     wingspan: '26,30 m',
@@ -1219,7 +1350,7 @@ export const aircraftCatalog: Aircraft[] = [
     sketchfabModelId: 'be11ab6c970741d78e62c9d8ff2e33e8',
     overviewModels: [
       { label: 'Visão geral 1', sketchfabModelId: 'be11ab6c970741d78e62c9d8ff2e33e8' },
-      { label: 'Visão geral 2', sketchfabModelId: 'd76cbb365b794248a5f2acaece6d7587' },
+      { label: 'Ilustração 2', sketchfabModelId: 'd76cbb365b794248a5f2acaece6d7587' },
     ],
     coverImage: 'covers/p3(cover).jpg',
     notes: [
@@ -1262,6 +1393,8 @@ export const aircraftCatalog: Aircraft[] = [
     sketchfabModelId: 'cba602c99c524cd4b40e5c2e5f9c5b4f',
     overviewModels: [
       { label: 'Visão geral', sketchfabModelId: 'cba602c99c524cd4b40e5c2e5f9c5b4f' },
+      { label: 'Ilustração 2', sketchfabModelId: 'f0f1089f374f4d398f0483403fe6af7a' },
+      { label: 'Ilustração 3', sketchfabModelId: '11fdbba8448f40c7a4086f18c37b67f3' },
     ],
     coverImage: 'covers/cirrus-sr22(cover).jpg',
     notes: [
@@ -1345,6 +1478,10 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'JP-8 / combustível para motores piston',
     quantidadeSaidas: 'Lançamento por catapulta e recuperação por plataforma',
     motor: '1 × motor pistão Rotax 914 F',
+    overviewModels: [
+      { label: 'Ilustração 1', sketchfabModelId: '10ca134217aa4a0e821b5865cf7617b9' },
+      { label: 'Ilustração 2', sketchfabModelId: '8b22b40f0af84eb1bafb9b00cbaacdec' },
+    ],
     coverImage: 'covers/rq1(cover).jpg',
     notes: [
       'O RQ-1 Marinha opera como plataforma UAV de inteligência e vigilância para o Brasil.',
@@ -1381,6 +1518,10 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'JP-8 / combustível para motores a pistão',
     quantidadeSaidas: 'Lançamento por catapulta e recuperação por gancho / plataforma',
     motor: '1 × motor Rotax 915 iS',
+    overviewModels: [
+      { label: 'Ilustração 1', sketchfabModelId: 'c5893c7368714cb48c26f7e34f081a62' },
+      { label: 'Ilustração 2', sketchfabModelId: 'd565b366cdc0449f98eb4aab0df7927a' },
+    ],
     coverImage: 'covers/rq900hermes(cover).jpg',
     notes: [
       'O RQ-900 é uma plataforma UAV da FAB para missões ISR embarcadas e costeiras.',
@@ -1418,6 +1559,9 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'Gasolina de Aviação / Mogas especial',
     quantidadeSaidas: '01 porta lateral',
     motor: '1 × Lycoming O-540-A4B5',
+    overviewModels: [
+      { label: 'Ilustração 1', sketchfabModelId: '50d925350623484f9aaa90cf07a9cb34' },
+    ],
     coverImage: 'covers/t25(cover).jpg',
     notes: [
       'O T-25 Universal é usado pela FAB para treinamento básico de pilotos e instrução inicial.',
@@ -1454,6 +1598,12 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'Jet A-1 / QAV-1',
     quantidadeSaidas: '04 portas laterais / saídas de emergência',
     motor: '2 × turbofans CFM International CFM56-5B',
+    overviewModels: [
+      { label: 'Ilustração 1', sketchfabModelId: '63dd40226ad04c1eb13342e95608c0b9' },
+    ],
+    gallery: [
+      { title: 'Ilustração 1', url: 'https://sketchfab.com/3d-models/vc-2-br-63dd40226ad04c1eb13342e95608c0b9' },
+    ],
     coverImage: 'covers/vc2(cover).jpg',
     notes: [
       'O VC-2 é a aeronave presidencial da FAB para transporte de autoridades em missões de estado.',
@@ -1470,7 +1620,7 @@ export const aircraftCatalog: Aircraft[] = [
   },
   {
     id: 'vc-99-embraer',
-    name: 'VC-99 (Legacy / ERJ-135)',
+    name: 'VC-99A (Legacy / ERJ-145)',
     manufacturer: 'Embraer',
     category: 'Transporte VIP',
     role: 'Transporte de autoridades e apoio de estado',
@@ -1490,11 +1640,18 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'Jet A-1 / QAV-1',
     quantidadeSaidas: '04 portas laterais / saídas de emergência',
     motor: '2 × turbofans General Electric CF34-10E',
+    overviewModels: [
+      { label: 'Ilustração 1', sketchfabModelId: 'e8d2d2c6742945bf9423494a78e33886' },
+    ],
+    gallery: [
+      { title: 'Ilustração 1', url: 'https://sketchfab.com/3d-models/vc-99a-br-e8d2d2c6742945bf9423494a78e33886' },
+    ],
     coverImage: 'covers/vc99(cover).jpg',
     notes: [
       'O VC-99 é usado pela FAB para missões de transporte de autoridades em configurações VIP e de apoio.',
       'A aeronave exige procedimentos reforçados de segurança e embarque diferenciado para passageiros de estado.',
       'Verifique sistemas de bordo e comunicações de missão antes da decolagem.',
+      'As observações desta ficha também abrangem as variantes VC-99B e VC-99C.',
     ],
     procedures: [
       { title: 'Checklist de transporte VIP', body: 'Confirme a configuração de cabines, comunicações e serviço para autoridades.' },
@@ -1503,6 +1660,56 @@ export const aircraftCatalog: Aircraft[] = [
       manuals: [
     { name: 'VC 99.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1lCvoxXXpv_taOsAyPXG-GaJqTpY7jqy3/view?usp=drive_link' },
   ],
+  },
+  {
+    id: 'vc-99b-legacy-600',
+    name: 'VC-99B (Legacy 600 – EMB 135BJ)',
+    manufacturer: 'Embraer',
+    category: 'Transporte VIP',
+    role: 'Transporte de autoridades, autoridades militares e missões de estado',
+    origin: 'Brasil',
+    status: 'Operacional',
+    year: '2007',
+    length: '26,33 m',
+    wingspan: '21,17 m',
+    height: '6,76 m',
+    maxSpeed: '834 km/h',
+    range: '6.019 km',
+    crew: '02 pilotos + 01 tripulante de cabine',
+    weight: '22.500 kg (MTOW)',
+    pobMax: '14 pessoas a bordo',
+    designacaoFab: 'VC-99B',
+    fabricanteDetalhe: 'Embraer / Força Aérea Brasileira',
+    categoriaContraIncendio: '05',
+    alturaSoloCockpit: '3,10 m (aproximada)',
+    combustivel: 'Jet A-1 / QAV-1',
+    quantidadeSaidas: '02 portas principais e saídas de emergência',
+    sistemaDefesa: 'Comunicações seguras, sistemas de navegação e configuração VIP de missão',
+    motor: '2 × turbofans Rolls-Royce AE 3007A1E',
+    armamentoFixo: 'Não possui armamento fixo',
+    armamentosCompativeis: 'Não aplicável; configuração de transporte VIP e apoio de estado',
+    sketchfabModelId: '2532cdf1dbe84d0685c7ffec4046477c',
+    overviewModels: [
+      { label: 'Ilustração 1', sketchfabModelId: '2532cdf1dbe84d0685c7ffec4046477c' },
+    ],
+    gallery: [
+      { title: 'Ilustração 1', url: 'https://sketchfab.com/3d-models/vc-99b-erj-135-emb-135bj-legacy-600-2532cdf1dbe84d0685c7ffec4046477c' },
+    ],
+    coverImage: 'covers/vc99(cover).jpg',
+    notes: [
+      'O VC-99B é a versão militar do Embraer Legacy 600, derivada do EMB 135BJ, empregada em transporte VIP e missões de estado.',
+      'A cabine executiva possui configuração flexível para autoridades, equipes de apoio e deslocamentos de médio e longo alcance.',
+      'Verifique pressurização, portas, bagagem e sistemas de comunicação antes do embarque de passageiros.',
+    ],
+    procedures: [
+      { title: 'Preparação de missão VIP', body: 'Confirme a configuração da cabine, a lista de passageiros, a segurança do perímetro e o plano de voo antes da partida.' },
+      { title: 'Inspeção de cabine e portas', body: 'Verifique portas, saídas de emergência, cintos, bagagem e equipamentos de segurança antes do embarque.' },
+      { title: 'Checklist de pressurização', body: 'Valide os sistemas de pressurização, climatização, oxigênio e comunicação antes da decolagem.' },
+      { title: 'Desembarque seguro', body: 'Coordene o desembarque com a equipe de solo e mantenha o acesso à aeronave controlado durante toda a operação.' },
+    ],
+    manuals: [
+      { name: 'VC 99.pdf', meta: 'Google Drive · referência da família VC-99', url: 'https://drive.google.com/file/d/1lCvoxXXpv_taOsAyPXG-GaJqTpY7jqy3/view?usp=drive_link' },
+    ],
   },
   {
     id: 'h-36-caracal',
@@ -1529,9 +1736,8 @@ export const aircraftCatalog: Aircraft[] = [
     motor: '2 × turboshafts Turbomeca Makila 2A1',
     sketchfabModelId: 'dcf40e814e3a4f559644d97d6e286dfa',
     overviewModels: [
-      { label: 'Visão geral 1', sketchfabModelId: 'dcf40e814e3a4f559644d97d6e286dfa' },
-      { label: 'Visão geral 2', sketchfabModelId: 'ffeea4e7a8384abb8bee8ff562338e63' },
-      { label: 'REVO', sketchfabModelId: '008f1b92055147208371f9fa6b6fabe5' },
+      { label: 'Ilustração 1', sketchfabModelId: '4b46c4b04ea74dc4b812eefb26f1c508' },
+      { label: 'Ilustração 2', sketchfabModelId: '6a68f950a9c04b4c9917f73dbeb498e3' },
     ],
     coverImage: 'covers/h36-caracal(cover).jpg',
     notes: [
@@ -1572,6 +1778,10 @@ export const aircraftCatalog: Aircraft[] = [
     quantidadeSaidas: '01 porta de serviço lateral',
     motor: '1 × turboshaft Turbomeca Arriel 2D',
     sketchfabModelId: 'a80dc0bd142342fe897681ee317d2e30',
+    overviewModels: [
+      { label: 'Ilustração 1', sketchfabModelId: '472223f9f0464fc3894efe28a659e6c8' },
+      { label: 'Ilustração 2', sketchfabModelId: '9f060f4056d54fe59815fcb3844029b5' },
+    ],
     coverImage: 'covers/h125(cover).jpg',
     notes: [
       'O H-125 é um helicóptero multipropósito leve empregado em reconhecimento, transporte e resgate.',
@@ -1652,6 +1862,10 @@ export const aircraftCatalog: Aircraft[] = [
     quantidadeSaidas: '02 portas laterais',
     motor: '2 × turbopropulsores Pratt & Whitney Canada PT6A-34',
     coverImage: 'covers/c99(cover).jpg',
+    overviewModels: [
+      { label: 'Ilustração 1', sketchfabModelId: '4a4ed06cc3c346be99e617da397fcd55' },
+      { label: 'Ilustração Cockpit', sketchfabModelId: 'd72f023eca6e473d8dc0882b8b5caa06' },
+    ],
     notes: [
       'O C-99 é a variante militar do EMB 110 Bandeirante, usado em transporte de carga e pessoal.',
       'Verifique a rampa de carga e a distribuição de peso antes de cada missão.',
@@ -1688,6 +1902,11 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'Jet A-1 / JP-8',
     quantidadeSaidas: '06 portas laterais / escotilhas de emergência',
     motor: '4 × turbofans Rolls-Royce Trent 772',
+    overviewModels: [
+      { label: 'Ilustração 1', sketchfabModelId: '6ddf28b593ce49e1aeb4a5f948fd740f' },
+      { label: 'Ilustração 2', sketchfabModelId: '06ece1b188994bce9ad1040c6c51761b' },
+      { label: 'Ilustração 3', sketchfabModelId: '3b8f8433cd26495a96097dcbb7684dd8' },
+    ],
     coverImage: 'covers/kc30(cover).jpg',
     notes: [
       'O KC-30 é usado para reabastecimento aéreo e transporte estratégico de tropas e carga.',
@@ -1726,6 +1945,10 @@ export const aircraftCatalog: Aircraft[] = [
     quantidadeSaidas: '02 portas de passageiros',
     motor: '2 × turbofans Pratt & Whitney Canada PW617F-E',
     sketchfabModelId: '2b204e1be23c4f1ea85da6a80d9ddd89',
+    overviewModels: [
+      { label: 'Visão geral 1', sketchfabModelId: '2b204e1be23c4f1ea85da6a80d9ddd89' },
+      { label: 'Ilustração 2', sketchfabModelId: '6affc314649246b497a35d596ebd6308' },
+    ],
     coverImage: 'covers/u100-phenom(cover).jpg',
     notes: [
       'O U-100 Phenom é um jato executivo leve usado para transporte rápido de pessoal e missões VIP.',
@@ -1801,6 +2024,10 @@ export const aircraftCatalog: Aircraft[] = [
     quantidadeSaidas: '02 portas de passageiros',
     motor: '2 × turbofans Honeywell TFE731-5BR',
     coverImage: 'covers/iu93-hawker(cover).jpg',
+    overviewModels: [
+      { label: 'Ilustração 1', sketchfabModelId: 'a4fa3f83d0814a708b06a8054b146aa5' },
+      { label: 'Ilustração 2', sketchfabModelId: '73f446e055bf47a0920312a6c8e0156d' },
+    ],
     notes: [
       'O IU-93 Hawker é um jato executivo de médio porte usado para transporte de autoridades e missões de estado.',
       'Confirme a cabine, o sistema de conexão de dados e a documentação de passageiros antes de voar.',
@@ -1837,6 +2064,12 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'Jet A-1',
     quantidadeSaidas: '02 portas laterais',
     motor: '2 × turbofans Pratt & Whitney Canada PW535E',
+    overviewModels: [
+      { label: 'Ilustração 1', sketchfabModelId: 'e6e6b69ce1444592a4562735c88955a4' },
+    ],
+    gallery: [
+      { title: 'Ilustração 1', url: 'https://sketchfab.com/3d-models/vc-1-br-e6e6b69ce1444592a4562735c88955a4' },
+    ],
     coverImage: 'covers/vc1(cover).avif',
     notes: [
       'O VC-1 é configurado para transporte VIP e missões diplomáticas de curta e média distância.',
@@ -1849,6 +2082,7 @@ export const aircraftCatalog: Aircraft[] = [
     ],
     manuals: [
       { name: 'VC-1 – Manual de missão VIP', meta: 'Referência', url: 'https://example.com/vc1-manual.pdf' },
+      { name: 'Material de referência do VC-1', meta: 'Referência técnica' },
     ],
   },
   {
@@ -1874,6 +2108,11 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'JP-8 / Turbina a combustível de aviação',
     quantidadeSaidas: '02 portas laterais',
     motor: '2 × turboshafts General Electric T700',
+    overviewModels: [
+      { label: 'Ilustração 1', sketchfabModelId: 'b080957ef2dd4717a4b29e20818c62a7' },
+      { label: 'Ilustração 2', sketchfabModelId: 'dce45ef51e5447f8bb9b49f47d953638' },
+      { label: 'Ilustração 3', sketchfabModelId: 'ec30f802c6ac43a8843948fbadb674d2' },
+    ],
     coverImage: 'covers/vh35(cover).jpg',
     notes: [
       'O VH-35 é empregado em missões de transporte VIP de alta proteção.',
@@ -1913,9 +2152,8 @@ export const aircraftCatalog: Aircraft[] = [
     motor: '2 × turboshafts Turbomeca Makila 2A1',
     sketchfabModelId: 'dcf40e814e3a4f559644d97d6e286dfa',
     overviewModels: [
-      { label: 'Visão geral 1', sketchfabModelId: 'dcf40e814e3a4f559644d97d6e286dfa' },
-      { label: 'Visão geral 2', sketchfabModelId: 'ffeea4e7a8384abb8bee8ff562338e63' },
-      { label: 'REVO', sketchfabModelId: '008f1b92055147208371f9fa6b6fabe5' },
+      { label: 'Ilustração 1', sketchfabModelId: '4b46c4b04ea74dc4b812eefb26f1c508' },
+      { label: 'Ilustração 2', sketchfabModelId: '6a68f950a9c04b4c9917f73dbeb498e3' },
     ],
     coverImage: 'covers/vh36(cover).jpg',
     notes: [
@@ -1930,6 +2168,44 @@ export const aircraftCatalog: Aircraft[] = [
     manuals: [
       { name: 'VH-36 – Manual de missão', meta: 'Referência de operações', url: 'https://example.com/vh36-manual.pdf' },
     ],
+  },
+  {
+    id: 'uh-1h',
+    name: 'UH-1H',
+    manufacturer: 'Bell Helicopter',
+    category: 'Helicóptero utilitário',
+    role: 'Transporte tático e apoio',
+    origin: 'Estados Unidos / Brasil',
+    status: 'Desativado',
+    year: '1967',
+    length: '17,46 m',
+    wingspan: '14,63 m (diâmetro do rotor)',
+    height: '3,84 m',
+    maxSpeed: '217 km/h',
+    range: '507 km',
+    crew: '02 tripulantes',
+    weight: '4.309 kg (MTOW)',
+    pobMax: '14 pessoas a bordo',
+    categoriaContraIncendio: 'H2 – CAT 3',
+    designacaoFab: 'UH-1H',
+    combustivel: 'JP-8 / QAV-1',
+    quantidadeSaidas: '02 portas laterais',
+    motor: '1 × turboshaft Lycoming T53-L-13',
+    sketchfabModelId: 'd4b8bcdb83df4335883b238ea167ee4a',
+    overviewModels: [
+      { label: 'Ilustração 1', sketchfabModelId: 'd4b8bcdb83df4335883b238ea167ee4a' },
+      { label: 'Ilustração 2', sketchfabModelId: 'a330b347b9424c8cb9ffe3bba7d397fd' },
+    ],
+    notes: [
+      'DESATIVADO',
+      'Trate a aeronave como desenergizada somente após confirmação da equipe responsável.',
+      'Mantenha a área do rotor e das portas laterais isolada durante a abordagem.',
+    ],
+    procedures: [
+      { title: 'Aproximação segura', body: 'Aproxime-se pelo setor autorizado somente após a parada completa do rotor.' },
+      { title: 'Acesso à cabine', body: 'Utilize as portas laterais e mantenha a área de embarque livre durante a intervenção.' },
+    ],
+    manuals: [],
   },
 ];
 

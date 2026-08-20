@@ -401,8 +401,8 @@ function Shell({ children, theme, onSetTheme }: { children: ReactNode; theme: Th
     </div>
   );
 }
-function AircraftArt({ large = false }: { large?: boolean }) {
-  return <div className={large ? 'viewer-plane' : 'plane-card-art'} aria-label="Silhueta ilustrativa do AMX A-1"><span className="fuselage" /><span className="nose" /><span className="wing" /><span className="tail" /><span className="canopy" /><span className="stripe" /></div>;
+function AircraftArt({ large = false, deactivated = false }: { large?: boolean; deactivated?: boolean }) {
+  return <div className={`${large ? 'viewer-plane' : 'plane-card-art'}${deactivated ? ' deactivated-art' : ''}`} aria-label="Silhueta ilustrativa do AMX A-1"><span className="fuselage" /><span className="nose" /><span className="wing" /><span className="tail" /><span className="canopy" /><span className="stripe" /></div>;
 }
 function AircraftCard({
   aircraft,
@@ -417,12 +417,14 @@ function AircraftCard({
 }) {
   const coverUrl = aircraft.coverImage ? `${import.meta.env.BASE_URL}${aircraft.coverImage}` : undefined;
   const isListView = viewMode === 'list';
+  const isDeactivated = aircraft.status === 'Desativado';
 
   if (isListView) {
     return (
       <div className="aircraft-card fade-in list-view" data-testid={`card-aircraft-${aircraft.id}`}>
         <div className="aircraft-thumb">
-          {coverUrl ? <img className="aircraft-thumb-image" src={coverUrl} alt={`${aircraft.name} cover`} /> : <AircraftArt />}
+          {coverUrl ? <img className="aircraft-thumb-image" src={coverUrl} alt={`${aircraft.name} cover`} /> : <AircraftArt deactivated={aircraft.id === 'uh-1h'} />}
+          {isDeactivated && <div className="catalog-deactivated-ribbon" aria-label="Aeronave desativada">Desativado</div>}
         </div>
         <Link href={`/aeronaves/${aircraft.id}`} className="list-main-link">
           <div className="card-info">
@@ -460,8 +462,9 @@ function AircraftCard({
   return (
     <div className="aircraft-card fade-in" data-testid={`card-aircraft-${aircraft.id}`}>
       <Link href={`/aeronaves/${aircraft.id}`}>
-        <div className={`aircraft-visual${coverUrl ? ' has-cover' : ''}`}>
-          {coverUrl ? <img className="aircraft-cover" src={coverUrl} alt={`${aircraft.name} cover`} /> : <AircraftArt />}
+        <div className={`aircraft-visual${coverUrl ? ' has-cover' : ''}${aircraft.id === 'uh-1h' ? ' uh1h-visual' : ''}`}>
+          {coverUrl ? <img className="aircraft-cover" src={coverUrl} alt={`${aircraft.name} cover`} /> : <AircraftArt deactivated={aircraft.id === 'uh-1h'} />}
+          {isDeactivated && <div className="catalog-deactivated-ribbon" aria-label="Aeronave desativada">Desativado</div>}
         </div>
         <div className="card-info">
           <div className="card-topline">
@@ -518,6 +521,8 @@ function HomePage() {
   };
 
   const filtered = useMemo(() => aircraftCatalog.filter((aircraft) => {
+    if (aircraft.hidden) return false;
+
     const matchesQuery = `${aircraft.name} ${aircraft.manufacturer} ${aircraft.category}`.toLowerCase().includes(query.toLowerCase());
     const category = aircraft.category.toLowerCase();
     const matchesFilter = filter === 'Todos'
@@ -602,7 +607,7 @@ function HomePage() {
       </div>
 
       <div className="result-count-inline">
-        <div className="result-count">{aircraftCatalog.length} aeronaves catalogadas</div>
+        <div className="result-count">{aircraftCatalog.filter((aircraft) => !aircraft.hidden).length} aeronaves catalogadas</div>
       </div>
 
       <div className="catalog-grid">
@@ -751,6 +756,7 @@ function Viewer({ aircraft }: { aircraft: Aircraft }) {
   }));
 
   const selectedModel = overviewModels[overviewIndex] || overviewModels[0] || null;
+  const isDeactivated = aircraft.status === 'Desativado';
   const embedUrl = selectedModel?.url
     ? selectedModel.url
     : selectedModel?.sketchfabModelId
@@ -761,6 +767,7 @@ function Viewer({ aircraft }: { aircraft: Aircraft }) {
     <div className={`viewer ${fullscreen ? 'viewer-fullscreen' : ''}`} data-testid="viewer-3d">
       <div className="viewer-grid" />
       <div className="viewer-label">{aircraft.name} / VISUALIZAÇÃO TÉCNICA</div>
+      {isDeactivated && <div className="deactivated-ribbon" aria-label="Aeronave desativada">Desativado</div>}
 
       {overviewModels.length > 1 && (
         <div className="viewer-overview-switch">
@@ -857,6 +864,7 @@ function DetailPage() {
   const { id } = useParams<{ id: string }>();
   const aircraft = aircraftCatalog.find((item) => item.id === id) || aircraftCatalog[0];
   const [activeTab, setActiveTab] = useState('Visão geral');
+  const [selectedTechnicalVariant, setSelectedTechnicalVariant] = useState('e99m');
   const [favorite, setFavorite] = useState(() => JSON.parse(localStorage.getItem('aerorescue:favorites') || '[]').includes(aircraft.id));
   const [toast, setToast] = useState<Toast>(null);
 
@@ -880,7 +888,8 @@ function DetailPage() {
     window.setTimeout(() => setToast(null), 2200);
   };
 
-  const tabs = ['Visão geral', 'Material', 'Galeria', 'Vídeos'];
+  const overviewAndGalleryOnly = new Set(['mirage-2000-c-ayrton-senna', 'kc-130', 'ah-2-sabre-marinha', 'uh-1h', 'c-115-buffalo']);
+  const tabs = overviewAndGalleryOnly.has(aircraft.id) ? ['Visão geral', 'Galeria'] : ['Visão geral', 'Material', 'Galeria', 'Vídeos'];
   const coverUrl = aircraft.coverImage ? `${import.meta.env.BASE_URL}${aircraft.coverImage}` : undefined;
   const galleryItems = aircraft.gallery && aircraft.gallery.length > 0 ? aircraft.gallery : [{ title: aircraft.name, url: coverUrl }];
   const videoItems = aircraft.videos && aircraft.videos.length > 0 ? aircraft.videos : [];
@@ -891,6 +900,12 @@ function DetailPage() {
   const selectedMaterial = materialItems[selectedMaterialIndex] || materialItems[0] || null;
   const selectedVideoEmbedUrl = selectedVideo ? getVideoEmbedUrl(selectedVideo.url) : null;
   const selectedMaterialEmbedUrl = selectedMaterial?.url ? getDrivePreviewUrl(selectedMaterial.url) : null;
+  const technicalVariant = aircraft.technicalVariants?.[selectedTechnicalVariant];
+  const technicalCategory = technicalVariant?.category || aircraft.category;
+  const technicalRole = technicalVariant?.role || aircraft.role;
+  const technicalCrew = technicalVariant?.crew || aircraft.crew;
+  const technicalPobMax = technicalVariant?.pobMax || aircraft.pobMax;
+  const technicalDesignation = technicalVariant?.designacaoFab || aircraft.designacaoFab;
 
   const handlePrint = () => {
     setActiveTab('Visão geral');
@@ -913,7 +928,7 @@ function DetailPage() {
         <div>
           <h1 className="page-title">{aircraft.name}</h1>
           <p className="page-lede">
-            {aircraft.manufacturer} · {getAircraftSummaryLabel(aircraft)}
+            {aircraft.manufacturer} · {technicalCategory} - {technicalRole}
           </p>
         </div>
 
@@ -939,8 +954,27 @@ function DetailPage() {
                 <Gauge size={15} className="heading-icon" style={{ verticalAlign: 'middle', marginRight: 7 }} />
                 ficha informativa
               </span>
-              <span className="section-kicker">SI / métrico</span>
+              <span className="section-kicker">{technicalVariant ? technicalVariant.label : 'SI / métrico'}</span>
             </div>
+
+            {aircraft.technicalVariants && (
+              <div className="technical-variant-selector" aria-label="Selecionar variante técnica">
+                <span className="technical-variant-label">Configuração da ficha</span>
+                <div className="technical-variant-options">
+                  {Object.entries(aircraft.technicalVariants).map(([variantKey, variant]) => (
+                    <button
+                      key={variantKey}
+                      type="button"
+                      className={`technical-variant-button ${selectedTechnicalVariant === variantKey ? 'active' : ''}`}
+                      onClick={() => setSelectedTechnicalVariant(variantKey)}
+                      data-testid={`button-technical-variant-${variantKey}`}
+                    >
+                      {variant.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {aircraft.categoriaContraIncendio && (
               <div className="fire-category-banner" aria-label="Categoria de contra incêndio">
@@ -950,16 +984,16 @@ function DetailPage() {
             )}
 
             <div className="metric-list">
-              {aircraft.designacaoFab && (
+              {technicalDesignation && (
                 <div className="metric">
                   <span className="metric-label">{getAircraftIdentificationLabel(aircraft)}</span>
-                  <span className="metric-value">{aircraft.designacaoFab}</span>
+                  <span className="metric-value">{technicalDesignation}</span>
                 </div>
               )}
-              <div className="metric"><span className="metric-label">tripulação</span><span className="metric-value">{aircraft.crew}</span></div>
-              <div className="metric"><span className="metric-label">POB max.</span><span className="metric-value">{aircraft.pobMax}</span></div>
-              <div className="metric"><span className="metric-label">categoria</span><span className="metric-value">{aircraft.category}</span></div>
-              <div className="metric"><span className="metric-label">papel operacional</span><span className="metric-value">{aircraft.role}</span></div>
+              <div className="metric"><span className="metric-label">tripulação</span><span className="metric-value">{technicalCrew}</span></div>
+              <div className="metric"><span className="metric-label">POB max.</span><span className="metric-value">{technicalPobMax}</span></div>
+              <div className="metric"><span className="metric-label">categoria</span><span className="metric-value">{technicalCategory}</span></div>
+              <div className="metric"><span className="metric-label">papel operacional</span><span className="metric-value">{technicalRole}</span></div>
               <div className="metric"><span className="metric-label">origem</span><span className="metric-value">{aircraft.origin}</span></div>
               <div className="metric"><span className="metric-label">entrada em serviço</span><span className="metric-value">{aircraft.year}</span></div>
               <div className="metric"><span className="metric-label">comprimento</span><span className="metric-value">{aircraft.length}</span></div>
@@ -973,7 +1007,7 @@ function DetailPage() {
               {aircraft.combustivel && <div className="metric"><span className="metric-label">Combustível</span><span className="metric-value">{aircraft.combustivel}</span></div>}
               {aircraft.quantidadeSaidas && <div className="metric"><span className="metric-label">Quantidade de saídas</span><span className="metric-value">{aircraft.quantidadeSaidas}</span></div>}
               {aircraft.assentoEjetavel && <div className="metric"><span className="metric-label">Assento ejetável</span><span className="metric-value">{aircraft.assentoEjetavel}</span></div>}
-              {aircraft.sistemaDefesa && <div className="metric"><span className="metric-label">Sistema de defesa</span><span className="metric-value">{aircraft.sistemaDefesa}</span></div>}
+              {(technicalVariant?.sistemaDefesa || aircraft.sistemaDefesa) && <div className="metric"><span className="metric-label">Sistema de defesa</span><span className="metric-value">{technicalVariant?.sistemaDefesa || aircraft.sistemaDefesa}</span></div>}
               {aircraft.motor && <div className="metric"><span className="metric-label">Motor</span><span className="metric-value">{aircraft.motor}</span></div>}
               {aircraft.armamentoFixo && <div className="metric"><span className="metric-label">Armamento fixo</span><span className="metric-value">{aircraft.armamentoFixo}</span></div>}
               {aircraft.armamentosCompativeis && <div className="metric"><span className="metric-label">Armamentos compatíveis</span><span className="metric-value">{aircraft.armamentosCompativeis}</span></div>}
@@ -1002,7 +1036,7 @@ function DetailPage() {
           <div className="text-card">
             <h3>Perfil operacional</h3>
             <p>
-              {aircraft.name} é uma {aircraft.category.toLowerCase()} com {aircraft.role.toLowerCase()}. A configuração operacional atual está alinhada com {aircraft.origin} e com {aircraft.crew.toLowerCase()} na tripulação.
+              {aircraft.name} é uma {technicalCategory.toLowerCase()} com {technicalRole.toLowerCase()}. A configuração operacional atual está alinhada com {aircraft.origin} e com {technicalCrew.toLowerCase()} na tripulação.
             </p>
           </div>
         )}

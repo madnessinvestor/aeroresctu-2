@@ -201,25 +201,60 @@ function driveVideoIframeFixPlugin(): Plugin {
   const injection = `
 <script>
 (() => {
-  const isDrivePreview = (src) => /https?:\\/\\/drive\\.google\\.com\\/file\\/[^/]+\\/preview/i.test(src || '');
-  const fixDriveIframe = (iframe) => {
-    if (!(iframe instanceof HTMLIFrameElement)) return;
-    const src = iframe.getAttribute('src') || '';
-    if (!isDrivePreview(src) || iframe.dataset.drivePlaybackFixed === '1') return;
-
-    iframe.dataset.drivePlaybackFixed = '1';
-    // Do not sandbox the Google Drive preview. Drive's player loads its own
-    // scripts and media/cookie resources and a sandbox can leave the player
-    // completely black even when the preview URL is correct.
-    iframe.setAttribute('allow', 'autoplay; fullscreen; encrypted-media; picture-in-picture');
-    iframe.setAttribute('referrerpolicy', 'no-referrer-when-downgrade');
-
-    const separator = src.includes('?') ? '&' : '?';
-    const previewUrl = src.includes('controls=') ? src : src + separator + 'controls=1';
-    if (previewUrl !== src) iframe.setAttribute('src', previewUrl);
+  const getDriveId = (src) => {
+    const match = (src || '').match(/https?:\\/\\/drive\\.google\\.com\\/file\\/([^/]+)\\/(?:preview|view)/i);
+    return match?.[1] || null;
   };
 
-  const scan = () => document.querySelectorAll('iframe[src*="drive.google.com/file/"]').forEach(fixDriveIframe);
+  const isDrivePreview = (src) => Boolean(getDriveId(src));
+
+  const replaceDriveIframe = (iframe) => {
+    if (!(iframe instanceof HTMLIFrameElement)) return;
+    if (iframe.dataset.drivePlaybackFixed === '1') return;
+
+    const src = iframe.getAttribute('src') || '';
+    const fileId = getDriveId(src);
+    if (!fileId) return;
+
+    iframe.dataset.drivePlaybackFixed = '1';
+
+    // Google Drive's embedded player can render a black surface when
+    // third-party cookies are blocked. Use the public Drive file stream
+    // through the native HTML5 player instead of the Drive iframe player.
+    const video = document.createElement('video');
+    video.className = iframe.className || 'video-mold-frame';
+    video.controls = true;
+    video.playsInline = true;
+    video.preload = 'metadata';
+    video.setAttribute('aria-label', iframe.getAttribute('title') || 'Vídeo do Google Drive');
+    video.setAttribute('controlsList', 'nodownload');
+    video.src = `https://drive.usercontent.google.com/download?id=${encodeURIComponent(fileId)}&export=download&confirm=t`;
+
+    const fallback = document.createElement('div');
+    fallback.style.cssText = 'display:none;position:absolute;inset:0;align-items:center;justify-content:center;flex-direction:column;gap:12px;padding:24px;text-align:center;background:#111;color:#fff;font:14px system-ui,sans-serif;';
+    fallback.innerHTML = '<strong>Não foi possível reproduzir o vídeo diretamente.</strong><span>Abra o vídeo no Google Drive para assistir.</span>';
+    const openLink = document.createElement('a');
+    openLink.href = `https://drive.google.com/file/d/${encodeURIComponent(fileId)}/view`;
+    openLink.target = '_blank';
+    openLink.rel = 'noreferrer';
+    openLink.textContent = 'Abrir no Google Drive';
+    openLink.style.cssText = 'color:#efb349;text-decoration:none;font-weight:700;';
+    fallback.appendChild(openLink);
+
+    const wrapper = document.createElement('div');
+    wrapper.className = iframe.parentElement?.className || '';
+    wrapper.style.cssText = 'position:relative;width:100%;height:100%;';
+    wrapper.appendChild(video);
+    wrapper.appendChild(fallback);
+
+    video.addEventListener('error', () => {
+      fallback.style.display = 'flex';
+    }, { once: true });
+
+    iframe.replaceWith(wrapper);
+  };
+
+  const scan = () => document.querySelectorAll('iframe[src*="drive.google.com/file/"]').forEach(replaceDriveIframe);
   scan();
   new MutationObserver(scan).observe(document.documentElement, { childList: true, subtree: true });
 })();

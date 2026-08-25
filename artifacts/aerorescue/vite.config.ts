@@ -14,6 +14,17 @@ if (Number.isNaN(port) || port <= 0) {
 
 const basePath = process.env.BASE_PATH || '/';
 
+function repairMojibake(value: string) {
+  if (!/[ÃÂâ]|�/.test(value)) return value;
+  try {
+    const repaired = Buffer.from(value, 'latin1').toString('utf8');
+    if (!repaired || repaired.includes('�')) return value;
+    return repaired;
+  } catch {
+    return value;
+  }
+}
+
 function decodeHtmlEntities(value: string) {
   return value
     .replace(/&amp;/g, '&')
@@ -25,7 +36,9 @@ function decodeHtmlEntities(value: string) {
 
 function cleanMediaTitle(value: string | null | undefined) {
   if (!value) return null;
-  const title = decodeHtmlEntities(value).replace(/^\s+|\s+$/g, '').replace(/\s+/g, ' ');
+  const title = repairMojibake(
+    decodeHtmlEntities(value).replace(/^\s+|\s+$/g, '').replace(/\s+/g, ' '),
+  );
   if (!title) return null;
 
   const generic = new Set(['google drive', 'drive', 'youtube', 'video', 'vídeo', 'untitled', 'sem título']);
@@ -169,14 +182,14 @@ function mediaMetadataDevPlugin(): Plugin {
         const mediaUrl = requestUrl.searchParams.get('url');
         if (!mediaUrl) {
           res.statusCode = 400;
-          res.setHeader('Content-Type', 'application/json');
+          res.setHeader('Content-Type', 'application/json; charset=utf-8');
           res.end(JSON.stringify({ error: 'Missing media URL' }));
           return;
         }
 
         const title = await resolveDevMediaTitle(mediaUrl);
         res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json');
+        res.setHeader('Content-Type', 'application/json; charset=utf-8');
         res.setHeader('Cache-Control', 'no-store');
         res.end(JSON.stringify({ title }));
       });

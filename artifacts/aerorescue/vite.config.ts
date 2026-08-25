@@ -206,6 +206,19 @@ function driveVideoIframeFixPlugin(): Plugin {
     return match?.[1] || null;
   };
 
+  const makeDrivePreview = (fileId, title) => {
+    const preview = document.createElement('iframe');
+    preview.src = 'https://drive.google.com/file/d/' + encodeURIComponent(fileId) + '/preview';
+    preview.title = title || 'Vídeo do Google Drive';
+    preview.className = 'video-mold-frame';
+    preview.allow = 'autoplay; fullscreen; encrypted-media; picture-in-picture';
+    preview.allowFullscreen = true;
+    preview.referrerPolicy = 'no-referrer-when-downgrade';
+    preview.dataset.drivePlaybackFixed = '1';
+    preview.style.cssText = 'width:100%;height:100%;border:0;display:block;background:#111;';
+    return preview;
+  };
+
   const replaceDriveIframe = (iframe) => {
     if (!(iframe instanceof HTMLIFrameElement)) return;
     if (iframe.dataset.drivePlaybackFixed === '1') return;
@@ -215,38 +228,41 @@ function driveVideoIframeFixPlugin(): Plugin {
     if (!fileId) return;
 
     iframe.dataset.drivePlaybackFixed = '1';
+    const title = iframe.getAttribute('title') || 'Vídeo do Google Drive';
 
-    // Google Drive's embedded player can render a black surface when
-    // third-party cookies are blocked. Use the public Drive file stream
-    // through the native HTML5 player instead of the Drive iframe player.
+    // Try the real Drive file stream first. This works for browser-native
+    // formats such as MP4 and keeps the video inside the catalog.
     const video = document.createElement('video');
     video.className = iframe.className || 'video-mold-frame';
     video.controls = true;
     video.playsInline = true;
     video.preload = 'metadata';
-    video.setAttribute('aria-label', iframe.getAttribute('title') || 'Vídeo do Google Drive');
+    video.setAttribute('aria-label', title);
     video.setAttribute('controlsList', 'nodownload');
+    video.style.cssText = 'width:100%;height:100%;display:block;background:#111;object-fit:contain;';
     video.src = 'https://drive.usercontent.google.com/download?id=' + encodeURIComponent(fileId) + '&export=download&confirm=t';
-
-    const fallback = document.createElement('div');
-    fallback.style.cssText = 'display:none;position:absolute;inset:0;align-items:center;justify-content:center;flex-direction:column;gap:12px;padding:24px;text-align:center;background:#111;color:#fff;font:14px system-ui,sans-serif;';
-    fallback.innerHTML = '<strong>Não foi possível reproduzir o vídeo diretamente.</strong><span>Abra o vídeo no Google Drive para assistir.</span>';
-    const openLink = document.createElement('a');
-    openLink.href = 'https://drive.google.com/file/d/' + encodeURIComponent(fileId) + '/view';
-    openLink.target = '_blank';
-    openLink.rel = 'noreferrer';
-    openLink.textContent = 'Abrir no Google Drive';
-    openLink.style.cssText = 'color:#efb349;text-decoration:none;font-weight:700;';
-    fallback.appendChild(openLink);
 
     const wrapper = document.createElement('div');
     wrapper.className = iframe.parentElement?.className || '';
-    wrapper.style.cssText = 'position:relative;width:100%;height:100%;';
+    wrapper.style.cssText = 'position:relative;width:100%;height:100%;background:#111;';
     wrapper.appendChild(video);
-    wrapper.appendChild(fallback);
 
-    video.addEventListener('error', () => {
-      fallback.style.display = 'flex';
+    let fallbackShown = false;
+    const showDrivePreview = () => {
+      if (fallbackShown || !wrapper.isConnected) return;
+      fallbackShown = true;
+      const preview = makeDrivePreview(fileId, title);
+      wrapper.replaceChildren(preview);
+    };
+
+    // MOV/AVI/WMV and files with codecs unsupported by the browser can fail
+    // in <video> even though Google Drive can preview them. Fall back to
+    // Drive's own browser player instead of leaving a black rectangle.
+    video.addEventListener('error', showDrivePreview, { once: true });
+    video.addEventListener('stalled', () => {
+      window.setTimeout(() => {
+        if (video.readyState === 0) showDrivePreview();
+      }, 5000);
     }, { once: true });
 
     iframe.replaceWith(wrapper);

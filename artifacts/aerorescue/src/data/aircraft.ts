@@ -2245,7 +2245,6 @@ export const aircraftCatalog: Aircraft[] = [
       { title: 'Preparação de embarque', body: 'Confirme o plano de assentos e a segurança dos passageiros VIP.' },
     ],
     manuals: [
-      { name: 'Phenom 100 Flight Crew Operating Manual', meta: 'Manual de voo', url: 'https://www.embraer.com/global/en/media-center/press-releases/2017/10/embraer-delivers-first-phenom-1000', },
     ],
   },
   {

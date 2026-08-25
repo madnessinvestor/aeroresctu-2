@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Link, Route, Router as WouterRouter, Switch, useLocation, useParams } from 'wouter';
-import { ArrowRight, BookOpen, Check, ChevronDown, CircleHelp, ClipboardList, Crosshair, FileText, Flame, Gauge, Heart, History, Layers3, Maximize2, Menu, Minimize2, Moon, Move3d, Plane, Play, Rotate3d, Search, SlidersHorizontal, Sparkles, Sun, ZoomIn, ZoomOut } from 'lucide-react';
+import { ArrowRight, BookOpen, Check, ChevronDown, CircleHelp, ClipboardList, Crosshair, FileText, Flame, Gauge, Heart, History, Layers3, Maximize2, Menu, Minimize2, Moon, Move3d, Plane, Play, Rotate3d, Search, SlidersHorizontal, Sparkles, Sun, X, ZoomIn, ZoomOut } from 'lucide-react';
 import NotFound from '@/pages/not-found';
-import { aircraftCatalog, quickFilters, type Aircraft, type VideoLink } from '@/data/aircraft';
+import { aircraftCatalog, quickFilters, type Aircraft, type GalleryItem, type VideoLink } from '@/data/aircraft';
 
 type Toast = string | null;
 type ThemeMode = 'light' | 'dark';
@@ -18,6 +18,11 @@ type FireCategoryRow = {
 function getDrivePreviewUrl(url: string) {
   const match = url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)\/view/i);
   return match ? `https://drive.google.com/file/d/${match[1]}/preview` : null;
+}
+
+function getDriveImageUrl(url: string) {
+  const match = url.match(/drive\.google\.com\/(?:file\/d\/|thumbnail\?id=|uc\?[^#]*id=)([a-zA-Z0-9_-]+)/i);
+  return match ? `https://drive.google.com/thumbnail?id=${match[1]}&sz=w2000` : url;
 }
 
 function getYoutubeEmbedUrl(url: string) {
@@ -864,7 +869,9 @@ function DetailPage() {
   const { id } = useParams<{ id: string }>();
   const aircraft = aircraftCatalog.find((item) => item.id === id) || aircraftCatalog[0];
   const [activeTab, setActiveTab] = useState('Visão geral');
-  const [selectedTechnicalVariant, setSelectedTechnicalVariant] = useState('e99m');
+  const [selectedTechnicalVariant, setSelectedTechnicalVariant] = useState(() => (
+    aircraft.technicalVariants ? Object.keys(aircraft.technicalVariants)[0] : 'e99m'
+  ));
   const [favorite, setFavorite] = useState(() => JSON.parse(localStorage.getItem('aerorescue:favorites') || '[]').includes(aircraft.id));
   const [toast, setToast] = useState<Toast>(null);
 
@@ -888,7 +895,7 @@ function DetailPage() {
     window.setTimeout(() => setToast(null), 2200);
   };
 
-  const overviewAndGalleryOnly = new Set(['mirage-2000-c-ayrton-senna', 'kc-130', 'uh-1h']);
+  const overviewAndGalleryOnly = new Set(['uh-1h']);
   const tabs = overviewAndGalleryOnly.has(aircraft.id) ? ['Visão geral', 'Galeria'] : ['Visão geral', 'Material', 'Galeria', 'Vídeos'];
   const coverUrl = aircraft.coverImage ? `${import.meta.env.BASE_URL}${aircraft.coverImage}` : undefined;
   const galleryItems = aircraft.gallery && aircraft.gallery.length > 0 ? aircraft.gallery : [{ title: aircraft.name, url: coverUrl }];
@@ -898,6 +905,7 @@ function DetailPage() {
   const materialItems = aircraft.manuals && aircraft.manuals.length > 0 ? aircraft.manuals : [];
   const [selectedVideoIndex, setSelectedVideoIndex] = useState(0);
   const [selectedMaterialIndex, setSelectedMaterialIndex] = useState(0);
+  const [expandedGalleryItem, setExpandedGalleryItem] = useState<GalleryItem | null>(null);
   const [mediaTitles, setMediaTitles] = useState<Record<string, string>>({});
   const selectedVideo = videoItems[selectedVideoIndex] || videoItems[0] || null;
   const selectedMaterial = materialItems[selectedMaterialIndex] || materialItems[0] || null;
@@ -939,6 +947,15 @@ function DetailPage() {
   const technicalCrew = technicalVariant?.crew || aircraft.crew;
   const technicalPobMax = technicalVariant?.pobMax || aircraft.pobMax;
   const technicalDesignation = technicalVariant?.designacaoFab || aircraft.designacaoFab;
+
+  useEffect(() => {
+    if (!expandedGalleryItem) return;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setExpandedGalleryItem(null);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [expandedGalleryItem]);
 
   useEffect(() => {
     const mediaUrls = [...materialItems.map((item) => item.url), ...videoItems.map((item) => item.url)].filter(
@@ -1161,11 +1178,26 @@ function DetailPage() {
             <p style={{ marginBottom: 15 }}>Fotos de referência para apoio operacional.</p>
             <div className="gallery-grid">
               {galleryItems.map((item, index) => (
-                <div className="gallery-tile" key={`${item.title}-${index}`} data-testid={`gallery-image-${index + 1}`}>
-                  {item.url && <img className="gallery-image" src={item.url} alt={item.title} />}
-                </div>
+                <button
+                  type="button"
+                  className="gallery-tile"
+                  key={`${item.title}-${index}`}
+                  data-testid={`gallery-image-${index + 1}`}
+                  onClick={() => item.url && setExpandedGalleryItem(item)}
+                  aria-label={`Ampliar ${item.title}`}
+                >
+                  {item.url && <img className="gallery-image" src={getDriveImageUrl(item.url)} alt={item.title} />}
+                </button>
               ))}
             </div>
+            {expandedGalleryItem?.url && (
+              <div className="gallery-lightbox" role="dialog" aria-modal="true" aria-label={expandedGalleryItem.title} onClick={() => setExpandedGalleryItem(null)}>
+                <button type="button" className="gallery-lightbox-close" aria-label="Fechar imagem ampliada" onClick={() => setExpandedGalleryItem(null)}>
+                  <X size={20} />
+                </button>
+                <img className="gallery-lightbox-image" src={getDriveImageUrl(expandedGalleryItem.url)} alt={expandedGalleryItem.title} onClick={(event) => event.stopPropagation()} />
+              </div>
+            )}
           </div>
         )}
 

@@ -247,7 +247,20 @@ export const aircraftCatalog: Aircraft[] = [
       { title: 'Acomodação de carga', body: 'Distribua o peso da carga uniformemente e prenda cada pallet conforme o plano de carregamento.' },
       { title: 'Emergência em voo', body: 'No caso de pane hidráulica ou de combustível, execute o procedimento de separação e abandone o contato imediatamente.' },
     ],
-    manuals: [],
+    manuals: [
+      { name: 'Material KC-130 01.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1epVVxU-1d8E6dN7Izx8_7xaezrNaYWqb/view?usp=drive_link' },
+      { name: 'Material KC-130 02.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1X-R4uQQlGoiBz6WfTCGMSQGos6qk5NdZ/view?usp=drive_link' },
+      { name: 'Material KC-130 03.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1OgCY0kzJHvXpGXM5fwHHB6xUgV2pfizv/view?usp=drive_link' },
+    ],
+    videos: [
+      { title: 'KC-130 YouTube 01', url: 'https://www.youtube.com/watch?v=N2ngdgzXBGo' },
+      { title: 'KC-130 YouTube 02', url: 'https://www.youtube.com/shorts/EFSFgiBpnls' },
+      { title: 'KC-130 YouTube 03', url: 'https://www.youtube.com/shorts/Ii79YeY0X4g' },
+      { title: 'KC-130 YouTube 04', url: 'https://www.youtube.com/watch?v=WHQlPxVGeSI' },
+      { title: 'KC-130 YouTube 05', url: 'https://www.youtube.com/shorts/0QTOisdm4_g' },
+      { title: 'KC-130 YouTube 06', url: 'https://www.youtube.com/watch?v=etCDlWCmPOI' },
+      { title: 'KC-130 YouTube 07', url: 'https://www.youtube.com/watch?v=88ggTPWKq_c' },
+    ],
   },
   {
     id: 'c-390-millennium',
@@ -1012,6 +1025,15 @@ export const aircraftCatalog: Aircraft[] = [
       { name: 'Material C-95 04.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1kxNpZIEWbm17-xR6NB-Inctzi825Z94_/view?usp=drive_link' },
       { name: 'Material C-95 05.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/10MFaFxM665Sr2uJCnR7_gwiZLLmNU0t-/view?usp=drive_link' },
   ],
+    videos: [
+      { title: 'Vídeo C-95 Drive', url: 'https://drive.google.com/file/d/1pilFvd_SFfC8X2P7IEh00sW9D_ssjjqV/view?usp=drive_link' },
+      { title: 'C-95 YouTube 01', url: 'https://www.youtube.com/watch?v=0CZKeRFet9c' },
+      { title: 'C-95 YouTube 02', url: 'https://www.youtube.com/watch?v=aEgv29o0K3k' },
+      { title: 'C-95 YouTube 03', url: 'https://www.youtube.com/watch?v=3yc7ogFVEro' },
+      { title: 'C-95 YouTube 04', url: 'https://www.youtube.com/watch?v=AVBq-JTbe1k' },
+      { title: 'C-95 YouTube 05', url: 'https://www.youtube.com/watch?v=weQ3noawINQ' },
+      { title: 'C-95 YouTube 06', url: 'https://www.youtube.com/watch?v=m_SdFZI0PAk' },
+    ],
   },
   {
     id: 'c-97-fab',
@@ -1144,6 +1166,14 @@ export const aircraftCatalog: Aircraft[] = [
         { title: 'Galeria C-98 32', url: 'https://drive.google.com/uc?export=view&id=1QTbUeiulKnO_Xmqh0206AVADqZ4UEwNC' },
         { title: 'Galeria C-98 33', url: 'https://drive.google.com/uc?export=view&id=1Es5j8yZsZpZxiSmOlLuEUUubIU8vs2vK' },
       ],
+    videos: [
+      { title: 'C-98 YouTube 01', url: 'https://www.youtube.com/watch?v=i0fSmyktDO4' },
+      { title: 'C-98 YouTube 02', url: 'https://www.youtube.com/watch?v=fUQk41asZZ8' },
+      { title: 'C-98 YouTube 03', url: 'https://www.youtube.com/shorts/tMQsWtMtP1k' },
+      { title: 'C-98 YouTube 04', url: 'https://www.youtube.com/watch?v=ni3BA4a52Os' },
+      { title: 'C-98 YouTube 05', url: 'https://www.youtube.com/shorts/7fOI2D5w4yM' },
+      { title: 'C-98 YouTube 06', url: 'https://www.youtube.com/watch?v=snnRAqCDINo' },
+    ],
   },
   {
     id: 'c-105-amazonas',
@@ -1368,7 +1398,12 @@ export const aircraftCatalog: Aircraft[] = [
       { title: 'Checklist pré-voo', body: 'Verifique todos os painéis de aviação e o funcionamento dos sistemas de missão.' },
     ],
     manuals: [
-      { name: 'Material E/R 99.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1GT8h_503IC8tNjuE1jISL5Qh-a2HzPpY/view?usp=drive_link' },
+      { name: 'Material E/R 99 01.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/13bQ_FMWnNDG7Iy01n45mDUMpNvVsITau/view?usp=drive_link' },
+      { name: 'Material E/R 99 02.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1GT8h_503IC8tNjuE1jISL5Qh-a2HzPpY/view?usp=drive_link' },
+      { name: 'Material E/R 99 03.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1Ii9o0mz9tWrOSZcDZLaND-jNSbNt04eW/view?usp=drive_link' },
+      { name: 'Material E/R 99 04.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1IW1GXw0evTSkdw5gZx0zqlcxesILJQUS/view?usp=drive_link' },
+      { name: 'Material E/R 99 05.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1G1Wgw8tkIsLVoHeGSHE3OBeDBru037nK/view?usp=drive_link' },
+      { name: 'Material E/R 99 06.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/18fZnmPLqq7f8MwUDnAle9VR52Qre8DeF/view?usp=drive_link' },
     ],
     videos: [
       { title: 'Vídeo E/R 99 Drive 01', url: 'https://drive.google.com/file/d/1SsWbitMtMSbUScjpgV3XJapxzVGSqtNe/view?usp=drive_link' },
@@ -1473,7 +1508,19 @@ export const aircraftCatalog: Aircraft[] = [
     ],
     manuals: [
       { name: 'Extrato do Manual de Resgate e Salvamento do Galpão de SBO da EEAR (P-95).pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1ohv1e3kzY7TfXcYYBHOLPuxO5VTPMDje/view?usp=drive_link' },
+      { name: 'Material P-95BM 02.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1f2rhsA1VFUnx4cOETFZc4wh8ZzxfMOnn/view?usp=drive_link' },
       { name: 'Instrução P-95.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/15BZgkPC0UaiNkhV5fjGTYm0JPPiBmjJO/view?usp=drive_link' },
+    ],
+    videos: [
+      { title: 'Vídeo P-95BM Drive', url: 'https://drive.google.com/file/d/1bY15pZd2IWz6Lmh0a2kSrGlLhFvg0-jq/view?usp=drive_link' },
+      { title: 'P-95BM YouTube 01', url: 'https://www.youtube.com/watch?v=JWKqLmm-syM' },
+      { title: 'P-95BM YouTube 02', url: 'https://www.youtube.com/watch?v=9Cg6KiqkSpc' },
+      { title: 'P-95BM YouTube 03', url: 'https://www.youtube.com/watch?v=hfKF8LJUxgA' },
+      { title: 'P-95BM YouTube 04', url: 'https://www.youtube.com/watch?v=7om8Lp-g4fs' },
+      { title: 'P-95BM YouTube 05', url: 'https://www.youtube.com/watch?v=4XuiXUw3o8U' },
+      { title: 'P-95BM YouTube 06', url: 'https://www.youtube.com/watch?v=qSZRTVz8OGc' },
+      { title: 'P-95BM YouTube 07', url: 'https://www.youtube.com/shorts/XY9we2Pg-LU' },
+      { title: 'P-95BM YouTube 08', url: 'https://www.youtube.com/shorts/bxwrYew7RQk' },
     ],
   },
   {
@@ -1498,6 +1545,9 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'Jet A-1 / QAV-1',
     quantidadeSaidas: '02 portas laterais',
     motor: '2 × turbofans Honeywell TFE731-3A-200G',
+    overviewModels: [
+      { label: 'Ilustração 1', sketchfabModelId: 'c0af95a623734d7aba3ca13ce508975f', url: 'https://sketchfab.com/3d-models/bombardier-learjet-35a-c0af95a623734d7aba3ca13ce508975f' },
+    ],
     coverImage: 'covers/r35(cover).jpg',
     notes: [
       'O R-35AM é utilizado pela FAB em transporte rápido de autoridades, deslocamento de equipes e reconhecimento leve.',
@@ -1511,6 +1561,7 @@ export const aircraftCatalog: Aircraft[] = [
     ],
       manuals: [
     { name: 'Extrato do Manual de Resgate e Salvamento do Galpão de SBO da EEAR (R-35).pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1wSGU87AAMq94nhKOuXenpAjxlM7klOv9/view?usp=drive_link' },
+      { name: 'Material R-35AM.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1Xj506AIqHHT95kkfmJBEFRDWZl7QJEFw/view?usp=drive_link' },
   ],
   },
   {
@@ -1537,8 +1588,9 @@ export const aircraftCatalog: Aircraft[] = [
     motor: '4 × turbopropulsores Allison T56-A-14',
     sketchfabModelId: 'be11ab6c970741d78e62c9d8ff2e33e8',
     overviewModels: [
-      { label: 'Visão geral 1', sketchfabModelId: 'be11ab6c970741d78e62c9d8ff2e33e8' },
-      { label: 'Ilustração 2', sketchfabModelId: 'd76cbb365b794248a5f2acaece6d7587' },
+      { label: 'Ilustração 1', sketchfabModelId: 'bb77ab3003db4acdb342dd95f9e2b1bf', url: 'https://sketchfab.com/3d-models/p-3am-orion-bb77ab3003db4acdb342dd95f9e2b1bf' },
+      { label: 'Ilustração 2', sketchfabModelId: 'be11ab6c970741d78e62c9d8ff2e33e8', url: 'https://sketchfab.com/3d-models/lockheed-p-3c-2-orion-be11ab6c970741d78e62c9d8ff2e33e8' },
+      { label: 'Ilustração 3', sketchfabModelId: 'c4d76836b40440628fa8a28152967d9b', url: 'https://sketchfab.com/3d-models/lockheed-p3-c-orion-c4d76836b40440628fa8a28152967d9b' },
     ],
     coverImage: 'covers/p3(cover).jpg',
     notes: [
@@ -1923,6 +1975,26 @@ export const aircraftCatalog: Aircraft[] = [
     quantidadeSaidas: '02 saídas principais de cabine',
     motor: '2 × turboshafts Turbomeca Makila 2A1',
     sketchfabModelId: 'dcf40e814e3a4f559644d97d6e286dfa',
+    technicalVariants: {
+      h36: {
+        label: 'H-36',
+        designacaoFab: 'H-36',
+        category: 'Helicóptero',
+        role: 'Transporte de tropas e resgate',
+        crew: '02 tripulantes',
+        pobMax: '19 pessoas a bordo',
+        sistemaDefesa: 'Configuração de transporte e resgate da FAB',
+      },
+      vh36: {
+        label: 'VH-36',
+        designacaoFab: 'VH-36',
+        category: 'Helicóptero VIP',
+        role: 'Transporte VIP e resgate',
+        crew: '02 tripulantes',
+        pobMax: '19 pessoas a bordo',
+        sistemaDefesa: 'Configuração VIP, comunicações seguras e sistemas de resgate',
+      },
+    },
     overviewModels: [
       { label: 'Ilustração 1', sketchfabModelId: '4b46c4b04ea74dc4b812eefb26f1c508' },
       { label: 'Ilustração 2', sketchfabModelId: '6a68f950a9c04b4c9917f73dbeb498e3' },
@@ -1939,7 +2011,18 @@ export const aircraftCatalog: Aircraft[] = [
       { title: 'Operação em ambiente hostil', body: 'Monitore o carregamento, sistemas de missão e apoio de escolta durante missões de alto risco.' },
     ],
     manuals: [
-      { name: 'H-36 Caracal – Manual de manutenção', meta: 'Referência técnica', url: 'https://example.com/h36-caracal-manual.pdf' },
+      { name: 'Material H-36 02.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1ubgB5TGfhHhRhnwneIHVZeaPqI4B1uWN/view?usp=drive_link' },
+      { name: 'Material H-36 03.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1hOFYH8F3AFcN24-qFZvDTgZdSjnEgFeW/view?usp=drive_link' },
+      { name: 'Material H-36 04.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1Rt9jEHcit0sBWgAx4e4U1acoFN-ko9fS/view?usp=drive_link' },
+      { name: 'Material H-36 05.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1LA9PG2dYZyUIB0urAWJdzgyxCjaT5p5B/view?usp=drive_link' },
+      { name: 'Material H-36 e VH-36.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1XEyiZDWWqpgOoREVGpxjhl1flLiQ7v_j/view?usp=drive_link' },
+    ],
+    gallery: [
+      { title: 'Capa H-36', url: '/covers/h36-caracal(cover).jpg' },
+      { title: 'Capa VH-36', url: '/covers/vh36(cover).jpg' },
+    ],
+    videos: [
+      { title: 'Vídeo H-36 Drive', url: 'https://drive.google.com/file/d/1W3gsTfIhekiKdHcNYAeDyrSUYKguqL1b/view?usp=drive_link' },
     ],
   },
   {
@@ -2023,7 +2106,18 @@ export const aircraftCatalog: Aircraft[] = [
       { title: 'Operação de observação', body: 'Mantenha comunicação com o solo e garanta o posicionamento seguro de voo lento.' },
     ],
     manuals: [
-      { name: 'H-50 Esquilo – Guia de operações', meta: 'Referência técnica', url: 'https://example.com/h50-esquilo-manual.pdf' },
+      { name: 'Material H-50.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1Kut-kaTIVP48_OZ1k2clrHahwzj0TAIw/view?usp=drive_link' },
+    ],
+    videos: [
+      { title: 'Vídeo H-50 Drive', url: 'https://drive.google.com/file/d/1kfSNkevKuVRm26PDYB3khnXSwBEgJF23/view?usp=drive_link' },
+      { title: 'H-50 YouTube 01', url: 'https://www.youtube.com/watch?v=z6rEhXY9G84' },
+      { title: 'H-50 YouTube 02', url: 'https://www.youtube.com/watch?v=vgsFCXzKwYs' },
+      { title: 'H-50 YouTube 03', url: 'https://www.youtube.com/watch?v=C2D21jDlhe8' },
+      { title: 'H-50 YouTube 04', url: 'https://www.youtube.com/watch?v=hZuVbMtI7v8' },
+      { title: 'H-50 YouTube 05', url: 'https://www.youtube.com/shorts/BpjTYndmexE' },
+      { title: 'H-50 YouTube 06', url: 'https://www.youtube.com/watch?v=AlFMG_16bOU' },
+      { title: 'H-50 YouTube 07', url: 'https://www.youtube.com/shorts/Jh3aS9zqIJ4' },
+      { title: 'H-50 YouTube 08', url: 'https://www.youtube.com/watch?v=n8W7UJu73_c' },
     ],
   },
   {
@@ -2064,7 +2158,6 @@ export const aircraftCatalog: Aircraft[] = [
       { title: 'Checklist de passageiros', body: 'Verifique cintos, bagagens e saídas de emergência antes do voo.' },
     ],
     manuals: [
-      { name: 'C-99 Bandeirante – Manual de voo', meta: 'Referência técnica', url: 'https://example.com/c99-manual.pdf' },
       { name: 'Material C-99.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1s-gbuViQOJZL9TbKTuevHBytQSLsAGu4/view?usp=drive_link' },
     ],
     videos: [
@@ -2350,6 +2443,7 @@ export const aircraftCatalog: Aircraft[] = [
     role: 'Transporte VIP e resgate',
     origin: 'França',
     status: 'Operacional',
+    hidden: true,
     year: '2010',
     length: '18,15 m',
     wingspan: '16,20 m (diâmetro do rotor)',

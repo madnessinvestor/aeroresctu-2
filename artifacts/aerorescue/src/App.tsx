@@ -7,6 +7,23 @@ import { aircraftCatalog, quickFilters, type Aircraft, type GalleryItem, type Vi
 
 type Toast = string | null;
 type ThemeMode = 'light' | 'dark';
+const MEDIA_TITLES_STORAGE_KEY = 'aerorescue:media-titles';
+
+function readStoredMediaTitles(): Record<string, string> {
+  try {
+    const stored = window.localStorage.getItem(MEDIA_TITLES_STORAGE_KEY);
+    if (!stored) return {};
+    const parsed = JSON.parse(stored) as unknown;
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return {};
+    return Object.fromEntries(
+      Object.entries(parsed).filter(
+        ([url, title]) => typeof url === 'string' && typeof title === 'string' && title.trim().length > 0,
+      ),
+    );
+  } catch {
+    return {};
+  }
+}
 
 type FireCategoryRow = {
   categoria: string;
@@ -917,7 +934,7 @@ function DetailPage() {
   const [selectedMaterialIndex, setSelectedMaterialIndex] = useState<number | null>(null);
   const [videoPlayerFallback, setVideoPlayerFallback] = useState(false);
   const [expandedGalleryItem, setExpandedGalleryItem] = useState<GalleryItem | null>(null);
-  const [mediaTitles, setMediaTitles] = useState<Record<string, string>>({});
+  const [mediaTitles, setMediaTitles] = useState<Record<string, string>>(readStoredMediaTitles);
   const [mediaTitleState, setMediaTitleState] = useState<Record<string, 'loading' | 'resolved' | 'failed'>>({});
   const selectedVideo = selectedVideoIndex === null ? null : videoItems[selectedVideoIndex] || null;
   const selectedMaterial = selectedMaterialIndex === null ? null : materialItems[selectedMaterialIndex] || null;
@@ -978,6 +995,10 @@ function DetailPage() {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [expandedGalleryItem]);
+
+  useEffect(() => {
+    window.localStorage.setItem(MEDIA_TITLES_STORAGE_KEY, JSON.stringify(mediaTitles));
+  }, [mediaTitles]);
 
   useEffect(() => {
     const activeMediaItems = activeTab === 'Material' ? materialItems : activeTab === 'Vídeos' ? videoItems : [];

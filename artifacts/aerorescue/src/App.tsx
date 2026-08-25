@@ -965,19 +965,37 @@ function DetailPage() {
     const uncachedUrls = mediaUrls.filter((url) => !mediaTitles[url]);
     if (!uncachedUrls.length) return;
 
-    Promise.all(uncachedUrls.map(async (url) => {
-      try {
-        const response = await fetch(`/api/media-metadata?url=${encodeURIComponent(url)}`);
-        if (!response.ok) return null;
-        const payload = (await response.json()) as { title?: string | null };
-        return payload.title ? [url, payload.title] as const : null;
-      } catch {
-        return null;
+    let cancelled = false;
+    const loadTitles = async () => {
+      const resolvedTitles: Array<readonly [string, string]> = [];
+      let nextIndex = 0;
+      const worker = async () => {
+        while (!cancelled) {
+          const url = uncachedUrls[nextIndex++];
+          if (!url) return;
+          try {
+            const response = await fetch(`/api/media-metadata?url=${encodeURIComponent(url)}`);
+            if (!response.ok) continue;
+            const payload = (await response.json()) as { title?: string | null };
+            if (payload.title) resolvedTitles.push([url, payload.title]);
+          } catch {
+            // Keep rendering the catalog if an individual source is unavailable.
+          }
+        }
+      };
+
+      await Promise.all(
+        Array.from({ length: Math.min(6, uncachedUrls.length) }, () => worker()),
+      );
+      if (!cancelled && resolvedTitles.length) {
+        setMediaTitles((current) => ({ ...current, ...Object.fromEntries(resolvedTitles) }));
       }
-    })).then((resolvedTitles) => {
-      const nextTitles = Object.fromEntries(resolvedTitles.filter((entry): entry is readonly [string, string] => Boolean(entry)));
-      if (Object.keys(nextTitles).length) setMediaTitles((current) => ({ ...current, ...nextTitles }));
-    });
+    };
+
+    void loadTitles();
+    return () => {
+      cancelled = true;
+    };
   }, [activeTab, aircraft.id, materialItems, videoItems, mediaTitles]);
 
   const getMediaTitle = (url: string | undefined, fallback: string) => (url && mediaTitles[url]) || fallback;
@@ -1212,6 +1230,7 @@ function DetailPage() {
                     className="video-mold-frame"
                     src={selectedVideoEmbedUrl}
                     title={getMediaTitle(selectedVideo.url, selectedVideo.title)}
+                    data-drive-video="true"
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
                     allowFullScreen

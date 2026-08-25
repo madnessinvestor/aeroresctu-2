@@ -298,6 +298,7 @@ function driveVideoIframeFixPlugin(): Plugin {
 
   const rewriteDriveIframe = (iframe) => {
     if (!(iframe instanceof HTMLIFrameElement)) return;
+    if (iframe.dataset.driveVideo !== 'true') return;
     const src = iframe.getAttribute('src') || '';
     const fileId = getDriveId(src);
     if (!fileId) return;

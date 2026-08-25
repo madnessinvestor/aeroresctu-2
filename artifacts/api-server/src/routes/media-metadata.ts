@@ -56,6 +56,75 @@ function extractMetaContent(html: string, property: string) {
   return propertyFirst.exec(html)?.[1] ?? contentFirst.exec(html)?.[1] ?? null;
 }
 
+function extractDriveFileId(url: string) {
+  const patterns = [
+    /\/file\/d\/([a-zA-Z0-9_-]+)/i,
+    /[?&]id=([a-zA-Z0-9_-]+)/i,
+    /\/open\?id=([a-zA-Z0-9_-]+)/i,
+  ];
+
+  for (const pattern of patterns) {
+    const match = url.match(pattern);
+    if (match?.[1]) return match[1];
+  }
+
+  return null;
+}
+
+function decodeJsonString(value: string) {
+  try {
+    return JSON.parse(`"${value.replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`) as string;
+  } catch {
+    return value;
+  }
+}
+
+function extractDriveEmbeddedName(html: string) {
+  const patterns = [
+    /["']fileName["']\s*:\s*["']([^"']+)["']/i,
+    /["']file_name["']\s*:\s*["']([^"']+)["']/i,
+    /["']filename["']\s*:\s*["']([^"']+)["']/i,
+    /["']name["']\s*:\s*["']([^"']+)["']/i,
+  ];
+
+  for (const pattern of patterns) {
+    const match = html.match(pattern);
+    const candidate = match?.[1] ? decodeJsonString(match[1]) : null;
+    const cleaned = cleanTitle(candidate);
+    if (cleaned && !/google drive|drive/i.test(cleaned)) return cleaned;
+  }
+
+  return null;
+}
+
+async function resolveDriveDownloadName(fileId: string) {
+  const downloadUrl = `https://drive.google.com/uc?export=download&id=${encodeURIComponent(fileId)}`;
+
+  const response = await fetch(downloadUrl, {
+    method: "GET",
+    redirect: "follow",
+    signal: AbortSignal.timeout(10000),
+    headers: {
+      "User-Agent": "Mozilla/5.0 AeroRescue/1.0",
+      Range: "bytes=0-0",
+    },
+  });
+
+  const disposition = response.headers.get("content-disposition");
+  const filenameMatch = disposition?.match(/filename\*=UTF-8''([^;]+)|filename=[\"']?([^\"';]+)[\"']?/i);
+  const encodedName = filenameMatch?.[1] ?? filenameMatch?.[2];
+
+  if (encodedName) {
+    try {
+      return cleanTitle(decodeURIComponent(encodedName));
+    } catch {
+      return cleanTitle(encodedName);
+    }
+  }
+
+  return null;
+}
+
 async function resolveYoutubeTitle(url: string) {
   const metadataUrl = `https://www.youtube.com/oembed?url=${encodeURIComponent(url)}&format=json`;
   const response = await fetch(metadataUrl, { signal: AbortSignal.timeout(10000) });
@@ -76,6 +145,16 @@ async function resolveDriveTitle(url: string) {
   if (!response.ok) return null;
 
   const html = await response.text();
+  const fileId = extractDriveFileId(url);
+
+  // Prefer the actual Drive file metadata over the generic page title.
+  const embeddedName = extractDriveEmbeddedName(html);
+  if (embeddedName) return embeddedName;
+
+  if (fileId) {
+    const downloadName = await resolveDriveDownloadName(fileId);
+    if (downloadName) return downloadName;
+  }
 
   const candidates = [
     extractMetaContent(html, "og:title"),

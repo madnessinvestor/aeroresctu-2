@@ -953,11 +953,18 @@ function DetailPage() {
           {items.map((video) => {
             const index = videoItems.indexOf(video);
             return (
-              <button
-                type="button"
+              <div
+                role="button"
+                tabIndex={0}
                 className={`manual-row video-row ${selectedVideoIndex === index ? 'active' : ''}`}
                 key={`${video.title}-${index}`}
                 onClick={() => setSelectedVideoIndex(index)}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    setSelectedVideoIndex(index);
+                  }
+                }}
                 data-testid={`button-select-video-${index}`}
               >
                 <span className="manual-icon"><Play size={16} /></span>
@@ -968,7 +975,7 @@ function DetailPage() {
                 <a className="icon-btn" href={video.url} target="_blank" rel="noreferrer" onClick={(event) => event.stopPropagation()}>
                   Abrir <ArrowRight size={13} />
                 </a>
-              </button>
+              </div>
             );
           })}
         </div>
@@ -1227,11 +1234,18 @@ function DetailPage() {
             <div className="video-list">
               {materialItems.length ? (
                 materialItems.map((manual, index) => (
-                  <button
-                    type="button"
+                  <div
+                    role="button"
+                    tabIndex={0}
                     className={`manual-row video-row ${selectedMaterialIndex === index ? 'active' : ''}`}
                     key={`${manual.name}-${index}`}
                     onClick={() => setSelectedMaterialIndex(index)}
+                    onKeyDown={(event) => {
+                      if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        setSelectedMaterialIndex(index);
+                      }
+                    }}
                     data-testid={`button-select-manual-${index}`}
                   >
                     <span className="manual-icon"><FileText size={16} /></span>
@@ -1242,7 +1256,7 @@ function DetailPage() {
                     <a className="icon-btn" href={manual.url || '#'} target="_blank" rel="noreferrer" onClick={(event) => event.stopPropagation()}>
                       Abrir <ArrowRight size={13} />
                     </a>
-                  </button>
+                  </div>
                 ))
               ) : (
                 <div className="manual-row">

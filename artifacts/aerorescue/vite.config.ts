@@ -263,6 +263,92 @@ function driveVideoProxyPlugin(): Plugin {
   };
 }
 
+function driveDocumentProxyPlugin(): Plugin {
+  return {
+    name: 'aerorescue-drive-document-proxy',
+    configureServer(server) {
+      server.middlewares.use('/api/drive-document', async (req, res) => {
+        const requestUrl = new URL(req.url || '', 'http://localhost');
+        const fileId = requestUrl.searchParams.get('id');
+
+        if (!fileId || !/^[a-zA-Z0-9_-]+$/.test(fileId)) {
+          res.statusCode = 400;
+          res.setHeader('Content-Type', 'application/json; charset=utf-8');
+          res.end(JSON.stringify({ error: 'Invalid Google Drive file id' }));
+          return;
+        }
+
+        try {
+          const upstream = await fetch(getDriveTargetUrl(fileId), {
+            method: req.method === 'HEAD' ? 'HEAD' : 'GET',
+            redirect: 'follow',
+            headers: {
+              'User-Agent': 'Mozilla/5.0 AeroRescue/1.0',
+              Accept: 'application/pdf,application/octet-stream,*/*;q=0.8',
+              ...(req.headers.range ? { Range: req.headers.range } : {}),
+            },
+            signal: AbortSignal.timeout(30000),
+          });
+
+          if (!upstream.ok) {
+            res.statusCode = upstream.status;
+            res.setHeader('Content-Type', 'application/json; charset=utf-8');
+            res.end(JSON.stringify({ error: `Google Drive returned HTTP ${upstream.status}` }));
+            return;
+          }
+
+          const upstreamType = upstream.headers.get('content-type') || '';
+          const disposition = upstream.headers.get('content-disposition');
+          const filename = filenameFromDisposition(disposition);
+          const isPdf = upstreamType.includes('pdf') || filename?.toLowerCase().endsWith('.pdf');
+          const contentType = isPdf
+            ? 'application/pdf'
+            : upstreamType.includes('text/html')
+              ? 'application/octet-stream'
+              : upstreamType;
+
+          res.statusCode = upstream.status;
+          res.setHeader('Cache-Control', 'private, max-age=300');
+          res.setHeader('Accept-Ranges', upstream.headers.get('accept-ranges') || 'bytes');
+          if (contentType) res.setHeader('Content-Type', contentType);
+          if (filename) {
+            res.setHeader('Content-Disposition', `inline; filename*=UTF-8''${encodeURIComponent(filename)}`);
+          }
+          const contentLength = upstream.headers.get('content-length');
+          const contentRange = upstream.headers.get('content-range');
+          if (contentLength) res.setHeader('Content-Length', contentLength);
+          if (contentRange) res.setHeader('Content-Range', contentRange);
+
+          if (req.method === 'HEAD' || !upstream.body) {
+            res.end();
+            return;
+          }
+
+          const reader = upstream.body.getReader();
+          try {
+            while (true) {
+              const { done, value } = await reader.read();
+              if (done) break;
+              res.write(Buffer.from(value));
+            }
+          } finally {
+            reader.releaseLock();
+          }
+          res.end();
+        } catch {
+          if (!res.headersSent) {
+            res.statusCode = 502;
+            res.setHeader('Content-Type', 'application/json; charset=utf-8');
+            res.end(JSON.stringify({ error: 'Unable to stream Google Drive document' }));
+          } else {
+            res.end();
+          }
+        }
+      });
+    },
+  };
+}
+
 function mediaMetadataDevPlugin(): Plugin {
   return {
     name: 'aerorescue-media-metadata-dev',
@@ -370,6 +456,7 @@ export default defineConfig({
   base: basePath,
   plugins: [
     driveVideoProxyPlugin(),
+    driveDocumentProxyPlugin(),
     mediaMetadataDevPlugin(),
     drivePlayerPagePlugin(),
     driveVideoIframeFixPlugin(),

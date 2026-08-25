@@ -907,6 +907,7 @@ function DetailPage() {
   const [selectedMaterialIndex, setSelectedMaterialIndex] = useState<number | null>(null);
   const [expandedGalleryItem, setExpandedGalleryItem] = useState<GalleryItem | null>(null);
   const [mediaTitles, setMediaTitles] = useState<Record<string, string>>({});
+  const [mediaTitleState, setMediaTitleState] = useState<Record<string, 'loading' | 'resolved' | 'failed'>>({});
   const selectedVideo = selectedVideoIndex === null ? null : videoItems[selectedVideoIndex] || null;
   const selectedMaterial = selectedMaterialIndex === null ? null : materialItems[selectedMaterialIndex] || null;
   const selectedVideoEmbedUrl = selectedVideo ? getVideoEmbedUrl(selectedVideo.url) : null;
@@ -966,8 +967,14 @@ function DetailPage() {
     if (!uncachedUrls.length) return;
 
     let cancelled = false;
+    setMediaTitleState((current) => ({
+      ...current,
+      ...Object.fromEntries(uncachedUrls.map((url) => [url, 'loading'])),
+    }));
+
     const loadTitles = async () => {
       const resolvedTitles: Array<readonly [string, string]> = [];
+      const failedUrls: string[] = [];
       let nextIndex = 0;
       const worker = async () => {
         while (!cancelled) {
@@ -975,11 +982,18 @@ function DetailPage() {
           if (!url) return;
           try {
             const response = await fetch(`/api/media-metadata?url=${encodeURIComponent(url)}`);
-            if (!response.ok) continue;
+            if (!response.ok) {
+              failedUrls.push(url);
+              continue;
+            }
             const payload = (await response.json()) as { title?: string | null };
-            if (payload.title) resolvedTitles.push([url, payload.title]);
+            if (payload.title) {
+              resolvedTitles.push([url, payload.title]);
+            } else {
+              failedUrls.push(url);
+            }
           } catch {
-            // Keep rendering the catalog if an individual source is unavailable.
+            failedUrls.push(url);
           }
         }
       };
@@ -990,6 +1004,13 @@ function DetailPage() {
       if (!cancelled && resolvedTitles.length) {
         setMediaTitles((current) => ({ ...current, ...Object.fromEntries(resolvedTitles) }));
       }
+      if (!cancelled) {
+        setMediaTitleState((current) => ({
+          ...current,
+          ...Object.fromEntries(resolvedTitles.map(([url]) => [url, 'resolved'])),
+          ...Object.fromEntries(failedUrls.map((url) => [url, 'failed'])),
+        }));
+      }
     };
 
     void loadTitles();
@@ -998,7 +1019,13 @@ function DetailPage() {
     };
   }, [activeTab, aircraft.id, materialItems, videoItems, mediaTitles]);
 
-  const getMediaTitle = (url: string | undefined, fallback: string) => (url && mediaTitles[url]) || fallback;
+  const getMediaTitle = (url: string | undefined, fallback: string) => {
+    if (!url) return fallback;
+    if (mediaTitles[url]) return mediaTitles[url];
+    if (mediaTitleState[url] === 'loading') return 'Carregando nome…';
+    if (mediaTitleState[url] === 'failed') return 'Nome não disponível';
+    return fallback;
+  };
 
   const handlePrint = () => {
     setActiveTab('Visão geral');

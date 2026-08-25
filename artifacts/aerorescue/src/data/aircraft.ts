@@ -349,9 +349,6 @@ export const aircraftCatalog: Aircraft[] = [
       { title: 'Recuperação e pouso', body: 'Execute a recuperação no ponto designado e confirme o estado dos patins antes de liberar a área.' },
     ],
     manuals: [
-      { name: 'Manual de operações — Hermes 450', meta: 'PDF · 2,8 MB · revisão 06/2025' },
-      { name: 'Checklist de prevenção de perda de enlace', meta: 'PDF · 1,0 MB · revisão 04/2025' },
-      { name: 'Guia de missão ISR', meta: 'PDF · 1,3 MB · revisão 09/2024' },
     ],
   },
   {
@@ -1648,7 +1645,6 @@ export const aircraftCatalog: Aircraft[] = [
       { title: 'Em caso de emergência', body: 'Siga o procedimento de deploy do paraquedas de fuselagem somente quando a recuperação de voo não for segura.' },
     ],
     manuals: [
-      { name: 'Cirrus SR22 Pilot Operating Handbook', meta: 'Manual de voo', url: 'https://example.com/cirrus-sr22-poh.pdf' },
     ],
   },
   {
@@ -2208,7 +2204,6 @@ export const aircraftCatalog: Aircraft[] = [
       { title: 'Checklist de missão', body: 'Verifique os sistemas de combustível, sondagem e comunicações durante toda a missão.' },
     ],
     manuals: [
-      { name: 'KC-30 MRTT – Manual de missão', meta: 'Referência técnica', url: 'https://example.com/kc30-manual.pdf' },
     ],
   },
   {
@@ -2415,7 +2410,6 @@ export const aircraftCatalog: Aircraft[] = [
       { title: 'Entradas e saídas', body: 'Use rotas de embarque protegidas e verifique as escotilhas antes do voo.' },
     ],
     manuals: [
-      { name: 'VH-35 – Manual de operações VIP', meta: 'Referência de missão', url: 'https://example.com/vh35-manual.pdf' },
     ],
     gallery: [
       { title: 'Galeria VH-35 01', url: 'https://drive.google.com/uc?export=view&id=1KdD9eNhOth9vFEQOmO99R_BKw_BnZaNt' },

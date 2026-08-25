@@ -12,6 +12,94 @@ function decodeHtmlEntities(value: string) {
     .replace(/&gt;/g, ">");
 }
 
+function cleanTitle(value: string | null | undefined) {
+  if (!value) return null;
+
+  const title = decodeHtmlEntities(value)
+    .replace(/^\s+|\s+$/g, "")
+    .replace(/\s+/g, " ");
+
+  if (!title) return null;
+
+  const genericTitles = new Set([
+    "google drive",
+    "drive",
+    "youtube",
+    "video",
+    "vídeo",
+    "untitled",
+    "sem título",
+  ]);
+
+  if (genericTitles.has(title.toLowerCase())) return null;
+  return title;
+}
+
+function isGoogleDriveHost(hostname: string) {
+  return hostname === "drive.google.com" || hostname.endsWith(".drive.google.com");
+}
+
+function isYoutubeHost(hostname: string) {
+  return /(^|\.)youtube\.com$|(^|\.)youtu\.be$/i.test(hostname);
+}
+
+function extractMetaContent(html: string, property: string) {
+  const escaped = property.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const propertyFirst = new RegExp(
+    `<meta[^>]+(?:property|name)=[\"']${escaped}[\"'][^>]+content=[\"']([^\"']+)[\"'][^>]*>`,
+    "i",
+  );
+  const contentFirst = new RegExp(
+    `<meta[^>]+content=[\"']([^\"']+)[\"'][^>]+(?:property|name)=[\"']${escaped}[\"'][^>]*>`,
+    "i",
+  );
+  return propertyFirst.exec(html)?.[1] ?? contentFirst.exec(html)?.[1] ?? null;
+}
+
+async function resolveYoutubeTitle(url: string) {
+  const metadataUrl = `https://www.youtube.com/oembed?url=${encodeURIComponent(url)}&format=json`;
+  const response = await fetch(metadataUrl, { signal: AbortSignal.timeout(10000) });
+  if (!response.ok) return null;
+  const payload = (await response.json()) as { title?: string };
+  return cleanTitle(payload.title);
+}
+
+async function resolveDriveTitle(url: string) {
+  const response = await fetch(url, {
+    signal: AbortSignal.timeout(10000),
+    redirect: "follow",
+    headers: {
+      "User-Agent": "Mozilla/5.0 AeroRescue/1.0",
+      Accept: "text/html,application/xhtml+xml",
+    },
+  });
+  if (!response.ok) return null;
+
+  const html = await response.text();
+
+  const candidates = [
+    extractMetaContent(html, "og:title"),
+    extractMetaContent(html, "twitter:title"),
+    html.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1] ?? null,
+  ];
+
+  for (const candidate of candidates) {
+    const cleaned = cleanTitle(candidate);
+    if (!cleaned) continue;
+
+    const normalized = cleaned
+      .replace(/\s+-\s+Google Drive\s*$/i, "")
+      .replace(/\s+\|\s+Google Drive\s*$/i, "")
+      .trim();
+
+    if (normalized && !/^google drive$/i.test(normalized)) {
+      return normalized;
+    }
+  }
+
+  return null;
+}
+
 mediaMetadataRouter.get("/media-metadata", async (req, res) => {
   const url = typeof req.query.url === "string" ? req.query.url : "";
   let parsedUrl: URL;
@@ -23,8 +111,8 @@ mediaMetadataRouter.get("/media-metadata", async (req, res) => {
     return;
   }
 
-  const isDrive = parsedUrl.hostname === "drive.google.com";
-  const isYoutube = /(^|\.)youtube\.com$|(^|\.)youtu\.be$/i.test(parsedUrl.hostname);
+  const isDrive = isGoogleDriveHost(parsedUrl.hostname);
+  const isYoutube = isYoutubeHost(parsedUrl.hostname);
   if (!isDrive && !isYoutube) {
     res.status(400).json({ error: "Unsupported media host" });
     return;
@@ -36,30 +124,17 @@ mediaMetadataRouter.get("/media-metadata", async (req, res) => {
   }
 
   try {
-    const metadataUrl = isYoutube
-      ? `https://www.youtube.com/oembed?url=${encodeURIComponent(url)}&format=json`
-      : url;
-    const response = await fetch(metadataUrl, { signal: AbortSignal.timeout(10000) });
-    if (!response.ok) {
-      res.status(502).json({ error: "Media metadata unavailable" });
-      return;
-    }
+    const title = isYoutube
+      ? await resolveYoutubeTitle(url)
+      : await resolveDriveTitle(url);
 
-    if (isYoutube) {
-      const payload = (await response.json()) as { title?: string };
-      const title = payload.title || null;
-      titleCache.set(url, title);
-      res.json({ title });
-      return;
-    }
-
-    const html = await response.text();
-    const rawTitle = html.match(/<title[^>]*>([^<]+)<\/title>/i)?.[1]?.trim() || null;
-    const title = rawTitle ? decodeHtmlEntities(rawTitle).replace(/\s+-\s+Google Drive\s*$/i, "") : null;
     titleCache.set(url, title);
     res.json({ title });
   } catch {
-    res.status(502).json({ error: "Media metadata unavailable" });
+    // Metadata must never break the catalog. The frontend will retain the
+    // explicitly configured title when the remote platform cannot be reached.
+    titleCache.set(url, null);
+    res.json({ title: null });
   }
 });
 

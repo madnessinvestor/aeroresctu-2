@@ -249,7 +249,7 @@ function driveVideoProxyPlugin(): Plugin {
             reader.releaseLock();
           }
           res.end();
-        } catch (error) {
+        } catch {
           if (!res.headersSent) {
             res.statusCode = 502;
             res.setHeader('Content-Type', 'application/json; charset=utf-8');
@@ -296,65 +296,23 @@ function driveVideoIframeFixPlugin(): Plugin {
     return match?.[1] || null;
   };
 
-  const makeDrivePreview = (fileId, title) => {
-    const preview = document.createElement('iframe');
-    preview.src = 'https://drive.google.com/file/d/' + encodeURIComponent(fileId) + '/preview';
-    preview.title = title || 'Vídeo do Google Drive';
-    preview.className = 'video-mold-frame';
-    preview.allow = 'autoplay; fullscreen; encrypted-media; picture-in-picture';
-    preview.allowFullscreen = true;
-    preview.referrerPolicy = 'no-referrer-when-downgrade';
-    preview.dataset.drivePlaybackFixed = '1';
-    preview.style.cssText = 'width:100%;height:100%;border:0;display:block;background:#111;';
-    return preview;
-  };
-
-  const replaceDriveIframe = (iframe) => {
+  const rewriteDriveIframe = (iframe) => {
     if (!(iframe instanceof HTMLIFrameElement)) return;
-    if (iframe.dataset.drivePlaybackFixed === '1') return;
-
     const src = iframe.getAttribute('src') || '';
     const fileId = getDriveId(src);
     if (!fileId) return;
 
-    iframe.dataset.drivePlaybackFixed = '1';
-    const title = iframe.getAttribute('title') || 'Vídeo do Google Drive';
+    const playerSrc = '/api/drive-player?id=' + encodeURIComponent(fileId);
+    if (src === playerSrc || iframe.dataset.drivePlayerSrc === playerSrc) return;
 
-    // Keep the video same-origin with the application. The Vite middleware
-    // streams the public Drive file and forwards Range requests, so playback
-    // does not depend on first opening the Google Drive link in another tab.
-    const video = document.createElement('video');
-    video.className = iframe.className || 'video-mold-frame';
-    video.controls = true;
-    video.playsInline = true;
-    video.preload = 'metadata';
-    video.setAttribute('aria-label', title);
-    video.setAttribute('controlsList', 'nodownload');
-    video.style.cssText = 'width:100%;height:100%;display:block;background:#111;object-fit:contain;';
-    video.src = '/api/drive-video?id=' + encodeURIComponent(fileId);
-
-    const wrapper = document.createElement('div');
-    wrapper.style.cssText = 'position:relative;width:100%;height:100%;background:#111;';
-    wrapper.appendChild(video);
-
-    let fallbackShown = false;
-    const showDrivePreview = () => {
-      if (fallbackShown || !wrapper.isConnected) return;
-      fallbackShown = true;
-      wrapper.replaceChildren(makeDrivePreview(fileId, title));
-    };
-
-    video.addEventListener('error', showDrivePreview, { once: true });
-    video.addEventListener('stalled', () => {
-      window.setTimeout(() => {
-        if (video.readyState === 0) showDrivePreview();
-      }, 5000);
-    }, { once: true });
-
-    iframe.replaceWith(wrapper);
+    iframe.dataset.drivePlayerSrc = playerSrc;
+    iframe.src = playerSrc;
   };
 
-  const scan = () => document.querySelectorAll('iframe[src*="drive.google.com/file/"]').forEach(replaceDriveIframe);
+  const scan = () => {
+    document.querySelectorAll('iframe[src*="drive.google.com/file/"]').forEach(rewriteDriveIframe);
+  };
+
   scan();
   new MutationObserver(scan).observe(document.documentElement, { childList: true, subtree: true });
 })();
@@ -368,11 +326,51 @@ function driveVideoIframeFixPlugin(): Plugin {
   };
 }
 
+function drivePlayerPagePlugin(): Plugin {
+  return {
+    name: 'aerorescue-drive-player-page',
+    configureServer(server) {
+      server.middlewares.use('/api/drive-player', (req, res) => {
+        const requestUrl = new URL(req.url || '', 'http://localhost');
+        const fileId = requestUrl.searchParams.get('id');
+        if (!fileId || !/^[a-zA-Z0-9_-]+$/.test(fileId)) {
+          res.statusCode = 400;
+          res.setHeader('Content-Type', 'text/html; charset=utf-8');
+          res.end('<!doctype html><html><body>Invalid Google Drive file id</body></html>');
+          return;
+        }
+
+        const safeId = encodeURIComponent(fileId);
+        const html = `<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#111}
+video{width:100%;height:100%;display:block;background:#111;object-fit:contain}
+</style>
+</head>
+<body>
+<video controls playsinline preload="metadata" src="/api/drive-video?id=${safeId}"></video>
+</body>
+</html>`;
+
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        res.setHeader('Cache-Control', 'no-store');
+        res.end(html);
+      });
+    },
+  };
+}
+
 export default defineConfig({
   base: basePath,
   plugins: [
     driveVideoProxyPlugin(),
     mediaMetadataDevPlugin(),
+    drivePlayerPagePlugin(),
     driveVideoIframeFixPlugin(),
     react(),
     tailwindcss(),

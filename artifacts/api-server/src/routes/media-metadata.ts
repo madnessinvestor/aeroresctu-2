@@ -3,6 +3,21 @@ import { Router, type IRouter } from "express";
 const mediaMetadataRouter: IRouter = Router();
 const titleCache = new Map<string, string>();
 
+function repairMojibake(value: string) {
+  // Google Drive can expose a UTF-8 filename through a header that is decoded
+  // as ISO-8859-1/Latin-1 by the HTTP stack. Repair the resulting strings such
+  // as "InstruÃ§Ã£o" before sending them to the browser.
+  if (!/[ÃÂâ]|�/.test(value)) return value;
+
+  try {
+    const repaired = Buffer.from(value, "latin1").toString("utf8");
+    if (!repaired || repaired.includes("�")) return value;
+    return repaired;
+  } catch {
+    return value;
+  }
+}
+
 function decodeHtmlEntities(value: string) {
   return value
     .replace(/&amp;/g, "&")
@@ -14,7 +29,9 @@ function decodeHtmlEntities(value: string) {
 
 function cleanTitle(value: string | null | undefined) {
   if (!value) return null;
-  const title = decodeHtmlEntities(value).replace(/^\s+|\s+$/g, "").replace(/\s+/g, " ");
+  const title = repairMojibake(
+    decodeHtmlEntities(value).replace(/^\s+|\s+$/g, "").replace(/\s+/g, " "),
+  );
   if (!title) return null;
 
   const genericTitles = new Set([
@@ -66,8 +83,6 @@ function extractFilenameFromDisposition(value: string | null) {
 }
 
 function extractDriveEmbeddedName(html: string) {
-  // Google has changed the Drive viewer markup several times. These fields
-  // are file-level metadata, unlike the generic page title.
   const patterns = [
     /["']fileName["']\s*:\s*["']([^"']+)["']/i,
     /["']file_name["']\s*:\s*["']([^"']+)["']/i,
@@ -98,8 +113,6 @@ async function fetchFilename(url: string) {
   const filename = extractFilenameFromDisposition(response.headers.get("content-disposition"));
   if (filename) return filename;
 
-  // Large public Drive files may first return a confirmation page. The form
-  // contains the actual download endpoint, which in turn exposes the filename.
   const contentType = response.headers.get("content-type") ?? "";
   if (contentType.includes("text/html")) {
     const html = await response.text();
@@ -126,8 +139,6 @@ async function resolveDriveTitle(url: string) {
   const fileId = extractDriveFileId(url);
 
   if (fileId) {
-    // This endpoint is currently the most reliable way to obtain the original
-    // filename of a public Drive file without requiring a Google API key.
     const directUrl = `https://drive.usercontent.google.com/download?id=${encodeURIComponent(fileId)}&export=download&confirm=t`;
     const directName = await fetchFilename(directUrl);
     if (directName) return directName;
@@ -206,8 +217,6 @@ mediaMetadataRouter.get("/media-metadata", async (req, res) => {
     if (title) titleCache.set(url, title);
     res.json({ title: title ?? null });
   } catch {
-    // Do not cache failures. A temporary Drive/YouTube/network failure must
-    // not permanently lock the catalog to its generic fallback name.
     res.json({ title: null });
   }
 });

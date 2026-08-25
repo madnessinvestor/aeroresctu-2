@@ -197,10 +197,44 @@ function mediaMetadataDevPlugin(): Plugin {
   };
 }
 
+function driveVideoIframeFixPlugin(): Plugin {
+  const injection = `
+<script>
+(() => {
+  const isDrivePreview = (src) => /https?:\\/\\/drive\\.google\\.com\\/file\\/[^/]+\\/preview/i.test(src || '');
+  const fixDriveIframe = (iframe) => {
+    if (!(iframe instanceof HTMLIFrameElement)) return;
+    const src = iframe.getAttribute('src') || '';
+    if (!isDrivePreview(src) || iframe.dataset.drivePlaybackFixed === '1') return;
+
+    iframe.dataset.drivePlaybackFixed = '1';
+    iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-popups allow-forms allow-popups-to-escape-sandbox');
+    iframe.setAttribute('allow', 'autoplay; fullscreen; encrypted-media; picture-in-picture');
+
+    const separator = src.includes('?') ? '&' : '?';
+    const previewUrl = src.includes('controls=') ? src : src + separator + 'controls=1';
+    if (previewUrl !== src) iframe.setAttribute('src', previewUrl);
+  };
+
+  const scan = () => document.querySelectorAll('iframe[src*="drive.google.com/file/"]').forEach(fixDriveIframe);
+  scan();
+  new MutationObserver(scan).observe(document.documentElement, { childList: true, subtree: true });
+})();
+</script>`;
+
+  return {
+    name: 'aerorescue-drive-video-playback-fix',
+    transformIndexHtml(html) {
+      return html.replace('</body>', `${injection}</body>`);
+    },
+  };
+}
+
 export default defineConfig({
   base: basePath,
   plugins: [
     mediaMetadataDevPlugin(),
+    driveVideoIframeFixPlugin(),
     react(),
     tailwindcss(),
     runtimeErrorOverlay(),

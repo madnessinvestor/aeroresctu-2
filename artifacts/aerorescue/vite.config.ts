@@ -2,7 +2,6 @@ import path from 'path';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig, type Plugin } from 'vite';
-
 import runtimeErrorOverlay from '@replit/vite-plugin-runtime-error-modal';
 
 const rawPort = process.env.PORT || '4173';
@@ -40,8 +39,15 @@ function cleanMediaTitle(value: string | null | undefined) {
     decodeHtmlEntities(value).replace(/^\s+|\s+$/g, '').replace(/\s+/g, ' '),
   );
   if (!title) return null;
-
-  const generic = new Set(['google drive', 'drive', 'youtube', 'video', 'vídeo', 'untitled', 'sem título']);
+  const generic = new Set([
+    'google drive',
+    'drive',
+    'youtube',
+    'video',
+    'vídeo',
+    'untitled',
+    'sem título',
+  ]);
   return generic.has(title.toLowerCase()) ? null : title;
 }
 
@@ -156,9 +162,10 @@ async function resolveDevMediaTitle(url: string) {
   try {
     const parsed = new URL(url);
     if (/youtube\.com$|youtu\.be$/i.test(parsed.hostname)) {
-      const response = await fetch(`https://www.youtube.com/oembed?url=${encodeURIComponent(url)}&format=json`, {
-        signal: AbortSignal.timeout(10000),
-      });
+      const response = await fetch(
+        `https://www.youtube.com/oembed?url=${encodeURIComponent(url)}&format=json`,
+        { signal: AbortSignal.timeout(10000) },
+      );
       if (!response.ok) return null;
       const payload = (await response.json()) as { title?: string };
       return cleanMediaTitle(payload.title);
@@ -171,6 +178,89 @@ async function resolveDevMediaTitle(url: string) {
     return null;
   }
   return null;
+}
+
+function getDriveTargetUrl(fileId: string) {
+  return `https://drive.usercontent.google.com/download?id=${encodeURIComponent(fileId)}&export=download&confirm=t`;
+}
+
+function driveVideoProxyPlugin(): Plugin {
+  return {
+    name: 'aerorescue-drive-video-proxy',
+    configureServer(server) {
+      server.middlewares.use('/api/drive-video', async (req, res) => {
+        const requestUrl = new URL(req.url || '', 'http://localhost');
+        const fileId = requestUrl.searchParams.get('id');
+
+        if (!fileId || !/^[a-zA-Z0-9_-]+$/.test(fileId)) {
+          res.statusCode = 400;
+          res.setHeader('Content-Type', 'application/json; charset=utf-8');
+          res.end(JSON.stringify({ error: 'Invalid Google Drive file id' }));
+          return;
+        }
+
+        try {
+          const headers: Record<string, string> = {
+            'User-Agent': 'Mozilla/5.0 AeroRescue/1.0',
+            Accept: 'video/*,*/*;q=0.8',
+          };
+          const range = req.headers.range;
+          if (range) headers.Range = range;
+
+          const upstream = await fetch(getDriveTargetUrl(fileId), {
+            method: req.method === 'HEAD' ? 'HEAD' : 'GET',
+            redirect: 'follow',
+            headers,
+            signal: AbortSignal.timeout(30000),
+          });
+
+          if (!upstream.ok) {
+            res.statusCode = upstream.status;
+            res.setHeader('Content-Type', 'application/json; charset=utf-8');
+            res.end(JSON.stringify({ error: `Google Drive returned HTTP ${upstream.status}` }));
+            return;
+          }
+
+          const contentType = upstream.headers.get('content-type');
+          const contentLength = upstream.headers.get('content-length');
+          const contentRange = upstream.headers.get('content-range');
+          const acceptRanges = upstream.headers.get('accept-ranges');
+
+          res.statusCode = upstream.status;
+          res.setHeader('Cache-Control', 'private, max-age=300');
+          res.setHeader('Accept-Ranges', acceptRanges || 'bytes');
+          if (contentType && !contentType.includes('text/html')) res.setHeader('Content-Type', contentType);
+          if (contentLength) res.setHeader('Content-Length', contentLength);
+          if (contentRange) res.setHeader('Content-Range', contentRange);
+
+          if (req.method === 'HEAD' || !upstream.body) {
+            res.end();
+            return;
+          }
+
+          const reader = upstream.body.getReader();
+          try {
+            while (true) {
+              const { done, value } = await reader.read();
+              if (done) break;
+              res.write(Buffer.from(value));
+            }
+          } finally {
+            reader.releaseLock();
+          }
+          res.end();
+        } catch (error) {
+          if (!res.headersSent) {
+            res.statusCode = 502;
+            res.setHeader('Content-Type', 'application/json; charset=utf-8');
+            res.end(JSON.stringify({ error: 'Unable to stream Google Drive video' }));
+          } else {
+            res.end();
+          }
+        }
+      });
+    },
+  };
 }
 
 function mediaMetadataDevPlugin(): Plugin {
@@ -202,7 +292,7 @@ function driveVideoIframeFixPlugin(): Plugin {
 <script>
 (() => {
   const getDriveId = (src) => {
-    const match = (src || '').match(/https?:\\/\\/drive\\.google\\.com\\/file\\/([^/]+)\\/(?:preview|view)/i);
+    const match = (src || '').match(/https?:\\/\\/drive\\.google\\.com\\/file\\/d\\/([^/]+)\\/(?:preview|view)/i);
     return match?.[1] || null;
   };
 
@@ -230,8 +320,9 @@ function driveVideoIframeFixPlugin(): Plugin {
     iframe.dataset.drivePlaybackFixed = '1';
     const title = iframe.getAttribute('title') || 'Vídeo do Google Drive';
 
-    // Try the real Drive file stream first. This works for browser-native
-    // formats such as MP4 and keeps the video inside the catalog.
+    // Keep the video same-origin with the application. The Vite middleware
+    // streams the public Drive file and forwards Range requests, so playback
+    // does not depend on first opening the Google Drive link in another tab.
     const video = document.createElement('video');
     video.className = iframe.className || 'video-mold-frame';
     video.controls = true;
@@ -240,10 +331,9 @@ function driveVideoIframeFixPlugin(): Plugin {
     video.setAttribute('aria-label', title);
     video.setAttribute('controlsList', 'nodownload');
     video.style.cssText = 'width:100%;height:100%;display:block;background:#111;object-fit:contain;';
-    video.src = 'https://drive.usercontent.google.com/download?id=' + encodeURIComponent(fileId) + '&export=download&confirm=t';
+    video.src = '/api/drive-video?id=' + encodeURIComponent(fileId);
 
     const wrapper = document.createElement('div');
-    wrapper.className = iframe.parentElement?.className || '';
     wrapper.style.cssText = 'position:relative;width:100%;height:100%;background:#111;';
     wrapper.appendChild(video);
 
@@ -251,13 +341,9 @@ function driveVideoIframeFixPlugin(): Plugin {
     const showDrivePreview = () => {
       if (fallbackShown || !wrapper.isConnected) return;
       fallbackShown = true;
-      const preview = makeDrivePreview(fileId, title);
-      wrapper.replaceChildren(preview);
+      wrapper.replaceChildren(makeDrivePreview(fileId, title));
     };
 
-    // MOV/AVI/WMV and files with codecs unsupported by the browser can fail
-    // in <video> even though Google Drive can preview them. Fall back to
-    // Drive's own browser player instead of leaving a black rectangle.
     video.addEventListener('error', showDrivePreview, { once: true });
     video.addEventListener('stalled', () => {
       window.setTimeout(() => {
@@ -285,6 +371,7 @@ function driveVideoIframeFixPlugin(): Plugin {
 export default defineConfig({
   base: basePath,
   plugins: [
+    driveVideoProxyPlugin(),
     mediaMetadataDevPlugin(),
     driveVideoIframeFixPlugin(),
     react(),
@@ -307,12 +394,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(import.meta.dirname, 'src'),
-      '@assets': path.resolve(
-        import.meta.dirname,
-        '..',
-        '..',
-        'attached_assets',
-      ),
+      '@assets': path.resolve(import.meta.dirname, '..', '..', 'attached_assets'),
     },
     dedupe: ['react', 'react-dom'],
   },

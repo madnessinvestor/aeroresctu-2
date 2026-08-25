@@ -8,6 +8,7 @@ import { aircraftCatalog, quickFilters, type Aircraft, type GalleryItem, type Vi
 type Toast = string | null;
 type ThemeMode = 'light' | 'dark';
 const MEDIA_TITLES_STORAGE_KEY = 'aerorescue:media-titles';
+const MEDIA_PROXY_BASE = `${import.meta.env.BASE_URL}aerorescue-media`;
 
 function readStoredMediaTitles(): Record<string, string> {
   try {
@@ -44,7 +45,7 @@ function getDriveFileId(url: string) {
 
 function getDriveDocumentUrl(url: string) {
   const fileId = getDriveFileId(url);
-  return fileId ? `/api/drive-document?id=${encodeURIComponent(fileId)}` : null;
+  return fileId ? `${MEDIA_PROXY_BASE}/drive-document?id=${encodeURIComponent(fileId)}` : null;
 }
 
 function getDriveImageUrl(url: string) {
@@ -939,7 +940,7 @@ function DetailPage() {
   const selectedMaterial = selectedMaterialIndex === null ? null : materialItems[selectedMaterialIndex] || null;
   const selectedVideoEmbedUrl = selectedVideo
     ? getDriveFileId(selectedVideo.url)
-      ? `/api/drive-player?id=${encodeURIComponent(getDriveFileId(selectedVideo.url)!)}`
+      ? `${MEDIA_PROXY_BASE}/drive-player?id=${encodeURIComponent(getDriveFileId(selectedVideo.url)!)}`
       : getVideoEmbedUrl(selectedVideo.url)
     : null;
   const selectedMaterialEmbedUrl = selectedMaterial?.url
@@ -1025,7 +1026,7 @@ function DetailPage() {
           const url = uncachedUrls[nextIndex++];
           if (!url) return;
           try {
-            const response = await fetch(`/api/media-metadata?url=${encodeURIComponent(url)}`);
+             const response = await fetch(`${MEDIA_PROXY_BASE}/metadata?url=${encodeURIComponent(url)}`);
             if (!response.ok) {
               failedUrls.push(url);
               continue;

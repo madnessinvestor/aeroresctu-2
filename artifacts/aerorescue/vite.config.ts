@@ -188,7 +188,7 @@ function driveVideoProxyPlugin(): Plugin {
   return {
     name: 'aerorescue-drive-video-proxy',
     configureServer(server) {
-      server.middlewares.use('/api/drive-video', async (req, res) => {
+      server.middlewares.use('/aerorescue-media/drive-video', async (req, res) => {
         const requestUrl = new URL(req.url || '', 'http://localhost');
         const fileId = requestUrl.searchParams.get('id');
 
@@ -267,7 +267,7 @@ function driveDocumentProxyPlugin(): Plugin {
   return {
     name: 'aerorescue-drive-document-proxy',
     configureServer(server) {
-      server.middlewares.use('/api/drive-document', async (req, res) => {
+      server.middlewares.use('/aerorescue-media/drive-document', async (req, res) => {
         const requestUrl = new URL(req.url || '', 'http://localhost');
         const fileId = requestUrl.searchParams.get('id');
 
@@ -353,7 +353,7 @@ function mediaMetadataDevPlugin(): Plugin {
   return {
     name: 'aerorescue-media-metadata-dev',
     configureServer(server) {
-      server.middlewares.use('/api/media-metadata', async (req, res) => {
+      server.middlewares.use('/aerorescue-media/metadata', async (req, res) => {
         const requestUrl = new URL(req.url || '', 'http://localhost');
         const mediaUrl = requestUrl.searchParams.get('url');
         if (!mediaUrl) {
@@ -389,7 +389,7 @@ function driveVideoIframeFixPlugin(): Plugin {
     const fileId = getDriveId(src);
     if (!fileId) return;
 
-    const playerSrc = '/api/drive-player?id=' + encodeURIComponent(fileId);
+     const playerSrc = '/aerorescue-media/drive-player?id=' + encodeURIComponent(fileId);
     if (src === playerSrc || iframe.dataset.drivePlayerSrc === playerSrc) return;
 
     iframe.dataset.drivePlayerSrc = playerSrc;
@@ -417,7 +417,7 @@ function drivePlayerPagePlugin(): Plugin {
   return {
     name: 'aerorescue-drive-player-page',
     configureServer(server) {
-      server.middlewares.use('/api/drive-player', (req, res) => {
+        server.middlewares.use('/aerorescue-media/drive-player', (req, res) => {
         const requestUrl = new URL(req.url || '', 'http://localhost');
         const fileId = requestUrl.searchParams.get('id');
         if (!fileId || !/^[a-zA-Z0-9_-]+$/.test(fileId)) {
@@ -439,7 +439,7 @@ video{width:100%;height:100%;display:block;background:#111;object-fit:contain}
 </style>
 </head>
 <body>
-<video controls playsinline preload="metadata" src="/api/drive-video?id=${safeId}"></video>
+<video controls playsinline preload="metadata" src="/aerorescue-media/drive-video?id=${safeId}"></video>
 </body>
 </html>`;
 

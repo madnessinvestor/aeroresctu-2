@@ -87,7 +87,9 @@ drivePlayerRouter.get("/drive-document", async (req, res) => {
 
   try {
     res.setHeader("Content-Disposition", "inline");
-    await streamDriveFile(fileId, req, res, "application/pdf");
+    // Preserve the upstream MIME type: Drive documents can also be images
+    // (for example, the ATR 72 safety cards are JPEG files).
+    await streamDriveFile(fileId, req, res);
   } catch {
     if (!res.headersSent) {
       res.status(502).json({ error: "Unable to read Google Drive document" });

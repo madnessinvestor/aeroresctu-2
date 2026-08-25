@@ -1060,7 +1060,7 @@ function DetailPage() {
     if (!url) return fallback;
     if (mediaTitles[url]) return mediaTitles[url];
     if (mediaTitleState[url] === 'loading') return 'Carregando nome…';
-    if (mediaTitleState[url] === 'failed') return 'Nome não disponível';
+    if (mediaTitleState[url] === 'failed') return fallback;
     return fallback;
   };
 

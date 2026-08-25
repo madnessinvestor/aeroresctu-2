@@ -1311,10 +1311,10 @@ export const aircraftCatalog: Aircraft[] = [
       { title: 'Operação em aeroportos regionais', body: 'Monitore o espaço de manobra e siga as restrições de taxiamento para aeronaves de asa alta e hélices.' },
     ],
     manuals: [
-      { name: 'ATR 72-600 Material 01.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1Zo7_ROOifPclen6BgR_1jAbI0nevKBut/view?usp=drive_link' },
-      { name: 'ATR 72-600 Material 02.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/11sDN5aI0AAeBKEzorEQui1T-mi6tD-oS/view?usp=drive_link' },
-      { name: 'ATR 72-600 Material 03.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/14nvNJq-haM339gDTEMuvo_1zt4gIjDZM/view?usp=drive_link' },
-      { name: 'ATR 72-600 Material 04.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1Hem13e6NN4hjVAZlKH8O4OEqDJs_szMH/view?usp=drive_link' },
+      { name: 'ATR 72 Safety Card (Com1).jpg', meta: 'Google Drive · imagem JPG', url: 'https://drive.google.com/file/d/1Zo7_ROOifPclen6BgR_1jAbI0nevKBut/view?usp=drive_link' },
+      { name: 'ATR 72 Safety Card (Com4).jpg', meta: 'Google Drive · imagem JPG', url: 'https://drive.google.com/file/d/11sDN5aI0AAeBKEzorEQui1T-mi6tD-oS/view?usp=drive_link' },
+      { name: 'ATR 72 Safety Card (Com2).jpg', meta: 'Google Drive · imagem JPG', url: 'https://drive.google.com/file/d/14nvNJq-haM339gDTEMuvo_1zt4gIjDZM/view?usp=drive_link' },
+      { name: 'ATR 72 Safety Card (Com3).jpg', meta: 'Google Drive · imagem JPG', url: 'https://drive.google.com/file/d/1Hem13e6NN4hjVAZlKH8O4OEqDJs_szMH/view?usp=drive_link' },
     ],
     videos: [
       { title: 'Saiba Porque a Aviação Regional Precisa do Avião Turboélice. Por dentro do ATR 72-600', url: 'https://www.youtube.com/watch?v=qWa0EIw8jOs' },

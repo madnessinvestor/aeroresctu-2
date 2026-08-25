@@ -757,10 +757,10 @@ function Viewer({ aircraft }: { aircraft: Aircraft }) {
 
   const selectedModel = overviewModels[overviewIndex] || overviewModels[0] || null;
   const isDeactivated = aircraft.status === 'Desativado';
-  const embedUrl = selectedModel?.url
-    ? selectedModel.url
-    : selectedModel?.sketchfabModelId
+  const embedUrl = selectedModel?.sketchfabModelId
       ? `https://sketchfab.com/models/${selectedModel.sketchfabModelId}/embed?autostart=1&ui_infos=0&ui_controls=1&ui_annots=0&ui_watermark=0`
+      : selectedModel?.url
+        ? selectedModel.url
       : null;
 
   return (
@@ -797,7 +797,7 @@ function Viewer({ aircraft }: { aircraft: Aircraft }) {
               {overviewModels.map((model) => (
                 <a
                   key={model.label}
-                  href={`https://sketchfab.com/models/${model.sketchfabModelId}`}
+                  href={model.url || `https://sketchfab.com/models/${model.sketchfabModelId}`}
                   target="_blank"
                   rel="noreferrer"
                   className="model-ref-link"
@@ -888,24 +888,81 @@ function DetailPage() {
     window.setTimeout(() => setToast(null), 2200);
   };
 
-  const overviewAndGalleryOnly = new Set(['mirage-2000-c-ayrton-senna', 'kc-130', 'ah-2-sabre-marinha', 'uh-1h', 'c-115-buffalo']);
+  const overviewAndGalleryOnly = new Set(['mirage-2000-c-ayrton-senna', 'kc-130', 'uh-1h']);
   const tabs = overviewAndGalleryOnly.has(aircraft.id) ? ['Visão geral', 'Galeria'] : ['Visão geral', 'Material', 'Galeria', 'Vídeos'];
   const coverUrl = aircraft.coverImage ? `${import.meta.env.BASE_URL}${aircraft.coverImage}` : undefined;
   const galleryItems = aircraft.gallery && aircraft.gallery.length > 0 ? aircraft.gallery : [{ title: aircraft.name, url: coverUrl }];
   const videoItems = aircraft.videos && aircraft.videos.length > 0 ? aircraft.videos : [];
+  const driveVideoItems = videoItems.filter((video) => video.url.includes('drive.google.com'));
+  const youtubeVideoItems = videoItems.filter((video) => !video.url.includes('drive.google.com'));
   const materialItems = aircraft.manuals && aircraft.manuals.length > 0 ? aircraft.manuals : [];
   const [selectedVideoIndex, setSelectedVideoIndex] = useState(0);
   const [selectedMaterialIndex, setSelectedMaterialIndex] = useState(0);
+  const [mediaTitles, setMediaTitles] = useState<Record<string, string>>({});
   const selectedVideo = videoItems[selectedVideoIndex] || videoItems[0] || null;
   const selectedMaterial = materialItems[selectedMaterialIndex] || materialItems[0] || null;
   const selectedVideoEmbedUrl = selectedVideo ? getVideoEmbedUrl(selectedVideo.url) : null;
   const selectedMaterialEmbedUrl = selectedMaterial?.url ? getDrivePreviewUrl(selectedMaterial.url) : null;
+  const renderVideoGroup = (title: string, items: VideoLink[]) => (
+    items.length > 0 && (
+      <section className="video-group" aria-labelledby={`video-group-${title.toLowerCase()}`}>
+        <h4 id={`video-group-${title.toLowerCase()}`} className="video-group-title">{title}</h4>
+        <div className="video-list">
+          {items.map((video) => {
+            const index = videoItems.indexOf(video);
+            return (
+              <button
+                type="button"
+                className={`manual-row video-row ${selectedVideoIndex === index ? 'active' : ''}`}
+                key={`${video.title}-${index}`}
+                onClick={() => setSelectedVideoIndex(index)}
+                data-testid={`button-select-video-${index}`}
+              >
+                <span className="manual-icon"><Play size={16} /></span>
+                <span>
+                  <span className="manual-name">{getMediaTitle(video.url, video.title)}</span>
+                  <span className="manual-meta">{video.url}</span>
+                </span>
+                <a className="icon-btn" href={video.url} target="_blank" rel="noreferrer" onClick={(event) => event.stopPropagation()}>
+                  Abrir <ArrowRight size={13} />
+                </a>
+              </button>
+            );
+          })}
+        </div>
+      </section>
+    )
+  );
   const technicalVariant = aircraft.technicalVariants?.[selectedTechnicalVariant];
   const technicalCategory = technicalVariant?.category || aircraft.category;
   const technicalRole = technicalVariant?.role || aircraft.role;
   const technicalCrew = technicalVariant?.crew || aircraft.crew;
   const technicalPobMax = technicalVariant?.pobMax || aircraft.pobMax;
   const technicalDesignation = technicalVariant?.designacaoFab || aircraft.designacaoFab;
+
+  useEffect(() => {
+    const mediaUrls = [...materialItems.map((item) => item.url), ...videoItems.map((item) => item.url)].filter(
+      (url): url is string => Boolean(url),
+    );
+    const uncachedUrls = mediaUrls.filter((url) => !mediaTitles[url]);
+    if (!uncachedUrls.length) return;
+
+    Promise.all(uncachedUrls.map(async (url) => {
+      try {
+        const response = await fetch(`/api/media-metadata?url=${encodeURIComponent(url)}`);
+        if (!response.ok) return null;
+        const payload = (await response.json()) as { title?: string | null };
+        return payload.title ? [url, payload.title] as const : null;
+      } catch {
+        return null;
+      }
+    })).then((resolvedTitles) => {
+      const nextTitles = Object.fromEntries(resolvedTitles.filter((entry): entry is readonly [string, string] => Boolean(entry)));
+      if (Object.keys(nextTitles).length) setMediaTitles((current) => ({ ...current, ...nextTitles }));
+    });
+  }, [aircraft.id, materialItems, videoItems, mediaTitles]);
+
+  const getMediaTitle = (url: string | undefined, fallback: string) => (url && mediaTitles[url]) || fallback;
 
   const handlePrint = () => {
     setActiveTab('Visão geral');
@@ -1052,7 +1109,7 @@ function DetailPage() {
                   <iframe
                     className="video-mold-frame"
                     src={selectedMaterialEmbedUrl}
-                    title={selectedMaterial.name}
+                    title={getMediaTitle(selectedMaterial.url, selectedMaterial.name)}
                     frameBorder="0"
                     allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
                     allowFullScreen
@@ -1077,7 +1134,7 @@ function DetailPage() {
                   >
                     <span className="manual-icon"><FileText size={16} /></span>
                     <span>
-                      <span className="manual-name">{manual.name}</span>
+                      <span className="manual-name">{getMediaTitle(manual.url, manual.name)}</span>
                       <span className="manual-meta">{manual.meta}</span>
                     </span>
                     <a className="icon-btn" href={manual.url || '#'} target="_blank" rel="noreferrer" onClick={(event) => event.stopPropagation()}>
@@ -1121,7 +1178,7 @@ function DetailPage() {
                   <iframe
                     className="video-mold-frame"
                     src={selectedVideoEmbedUrl}
-                    title={selectedVideo.title}
+                    title={getMediaTitle(selectedVideo.url, selectedVideo.title)}
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
                     allowFullScreen
@@ -1135,27 +1192,12 @@ function DetailPage() {
               )}
             </div>
 
-            <div className="video-list">
-              {videoItems.length ? (
-                videoItems.map((video, index) => (
-                  <button
-                    type="button"
-                    className={`manual-row video-row ${selectedVideoIndex === index ? 'active' : ''}`}
-                    key={`${video.title}-${index}`}
-                    onClick={() => setSelectedVideoIndex(index)}
-                    data-testid={`button-select-video-${index}`}
-                  >
-                    <span className="manual-icon"><Play size={16} /></span>
-                    <span>
-                      <span className="manual-name">{video.title}</span>
-                      <span className="manual-meta">{video.url}</span>
-                    </span>
-                    <a className="icon-btn" href={video.url} target="_blank" rel="noreferrer" onClick={(event) => event.stopPropagation()}>
-                      Abrir <ArrowRight size={13} />
-                    </a>
-                  </button>
-                ))
-              ) : (
+            {videoItems.length ? (
+              <>
+                {renderVideoGroup('Google Drive', driveVideoItems)}
+                {renderVideoGroup('YouTube', youtubeVideoItems)}
+              </>
+            ) : (
                 <div className="manual-row">
                   <span className="manual-icon"><Play size={16} /></span>
                   <span>
@@ -1164,7 +1206,6 @@ function DetailPage() {
                   </span>
                 </div>
               )}
-            </div>
           </div>
         )}
       </div>

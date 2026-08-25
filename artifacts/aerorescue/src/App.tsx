@@ -20,6 +20,16 @@ function getDrivePreviewUrl(url: string) {
   return match ? `https://drive.google.com/file/d/${match[1]}/preview?embedded=true` : null;
 }
 
+function getDriveFileId(url: string) {
+  const match = url.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?[^#]*id=)([a-zA-Z0-9_-]+)/i);
+  return match?.[1] ?? null;
+}
+
+function getDriveDocumentUrl(url: string) {
+  const fileId = getDriveFileId(url);
+  return fileId ? `/api/drive-document?id=${encodeURIComponent(fileId)}` : null;
+}
+
 function getDriveImageUrl(url: string) {
   const match = url.match(/drive\.google\.com\/(?:file\/d\/|thumbnail\?id=|uc\?[^#]*id=)([a-zA-Z0-9_-]+)/i);
   return match ? `https://drive.google.com/thumbnail?id=${match[1]}&sz=w2000` : url;
@@ -905,13 +915,20 @@ function DetailPage() {
   const materialItems = aircraft.manuals && aircraft.manuals.length > 0 ? aircraft.manuals : [];
   const [selectedVideoIndex, setSelectedVideoIndex] = useState<number | null>(null);
   const [selectedMaterialIndex, setSelectedMaterialIndex] = useState<number | null>(null);
+  const [videoPlayerFallback, setVideoPlayerFallback] = useState(false);
   const [expandedGalleryItem, setExpandedGalleryItem] = useState<GalleryItem | null>(null);
   const [mediaTitles, setMediaTitles] = useState<Record<string, string>>({});
   const [mediaTitleState, setMediaTitleState] = useState<Record<string, 'loading' | 'resolved' | 'failed'>>({});
   const selectedVideo = selectedVideoIndex === null ? null : videoItems[selectedVideoIndex] || null;
   const selectedMaterial = selectedMaterialIndex === null ? null : materialItems[selectedMaterialIndex] || null;
-  const selectedVideoEmbedUrl = selectedVideo ? getVideoEmbedUrl(selectedVideo.url) : null;
-  const selectedMaterialEmbedUrl = selectedMaterial?.url ? getDrivePreviewUrl(selectedMaterial.url) : null;
+  const selectedVideoEmbedUrl = selectedVideo
+    ? videoPlayerFallback && getDriveFileId(selectedVideo.url)
+      ? `/api/drive-player?id=${encodeURIComponent(getDriveFileId(selectedVideo.url)!)}`
+      : getVideoEmbedUrl(selectedVideo.url)
+    : null;
+  const selectedMaterialEmbedUrl = selectedMaterial?.url
+    ? getDriveDocumentUrl(selectedMaterial.url)
+    : null;
   const renderVideoGroup = (title: string, items: VideoLink[]) => (
     items.length > 0 && (
       <section className="video-group" aria-labelledby={`video-group-${title.toLowerCase()}`}>
@@ -948,6 +965,10 @@ function DetailPage() {
   const technicalCrew = technicalVariant?.crew || aircraft.crew;
   const technicalPobMax = technicalVariant?.pobMax || aircraft.pobMax;
   const technicalDesignation = technicalVariant?.designacaoFab || aircraft.designacaoFab;
+
+  useEffect(() => {
+    setVideoPlayerFallback(false);
+  }, [selectedVideoIndex]);
 
   useEffect(() => {
     if (!expandedGalleryItem) return;
@@ -1264,6 +1285,9 @@ function DetailPage() {
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
                     allowFullScreen
                     referrerPolicy="strict-origin-when-cross-origin"
+                    onError={() => {
+                      if (getDriveFileId(selectedVideo.url)) setVideoPlayerFallback(true);
+                    }}
                   />
                 ) : (
                   <div className="video-mold-placeholder">Este vídeo não pode ser reproduzido neste player.</div>

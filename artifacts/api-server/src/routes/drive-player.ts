@@ -17,11 +17,23 @@ async function streamDriveFile(fileId: string, req: Request, res: Response, forc
   };
   if (typeof req.headers.range === "string") headers.Range = req.headers.range;
 
-  const upstream = await fetch(getDriveDownloadUrl(fileId), {
-    headers,
-    redirect: "follow",
-    signal: AbortSignal.timeout(30000),
-  });
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 30000);
+  const abortUpstream = () => {
+    if (!res.writableFinished) controller.abort();
+  };
+  res.once("close", abortUpstream);
+
+  let upstream: globalThis.Response;
+  try {
+    upstream = await fetch(getDriveDownloadUrl(fileId), {
+      headers,
+      redirect: "follow",
+      signal: controller.signal,
+    });
+  } finally {
+    clearTimeout(timeout);
+  }
 
   if (!upstream.ok) {
     res.status(upstream.status).json({ error: `Google Drive returned HTTP ${upstream.status}` });
@@ -49,17 +61,21 @@ async function streamDriveFile(fileId: string, req: Request, res: Response, forc
     return;
   }
 
-  const reader = upstream.body.getReader();
   try {
+    const reader = upstream.body.getReader();
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
-      res.write(Buffer.from(value));
+      if (res.destroyed) break;
+      if (!res.write(Buffer.from(value))) {
+        await new Promise<void>((resolve) => res.once("drain", resolve));
+      }
     }
-  } finally {
     reader.releaseLock();
+  } finally {
+    res.off("close", abortUpstream);
+    if (!res.writableEnded && !res.destroyed) res.end();
   }
-  res.end();
 }
 
 drivePlayerRouter.get("/drive-document", async (req, res) => {

@@ -932,14 +932,13 @@ function DetailPage() {
   const materialItems = aircraft.manuals && aircraft.manuals.length > 0 ? aircraft.manuals : [];
   const [selectedVideoIndex, setSelectedVideoIndex] = useState<number | null>(null);
   const [selectedMaterialIndex, setSelectedMaterialIndex] = useState<number | null>(null);
-  const [videoPlayerFallback, setVideoPlayerFallback] = useState(false);
   const [expandedGalleryItem, setExpandedGalleryItem] = useState<GalleryItem | null>(null);
   const [mediaTitles, setMediaTitles] = useState<Record<string, string>>(readStoredMediaTitles);
   const [mediaTitleState, setMediaTitleState] = useState<Record<string, 'loading' | 'resolved' | 'failed'>>({});
   const selectedVideo = selectedVideoIndex === null ? null : videoItems[selectedVideoIndex] || null;
   const selectedMaterial = selectedMaterialIndex === null ? null : materialItems[selectedMaterialIndex] || null;
   const selectedVideoEmbedUrl = selectedVideo
-    ? videoPlayerFallback && getDriveFileId(selectedVideo.url)
+    ? getDriveFileId(selectedVideo.url)
       ? `/api/drive-player?id=${encodeURIComponent(getDriveFileId(selectedVideo.url)!)}`
       : getVideoEmbedUrl(selectedVideo.url)
     : null;
@@ -982,10 +981,6 @@ function DetailPage() {
   const technicalCrew = technicalVariant?.crew || aircraft.crew;
   const technicalPobMax = technicalVariant?.pobMax || aircraft.pobMax;
   const technicalDesignation = technicalVariant?.designacaoFab || aircraft.designacaoFab;
-
-  useEffect(() => {
-    setVideoPlayerFallback(false);
-  }, [selectedVideoIndex]);
 
   useEffect(() => {
     if (!expandedGalleryItem) return;
@@ -1306,9 +1301,6 @@ function DetailPage() {
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
                     allowFullScreen
                     referrerPolicy="strict-origin-when-cross-origin"
-                    onError={() => {
-                      if (getDriveFileId(selectedVideo.url)) setVideoPlayerFallback(true);
-                    }}
                   />
                 ) : (
                   <div className="video-mold-placeholder">Este vídeo não pode ser reproduzido neste player.</div>

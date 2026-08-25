@@ -4,7 +4,7 @@ Catálogo digital de aeronaves para treinamento e consulta rápida de procedimen
 
 ## Run & Operate
 
-- `pnpm --filter @workspace/aerorescue run dev` — run the frontend catalog (the Replit workflow `Start application` supplies `PORT=5000` and `BASE_PATH=/`)
+- `pnpm --filter @workspace/aerorescue run dev` — run the frontend catalog (the Replit workflow `Start application` supplies `PORT=23016` and `BASE_PATH=/`)
 - `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
 - `pnpm run typecheck` — full typecheck across all packages
 - `pnpm run build` — typecheck + build all packages

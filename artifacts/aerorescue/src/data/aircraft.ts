@@ -2518,4 +2518,271 @@ export const aircraftCatalog: Aircraft[] = [
   },
 ];
 
+const attachmentManual = (name: string, url: string): ManualLink => ({
+  name,
+  meta: 'Google Drive · material anexado',
+  url,
+});
+
+const attachmentVideo = (title: string, url: string): VideoLink => ({ title, url });
+
+const attachmentMedia: Record<string, {
+  manuals?: ManualLink[];
+  gallery?: GalleryItem[];
+  videos?: VideoLink[];
+}> = {
+  'vh-35': {
+    manuals: [
+      attachmentManual('Material VH-35 (S-76)', 'https://drive.google.com/file/d/1iR4hRM9yX6oG9RbUf25QiCPnvHTzUX-3/view?usp=drive_link'),
+    ],
+  },
+  'vc-99b-legacy-600': {
+    manuals: [
+      attachmentManual('Material VC-99B (Legacy 600)', 'https://drive.google.com/file/d/1lCvoxXXpv_taOsAyPXG-GaJqTpY7jqy3/view?usp=drive_link'),
+    ],
+    videos: [
+      attachmentVideo('VC-99B 01', 'https://www.youtube.com/watch?v=nVd5NE4J_BQ'),
+      attachmentVideo('VC-99B 02', 'https://www.youtube.com/watch?v=rqMaoVEEZNw'),
+      attachmentVideo('VC-99B 03', 'https://www.youtube.com/watch?v=T9gMPZ3HFF0'),
+      attachmentVideo('VC-99B 04', 'https://www.youtube.com/shorts/33InyLmtNPk'),
+      attachmentVideo('VC-99B 05', 'https://www.youtube.com/shorts/Rsd5MOlo6qY'),
+      attachmentVideo('VC-99B 06', 'https://www.youtube.com/watch?v=IIBVWk-m1Fc'),
+      attachmentVideo('VC-99B 07', 'https://www.youtube.com/shorts/2LW5VvYbhic'),
+      attachmentVideo('VC-99B 08', 'https://www.youtube.com/shorts/KZXC9mYLgI4'),
+      attachmentVideo('VC-99B 09', 'https://www.youtube.com/watch?v=kzWmyLi654E'),
+    ],
+  },
+  'vc-99-embraer': {
+    manuals: [
+      attachmentManual('Material VC-99A (Legacy / ERJ-145)', 'https://drive.google.com/file/d/1lCvoxXXpv_taOsAyPXG-GaJqTpY7jqy3/view?usp=drive_link'),
+    ],
+    videos: [
+      attachmentVideo('VC-99A 01', 'https://www.youtube.com/watch?v=yR4SQ05V4Dw'),
+      attachmentVideo('VC-99A 02', 'https://www.youtube.com/shorts/3vcZ1JhvN0g'),
+      attachmentVideo('VC-99A 03', 'https://www.youtube.com/shorts/NW-Huxb0qZQ'),
+    ],
+  },
+  'vc-2-airbus': {
+    manuals: [
+      attachmentManual('Material VC-2 (Embraer 190)', 'https://drive.google.com/file/d/1iL4jAYXzPNkRdUECPMUk9f83z7PQqnAW/view?usp=drive_link'),
+    ],
+    videos: [
+      attachmentVideo('VC-2 01', 'https://www.youtube.com/watch?v=icMN_Txupwg'),
+      attachmentVideo('VC-2 02', 'https://www.youtube.com/watch?v=0U0MtHfihfY'),
+      attachmentVideo('VC-2 03', 'https://www.youtube.com/watch?v=Lfa7M4SRpN4'),
+      attachmentVideo('VC-2 04', 'https://www.youtube.com/watch?v=gXbT3epQl-A'),
+      attachmentVideo('VC-2 05', 'https://www.youtube.com/shorts/g1NRD7KZ__I'),
+      attachmentVideo('VC-2 06', 'https://www.youtube.com/shorts/7fZL2ZjNMLc'),
+      attachmentVideo('VC-2 07', 'https://www.youtube.com/shorts/ETizKtT8Tn4'),
+      attachmentVideo('VC-2 08', 'https://www.youtube.com/shorts/otO_OoiX4LE'),
+      attachmentVideo('VC-2 09', 'https://www.youtube.com/shorts/yc7Oebf2eFQ'),
+    ],
+  },
+  'vc-1': {
+    manuals: [
+      attachmentManual('Material VC-1 01', 'https://drive.google.com/file/d/1iRz-f4dgn1DZ0tv1Q3mJZGQeUumFOHeh/view?usp=drive_link'),
+      attachmentManual('Material VC-1 02', 'https://drive.google.com/file/d/15-I91UVKa3ccer5ZTfSJTEhZ1vcLbqEb/view?usp=drive_link'),
+    ],
+    videos: [
+      attachmentVideo('VC-1 01', 'https://www.youtube.com/watch?v=4VpP1xCSF1o'),
+      attachmentVideo('VC-1 02', 'https://www.youtube.com/shorts/d9XmK_PvUWk'),
+      attachmentVideo('VC-1 03', 'https://www.youtube.com/shorts/yRVCNF6089A'),
+      attachmentVideo('VC-1 04', 'https://www.youtube.com/watch?v=6KKZae9U2io'),
+      attachmentVideo('VC-1 05', 'https://www.youtube.com/watch?v=pl4PUfHw7EU'),
+      attachmentVideo('VC-1 06', 'https://www.youtube.com/watch?v=f9o2Lf6vyQc'),
+      attachmentVideo('VC-1 07', 'https://www.youtube.com/watch?v=_7FeDOZcPqE'),
+      attachmentVideo('VC-1 08', 'https://www.youtube.com/shorts/LZAyxLE9koU'),
+      attachmentVideo('VC-1 09', 'https://www.youtube.com/shorts/PtrhELraWOk'),
+    ],
+  },
+  't-27m-tucano': {
+    manuals: [
+      attachmentManual('Material T-27M 01', 'https://drive.google.com/file/d/1H0ggCix7gy9v_PbEpJKVEWhsQQpEUsl5/view?usp=drive_link'),
+      attachmentManual('Material T-27M 02', 'https://drive.google.com/file/d/1SFSmjZt_5iLN0FlWcK9GpR2EOR4s0d6F/view?usp=drive_link'),
+    ],
+    videos: [
+      attachmentVideo('T-27M 01', 'https://www.youtube.com/watch?v=wHpqGOYTnFM'),
+      attachmentVideo('T-27M 02', 'https://www.youtube.com/watch?v=bXpL8Z7c6Jw'),
+      attachmentVideo('T-27M 03', 'https://www.youtube.com/watch?v=JacIeyV0A2Q'),
+      attachmentVideo('T-27M 04', 'https://www.youtube.com/watch?v=VAVYulX3nF8'),
+      attachmentVideo('T-27M 05', 'https://www.youtube.com/shorts/Pe4Z3uR26K8'),
+      attachmentVideo('T-27M 06', 'https://www.youtube.com/watch?v=TmWXP45Q1xs'),
+      attachmentVideo('T-27M 07', 'https://www.youtube.com/watch?v=iTG0qnrNCco'),
+      attachmentVideo('T-27M 08', 'https://www.youtube.com/watch?v=rZIk4-SqMxA'),
+      attachmentVideo('T-27M 09', 'https://www.youtube.com/shorts/mTLRs6G0ZUU'),
+      attachmentVideo('T-27M 10', 'https://www.youtube.com/shorts/xs0T4aKUaVw'),
+    ],
+  },
+  't-25-universal': {
+    videos: [
+      attachmentVideo('T-25 01', 'https://www.youtube.com/watch?v=z-9uhAXthQo'),
+      attachmentVideo('T-25 02', 'https://www.youtube.com/watch?v=3pW4qnTecGs'),
+      attachmentVideo('T-25 03', 'https://www.youtube.com/watch?v=w2cYjkayfa8'),
+      attachmentVideo('T-25 04', 'https://www.youtube.com/shorts/snACQAy_BLA'),
+      attachmentVideo('T-25 05', 'https://www.youtube.com/watch?v=lONWkS2BAIM'),
+      attachmentVideo('T-25 06', 'https://www.youtube.com/shorts/ak_dCUruQAQ'),
+      attachmentVideo('T-25 07', 'https://www.youtube.com/shorts/CzXA5r1w8pg'),
+    ],
+  },
+  'cirrus-sr22': {
+    videos: [
+      attachmentVideo('SR22 01', 'https://www.youtube.com/watch?v=rBQmiAUep1g'),
+      attachmentVideo('SR22 02', 'https://www.youtube.com/watch?v=RvnIKa_q8MI'),
+      attachmentVideo('SR22 03', 'https://www.youtube.com/watch?v=MZTEwbe_N2w'),
+      attachmentVideo('SR22 04', 'https://www.youtube.com/watch?v=2EipzkuUI1g'),
+      attachmentVideo('SR22 05', 'https://www.youtube.com/shorts/F7-pjtk7UlY'),
+      attachmentVideo('SR22 06', 'https://www.youtube.com/shorts/UsPnam9cjew'),
+      attachmentVideo('SR22 07', 'https://www.youtube.com/watch?v=rvYLozcddbY'),
+    ],
+  },
+  'u-100-phenom': {
+    videos: [
+      attachmentVideo('U-100 01', 'https://www.youtube.com/watch?v=UEVML8V3Vig'),
+      attachmentVideo('U-100 02', 'https://www.youtube.com/watch?v=8n-afDdw_O4'),
+      attachmentVideo('U-100 03', 'https://www.youtube.com/watch?v=2a82E37arhk'),
+      attachmentVideo('U-100 04', 'https://www.youtube.com/watch?v=j9vEZS7zEvo'),
+      attachmentVideo('U-100 05', 'https://www.youtube.com/watch?v=7FWLdTVHH7A'),
+    ],
+  },
+  'rq-900-fab': {
+    manuals: [
+      attachmentManual('Material RQ-900 (Hermes 900)', 'https://drive.google.com/file/d/1dxLQ3llurmf0RunMdX5GX9KG00qCdwyd/view?usp=drive_link'),
+    ],
+    videos: [
+      attachmentVideo('RQ-900 01', 'https://www.youtube.com/watch?v=0FC7QDzCwSs'),
+      attachmentVideo('RQ-900 02', 'https://www.youtube.com/watch?v=0AhvoPQBUQg'),
+      attachmentVideo('RQ-900 03', 'https://www.youtube.com/watch?v=6p2b2IH5fZ4'),
+      attachmentVideo('RQ-900 04', 'https://www.youtube.com/watch?v=1Xrz8MJqlN4'),
+    ],
+  },
+  'hermes-450': {
+    manuals: [
+      attachmentManual('Material RQ-450 (Hermes 450)', 'https://drive.google.com/file/d/1MVjLDQAjt_yArfdUpjHFOUJOD2OgEIoR/view?usp=drive_link'),
+    ],
+    videos: [
+      attachmentVideo('RQ-450 01', 'https://www.youtube.com/watch?v=KgON2Lp3Fog'),
+      attachmentVideo('RQ-450 02', 'https://www.youtube.com/watch?v=uUDgwDZGhJs'),
+      attachmentVideo('RQ-450 03', 'https://www.youtube.com/watch?v=1vOO96lTViY'),
+      attachmentVideo('RQ-450 04', 'https://www.youtube.com/watch?v=MxjPy2HFsKw'),
+      attachmentVideo('RQ-450 05', 'https://www.youtube.com/watch?v=1Xrz8MJqlN4'),
+    ],
+  },
+  'rq-1-marinha': {
+    manuals: [
+      attachmentManual('Material RQ-1 (ScanEagle)', 'https://drive.google.com/file/d/1o9xJ0xrgoHhWC-ryTp9zYr79Ykx9Gj7B/view?usp=drive_link'),
+    ],
+    videos: [
+      attachmentVideo('RQ-1 01', 'https://www.youtube.com/watch?v=KgON2Lp3Fog'),
+      attachmentVideo('RQ-1 02', 'https://www.youtube.com/watch?v=uUDgwDZGhJs'),
+      attachmentVideo('RQ-1 03', 'https://www.youtube.com/watch?v=1vOO96lTViY'),
+      attachmentVideo('RQ-1 04', 'https://www.youtube.com/watch?v=MxjPy2HFsKw'),
+      attachmentVideo('RQ-1 05', 'https://www.youtube.com/watch?v=1Xrz8MJqlN4'),
+      attachmentVideo('RQ-1 06', 'https://www.youtube.com/watch?v=VUkPUf1-y74'),
+      attachmentVideo('RQ-1 07', 'https://www.youtube.com/watch?v=BcD5JKwyQMs'),
+      attachmentVideo('RQ-1 08', 'https://www.youtube.com/watch?v=MVlRMyA134w'),
+      attachmentVideo('RQ-1 09', 'https://www.youtube.com/watch?v=TvoBohSm3mI'),
+      attachmentVideo('RQ-1 10', 'https://www.youtube.com/watch?v=AXu-2TtP2Sg'),
+      attachmentVideo('RQ-1 11', 'https://www.youtube.com/shorts/y0_yALuZmq8'),
+      attachmentVideo('RQ-1 12', 'https://www.youtube.com/watch?v=oPbbNs2BXIk'),
+      attachmentVideo('RQ-1 13', 'https://www.youtube.com/watch?v=vhapAX5gbmQ'),
+    ],
+  },
+  'r-35am': {
+    manuals: [
+      attachmentManual('Material R-35AM 01', 'https://drive.google.com/file/d/1Xj506AIqHHT95kkfmJBEFRDWZl7QJEFw/view?usp=drive_link'),
+      attachmentManual('Material R-35AM 02', 'https://drive.google.com/file/d/1wSGU87AAMq94nhKOuXenpAjxlM7klOv9/view?usp=drive_link'),
+    ],
+    videos: [
+      attachmentVideo('R-35AM 01', 'https://www.youtube.com/shorts/r_9b64g7NjE'),
+      attachmentVideo('R-35AM 02', 'https://www.youtube.com/watch?v=l1IwjbnXA00'),
+      attachmentVideo('R-35AM 03', 'https://www.youtube.com/watch?v=QCgHZSH9r-k'),
+      attachmentVideo('R-35AM 04', 'https://www.youtube.com/shorts/XfD8mh66ax8'),
+      attachmentVideo('R-35AM 05', 'https://www.youtube.com/watch?v=cWsRFLj5eyM'),
+      attachmentVideo('R-35AM 06', 'https://www.youtube.com/watch?v=nGNMyVuD8do'),
+      attachmentVideo('R-35AM 07', 'https://www.youtube.com/shorts/H7bjrPVy6FE'),
+    ],
+  },
+  'p-3-orion': {
+    videos: [
+      attachmentVideo('P-3AM 01', 'https://www.youtube.com/watch?v=cCaq_oZmOWU'),
+      attachmentVideo('P-3AM 02', 'https://www.youtube.com/watch?v=vjI9fSMbw80'),
+      attachmentVideo('P-3AM 03', 'https://www.youtube.com/watch?v=Q563FPQAv0s'),
+      attachmentVideo('P-3AM 04', 'https://www.youtube.com/shorts/pFRVm0bjhLQ'),
+      attachmentVideo('P-3AM 05', 'https://www.youtube.com/shorts/fFIeNBuXqy8'),
+      attachmentVideo('P-3AM 06', 'https://www.youtube.com/watch?v=YxrKdXhoPX4'),
+      attachmentVideo('P-3AM 07', 'https://www.youtube.com/watch?v=KaGhMwrYrY0'),
+      attachmentVideo('P-3AM 08', 'https://www.youtube.com/shorts/Ygl54XCSz2s'),
+      attachmentVideo('P-3AM 09', 'https://www.youtube.com/shorts/QbmJAP0Ep_I'),
+    ],
+  },
+  'c-390-millennium': {
+    videos: [
+      attachmentVideo('KC-390 01', 'https://www.youtube.com/watch?v=_rJVZovPCBw'),
+      attachmentVideo('KC-390 02', 'https://www.youtube.com/watch?v=paPVSebRZZc'),
+      attachmentVideo('KC-390 03', 'https://www.youtube.com/watch?v=xVF6ns2oDpo'),
+      attachmentVideo('KC-390 04', 'https://www.youtube.com/shorts/NeHGG2yJOe0'),
+      attachmentVideo('KC-390 05', 'https://www.youtube.com/watch?v=afjkNizjzEs'),
+      attachmentVideo('KC-390 06', 'https://www.youtube.com/shorts/qUbo9KONfC0'),
+      attachmentVideo('KC-390 07', 'https://www.youtube.com/watch?v=GY6szffcZcM'),
+      attachmentVideo('KC-390 08', 'https://www.youtube.com/watch?v=cbprfI2SMzw'),
+    ],
+  },
+  'kc-30': {
+    gallery: [
+      { title: 'KC-30 01', url: 'https://drive.google.com/file/d/1KPsQnShZC_cxOsahMWpqgN9yvm-b71W3/view?usp=drive_link' },
+      { title: 'KC-30 02', url: 'https://drive.google.com/file/d/1UTGbEu1Ulif3ISUZ4vd0Fz87IFUGxfip/view?usp=drive_link' },
+      { title: 'KC-30 03', url: 'https://drive.google.com/file/d/10PXoOwa8O7c7bd3NIX0ZwNeJ_Z9l09xW/view?usp=drive_link' },
+      { title: 'KC-30 04', url: 'https://drive.google.com/file/d/1ars63uxB1pEIpDWxBN_e5lJ5y1l5ktyA/view?usp=drive_link' },
+      { title: 'KC-30 05', url: 'https://drive.google.com/file/d/1zkG9nmIQdJwpbopOPzsMWd2ZI1dm1JMJ/view?usp=drive_link' },
+      { title: 'KC-30 06', url: 'https://drive.google.com/file/d/1v_D5OzyA8KquIqh__kg6I00XYjX56jHJ/view?usp=drive_link' },
+      { title: 'KC-30 07', url: 'https://drive.google.com/file/d/1DtTwgWhb9JvsNhxgvRzHaIZp_3Lo5xoa/view?usp=drive_link' },
+      { title: 'KC-30 08', url: 'https://drive.google.com/file/d/1j6bG4wsDwki_p-HKTeoOYUEkCgt-sNGn/view?usp=drive_link' },
+      { title: 'KC-30 09', url: 'https://drive.google.com/file/d/1Hv0bT828g5D3RiNO11IT9HKhVCERnaF3/view?usp=drive_link' },
+      { title: 'KC-30 10', url: 'https://drive.google.com/file/d/1GSC8bfx3UypINQAs32jfXSh3Yq8ZXZ06/view?usp=drive_link' },
+      { title: 'KC-30 11', url: 'https://drive.google.com/file/d/1JPkD39_pzzz6PaJKA9FJ-G5iWzZduh6h/view?usp=drive_link' },
+      { title: 'KC-30 12', url: 'https://drive.google.com/file/d/1HjCemo_D0iOHsid5xnfZsOdpvt-G20R4/view?usp=drive_link' },
+      { title: 'KC-30 13', url: 'https://drive.google.com/file/d/1mpX-M3jK_bsBJQ8nQlHgcVd_BXS8VFt6/view?usp=drive_link' },
+      { title: 'KC-30 14', url: 'https://drive.google.com/file/d/17IiwcY6ZGWcI3v6flSrLjzHmbfZhcxSqv/view?usp=drive_link' },
+      { title: 'KC-30 15', url: 'https://drive.google.com/file/d/1kIlO576w6pC8FYqCvNeEdIp12ULmJgUf/view?usp=drive_link' },
+      { title: 'KC-30 16', url: 'https://drive.google.com/file/d/1YYBEHrlyNknaRBiXEuBMQ4oWcSFgpu0P/view?usp=drive_link' },
+      { title: 'KC-30 17', url: 'https://drive.google.com/file/d/1RYA0PQa1ldgMbNh_OnD3bPVovSYybbro/view?usp=drive_link' },
+      { title: 'KC-30 18', url: 'https://drive.google.com/file/d/1m02xqvKf7zXXR2_pLPJxpd3hVu4SCyFg/view?usp=drive_link' },
+      { title: 'KC-30 19', url: 'https://drive.google.com/file/d/1tUZHZRY0MIyv6PxtxUY8ny6kSVLHaF3c/view?usp=drive_link' },
+      { title: 'KC-30 20', url: 'https://drive.google.com/file/d/1i6J_btS0W_ZGWcDVA6wbLCXobKgcPqGc/view?usp=drive_link' },
+      { title: 'KC-30 21', url: 'https://drive.google.com/file/d/1q_RLemnJk8LiGTZOsjDHjgmYE-0ohy0U/view?usp=drive_link' },
+      { title: 'KC-30 22', url: 'https://drive.google.com/file/d/1HzLJCKczlcJufGilLBdl_pI0RgdwHdUq/view?usp=drive_link' },
+      { title: 'KC-30 23', url: 'https://drive.google.com/file/d/1ch-Wda10UMV5XMIrbZObuQOO5JA4Ay2r/view?usp=drive_link' },
+      { title: 'KC-30 24', url: 'https://drive.google.com/file/d/1_Mx40C0aVdjF8kRG_CMtFOXExEce7HMy/view?usp=drive_link' },
+      { title: 'KC-30 25', url: 'https://drive.google.com/file/d/1sdd9-12H_wvszoXWrfK0O5FarPR4RT3W/view?usp=drive_link' },
+    ],
+    videos: [
+      attachmentVideo('KC-30 01', 'https://www.youtube.com/watch?v=w5kky9I8aaE'),
+      attachmentVideo('KC-30 02', 'https://www.youtube.com/watch?v=3Cud1lMYc-E'),
+      attachmentVideo('KC-30 03', 'https://www.youtube.com/watch?v=Zz6nvaNMC8M'),
+      attachmentVideo('KC-30 04', 'https://www.youtube.com/watch?v=L0stYtm9T2k'),
+      attachmentVideo('KC-30 05', 'https://www.youtube.com/watch?v=DWcuLHv_aP4'),
+      attachmentVideo('KC-30 06', 'https://www.youtube.com/shorts/leG3y9EH2b4'),
+      attachmentVideo('KC-30 07', 'https://www.youtube.com/shorts/CdTfC94ihXs'),
+      attachmentVideo('KC-30 08', 'https://www.youtube.com/shorts/3wg7Qec8dAs'),
+      attachmentVideo('KC-30 09', 'https://www.youtube.com/watch?v=Z-oN2aglSHA'),
+      attachmentVideo('KC-30 10', 'https://www.youtube.com/watch?v=HLEPYpZ1-ds'),
+      attachmentVideo('KC-30 11', 'https://www.youtube.com/shorts/RqoExrdC_Bs'),
+      attachmentVideo('KC-30 12', 'https://www.youtube.com/watch?v=NIImH6rFl8w'),
+    ],
+  },
+};
+
+const appendUniqueMedia = <T extends { url?: string }>(current: T[], additions: T[]) => {
+  const seen = new Set(current.map((item) => item.url).filter(Boolean));
+  return [...current, ...additions.filter((item) => !item.url || !seen.has(item.url) && (seen.add(item.url), true))];
+};
+
+for (const aircraft of aircraftCatalog) {
+  const additions = attachmentMedia[aircraft.id];
+  if (!additions) continue;
+  if (additions.manuals) aircraft.manuals = appendUniqueMedia(aircraft.manuals, additions.manuals);
+  if (additions.gallery) aircraft.gallery = appendUniqueMedia(aircraft.gallery ?? [], additions.gallery);
+  if (additions.videos) aircraft.videos = appendUniqueMedia(aircraft.videos ?? [], additions.videos);
+}
+
 export const quickFilters = ['Todos', 'Civis', 'Militares', 'Aviões', 'Helicópteros'];

@@ -673,6 +673,7 @@ a { color: inherit; text-decoration: none; }
 .manual-row .icon-btn { margin-left:auto;height:31px;padding:0 10px; flex-shrink:0; }
 .video-player-mold { border:1px solid hsl(var(--border)); background:hsl(var(--card)); border-radius:14px; min-height:240px; display:flex; align-items:center; justify-content:center; overflow:hidden; margin-bottom:16px; }
 .video-mold-frame { width:100%; min-height:240px; aspect-ratio:16 / 9; border:0; }
+.document-mold-frame { width:100%; height:min(78vh, 820px); min-height:560px; border:0; background:#fff; }
 .video-mold-placeholder { color:hsl(var(--muted-foreground)); font-size:13px; padding:24px; text-align:center; }
 .video-list { display:grid; gap:10px; }
 .video-row { width:100%; justify-content:flex-start; text-align:left; }

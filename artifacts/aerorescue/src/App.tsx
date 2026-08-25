@@ -17,7 +17,7 @@ type FireCategoryRow = {
 
 function getDrivePreviewUrl(url: string) {
   const match = url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)\/view/i);
-  return match ? `https://drive.google.com/file/d/${match[1]}/preview` : null;
+  return match ? `https://drive.google.com/file/d/${match[1]}/preview?embedded=true` : null;
 }
 
 function getDriveImageUrl(url: string) {
@@ -1143,11 +1143,13 @@ function DetailPage() {
               {selectedMaterial ? (
                 selectedMaterialEmbedUrl ? (
                   <iframe
-                    className="video-mold-frame"
+                    className="document-mold-frame"
                     src={selectedMaterialEmbedUrl}
                     title={getMediaTitle(selectedMaterial.url, selectedMaterial.name)}
                     frameBorder="0"
-                    allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+                    loading="eager"
+                    scrolling="yes"
+                    allow="fullscreen"
                     allowFullScreen
                   />
                 ) : (

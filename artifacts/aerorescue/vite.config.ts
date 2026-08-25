@@ -208,8 +208,11 @@ function driveVideoIframeFixPlugin(): Plugin {
     if (!isDrivePreview(src) || iframe.dataset.drivePlaybackFixed === '1') return;
 
     iframe.dataset.drivePlaybackFixed = '1';
-    iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-popups allow-forms allow-popups-to-escape-sandbox');
+    // Do not sandbox the Google Drive preview. Drive's player loads its own
+    // scripts and media/cookie resources and a sandbox can leave the player
+    // completely black even when the preview URL is correct.
     iframe.setAttribute('allow', 'autoplay; fullscreen; encrypted-media; picture-in-picture');
+    iframe.setAttribute('referrerpolicy', 'no-referrer-when-downgrade');
 
     const separator = src.includes('?') ? '&' : '?';
     const previewUrl = src.includes('controls=') ? src : src + separator + 'controls=1';

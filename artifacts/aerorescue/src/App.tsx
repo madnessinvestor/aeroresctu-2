@@ -903,12 +903,12 @@ function DetailPage() {
   const driveVideoItems = videoItems.filter((video) => video.url.includes('drive.google.com'));
   const youtubeVideoItems = videoItems.filter((video) => !video.url.includes('drive.google.com'));
   const materialItems = aircraft.manuals && aircraft.manuals.length > 0 ? aircraft.manuals : [];
-  const [selectedVideoIndex, setSelectedVideoIndex] = useState(0);
-  const [selectedMaterialIndex, setSelectedMaterialIndex] = useState(0);
+  const [selectedVideoIndex, setSelectedVideoIndex] = useState<number | null>(null);
+  const [selectedMaterialIndex, setSelectedMaterialIndex] = useState<number | null>(null);
   const [expandedGalleryItem, setExpandedGalleryItem] = useState<GalleryItem | null>(null);
   const [mediaTitles, setMediaTitles] = useState<Record<string, string>>({});
-  const selectedVideo = videoItems[selectedVideoIndex] || videoItems[0] || null;
-  const selectedMaterial = materialItems[selectedMaterialIndex] || materialItems[0] || null;
+  const selectedVideo = selectedVideoIndex === null ? null : videoItems[selectedVideoIndex] || null;
+  const selectedMaterial = selectedMaterialIndex === null ? null : materialItems[selectedMaterialIndex] || null;
   const selectedVideoEmbedUrl = selectedVideo ? getVideoEmbedUrl(selectedVideo.url) : null;
   const selectedMaterialEmbedUrl = selectedMaterial?.url ? getDrivePreviewUrl(selectedMaterial.url) : null;
   const renderVideoGroup = (title: string, items: VideoLink[]) => (
@@ -958,7 +958,8 @@ function DetailPage() {
   }, [expandedGalleryItem]);
 
   useEffect(() => {
-    const mediaUrls = [...materialItems.map((item) => item.url), ...videoItems.map((item) => item.url)].filter(
+    const activeMediaItems = activeTab === 'Material' ? materialItems : activeTab === 'Vídeos' ? videoItems : [];
+    const mediaUrls = activeMediaItems.map((item) => item.url).filter(
       (url): url is string => Boolean(url),
     );
     const uncachedUrls = mediaUrls.filter((url) => !mediaTitles[url]);
@@ -977,7 +978,7 @@ function DetailPage() {
       const nextTitles = Object.fromEntries(resolvedTitles.filter((entry): entry is readonly [string, string] => Boolean(entry)));
       if (Object.keys(nextTitles).length) setMediaTitles((current) => ({ ...current, ...nextTitles }));
     });
-  }, [aircraft.id, materialItems, videoItems, mediaTitles]);
+  }, [activeTab, aircraft.id, materialItems, videoItems, mediaTitles]);
 
   const getMediaTitle = (url: string | undefined, fallback: string) => (url && mediaTitles[url]) || fallback;
 
@@ -1135,7 +1136,7 @@ function DetailPage() {
                   <div className="video-mold-placeholder">Este material não pode ser visualizado neste player.</div>
                 )
               ) : (
-                <div className="video-mold-placeholder">Selecione um material para visualizar.</div>
+                <div className="video-mold-placeholder">Clique em um material abaixo para visualizar.</div>
               )}
             </div>
 
@@ -1220,7 +1221,7 @@ function DetailPage() {
                   <div className="video-mold-placeholder">Este vídeo não pode ser reproduzido neste player.</div>
                 )
               ) : (
-                <div className="video-mold-placeholder">Selecione um vídeo para reproduzir.</div>
+                <div className="video-mold-placeholder">Clique em um vídeo abaixo para abrir no player.</div>
               )}
             </div>
 

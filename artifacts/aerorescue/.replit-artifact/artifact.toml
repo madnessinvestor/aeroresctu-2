@@ -1,7 +1,7 @@
 kind = "web"
 previewPath = "/"
 title = "AeroRescue"
-description = "Catálogo digital de aeronaves para treinamento e consulta rápida de procedimentos de resgate por equipes de bombeiros de aeródromo. Inclui pesquisa, fichas técnicas, preparação operacional e visualização 3D."
+description = "Catálogo digital de aeronaves para treinamento e consulta rápida de procedimentos de resgate por equipes de bombeiros de aeródromo."
 version = "1.0.0"
 id = "artifacts/aerorescue"
 router = "path"

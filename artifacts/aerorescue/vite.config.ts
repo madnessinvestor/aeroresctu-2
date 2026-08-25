@@ -206,8 +206,6 @@ function driveVideoIframeFixPlugin(): Plugin {
     return match?.[1] || null;
   };
 
-  const isDrivePreview = (src) => Boolean(getDriveId(src));
-
   const replaceDriveIframe = (iframe) => {
     if (!(iframe instanceof HTMLIFrameElement)) return;
     if (iframe.dataset.drivePlaybackFixed === '1') return;
@@ -228,13 +226,13 @@ function driveVideoIframeFixPlugin(): Plugin {
     video.preload = 'metadata';
     video.setAttribute('aria-label', iframe.getAttribute('title') || 'Vídeo do Google Drive');
     video.setAttribute('controlsList', 'nodownload');
-    video.src = `https://drive.usercontent.google.com/download?id=${encodeURIComponent(fileId)}&export=download&confirm=t`;
+    video.src = 'https://drive.usercontent.google.com/download?id=' + encodeURIComponent(fileId) + '&export=download&confirm=t';
 
     const fallback = document.createElement('div');
     fallback.style.cssText = 'display:none;position:absolute;inset:0;align-items:center;justify-content:center;flex-direction:column;gap:12px;padding:24px;text-align:center;background:#111;color:#fff;font:14px system-ui,sans-serif;';
     fallback.innerHTML = '<strong>Não foi possível reproduzir o vídeo diretamente.</strong><span>Abra o vídeo no Google Drive para assistir.</span>';
     const openLink = document.createElement('a');
-    openLink.href = `https://drive.google.com/file/d/${encodeURIComponent(fileId)}/view`;
+    openLink.href = 'https://drive.google.com/file/d/' + encodeURIComponent(fileId) + '/view';
     openLink.target = '_blank';
     openLink.rel = 'noreferrer';
     openLink.textContent = 'Abrir no Google Drive';

@@ -2270,6 +2270,10 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'Jet A-1',
     quantidadeSaidas: '04 portas de passageiros',
     motor: '2 × turbofans Pratt & Whitney Canada PW305A',
+    sketchfabModelId: '83682910f6364b77b67e6e9fbb2de170',
+    overviewModels: [
+      { label: 'Visão geral 1', sketchfabModelId: '83682910f6364b77b67e6e9fbb2de170' },
+    ],
     coverImage: 'covers/iu50-legacy-500(cover).jpg',
     notes: [
       'O Legacy 500 é um jato executivo de médio porte usado em missões de transporte VIP e executivo.',

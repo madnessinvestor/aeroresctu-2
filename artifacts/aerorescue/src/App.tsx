@@ -725,13 +725,6 @@ function HomePage() {
 function CategoryPage() {
   return (
     <main className="page-wrap">
-      <div className="info-heading" style={{ marginBottom: 22 }}>
-        <span>
-          <Sparkles size={15} className="heading-icon" style={{ verticalAlign: 'middle', marginRight: 8 }} />
-          Categoria Contraincêndio
-        </span>
-      </div>
-
       <FireCategoryReference />
     </main>
   );

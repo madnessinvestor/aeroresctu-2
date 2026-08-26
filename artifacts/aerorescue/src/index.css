@@ -671,9 +671,11 @@ a { color: inherit; text-decoration: none; }
 .manual-name { display:block; color:hsl(var(--foreground));font-size:12px;font-weight:700; overflow-wrap:anywhere; word-break:break-word; }
 .manual-meta { display:block; color:hsl(var(--muted-foreground));font:9px var(--app-font-mono);margin-top:3px; overflow-wrap:anywhere; word-break:break-word; }
 .manual-row .icon-btn { margin-left:auto;height:31px;padding:0 10px; flex-shrink:0; }
-.video-player-mold { border:1px solid hsl(var(--border)); background:hsl(var(--card)); border-radius:14px; min-height:240px; display:flex; align-items:center; justify-content:center; overflow:hidden; margin-bottom:16px; }
+.video-player-mold { border:1px solid hsl(var(--border)); background:hsl(var(--card)); border-radius:14px; min-height:240px; display:flex; flex-direction:column; align-items:stretch; justify-content:center; overflow:hidden; margin-bottom:16px; }
 .video-mold-frame { width:100%; min-height:240px; aspect-ratio:16 / 9; border:0; }
 .document-mold-frame { width:100%; height:min(78vh, 820px); min-height:560px; border:0; background:#fff; }
+.document-open-link { display:flex; align-items:center; justify-content:center; gap:7px; width:100%; padding:11px 14px; border-top:1px solid hsl(var(--border)); background:hsl(var(--secondary)); color:hsl(var(--foreground)); font-size:11px; font-weight:700; text-decoration:none; }
+.document-open-link:hover { color:#a86f1e; background:hsl(var(--muted)); }
 .video-mold-placeholder { color:hsl(var(--muted-foreground)); font-size:13px; padding:24px; text-align:center; }
 .video-group { margin-top:20px; }
 .video-group + .video-group { padding-top:18px; border-top:1px solid hsl(var(--border)); }
@@ -704,5 +706,6 @@ a { color: inherit; text-decoration: none; }
   .sort-select{width:100%; min-width:0;}
 }
 @media (max-width: 560px) {
+  .document-mold-frame{height:70vh;min-height:420px}.document-open-link{font-size:10px;padding:12px 10px}
   .topbar{height:64px;padding:0 15px}.brand{min-width:0}.brand-name{font-size:22px}.brand-sub{display:none}.topbar-actions{gap:8px}.theme-toggle{width:34px;height:34px}.page-wrap{padding:25px 15px 50px}.page-title{font-size:39px}.search-row{flex-wrap:wrap}.search-box{min-width:100%}.result-head{display:block}.catalog-controls{display:grid; grid-template-columns:1fr; gap:12px; width:100%; max-width:none; margin-left:0;}.control-group{width:100%; min-width:0;}.sort-select{width:100%; min-width:0;}.aircraft-grid{grid-template-columns:1fr}.detail-head{display:block}.detail-actions{margin-top:16px}.viewer{min-height:350px}.viewer-plane{inset:23% 4% 22%}.hotspot-note{bottom:61px}.gallery-grid{grid-template-columns:1fr 1fr}.metric-list{grid-template-columns:1fr}.metric:nth-child(odd){margin-right:0;border-right:0;padding-right:0}.detail-actions .outline-btn{padding:0 10px}.detail-actions .outline-btn span{display:none}.reference-card-header,.reference-section-heading{flex-direction:column;align-items:flex-start}.manual-row{gap:10px;padding:10px 12px}.manual-row .icon-btn{height:28px;padding:0 8px}.manual-row .manual-name{font-size:11px}.manual-row .manual-meta{font-size:8px}
 }

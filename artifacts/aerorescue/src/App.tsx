@@ -17,8 +17,8 @@ type FireCategoryRow = {
 };
 
 function getDrivePreviewUrl(url: string) {
-  const match = url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)\/view/i);
-  return match ? `https://drive.google.com/file/d/${match[1]}/preview?embedded=true` : null;
+  const fileId = getDriveFileId(url);
+  return fileId ? `https://drive.google.com/file/d/${fileId}/preview?embedded=true` : null;
 }
 
 function getDriveFileId(url: string) {
@@ -925,7 +925,7 @@ function DetailPage() {
       : getVideoEmbedUrl(selectedVideo.url)
     : null;
   const selectedMaterialEmbedUrl = selectedMaterial?.url
-    ? getDriveDocumentUrl(selectedMaterial.url)
+    ? getDrivePreviewUrl(selectedMaterial.url) ?? getDriveDocumentUrl(selectedMaterial.url)
     : null;
   const renderVideoGroup = (title: string, items: VideoLink[]) => (
     items.length > 0 && (
@@ -1122,16 +1122,26 @@ function DetailPage() {
             <div className="video-player-mold">
               {selectedMaterial ? (
                 selectedMaterialEmbedUrl ? (
-                  <iframe
-                    className="document-mold-frame"
-                    src={selectedMaterialEmbedUrl}
-                    title={selectedMaterial.name}
-                    frameBorder="0"
-                    loading="eager"
-                    scrolling="yes"
-                    allow="fullscreen"
-                    allowFullScreen
-                  />
+                  <>
+                    <iframe
+                      className="document-mold-frame"
+                      src={selectedMaterialEmbedUrl}
+                      title={selectedMaterial.name}
+                      frameBorder="0"
+                      loading="eager"
+                      scrolling="yes"
+                      allow="fullscreen"
+                      allowFullScreen
+                    />
+                    <a
+                      className="document-open-link"
+                      href={selectedMaterialEmbedUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Abrir PDF em nova aba <ArrowRight size={13} />
+                    </a>
+                  </>
                 ) : (
                   <div className="video-mold-placeholder">Este material não pode ser visualizado neste player.</div>
                 )
@@ -1162,7 +1172,13 @@ function DetailPage() {
                       <span className="manual-name">{manual.name}</span>
                       <span className="manual-meta">{manual.meta}</span>
                     </span>
-                    <a className="icon-btn" href={manual.url || '#'} target="_blank" rel="noreferrer" onClick={(event) => event.stopPropagation()}>
+                    <a
+                      className="icon-btn"
+                      href={manual.url ? getDrivePreviewUrl(manual.url) ?? manual.url : '#'}
+                      target="_blank"
+                      rel="noreferrer"
+                      onClick={(event) => event.stopPropagation()}
+                    >
                       Abrir <ArrowRight size={13} />
                     </a>
                   </div>

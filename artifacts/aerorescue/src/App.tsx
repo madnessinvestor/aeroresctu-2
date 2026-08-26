@@ -437,7 +437,7 @@ function AircraftCard({
 
   if (isListView) {
     return (
-      <div className="aircraft-card fade-in list-view" data-testid={`card-aircraft-${aircraft.id}`}>
+      <div className={`aircraft-card fade-in list-view${isDeactivated ? ' deactivated-card' : ''}`} data-testid={`card-aircraft-${aircraft.id}`}>
         <div className="aircraft-thumb">
           {coverUrl ? <img className="aircraft-thumb-image" src={coverUrl} alt={`${aircraft.name} cover`} /> : <AircraftArt deactivated={aircraft.id === 'uh-1h'} />}
           {isDeactivated && <div className="catalog-deactivated-ribbon" aria-label="Aeronave desativada">Desativado</div>}
@@ -476,7 +476,7 @@ function AircraftCard({
   }
 
   return (
-    <div className="aircraft-card fade-in" data-testid={`card-aircraft-${aircraft.id}`}>
+    <div className={`aircraft-card fade-in${isDeactivated ? ' deactivated-card' : ''}`} data-testid={`card-aircraft-${aircraft.id}`}>
       <Link href={`/aeronaves/${aircraft.id}`}>
         <div className={`aircraft-visual${coverUrl ? ' has-cover' : ''}${aircraft.id === 'uh-1h' ? ' uh1h-visual' : ''}`}>
           {coverUrl ? <img className="aircraft-cover" src={coverUrl} alt={`${aircraft.name} cover`} /> : <AircraftArt deactivated={aircraft.id === 'uh-1h'} />}

@@ -391,6 +391,18 @@ a { color: inherit; text-decoration: none; }
 .aircraft-card { overflow:hidden; min-height:268px; border:1px solid hsl(var(--border)); border-radius:12px; background:hsl(var(--card)); transition:transform .22s, box-shadow .22s, border .22s; position:relative; }
 .aircraft-card:hover { transform:translateY(-3px); border-color:hsl(var(--border)); box-shadow:0 11px 25px rgba(35,67,76,.1); }
 :root[data-theme='dark'] .aircraft-card:hover { box-shadow:0 11px 25px rgba(0,0,0,.24); }
+.aircraft-card.deactivated-card { background:#e1e4e5; border-color:#9da7aa; }
+.aircraft-card.deactivated-card:hover { border-color:#7f8b8f; box-shadow:0 11px 25px rgba(71,82,87,.16); }
+.aircraft-card.deactivated-card .aircraft-cover,
+.aircraft-card.deactivated-card .aircraft-thumb-image { filter:grayscale(1); opacity:.62; }
+.aircraft-card.deactivated-card .aircraft-visual { background:linear-gradient(145deg,#c5cacc,#e1e3e3 48%,#aeb5b7); }
+.aircraft-card.deactivated-card .card-title,
+.aircraft-card.deactivated-card .card-meta,
+.aircraft-card.deactivated-card .spec-val,
+.aircraft-card.deactivated-card .spec-label,
+.aircraft-card.deactivated-card .card-tag { color:#566166; }
+.aircraft-card.deactivated-card .card-tag { background:#cbd0d2; border-color:#aab2b5; }
+.aircraft-card.deactivated-card .card-specs { border-color:#b9c0c2; }
 .aircraft-visual { height:146px; position:relative; overflow:hidden; background:linear-gradient(145deg,#c9d9d6,#e6e7dc 48%,#a9c0c2); }
 .aircraft-visual.has-cover { background:transparent; }
 .aircraft-cover { display:block; width:100%; height:100%; object-fit:cover; }
@@ -426,7 +438,7 @@ a { color: inherit; text-decoration: none; }
 }
 .aircraft-visual { isolation:isolate; overflow:hidden; }
 .plane-card-art { position:absolute; width:79%; height:78px; left:11%; top:34px; transform:rotate(-7deg); transform-origin:center; }
-.catalog-deactivated-ribbon { position:absolute; z-index:1; top:42%; left:-12%; width:124%; padding:6px 0; transform:rotate(-24deg); border:1.5px solid rgba(226,35,45,.8); background:rgba(226,35,45,.2); color:transparent; font:700 16px var(--app-font-mono); letter-spacing:.16em; text-align:center; text-transform:uppercase; -webkit-text-stroke:.7px rgba(255,92,99,.95); pointer-events:none; }
+.catalog-deactivated-ribbon { position:absolute; z-index:1; top:42%; left:-12%; width:124%; padding:6px 0; transform:rotate(-24deg); border:1.5px solid rgba(55,65,69,.82); background:rgba(61,72,77,.9); color:#f3f5f5; font:700 16px var(--app-font-mono); letter-spacing:.16em; text-align:center; text-transform:uppercase; pointer-events:none; text-shadow:0 1px 1px rgba(0,0,0,.3); }
 .aircraft-thumb .catalog-deactivated-ribbon { font-size:8px; letter-spacing:.08em; padding:3px 0; border-width:1px; }
 .plane-card-art.deactivated-art .fuselage { background:#557b85; box-shadow:inset -15px 1px #3d626d; }
 .plane-card-art.deactivated-art .nose { background:#4b707b; }

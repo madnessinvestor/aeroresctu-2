@@ -1004,11 +1004,10 @@ function DetailPage() {
   }, [mediaTitles]);
 
   useEffect(() => {
-    const activeMediaItems = activeTab === 'Material' ? materialItems : activeTab === 'Vídeos' ? videoItems : [];
-    const mediaUrls = activeMediaItems.map((item) => item.url).filter(
+    const mediaUrls = [...materialItems, ...videoItems].map((item) => item.url).filter(
       (url): url is string => Boolean(url),
     );
-    const uncachedUrls = mediaUrls.filter((url) => !mediaTitles[url]);
+    const uncachedUrls = [...new Set(mediaUrls)].filter((url) => !mediaTitles[url]);
     if (!uncachedUrls.length) return;
 
     let cancelled = false;
@@ -1062,12 +1061,11 @@ function DetailPage() {
     return () => {
       cancelled = true;
     };
-  }, [activeTab, aircraft.id, materialItems, videoItems, mediaTitles]);
+  }, [aircraft.id, materialItems, videoItems, mediaTitles]);
 
   const getMediaTitle = (url: string | undefined, fallback: string) => {
     if (!url) return fallback;
     if (mediaTitles[url]) return mediaTitles[url];
-    if (mediaTitleState[url] === 'loading') return 'Carregando nome…';
     if (mediaTitleState[url] === 'failed') return fallback;
     return fallback;
   };

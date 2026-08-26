@@ -2368,10 +2368,7 @@ export const aircraftCatalog: Aircraft[] = [
       { title: 'Apoio VIP', body: 'Confirme a equipe de apoio, o plano de embarque e a segurança em solo.' },
       { title: 'Operação de rota executiva', body: 'Coordene com as torres e confirme autorização para horários privilegiados de voo.' },
     ],
-    manuals: [
-      { name: 'VC-1 – Manual de missão VIP', meta: 'Referência', url: 'https://example.com/vc1-manual.pdf' },
-      { name: 'Material de referência do VC-1', meta: 'Referência técnica' },
-    ],
+    manuals: [],
   },
   {
     id: 'vh-35',

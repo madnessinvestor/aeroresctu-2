@@ -725,12 +725,6 @@ function HomePage() {
 function CategoryPage() {
   return (
     <main className="page-wrap">
-      <div className="crumb">
-        <Link href="/" data-testid="link-breadcrumb-catalogo">Catálogo</Link>
-        <ArrowRight size={12} />
-        <span>Categoria Contraincêndio</span>
-      </div>
-
       <div className="info-heading" style={{ marginBottom: 22 }}>
         <span>
           <Sparkles size={15} className="heading-icon" style={{ verticalAlign: 'middle', marginRight: 8 }} />

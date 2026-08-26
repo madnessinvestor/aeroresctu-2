@@ -7,24 +7,7 @@ import { aircraftCatalog, quickFilters, type Aircraft, type GalleryItem, type Vi
 
 type Toast = string | null;
 type ThemeMode = 'light' | 'dark';
-const MEDIA_TITLES_STORAGE_KEY = 'aerorescue:media-titles';
 const MEDIA_PROXY_BASE = `${import.meta.env.BASE_URL}aerorescue-media`;
-
-function readStoredMediaTitles(): Record<string, string> {
-  try {
-    const stored = window.localStorage.getItem(MEDIA_TITLES_STORAGE_KEY);
-    if (!stored) return {};
-    const parsed = JSON.parse(stored) as unknown;
-    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return {};
-    return Object.fromEntries(
-      Object.entries(parsed).filter(
-        ([url, title]) => typeof url === 'string' && typeof title === 'string' && title.trim().length > 0,
-      ),
-    );
-  } catch {
-    return {};
-  }
-}
 
 type FireCategoryRow = {
   categoria: string;
@@ -934,8 +917,6 @@ function DetailPage() {
   const [selectedVideoIndex, setSelectedVideoIndex] = useState<number | null>(null);
   const [selectedMaterialIndex, setSelectedMaterialIndex] = useState<number | null>(null);
   const [expandedGalleryItem, setExpandedGalleryItem] = useState<GalleryItem | null>(null);
-  const [mediaTitles, setMediaTitles] = useState<Record<string, string>>(readStoredMediaTitles);
-  const [mediaTitleState, setMediaTitleState] = useState<Record<string, 'loading' | 'resolved' | 'failed'>>({});
   const selectedVideo = selectedVideoIndex === null ? null : videoItems[selectedVideoIndex] || null;
   const selectedMaterial = selectedMaterialIndex === null ? null : materialItems[selectedMaterialIndex] || null;
   const selectedVideoEmbedUrl = selectedVideo
@@ -970,7 +951,7 @@ function DetailPage() {
               >
                 <span className="manual-icon"><Play size={16} /></span>
                 <span>
-                  <span className="manual-name">{getMediaTitle(video.url, video.title)}</span>
+                  <span className="manual-name">{video.title}</span>
                   <span className="manual-meta">{video.url}</span>
                 </span>
                 <a className="icon-btn" href={video.url} target="_blank" rel="noreferrer" onClick={(event) => event.stopPropagation()}>
@@ -998,77 +979,6 @@ function DetailPage() {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [expandedGalleryItem]);
-
-  useEffect(() => {
-    window.localStorage.setItem(MEDIA_TITLES_STORAGE_KEY, JSON.stringify(mediaTitles));
-  }, [mediaTitles]);
-
-  useEffect(() => {
-    const mediaUrls = [...materialItems, ...videoItems].map((item) => item.url).filter(
-      (url): url is string => Boolean(url),
-    );
-    const uncachedUrls = [...new Set(mediaUrls)].filter((url) => !mediaTitles[url]);
-    if (!uncachedUrls.length) return;
-
-    let cancelled = false;
-    setMediaTitleState((current) => ({
-      ...current,
-      ...Object.fromEntries(uncachedUrls.map((url) => [url, 'loading'])),
-    }));
-
-    const loadTitles = async () => {
-      const resolvedTitles: Array<readonly [string, string]> = [];
-      const failedUrls: string[] = [];
-      let nextIndex = 0;
-      const worker = async () => {
-        while (!cancelled) {
-          const url = uncachedUrls[nextIndex++];
-          if (!url) return;
-          try {
-             const response = await fetch(`${MEDIA_PROXY_BASE}/metadata?url=${encodeURIComponent(url)}`);
-            if (!response.ok) {
-              failedUrls.push(url);
-              continue;
-            }
-            const payload = (await response.json()) as { title?: string | null };
-            if (payload.title) {
-              resolvedTitles.push([url, payload.title]);
-            } else {
-              failedUrls.push(url);
-            }
-          } catch {
-            failedUrls.push(url);
-          }
-        }
-      };
-
-      await Promise.all(
-        Array.from({ length: Math.min(6, uncachedUrls.length) }, () => worker()),
-      );
-      if (!cancelled && resolvedTitles.length) {
-        setMediaTitles((current) => ({ ...current, ...Object.fromEntries(resolvedTitles) }));
-      }
-      if (!cancelled) {
-        setMediaTitleState((current) => ({
-          ...current,
-          ...Object.fromEntries(resolvedTitles.map(([url]) => [url, 'resolved'])),
-          ...Object.fromEntries(failedUrls.map((url) => [url, 'failed'])),
-        }));
-      }
-    };
-
-    void loadTitles();
-    return () => {
-      cancelled = true;
-    };
-  }, [aircraft.id, materialItems, videoItems, mediaTitles]);
-
-  const getMediaTitle = (url: string | undefined, fallback: string) => {
-    if (!url) return fallback;
-    if (mediaTitles[url]) return mediaTitles[url];
-    if (mediaTitleState[url] === 'failed') return fallback;
-    return fallback;
-  };
 
   const handlePrint = () => {
     setActiveTab('Visão geral');
@@ -1215,7 +1125,7 @@ function DetailPage() {
                   <iframe
                     className="document-mold-frame"
                     src={selectedMaterialEmbedUrl}
-                    title={getMediaTitle(selectedMaterial.url, selectedMaterial.name)}
+                    title={selectedMaterial.name}
                     frameBorder="0"
                     loading="eager"
                     scrolling="yes"
@@ -1249,7 +1159,7 @@ function DetailPage() {
                   >
                     <span className="manual-icon"><FileText size={16} /></span>
                     <span>
-                      <span className="manual-name">{getMediaTitle(manual.url, manual.name)}</span>
+                      <span className="manual-name">{manual.name}</span>
                       <span className="manual-meta">{manual.meta}</span>
                     </span>
                     <a className="icon-btn" href={manual.url || '#'} target="_blank" rel="noreferrer" onClick={(event) => event.stopPropagation()}>
@@ -1308,7 +1218,7 @@ function DetailPage() {
                   <iframe
                     className="video-mold-frame"
                     src={selectedVideoEmbedUrl}
-                    title={getMediaTitle(selectedVideo.url, selectedVideo.title)}
+                    title={selectedVideo.title}
                     data-drive-video="true"
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"

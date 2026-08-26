@@ -333,7 +333,19 @@ function FireCategoryReference() {
 }
 
 function Brand() {
-  return <Link href="/" className="brand" data-testid="link-brand"><span className="brand-mark"><Plane size={18} strokeWidth={2.6} /></span><span className="brand-name">AERORESCUE</span></Link>;
+  return (
+    <Link href="/" className="brand" data-testid="link-brand">
+      <img
+        className="brand-logo"
+        src={`${import.meta.env.BASE_URL}escudo-sescinc.png`}
+        alt="Escudo SESCINC"
+      />
+      <span className="brand-copy">
+        <span className="brand-name">SESCINC</span>
+        <span className="brand-sub">Catálogo de Aeronaves para Bombeiro de Aeródromo</span>
+      </span>
+    </Link>
+  );
 }
 function Shell({ children, theme, onSetTheme }: { children: ReactNode; theme: ThemeMode; onSetTheme: (mode: ThemeMode) => void; }) {
   const [location] = useLocation();
@@ -409,10 +421,11 @@ function Shell({ children, theme, onSetTheme }: { children: ReactNode; theme: Th
       <div className="app-content">{children}</div>
       <footer className="site-footer" aria-label="Rodapé institucional">
         <div className="site-footer-inner">
-          <div className="site-footer-brand">AeroRescue © 2026</div>
-          <p>Projeto independente e sem fins lucrativos, desenvolvido para contribuir com a atividade de prevenção, salvamento e combate a incêndios em aeródromos.</p>
-          <div className="site-footer-slogan">Sempre prontos para Salvar!</div>
-          <img className="site-footer-logo" src={`${import.meta.env.BASE_URL}escudo-sescinc.png`} alt="Escudo SESCINC" />
+          <div className="site-footer-copy">
+            <div className="site-footer-brand">Serviço de Prevenção, Salvamento e Combate a Incêndio</div>
+            <div className="site-footer-slogan">Bombeiros da Base Aérea de Santa Maria</div>
+          </div>
+          <img className="site-footer-logo" src={`${import.meta.env.BASE_URL}simbolo-sescinc-basm.png`} alt="Símbolo dos Bombeiros da Base Aérea de Santa Maria" />
         </div>
       </footer>
     </div>

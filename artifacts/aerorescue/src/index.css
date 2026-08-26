@@ -231,30 +231,28 @@ a { color: inherit; text-decoration: none; }
 .site-footer-inner {
   max-width: 1440px;
   margin: 0 auto;
-  padding: 18px 40px 24px;
+  padding: 24px 40px 28px;
   text-align: center;
   font-size: 11px;
   line-height: 1.6;
 }
-.site-footer-brand,
-.site-footer-slogan {
+.site-footer-copy {
+  display: grid;
+  gap: 3px;
+}
+.site-footer-brand {
   color: hsl(var(--foreground));
   font-weight: 600;
   letter-spacing: .04em;
 }
-.site-footer p {
-  margin: 7px auto 0;
-  max-width: 900px;
-  color: hsl(var(--muted-foreground));
-}
 .site-footer-slogan {
-  margin-top: 7px;
+  color: hsl(var(--muted-foreground));
 }
 .site-footer-logo {
   display: block;
   width: auto;
-  height: 118px;
-  max-width: min(100%, 98px);
+  height: 112px;
+  max-width: min(100%, 128px);
   margin: 16px auto 0;
   object-fit: contain;
 }
@@ -267,10 +265,11 @@ a { color: inherit; text-decoration: none; }
   display:flex; align-items:center; justify-content:flex-end; gap:10px; margin-left:auto;
 }
 
-.brand { display:flex; align-items:center; gap:11px; min-width: 208px; }
-.brand-mark { width: 34px; height:34px; display:grid; place-items:center; color:#102f42; background:#efac38; border-radius:9px; transform: skew(-8deg); }
-.brand-name { font-family:var(--font-display); letter-spacing:.06em; font-weight:700; font-size:25px; line-height:1; }
-.brand-sub { color:hsl(var(--muted-foreground)); font-size:10px; letter-spacing:.13em; text-transform:uppercase; margin-top:4px; }
+.brand { display:flex; align-items:center; gap:12px; min-width: 390px; }
+.brand-logo { display:block; width:40px; height:50px; object-fit:contain; flex-shrink:0; }
+.brand-copy { display:flex; flex-direction:column; min-width:0; }
+.brand-name { font-family:var(--font-display); letter-spacing:.08em; font-weight:700; font-size:25px; line-height:1; }
+.brand-sub { color:hsl(var(--muted-foreground)); font-size:9px; letter-spacing:.08em; line-height:1.25; margin-top:4px; max-width:310px; }
 .topnav { display:none; }
 .nav-link { display:flex; align-items:center; gap:8px; padding:9px 12px; border-radius:8px; color:hsl(var(--muted-foreground)); font-size:13px; transition:background .2s, color .2s; }
 .nav-link:hover, .nav-link.active { background:hsl(var(--secondary)); color:hsl(var(--foreground)); }
@@ -727,5 +726,5 @@ a { color: inherit; text-decoration: none; }
 }
 @media (max-width: 560px) {
   .document-mold-frame{height:70vh;min-height:420px}.document-open-link{font-size:10px;padding:12px 10px}
-  .topbar{height:64px;padding:0 15px}.brand{min-width:0}.brand-name{font-size:22px}.brand-sub{display:none}.topbar-actions{gap:8px}.theme-toggle{width:34px;height:34px}.page-wrap{padding:25px 15px 50px}.page-title{font-size:39px}.search-row{flex-wrap:wrap}.search-box{min-width:100%}.result-head{display:block}.catalog-controls{display:grid; grid-template-columns:1fr; gap:12px; width:100%; max-width:none; margin-left:0;}.control-group{width:100%; min-width:0;}.sort-select{width:100%; min-width:0;}.aircraft-grid{grid-template-columns:1fr}.detail-head{display:block}.detail-actions{margin-top:16px}.viewer{min-height:350px}.viewer-plane{inset:23% 4% 22%}.hotspot-note{bottom:61px}.gallery-grid{grid-template-columns:1fr 1fr}.metric-list{grid-template-columns:1fr}.metric:nth-child(odd){margin-right:0;border-right:0;padding-right:0}.detail-actions .outline-btn{padding:0 10px}.detail-actions .outline-btn span{display:none}.reference-card-header,.reference-section-heading{flex-direction:column;align-items:flex-start}.manual-row{gap:10px;padding:10px 12px}.manual-row .icon-btn{height:28px;padding:0 8px}.manual-row .manual-name{font-size:11px}.manual-row .manual-meta{font-size:8px}
+  .topbar{height:auto;min-height:64px;padding:7px 15px}.brand{min-width:0;gap:9px}.brand-logo{width:32px;height:42px}.brand-name{font-size:22px}.brand-sub{font-size:8px;letter-spacing:.04em;margin-top:3px;max-width:240px}.topbar-actions{gap:8px}.theme-toggle{width:34px;height:34px}.page-wrap{padding:25px 15px 50px}.page-title{font-size:39px}.search-row{flex-wrap:wrap}.search-box{min-width:100%}.result-head{display:block}.catalog-controls{display:grid; grid-template-columns:1fr; gap:12px; width:100%; max-width:none; margin-left:0;}.control-group{width:100%; min-width:0;}.sort-select{width:100%; min-width:0;}.aircraft-grid{grid-template-columns:1fr}.detail-head{display:block}.detail-actions{margin-top:16px}.viewer{min-height:350px}.viewer-plane{inset:23% 4% 22%}.hotspot-note{bottom:61px}.gallery-grid{grid-template-columns:1fr 1fr}.metric-list{grid-template-columns:1fr}.metric:nth-child(odd){margin-right:0;border-right:0;padding-right:0}.detail-actions .outline-btn{padding:0 10px}.detail-actions .outline-btn span{display:none}.reference-card-header,.reference-section-heading{flex-direction:column;align-items:flex-start}.manual-row{gap:10px;padding:10px 12px}.manual-row .icon-btn{height:28px;padding:0 8px}.manual-row .manual-name{font-size:11px}.manual-row .manual-meta{font-size:8px}
 }

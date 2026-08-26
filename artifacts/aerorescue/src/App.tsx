@@ -387,6 +387,14 @@ function Shell({ children, theme, onSetTheme }: { children: ReactNode; theme: Th
                 >
                   <Sparkles size={15} /> Categoria Contraincêndio
                 </Link>
+                <Link
+                  href="/creditos"
+                  className={`nav-link ${location === '/creditos' ? 'active' : ''}`}
+                  data-testid="link-mobile-creditos"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <BookOpen size={15} /> Créditos e Agradecimentos
+                </Link>
 
                 <div className="mobile-theme-panel" aria-label="Seletor de tema">
                   <span className="mobile-theme-label">Tema</span>
@@ -740,6 +748,80 @@ function CategoryPage() {
   return (
     <main className="page-wrap">
       <FireCategoryReference />
+    </main>
+  );
+}
+
+function CreditsPage() {
+  const contributingBases = [
+    'Base Aérea de Santa Maria — SESCINC-SM',
+    'Base Aérea de Santa Cruz',
+    'Base Aérea dos Afonsos',
+    'Base Aérea de Natal',
+    'Base Aérea de Manaus',
+    'Base Aérea de Anápolis',
+    'Base Aérea de Canoas',
+    'Base Aérea de Guaratinguetá',
+    'Galpão de SBO',
+  ];
+
+  return (
+    <main className="page-wrap credits-page">
+      <div className="credits-hero fade-in">
+        <div className="eyebrow">Reconhecimento institucional</div>
+        <h1 className="page-title">Créditos e Agradecimentos</h1>
+        <p className="page-lede">
+          Nosso agradecimento aos Bombeiros de Aeródromo que contribuíram com conhecimentos, materiais, referências e apoio para o desenvolvimento deste projeto:
+        </p>
+      </div>
+
+      <section className="credits-shell" aria-label="Créditos e agradecimentos">
+        <div className="credits-card credits-card-wide fade-in stagger-1">
+          <div className="credits-card-heading">
+            <span className="credits-heading-title"><Heart size={16} /> Bombeiros de Aeródromo colaboradores</span>
+            <span className="reference-pill">Contribuições</span>
+          </div>
+          <ul className="credits-list">
+            {contributingBases.map((base) => (
+              <li key={base}><span className="credits-list-marker" aria-hidden="true" />{base}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="credits-grid">
+          <article className="credits-card fade-in stagger-2">
+            <div className="credits-card-heading">
+              <span className="credits-heading-title"><BookOpen size={16} /> Materiais e Vídeos</span>
+            </div>
+            <p>
+              Créditos aos autores, instituições, fabricantes, canais e demais fontes responsáveis pelos manuais, documentos, imagens, vídeos e materiais utilizados no catálogo.
+            </p>
+          </article>
+
+          <article className="credits-card fade-in stagger-2">
+            <div className="credits-card-heading">
+              <span className="credits-heading-title"><Move3d size={16} /> Modelos 3D</span>
+            </div>
+            <p>
+              Créditos aos autores e criadores dos modelos tridimensionais utilizados na representação das aeronaves, respeitando suas respectivas autorizações e condições de uso.
+            </p>
+          </article>
+
+          <article className="credits-card credits-card-wide fade-in stagger-3">
+            <div className="credits-card-heading">
+              <span className="credits-heading-title"><Sparkles size={16} /> Agradecimentos</span>
+            </div>
+            <p>
+              A todos os profissionais, Bombeiros de Aeródromo, autores, instituições e colaboradores que contribuíram para a construção e aprimoramento do catálogo.
+            </p>
+          </article>
+        </div>
+
+        <div className="credits-final fade-in stagger-3">
+          <span className="credits-final-icon"><Heart size={17} fill="currentColor" /></span>
+          <p>Nosso reconhecimento a todos que contribuem para o conhecimento, a preparação e a segurança da atividade de Bombeiro de Aeródromo.</p>
+        </div>
+      </section>
     </main>
   );
 }
@@ -1278,7 +1360,7 @@ function DetailPage() {
   );
 }
 
-function Router() { return <Switch><Route path="/" component={HomePage} /><Route path="/categoria" component={CategoryPage} /><Route path="/aeronaves/:id" component={DetailPage} /><Route component={NotFound} /></Switch>; }
+function Router() { return <Switch><Route path="/" component={HomePage} /><Route path="/categoria" component={CategoryPage} /><Route path="/creditos" component={CreditsPage} /><Route path="/aeronaves/:id" component={DetailPage} /><Route component={NotFound} /></Switch>; }
 function App() {
   const [theme, setTheme] = useState<ThemeMode>(() => {
     if (typeof window === 'undefined') return 'light';

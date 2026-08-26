@@ -39,6 +39,7 @@ function cleanMediaTitle(value: string | null | undefined) {
     decodeHtmlEntities(value).replace(/^\s+|\s+$/g, '').replace(/\s+/g, ' '),
   );
   if (!title) return null;
+  if (/^(?:error\s+)?404\b|not found|page not found|file not found/i.test(title)) return null;
   const generic = new Set([
     'google drive',
     'drive',

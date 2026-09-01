@@ -1124,8 +1124,15 @@ export const aircraftCatalog: Aircraft[] = [
     quantidadeSaidas: '01 porta de acesso lateral',
     motor: '1 × Pratt & Whitney Canada PT6A-114A',
     operadaPor: '1º ETA - Esquadrão Tracajá; 2º ETA - Esquadrão Pastor; 5º ETA - Esquadrão Pégaso; 6º ETA - Esquadrão Guará; 7º ETA - Esquadrão Cobra; 1/5º GAv - Esquadrão Rumba; CINDACTA II; PAMA-LS',
-    coverImage: 'covers/c98(cover).jpeg',
-    sketchfabModelId: '22c48cda6fd34ebca6264c3ca11a7936',
+    coverImage: 'covers/c98small(cover).jpg',
+    sketchfabModelId: '29d6737af95e47d4abc7a24c4d7dbede',
+    overviewModels: [
+      {
+        label: 'Visão geral',
+        sketchfabModelId: '29d6737af95e47d4abc7a24c4d7dbede',
+        url: 'https://sketchfab.com/3d-models/c-98-caravan-cessna-208-29d6737af95e47d4abc7a24c4d7dbede',
+      },
+    ],
     notes: [
       'O C-98 é usado pela FAB para apoio tático e missões de transporte especializadas.',
       'As inspeções de pré-voo devem focar nas superfícies de controle e no sistema de combustível.',
@@ -1210,7 +1217,14 @@ export const aircraftCatalog: Aircraft[] = [
     motor: '1 × Pratt & Whitney Canada PT6A-114A',
     operadaPor: '1º ETA - Esquadrão Tracajá; 2º ETA - Esquadrão Pastor; 5º ETA - Esquadrão Pégaso; 6º ETA - Esquadrão Guará; 7º ETA - Esquadrão Cobra; 1/5º GAv - Esquadrão Rumba; CINDACTA II; PAMA-LS',
     coverImage: 'covers/c98(cover).jpeg',
-    sketchfabModelId: '22c48cda6fd34ebca6264c3ca11a7936',
+    sketchfabModelId: 'e4e4d74a6c5e4da59cef6de30b8462e8',
+    overviewModels: [
+      {
+        label: 'Visão geral',
+        sketchfabModelId: 'e4e4d74a6c5e4da59cef6de30b8462e8',
+        url: 'https://sketchfab.com/3d-models/c-98a-grand-caravan-cessna-208b-e4e4d74a6c5e4da59cef6de30b8462e8',
+      },
+    ],
     notes: [
       'O C-98A/C-98B é uma variante melhorada do C-98 com aprimoramentos na capacidade operacional e conforto da tripulação',
       'As inspeções de pré-voo devem focar nas superfícies de controle e no sistema de combustível.',
@@ -2466,8 +2480,8 @@ export const aircraftCatalog: Aircraft[] = [
     designacaoFab: 'VC-1',
     fabricanteDetalhe: 'Embraer / Força Aérea Brasileira',
     combustivel: 'Jet A-1',
-    qperadaPor: 'GTE - Grupo de Transporte Especial',
-    ouantidadeSaidas: '02 portas laterais',
+    operadaPor: 'GTE - Grupo de Transporte Especial',
+    quantidadeSaidas: '02 portas laterais',
     motor: '2 × turbofans Pratt & Whitney Canada PW535E',
     overviewModels: [
       { label: 'Ilustração 1', sketchfabModelId: 'e6e6b69ce1444592a4562735c88955a4' },
@@ -2509,8 +2523,8 @@ export const aircraftCatalog: Aircraft[] = [
     fabricanteDetalhe: 'Sikorsky Aircraft / Operado pela FAB',
     combustivel: 'JP-8 / Turbina a combustível de aviação',
     quantidadeSaidas: '02 portas laterais',
-    mperadaPor: 'GTE - Grupo de Transporte Especial',
-    ootor: '2 × turboshafts General Electric T700',
+    operadaPor: 'GTE - Grupo de Transporte Especial',
+    motor: '2 × turboshafts General Electric T700',
     overviewModels: [
       { label: 'Ilustração 1', sketchfabModelId: 'b080957ef2dd4717a4b29e20818c62a7', url: 'https://sketchfab.com/3d-models/vh-35-h135-b080957ef2dd4717a4b29e20818c62a7' },
       { label: 'Ilustração 2', sketchfabModelId: '90841db777b4436b86af02431939982e', url: 'https://sketchfab.com/3d-models/vh-35-ec135-90841db777b4436b86af02431939982e' },

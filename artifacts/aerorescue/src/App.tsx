@@ -871,7 +871,7 @@ function Viewer({ aircraft, isPrintMode, coverImageUrl }: { aircraft: Aircraft; 
     <div className={`viewer ${fullscreen ? 'viewer-fullscreen' : ''}`} data-testid="viewer-3d">
       <div className="viewer-grid" />
       <div className="viewer-label">{aircraft.name} / VISUALIZAÇÃO TÉCNICA</div>
-      {isDeactivated && <div className="deactivated-ribbon" aria-label="Aeronave desativada">Desativado</div>}
+      {!isPrintMode && isDeactivated && <div className="deactivated-ribbon" aria-label="Aeronave desativada">Desativado</div>}
 
       {overviewModels.length > 1 && (
         <div className="viewer-overview-switch">

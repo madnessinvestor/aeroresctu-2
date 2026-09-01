@@ -357,6 +357,12 @@ function Shell({ children, theme, onSetTheme }: { children: ReactNode; theme: Th
       <header className="topbar">
         <Brand />
 
+        <img
+          className="topbar-logo"
+          src={`${import.meta.env.BASE_URL}logo.png`}
+          alt="Logo institucional"
+        />
+
         <div className="topbar-actions">
           <div className="mobile-menu-wrap">
             <button
@@ -563,10 +569,7 @@ function HomePage() {
     if (aircraft.hidden) return false;
 
     const matchesQuery = `${aircraft.name} ${aircraft.manufacturer} ${aircraft.category}`.toLowerCase().includes(query.toLowerCase());
-    const category = aircraft.category.toLowerCase();
     const matchesFilter = filter === 'Todos'
-      || (filter === 'Civis' && isCivilAircraft(aircraft.category))
-      || (filter === 'Militares' && isMilitaryAircraft(aircraft.category))
       || (filter === 'Aviões' && isFixedWingAircraft(aircraft.category))
       || (filter === 'Helicópteros' && /helicóptero|rotativa|rotor/i.test(aircraft.category));
     return matchesQuery && matchesFilter;
@@ -827,7 +830,7 @@ function CreditsPage() {
   );
 }
 
-function Viewer({ aircraft }: { aircraft: Aircraft }) {
+function Viewer({ aircraft, isPrintMode }: { aircraft: Aircraft; isPrintMode: boolean }) {
   const [selected, setSelected] = useState(1);
   const [overviewIndex, setOverviewIndex] = useState(0);
   const [fullscreen, setFullscreen] = useState(false);
@@ -857,6 +860,7 @@ function Viewer({ aircraft }: { aircraft: Aircraft }) {
 
   const selectedModel = overviewModels[overviewIndex] || overviewModels[0] || null;
   const isDeactivated = aircraft.status === 'Desativado';
+  const coverUrl = aircraft.coverImage ? `${import.meta.env.BASE_URL}${aircraft.coverImage}` : undefined;
   const embedUrl = selectedModel?.sketchfabModelId
       ? `https://sketchfab.com/models/${selectedModel.sketchfabModelId}/embed?autostart=1&ui_infos=0&ui_controls=1&ui_annots=0&ui_watermark=0`
       : selectedModel?.url
@@ -889,7 +893,11 @@ function Viewer({ aircraft }: { aircraft: Aircraft }) {
         </div>
       )}
 
-      {embedUrl ? (
+      {isPrintMode && coverUrl ? (
+        <div className="viewer-print-cover" aria-label={`${aircraft.name} capa`}>
+          <img src={coverUrl} alt={`${aircraft.name} cover`} />
+        </div>
+      ) : embedUrl ? (
         <>
           <div className="viewer-model-reference">
             <span className="model-ref-label">Modelos disponíveis:</span>
@@ -968,6 +976,7 @@ function DetailPage() {
     aircraft.technicalVariants ? Object.keys(aircraft.technicalVariants)[0] : 'e99m'
   ));
   const [favorite, setFavorite] = useState(() => JSON.parse(localStorage.getItem('aerorescue:favorites') || '[]').includes(aircraft.id));
+  const [isPrintMode, setIsPrintMode] = useState(false);
   const [toast, setToast] = useState<Toast>(null);
 
   useEffect(() => {
@@ -1054,6 +1063,14 @@ function DetailPage() {
   const technicalCrew = technicalVariant?.crew || aircraft.crew;
   const technicalPobMax = technicalVariant?.pobMax || aircraft.pobMax;
   const technicalDesignation = technicalVariant?.designacaoFab || aircraft.designacaoFab;
+  const operationalProfileText = (
+    <div className="text-card print-profile-card">
+      <h3>Perfil operacional</h3>
+      <p>
+        {aircraft.name} é uma {technicalCategory.toLowerCase()} com {technicalRole.toLowerCase()}. A configuração operacional atual está alinhada com {aircraft.origin} e com {technicalCrew.toLowerCase()} na tripulação.
+      </p>
+    </div>
+  );
 
   useEffect(() => {
     if (!expandedGalleryItem) return;
@@ -1065,13 +1082,69 @@ function DetailPage() {
   }, [expandedGalleryItem]);
 
   const handlePrint = () => {
+    const originalTitle = document.title;
+    const printFileName = `${aircraft.name.replace(/[^a-zA-Z0-9À-ÿ\s-]/g, '').trim().replace(/\s+/g, ' ')}`;
+    const printCoverUrl = aircraft.coverImage ? `${import.meta.env.BASE_URL}${aircraft.coverImage}` : null;
+    const printEmissionDate = new Intl.DateTimeFormat('pt-BR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    }).format(new Date());
+
+    const preloadPrintImage = () => new Promise<void>((resolve) => {
+      if (!printCoverUrl) {
+        resolve();
+        return;
+      }
+
+      const image = new Image();
+      image.onload = () => resolve();
+      image.onerror = () => resolve();
+      image.src = printCoverUrl;
+    });
+
+    const cleanupPrint = () => {
+      document.title = originalTitle;
+      document.body.classList.remove('print-mode');
+      const styleTag = document.getElementById('print-title-hide');
+      if (styleTag) styleTag.remove();
+      setIsPrintMode(false);
+    };
+
     setActiveTab('Visão geral');
+    setIsPrintMode(true);
+    document.title = printFileName;
     document.body.classList.add('print-mode');
-    window.setTimeout(() => {
-      window.print();
-      window.setTimeout(() => document.body.classList.remove('print-mode'), 250);
-    }, 30);
+
+    const style = document.createElement('style');
+    style.setAttribute('id', 'print-title-hide');
+    style.textContent = '@page { margin-top: 8mm; } @media print { title { display: none !important; } }';
+    document.head.appendChild(style);
+
+    const onAfterPrint = () => {
+      cleanupPrint();
+      window.removeEventListener('afterprint', onAfterPrint);
+    };
+    window.addEventListener('afterprint', onAfterPrint);
+
+    void preloadPrintImage().then(() => {
+      window.setTimeout(() => {
+        window.print();
+      }, 30);
+    });
   };
+
+  const printEmissionDate = new Intl.DateTimeFormat('pt-BR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  }).format(new Date());
 
   return (
     <main className="page-wrap">
@@ -1082,11 +1155,19 @@ function DetailPage() {
       </div>
 
       <div className="detail-head">
-        <div>
-          <h1 className="page-title">{aircraft.name}</h1>
-          <p className="page-lede">
-            {aircraft.manufacturer} · {technicalCategory} - {technicalRole}
-          </p>
+        <div className="detail-head-title">
+          <div>
+            <h1 className="page-title">{aircraft.name}</h1>
+            <p className="page-lede">
+              {aircraft.manufacturer} · {technicalCategory} - {technicalRole}
+            </p>
+          </div>
+
+          {isPrintMode && (
+            <div className="print-emission-meta" aria-label="Data e hora da emissão">
+              <span>Emitido em: {printEmissionDate}</span>
+            </div>
+          )}
         </div>
 
         <div className="detail-actions">
@@ -1103,7 +1184,9 @@ function DetailPage() {
 
       <div className="detail-grid">
         <div className="detail-info-panel">
-          <Viewer aircraft={aircraft} />
+          <Viewer aircraft={aircraft} isPrintMode={isPrintMode} />
+
+          {isPrintMode && operationalProfileText}
 
           <div className="info-card">
             <div className="info-heading">
@@ -1190,7 +1273,7 @@ function DetailPage() {
       </nav>
 
       <div className="tab-content">
-        {activeTab === 'Visão geral' && (
+        {activeTab === 'Visão geral' && !isPrintMode && (
           <div className="text-card">
             <h3>Perfil operacional</h3>
             <p>

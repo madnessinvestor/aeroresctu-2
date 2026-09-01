@@ -228,6 +228,66 @@ a { color: inherit; text-decoration: none; }
 
 .app-shell { min-height: 100dvh; display:flex; flex-direction:column; background: hsl(var(--background)); }
 .app-content { flex:1; }
+.print-emission-meta {
+  display: none;
+}
+
+@media print {
+  .print-emission-meta {
+    display: flex !important;
+    justify-content: flex-end;
+    align-items: flex-end;
+    margin: 0;
+    padding: 0;
+    position: static;
+    z-index: auto;
+    font: inherit;
+    font-size: 8.5px;
+    line-height: 1.2;
+    text-align: right;
+    color: inherit;
+    font-weight: inherit;
+    letter-spacing: inherit;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transform: translateY(-1px);
+  }
+
+  .print-emission-meta span {
+    font: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    color: inherit;
+    font-weight: inherit;
+    letter-spacing: inherit;
+  }
+
+  body.print-mode .detail-head {
+    align-items: flex-end !important;
+  }
+
+  body.print-mode .detail-head-title {
+    display: flex !important;
+    align-items: flex-end !important;
+    justify-content: space-between !important;
+    gap: 12px;
+    width: 100% !important;
+    min-width: 0;
+  }
+
+  body.print-mode .page-title {
+    margin-bottom: 0 !important;
+  }
+
+  body.print-mode .page-lede {
+    margin-top: 2px !important;
+  }
+
+  @page {
+    margin: 12mm 10mm 10mm 10mm;
+  }
+}
+
 .site-footer {
   width: 100%;
   border-top: 1px solid hsl(var(--border));
@@ -269,6 +329,21 @@ a { color: inherit; text-decoration: none; }
 
 .topbar-actions {
   display:flex; align-items:center; justify-content:flex-end; gap:10px; margin-left:auto;
+}
+
+.topbar-logo {
+  display:none;
+  width:40px;
+  height:50px;
+  object-fit:contain;
+  flex-shrink:0;
+  margin-left: auto;
+}
+
+@media print {
+  .topbar-logo {
+    display:block !important;
+  }
 }
 
 .brand { display:flex; align-items:center; gap:12px; min-width: 390px; }
@@ -492,6 +567,7 @@ a { color: inherit; text-decoration: none; }
 
 /* Detail */
 .detail-head { display:flex; justify-content:space-between; gap:20px; align-items:flex-start; }
+.detail-head-title { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex:1; min-width:0; }
 .crumb { display:flex; align-items:center; gap:7px; color:#71868a; font-size:11px; margin-bottom:13px; }
 .crumb a:hover { color:#a66a16; }
 .detail-actions { display:flex; gap:8px; }
@@ -514,6 +590,8 @@ a { color: inherit; text-decoration: none; }
 .viewer-switcher { display:flex; gap:6px; padding:4px; border-radius:8px; background:rgba(25,56,65,.88); border:1px solid rgba(242,201,134,.45); }
 .viewer-mode-button { border:1px solid transparent; background:transparent; color:#b9d0cd; font:9px var(--app-font-mono); padding:4px 9px; border-radius:6px; }
 .viewer-mode-button.active { border-color:#eeb85d; background:#274d58; color:#ffe0ad; }
+.viewer-print-cover { position:absolute; inset:0; display:grid; place-items:center; padding:28px; background:linear-gradient(180deg,#f1f6f7 0%,#e7eef0 100%); z-index:1; }
+.viewer-print-cover img { max-width:100%; max-height:100%; object-fit:contain; border-radius:12px; box-shadow:0 10px 24px rgba(17,38,45,.12); }
 .viewer-legend { position:absolute; top:18px;right:19px;display:flex;align-items:center;gap:7px;color:#91b3b4;font:9px var(--app-font-mono); }
 .legend-dot { width:7px;height:7px;border-radius:50%;background:#e8ab40; box-shadow:0 0 0 3px rgba(232,171,64,.18); }
 .viewer-plane { position:absolute; inset:19% 8% 18%; transform:rotate(-4deg); }
@@ -644,9 +722,58 @@ a { color: inherit; text-decoration: none; }
 :root[data-theme='dark'] .credits-final p { color:#f0d293; }
 
 @media print {
+  body.print-mode .topbar {
+    display:flex !important;
+    width:100% !important;
+    min-height: 52px !important;
+    height: 52px !important;
+    padding: 0 14px !important;
+    margin: 0 !important;
+    border-bottom:1px solid #dfe5e3 !important;
+    background:#ffffff !important;
+    color:#1f2b2f !important;
+    box-shadow:none !important;
+  }
+
+  body.print-mode .brand {
+    min-width:0 !important;
+    gap:8px !important;
+  }
+
+  body.print-mode .brand-logo {
+    width:34px !important;
+    height:42px !important;
+  }
+
+  body.print-mode .topbar-logo {
+    width:44px !important;
+    height:54px !important;
+  }
+
+  body.print-mode .brand-name {
+    font-size: 18px !important;
+    letter-spacing: .06em !important;
+  }
+
+  body.print-mode .brand-sub {
+    display:block !important;
+    font-size: 9px !important;
+    color:#4f5f66 !important;
+  }
+
+  body.print-mode .topbar-logo {
+    margin-left: auto !important;
+    opacity: 0.9 !important;
+  }
+
+  body.print-mode .topbar-actions,
+  body.print-mode .mobile-menu-toggle,
+  body.print-mode .mobile-menu,
+  body.print-mode .site-footer,
   body.print-mode .crumb,
   body.print-mode .detail-actions,
   body.print-mode .tab-bar,
+  body.print-mode .tab-content,
   body.print-mode .tab-content > *:not(.text-card),
   body.print-mode .viewer-overview-switch,
   body.print-mode .viewer-model-reference,
@@ -658,9 +785,13 @@ a { color: inherit; text-decoration: none; }
     display:none !important;
   }
 
+  body.print-mode {
+    font-size: 11px !important;
+  }
+
   body.print-mode .page-wrap {
     max-width:none !important;
-    padding:0 !important;
+    padding: 2mm 8mm 0 !important;
     margin:0 !important;
   }
 
@@ -679,9 +810,34 @@ a { color: inherit; text-decoration: none; }
     page-break-inside:avoid !important;
   }
 
+  body.print-mode .detail-info-panel > .text-card.print-profile-card {
+    margin-bottom: 10px !important;
+  }
+
   body.print-mode .viewer {
+    min-height: 240px !important;
+    max-height: 250px !important;
     border:1px solid #dfe5e3 !important;
-    margin-bottom:14px !important;
+    border-radius: 10px !important;
+    margin-bottom:10px !important;
+  }
+
+  body.print-mode .viewer-print-cover {
+    padding: 10px !important;
+    background: linear-gradient(180deg, #ffffff 0%, #f6f9fa 100%) !important;
+  }
+
+  body.print-mode .viewer-print-cover img {
+    max-width: 90% !important;
+    max-height: 200px !important;
+    border:1px solid #dfe5e3 !important;
+    border-radius: 10px !important;
+    box-shadow:none !important;
+    background:#fff !important;
+  }
+
+  body.print-mode .text-card {
+    padding: 10px 12px !important;
   }
 
   body.print-mode .tab-content {
@@ -689,9 +845,87 @@ a { color: inherit; text-decoration: none; }
   }
 
   body.print-mode .detail-head {
-    padding-bottom:10px !important;
-    margin-bottom:10px !important;
-    border-bottom:1px solid #dfe5e3 !important;
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+    border-bottom: 1px solid #dfe5e3 !important;
+  }
+
+  body.print-mode .page-wrap::before,
+  body.print-mode .page-wrap::after {
+    content: "";
+    position: fixed;
+    inset: 18% 12%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    opacity: 0.06;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body.print-mode .page-wrap::before {
+    background-image: url('/escudo-bombeiro-1.png');
+    transform: scale(0.68);
+  }
+
+  body.print-mode .page-wrap::after {
+    background-image: url('/escudo-bombeiro-2.png');
+    inset: 22% 18%;
+    opacity: 0.04;
+    transform: scale(0.62);
+  }
+
+  body.print-mode .page-wrap > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  body.print-mode .crumb {
+    margin-bottom: 0 !important;
+  }
+
+  body.print-mode .detail-grid {
+    margin-top: 0 !important;
+  }
+
+  body.print-mode .page-title {
+    font-size: 32px !important;
+    line-height: 1.08 !important;
+  }
+
+  body.print-mode .eyebrow,
+  body.print-mode .page-lede,
+  body.print-mode .text-card p,
+  body.print-mode .reference-copy,
+  body.print-mode .reference-footnote,
+  body.print-mode .metric-label,
+  body.print-mode .metric-value,
+  body.print-mode .info-note,
+  body.print-mode .credits-card p,
+  body.print-mode .manual-meta,
+  body.print-mode .manual-name,
+  body.print-mode .reference-table,
+  body.print-mode .category-table,
+  body.print-mode .info-card {
+    font-size: 9px !important;
+    line-height: 1.2 !important;
+  }
+
+  body.print-mode .info-card {
+    padding: 8px 10px !important;
+  }
+
+  body.print-mode .metric {
+    padding: 4px 0 !important;
+  }
+
+  body.print-mode .text-card h3 {
+    margin-bottom: 6px !important;
+  }
+
+  body.print-mode .info-heading {
+    padding-bottom: 6px !important;
+    margin-bottom: 6px !important;
   }
 
   body.print-mode .page-title,

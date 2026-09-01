@@ -2912,4 +2912,4 @@ for (const aircraft of aircraftCatalog) {
   if (additions.videos) aircraft.videos = appendUniqueMedia(aircraft.videos ?? [], additions.videos);
 }
 
-export const quickFilters = ['Todos', 'Civis', 'Militares', 'Aviões', 'Helicópteros'];
+export const quickFilters = ['Todos', 'Aviões', 'Helicópteros'];

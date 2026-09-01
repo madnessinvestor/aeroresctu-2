@@ -830,11 +830,35 @@ function CreditsPage() {
   );
 }
 
-function Viewer({ aircraft, isPrintMode, coverImageUrl }: { aircraft: Aircraft; isPrintMode: boolean; coverImageUrl?: string }) {
+function Viewer({ aircraft, isPrintMode, coverImageUrl, selectedVariant }: { aircraft: Aircraft; isPrintMode: boolean; coverImageUrl?: string; selectedVariant?: string }) {
   const [selected, setSelected] = useState(1);
   const [overviewIndex, setOverviewIndex] = useState(0);
   const [fullscreen, setFullscreen] = useState(false);
   const [toast, setToast] = useState<Toast>(null);
+
+  useEffect(() => {
+    if (aircraft.id === 'e-99m') {
+      const variantToOverviewIndex: Record<string, number> = {
+        e99m: 0,
+        r99a: 3,
+        r99b: 2,
+      };
+
+      const nextIndex = variantToOverviewIndex[selectedVariant ?? 'e99m'] ?? 0;
+      setOverviewIndex(nextIndex);
+      return;
+    }
+
+    if (aircraft.id === 'h-36-caracal') {
+      const variantToOverviewIndex: Record<string, number> = {
+        h36: 0,
+        vh36: 1,
+      };
+
+      const nextIndex = variantToOverviewIndex[selectedVariant ?? 'h36'] ?? 0;
+      setOverviewIndex(nextIndex);
+    }
+  }, [aircraft.id, selectedVariant]);
 
   const hotspotText: Record<number, string> = {
     1: 'Cabine e canopy — acesso primário do piloto.',
@@ -1058,13 +1082,41 @@ function DetailPage() {
     )
   );
   const technicalVariant = aircraft.technicalVariants?.[selectedTechnicalVariant];
-  const technicalCategory = technicalVariant?.category || aircraft.category;
-  const technicalRole = technicalVariant?.role || aircraft.role;
-  const technicalCrew = technicalVariant?.crew || aircraft.crew;
-  const technicalPobMax = technicalVariant?.pobMax || aircraft.pobMax;
-  const technicalDesignation = technicalVariant?.designacaoFab || aircraft.designacaoFab;
-  const technicalLength = technicalVariant?.length || aircraft.length;
-  const selectedPrintCoverUrl = aircraft.id === 'e-99m'
+  const technicalCategory = technicalVariant?.category ?? aircraft.category;
+  const technicalRole = technicalVariant?.role ?? aircraft.role;
+  const technicalCrew = technicalVariant?.crew ?? aircraft.crew;
+  const technicalPobMax = technicalVariant?.pobMax ?? aircraft.pobMax;
+  const technicalDesignation = technicalVariant?.designacaoFab ?? aircraft.designacaoFab;
+  const technicalLength = technicalVariant?.length ?? aircraft.length;
+  const technicalWingspan = technicalVariant?.wingspan ?? aircraft.wingspan;
+  const technicalHeight = technicalVariant?.height ?? aircraft.height;
+  const technicalMaxSpeed = technicalVariant?.maxSpeed ?? aircraft.maxSpeed;
+  const technicalRange = technicalVariant?.range ?? aircraft.range;
+  const technicalWeight = technicalVariant?.weight ?? aircraft.weight;
+  const technicalYear = technicalVariant?.year ?? aircraft.year;
+  const technicalOrigin = technicalVariant?.origin ?? aircraft.origin;
+  const technicalFireCategory = technicalVariant?.categoriaContraIncendio ?? aircraft.categoriaContraIncendio;
+  const technicalManufacturer = technicalVariant?.fabricanteDetalhe ?? aircraft.fabricanteDetalhe;
+  const technicalCombustivel = technicalVariant ? (technicalVariant.combustivel ?? aircraft.combustivel) : aircraft.combustivel;
+  const technicalQuantidadeSaidas = technicalVariant ? (technicalVariant.quantidadeSaidas ?? aircraft.quantidadeSaidas) : aircraft.quantidadeSaidas;
+  const technicalRampaTraseira = technicalVariant ? (technicalVariant.rampaTraseira ?? aircraft.rampaTraseira ?? '') : (aircraft.rampaTraseira ?? '');
+  const technicalMotor = technicalVariant ? (technicalVariant.motor ?? aircraft.motor) : aircraft.motor;
+  const technicalOperadaPor = technicalVariant ? (technicalVariant.operadaPor ?? aircraft.operadaPor) : aircraft.operadaPor;
+  const technicalCapacidadeAeromedica = technicalVariant ? (technicalVariant.capacidadeAeromedica ?? aircraft.capacidadeAeromedica ?? '') : (aircraft.capacidadeAeromedica ?? '');
+  const selectedAircraftName = aircraft.id === 'e-99m'
+    ? (selectedTechnicalVariant === 'e99m'
+      ? 'E-99M (EMB 145 AEW&C)'
+      : selectedTechnicalVariant === 'r99a'
+        ? 'R-99A (EMB 145 MP)'
+        : selectedTechnicalVariant === 'r99b'
+          ? 'R-99B (EMB 145 RS)'
+          : aircraft.name)
+    : selectedTechnicalVariant === 'vh36'
+      ? 'VH-36 (Caracal / H225M VIP)'
+      : aircraft.name;
+  const selectedPrintCoverUrl = aircraft.id === 'h-36-caracal' && selectedTechnicalVariant === 'vh36'
+    ? `${import.meta.env.BASE_URL}covers/vh36(cover).jpg`
+    : aircraft.id === 'e-99m'
     ? (selectedTechnicalVariant === 'r99b'
       ? `${import.meta.env.BASE_URL}covers/r99(cover).jpg`
       : `${import.meta.env.BASE_URL}covers/e99(cover).jpg`)
@@ -1075,7 +1127,7 @@ function DetailPage() {
     <div className="text-card print-profile-card">
       <h3>Perfil operacional</h3>
       <p>
-        {aircraft.name} é uma {technicalCategory.toLowerCase()} com {technicalRole.toLowerCase()}. A configuração operacional atual está alinhada com {aircraft.origin} e com {technicalCrew.toLowerCase()} na tripulação.
+        {selectedAircraftName} é uma {technicalCategory.toLowerCase()} com {technicalRole.toLowerCase()}. A configuração operacional atual está alinhada com {technicalOrigin} e com {technicalCrew.toLowerCase()} na tripulação.
       </p>
     </div>
   );
@@ -1091,7 +1143,7 @@ function DetailPage() {
 
   const handlePrint = () => {
     const originalTitle = document.title;
-    const printFileName = `${aircraft.name.replace(/[^a-zA-Z0-9À-ÿ\s-]/g, '').trim().replace(/\s+/g, ' ')}`;
+    const printFileName = `${selectedAircraftName.replace(/[^a-zA-Z0-9À-ÿ\s-]/g, '').trim().replace(/\s+/g, ' ')}`;
     const printCoverUrl = selectedPrintCoverUrl || (aircraft.coverImage ? `${import.meta.env.BASE_URL}${aircraft.coverImage}` : null);
     const printEmissionDate = new Intl.DateTimeFormat('pt-BR', {
       day: '2-digit',
@@ -1165,7 +1217,7 @@ function DetailPage() {
       <div className="detail-head">
         <div className="detail-head-title">
           <div>
-            <h1 className="page-title">{aircraft.name}</h1>
+            <h1 className="page-title">{selectedAircraftName}</h1>
             <p className="page-lede">
               {aircraft.manufacturer} · {technicalCategory} - {technicalRole}
             </p>
@@ -1192,7 +1244,7 @@ function DetailPage() {
 
       <div className="detail-grid">
         <div className="detail-info-panel">
-          <Viewer aircraft={aircraft} isPrintMode={isPrintMode} coverImageUrl={selectedPrintCoverUrl} />
+          <Viewer aircraft={aircraft} isPrintMode={isPrintMode} coverImageUrl={selectedPrintCoverUrl} selectedVariant={selectedTechnicalVariant} />
 
           {isPrintMode && operationalProfileText}
 
@@ -1224,10 +1276,10 @@ function DetailPage() {
               </div>
             )}
 
-            {aircraft.categoriaContraIncendio && (
+            {technicalFireCategory && (
               <div className="fire-category-banner" aria-label="Categoria de contra incêndio">
                 <span className="fire-category-label">Categoria Contraincêndio</span>
-                <strong>{formatFireCategoryDisplay(aircraft.categoriaContraIncendio)}</strong>
+                <strong>{formatFireCategoryDisplay(technicalFireCategory)}</strong>
               </div>
             )}
 
@@ -1238,30 +1290,38 @@ function DetailPage() {
                   <span className="metric-value">{technicalDesignation}</span>
                 </div>
               )}
+              {aircraft.nomeComercial && (
+                <div className="metric">
+                  <span className="metric-label">nome comercial</span>
+                  <span className="metric-value">{aircraft.nomeComercial}</span>
+                </div>
+              )}
               <div className="metric"><span className="metric-label">tripulação</span><span className="metric-value">{technicalCrew}</span></div>
               <div className="metric"><span className="metric-label">POB max.</span><span className="metric-value">{technicalPobMax}</span></div>
               <div className="metric"><span className="metric-label">categoria</span><span className="metric-value">{technicalCategory}</span></div>
               <div className="metric"><span className="metric-label">papel operacional</span><span className="metric-value">{technicalRole}</span></div>
-              <div className="metric"><span className="metric-label">origem</span><span className="metric-value">{aircraft.origin}</span></div>
-              <div className="metric"><span className="metric-label">entrada em serviço</span><span className="metric-value">{aircraft.year}</span></div>
+              <div className="metric"><span className="metric-label">origem</span><span className="metric-value">{technicalOrigin}</span></div>
+              <div className="metric"><span className="metric-label">entrada em serviço</span><span className="metric-value">{technicalYear}</span></div>
               {aircraft.statusDetail && <div className="metric"><span className="metric-label">status na FAB</span><span className="metric-value">{aircraft.statusDetail}</span></div>}
               <div className="metric"><span className="metric-label">comprimento</span><span className="metric-value">{technicalLength}</span></div>
-              <div className="metric"><span className="metric-label">envergadura</span><span className="metric-value">{aircraft.wingspan}</span></div>
-              <div className="metric"><span className="metric-label">altura</span><span className="metric-value">{aircraft.height}</span></div>
-              <div className="metric"><span className="metric-label">velocidade máx.</span><span className="metric-value">{aircraft.maxSpeed}</span></div>
-              <div className="metric"><span className="metric-label">alcance</span><span className="metric-value">{aircraft.range}</span></div>
-              <div className="metric"><span className="metric-label">peso máx. decolagem</span><span className="metric-value">{aircraft.weight}</span></div>
-              {aircraft.fabricanteDetalhe && <div className="metric"><span className="metric-label">Fabricante</span><span className="metric-value">{aircraft.fabricanteDetalhe}</span></div>}
+              <div className="metric"><span className="metric-label">envergadura</span><span className="metric-value">{technicalWingspan}</span></div>
+              <div className="metric"><span className="metric-label">altura</span><span className="metric-value">{technicalHeight}</span></div>
+              <div className="metric"><span className="metric-label">velocidade máx.</span><span className="metric-value">{technicalMaxSpeed}</span></div>
+              <div className="metric"><span className="metric-label">alcance</span><span className="metric-value">{technicalRange}</span></div>
+              <div className="metric"><span className="metric-label">peso máx. decolagem</span><span className="metric-value">{technicalWeight}</span></div>
+              {technicalManufacturer && <div className="metric"><span className="metric-label">Fabricante</span><span className="metric-value">{technicalManufacturer}</span></div>}
               {aircraft.alturaSoloCockpit && <div className="metric"><span className="metric-label">Altura solo ao cockpit</span><span className="metric-value">{aircraft.alturaSoloCockpit}</span></div>}
-              {aircraft.combustivel && <div className="metric"><span className="metric-label">Combustível</span><span className="metric-value">{aircraft.combustivel}</span></div>}
-              {aircraft.quantidadeSaidas && <div className="metric"><span className="metric-label">Quantidade de saídas</span><span className="metric-value">{aircraft.quantidadeSaidas}</span></div>}
+              {technicalCombustivel && <div className="metric"><span className="metric-label">Combustível</span><span className="metric-value">{technicalCombustivel}</span></div>}
+              {technicalQuantidadeSaidas && <div className="metric"><span className="metric-label">Quantidade de saídas</span><span className="metric-value">{technicalQuantidadeSaidas}</span></div>}
+              {technicalRampaTraseira && <div className="metric"><span className="metric-label">Rampa traseira</span><span className="metric-value">{technicalRampaTraseira}</span></div>}
               {aircraft.assentoEjetavel && <div className="metric"><span className="metric-label">Assento ejetável</span><span className="metric-value">{aircraft.assentoEjetavel}</span></div>}
               {(technicalVariant?.sistemaDefesa || aircraft.sistemaDefesa) && <div className="metric"><span className="metric-label">Sistema de defesa</span><span className="metric-value">{technicalVariant?.sistemaDefesa || aircraft.sistemaDefesa}</span></div>}
-              {aircraft.motor && <div className="metric"><span className="metric-label">Motor</span><span className="metric-value">{aircraft.motor}</span></div>}
+              {technicalMotor && <div className="metric"><span className="metric-label">Motor</span><span className="metric-value">{technicalMotor}</span></div>}
+              {technicalCapacidadeAeromedica && <div className="metric"><span className="metric-label">Capacidade aeromédica</span><span className="metric-value">{technicalCapacidadeAeromedica}</span></div>}
               {aircraft.armamentoFixo && <div className="metric"><span className="metric-label">Armamento fixo</span><span className="metric-value">{aircraft.armamentoFixo}</span></div>}
               {aircraft.armamentosCompativeis && <div className="metric"><span className="metric-label">Armamentos compatíveis</span><span className="metric-value">{aircraft.armamentosCompativeis}</span></div>}
               {aircraft.sensores && <div className="metric"><span className="metric-label">Sensores</span><span className="metric-value">{aircraft.sensores}</span></div>}
-              {aircraft.operadaPor && <div className="metric"><span className="metric-label">Operada por</span><span className="metric-value">{aircraft.operadaPor}</span></div>}
+              {technicalOperadaPor && <div className="metric"><span className="metric-label">Operada por</span><span className="metric-value">{technicalOperadaPor}</span></div>}
             </div>
           </div>
 

@@ -1063,6 +1063,7 @@ function DetailPage() {
   const technicalCrew = technicalVariant?.crew || aircraft.crew;
   const technicalPobMax = technicalVariant?.pobMax || aircraft.pobMax;
   const technicalDesignation = technicalVariant?.designacaoFab || aircraft.designacaoFab;
+  const technicalLength = technicalVariant?.length || aircraft.length;
   const selectedPrintCoverUrl = aircraft.id === 'e-99m'
     ? (selectedTechnicalVariant === 'r99b'
       ? `${import.meta.env.BASE_URL}covers/r99(cover).jpg`
@@ -1243,7 +1244,8 @@ function DetailPage() {
               <div className="metric"><span className="metric-label">papel operacional</span><span className="metric-value">{technicalRole}</span></div>
               <div className="metric"><span className="metric-label">origem</span><span className="metric-value">{aircraft.origin}</span></div>
               <div className="metric"><span className="metric-label">entrada em serviço</span><span className="metric-value">{aircraft.year}</span></div>
-              <div className="metric"><span className="metric-label">comprimento</span><span className="metric-value">{aircraft.length}</span></div>
+              {aircraft.statusDetail && <div className="metric"><span className="metric-label">status na FAB</span><span className="metric-value">{aircraft.statusDetail}</span></div>}
+              <div className="metric"><span className="metric-label">comprimento</span><span className="metric-value">{technicalLength}</span></div>
               <div className="metric"><span className="metric-label">envergadura</span><span className="metric-value">{aircraft.wingspan}</span></div>
               <div className="metric"><span className="metric-label">altura</span><span className="metric-value">{aircraft.height}</span></div>
               <div className="metric"><span className="metric-label">velocidade máx.</span><span className="metric-value">{aircraft.maxSpeed}</span></div>
@@ -1258,6 +1260,7 @@ function DetailPage() {
               {aircraft.motor && <div className="metric"><span className="metric-label">Motor</span><span className="metric-value">{aircraft.motor}</span></div>}
               {aircraft.armamentoFixo && <div className="metric"><span className="metric-label">Armamento fixo</span><span className="metric-value">{aircraft.armamentoFixo}</span></div>}
               {aircraft.armamentosCompativeis && <div className="metric"><span className="metric-label">Armamentos compatíveis</span><span className="metric-value">{aircraft.armamentosCompativeis}</span></div>}
+              {aircraft.sensores && <div className="metric"><span className="metric-label">Sensores</span><span className="metric-value">{aircraft.sensores}</span></div>}
               {aircraft.operadaPor && <div className="metric"><span className="metric-label">Operada por</span><span className="metric-value">{aircraft.operadaPor}</span></div>}
             </div>
           </div>

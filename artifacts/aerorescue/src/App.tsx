@@ -97,6 +97,11 @@ function formatFireCategoryDisplay(value: string | number | undefined) {
   const text = String(value).trim();
   if (!text) return '';
 
+  const explicitHelicopterMatch = text.match(/^CAT-HL\s*H([1-3])\s*→\s*([2-4])$/i);
+  if (explicitHelicopterMatch) {
+    return `CAT-HL H${explicitHelicopterMatch[1]} → ${explicitHelicopterMatch[2]}`;
+  }
+
   const normalized = text.replace(/[–—-]/g, ' ').replace(/\s+/g, ' ').toUpperCase();
   const rotorMatch = normalized.match(/H([1-3])/);
   if (rotorMatch) {
@@ -1313,6 +1318,10 @@ function DetailPage() {
               {aircraft.alturaSoloCockpit && <div className="metric"><span className="metric-label">Altura solo ao cockpit</span><span className="metric-value">{aircraft.alturaSoloCockpit}</span></div>}
               {technicalCombustivel && <div className="metric"><span className="metric-label">Combustível</span><span className="metric-value">{technicalCombustivel}</span></div>}
               {technicalQuantidadeSaidas && <div className="metric"><span className="metric-label">Quantidade de saídas</span><span className="metric-value">{technicalQuantidadeSaidas}</span></div>}
+              {aircraft.rotor && <div className="metric"><span className="metric-label">Rotor</span><span className="metric-value">{aircraft.rotor}</span></div>}
+              {aircraft.navegacao && <div className="metric"><span className="metric-label">Navegação</span><span className="metric-value">{aircraft.navegacao}</span></div>}
+              {aircraft.comunicacaoESistemas && <div className="metric"><span className="metric-label">Comunicação e sistemas</span><span className="metric-value">{aircraft.comunicacaoESistemas}</span></div>}
+              {(aircraft.guinchoResgate || aircraft.ganchoCarga) && <div className="metric"><span className="metric-label">Guincho de resgate / Gancho de carga</span><span className="metric-value">{[aircraft.guinchoResgate, aircraft.ganchoCarga].filter(Boolean).join(' · ')}</span></div>}
               {technicalRampaTraseira && <div className="metric"><span className="metric-label">Rampa traseira</span><span className="metric-value">{technicalRampaTraseira}</span></div>}
               {aircraft.assentoEjetavel && <div className="metric"><span className="metric-label">Assento ejetável</span><span className="metric-value">{aircraft.assentoEjetavel}</span></div>}
               {(technicalVariant?.sistemaDefesa || aircraft.sistemaDefesa) && <div className="metric"><span className="metric-label">Sistema de defesa</span><span className="metric-value">{technicalVariant?.sistemaDefesa || aircraft.sistemaDefesa}</span></div>}
@@ -1320,6 +1329,9 @@ function DetailPage() {
               {technicalCapacidadeAeromedica && <div className="metric"><span className="metric-label">Capacidade aeromédica</span><span className="metric-value">{technicalCapacidadeAeromedica}</span></div>}
               {aircraft.armamentoFixo && <div className="metric"><span className="metric-label">Armamento fixo</span><span className="metric-value">{aircraft.armamentoFixo}</span></div>}
               {aircraft.armamentosCompativeis && <div className="metric"><span className="metric-label">Armamentos compatíveis</span><span className="metric-value">{aircraft.armamentosCompativeis}</span></div>}
+              {aircraft.armamento && <div className="metric"><span className="metric-label">Armamento</span><span className="metric-value">{aircraft.armamento}</span></div>}
+              {aircraft.sistemasInspecao && <div className="metric"><span className="metric-label">Sistemas de inspeção</span><span className="metric-value">{aircraft.sistemasInspecao}</span></div>}
+              {aircraft.capacidades && <div className="metric"><span className="metric-label">Capacidades</span><span className="metric-value">{aircraft.capacidades}</span></div>}
               {aircraft.sensores && <div className="metric"><span className="metric-label">Sensores</span><span className="metric-value">{aircraft.sensores}</span></div>}
               {technicalOperadaPor && <div className="metric"><span className="metric-label">Operada por</span><span className="metric-value">{technicalOperadaPor}</span></div>}
             </div>

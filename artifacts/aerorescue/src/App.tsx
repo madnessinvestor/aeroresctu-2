@@ -167,6 +167,7 @@ const fireCategoryRows: FireCategoryRow[] = [
   { categoria: 'Asa Fixa', anv: 'V-35', nome: 'Learjet 35A', cat_contraincendio: 3 },
   { categoria: 'Asa Fixa', anv: 'A-1', nome: 'A-1M', cat_contraincendio: 3 },
   { categoria: 'Asa Fixa', anv: 'F-39', nome: 'F-39E Gripen', cat_contraincendio: 3 },
+  { categoria: 'Asa Fixa', anv: 'C-98A/C-98B', nome: 'C-98A/C-98B Grand Caravan', cat_contraincendio: 3 },
   { categoria: 'Asa Fixa', anv: 'A-29', nome: 'A-29 Super Tucano', cat_contraincendio: 2 },
   { categoria: 'Asa Fixa', anv: 'C-98', nome: 'C-98A Grand Caravan', cat_contraincendio: 2 },
   { categoria: 'Asa Fixa', anv: 'T-27', nome: 'T-27M Tucano', cat_contraincendio: 2 },
@@ -1167,6 +1168,7 @@ function DetailPage() {
               {aircraft.motor && <div className="metric"><span className="metric-label">Motor</span><span className="metric-value">{aircraft.motor}</span></div>}
               {aircraft.armamentoFixo && <div className="metric"><span className="metric-label">Armamento fixo</span><span className="metric-value">{aircraft.armamentoFixo}</span></div>}
               {aircraft.armamentosCompativeis && <div className="metric"><span className="metric-label">Armamentos compatíveis</span><span className="metric-value">{aircraft.armamentosCompativeis}</span></div>}
+              {aircraft.operadaPor && <div className="metric"><span className="metric-label">Operada por</span><span className="metric-value">{aircraft.operadaPor}</span></div>}
             </div>
           </div>
 

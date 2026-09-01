@@ -317,8 +317,8 @@ a { color: inherit; text-decoration: none; }
 .site-footer-logo {
   display: block;
   width: auto;
-  height: 112px;
-  max-width: min(100%, 128px);
+  height: 132px;
+  max-width: min(100%, 160px);
   margin: 16px auto 0;
   object-fit: contain;
 }
@@ -722,6 +722,31 @@ a { color: inherit; text-decoration: none; }
 :root[data-theme='dark'] .credits-final p { color:#f0d293; }
 
 @media print {
+  :root,
+  :root[data-theme='dark'] {
+    --background: 0 0% 100%;
+    --foreground: 205 42% 13%;
+    --border: 205 20% 82%;
+    --input: 205 20% 78%;
+    --ring: 36 90% 54%;
+    --card: 210 27% 98%;
+    --card-foreground: 205 42% 13%;
+    --primary: 205 42% 20%;
+    --primary-foreground: 48 35% 97%;
+    --secondary: 205 23% 89%;
+    --secondary-foreground: 205 42% 20%;
+    --muted: 207 20% 87%;
+    --muted-foreground: 205 16% 43%;
+    --accent: 36 90% 54%;
+    --accent-foreground: 205 42% 13%;
+    --destructive: 4 68% 47%;
+  }
+
+  body.print-mode {
+    background: #ffffff !important;
+    color: #1f2b2f !important;
+  }
+
   body.print-mode .topbar {
     display:flex !important;
     width:100% !important;

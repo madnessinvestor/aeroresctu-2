@@ -342,7 +342,7 @@ function Brand() {
         alt="Escudo SESCINC"
       />
       <span className="brand-copy">
-        <span className="brand-name">SESCINC</span>
+        <span className="brand-name">SESCINC-SM</span>
         <span className="brand-sub">Catálogo de Aeronaves para Bombeiro de Aeródromo</span>
       </span>
     </Link>
@@ -440,7 +440,7 @@ function Shell({ children, theme, onSetTheme }: { children: ReactNode; theme: Th
             <div className="site-footer-brand">Serviço de Prevenção, Salvamento e Combate a Incêndio</div>
             <div className="site-footer-slogan">Bombeiros da Base Aérea de Santa Maria</div>
           </div>
-          <img className="site-footer-logo" src={`${import.meta.env.BASE_URL}simbolo-sescinc-basm.png`} alt="Símbolo dos Bombeiros da Base Aérea de Santa Maria" />
+          <img className="site-footer-logo" src={`${import.meta.env.BASE_URL}logo.png`} alt="Logo SESCINC-SM" />
         </div>
       </footer>
     </div>
@@ -830,7 +830,7 @@ function CreditsPage() {
   );
 }
 
-function Viewer({ aircraft, isPrintMode }: { aircraft: Aircraft; isPrintMode: boolean }) {
+function Viewer({ aircraft, isPrintMode, coverImageUrl }: { aircraft: Aircraft; isPrintMode: boolean; coverImageUrl?: string }) {
   const [selected, setSelected] = useState(1);
   const [overviewIndex, setOverviewIndex] = useState(0);
   const [fullscreen, setFullscreen] = useState(false);
@@ -860,7 +860,7 @@ function Viewer({ aircraft, isPrintMode }: { aircraft: Aircraft; isPrintMode: bo
 
   const selectedModel = overviewModels[overviewIndex] || overviewModels[0] || null;
   const isDeactivated = aircraft.status === 'Desativado';
-  const coverUrl = aircraft.coverImage ? `${import.meta.env.BASE_URL}${aircraft.coverImage}` : undefined;
+  const coverUrl = coverImageUrl || (aircraft.coverImage ? `${import.meta.env.BASE_URL}${aircraft.coverImage}` : undefined);
   const embedUrl = selectedModel?.sketchfabModelId
       ? `https://sketchfab.com/models/${selectedModel.sketchfabModelId}/embed?autostart=1&ui_infos=0&ui_controls=1&ui_annots=0&ui_watermark=0`
       : selectedModel?.url
@@ -1063,6 +1063,13 @@ function DetailPage() {
   const technicalCrew = technicalVariant?.crew || aircraft.crew;
   const technicalPobMax = technicalVariant?.pobMax || aircraft.pobMax;
   const technicalDesignation = technicalVariant?.designacaoFab || aircraft.designacaoFab;
+  const selectedPrintCoverUrl = aircraft.id === 'e-99m'
+    ? (selectedTechnicalVariant === 'r99b'
+      ? `${import.meta.env.BASE_URL}covers/r99(cover).jpg`
+      : `${import.meta.env.BASE_URL}covers/e99(cover).jpg`)
+    : aircraft.coverImage
+      ? `${import.meta.env.BASE_URL}${aircraft.coverImage}`
+      : undefined;
   const operationalProfileText = (
     <div className="text-card print-profile-card">
       <h3>Perfil operacional</h3>
@@ -1084,7 +1091,7 @@ function DetailPage() {
   const handlePrint = () => {
     const originalTitle = document.title;
     const printFileName = `${aircraft.name.replace(/[^a-zA-Z0-9À-ÿ\s-]/g, '').trim().replace(/\s+/g, ' ')}`;
-    const printCoverUrl = aircraft.coverImage ? `${import.meta.env.BASE_URL}${aircraft.coverImage}` : null;
+    const printCoverUrl = selectedPrintCoverUrl || (aircraft.coverImage ? `${import.meta.env.BASE_URL}${aircraft.coverImage}` : null);
     const printEmissionDate = new Intl.DateTimeFormat('pt-BR', {
       day: '2-digit',
       month: '2-digit',
@@ -1184,7 +1191,7 @@ function DetailPage() {
 
       <div className="detail-grid">
         <div className="detail-info-panel">
-          <Viewer aircraft={aircraft} isPrintMode={isPrintMode} />
+          <Viewer aircraft={aircraft} isPrintMode={isPrintMode} coverImageUrl={selectedPrintCoverUrl} />
 
           {isPrintMode && operationalProfileText}
 

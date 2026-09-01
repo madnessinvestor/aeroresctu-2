@@ -167,6 +167,7 @@ export const aircraftCatalog: Aircraft[] = [
     motor: '1 × Rolls-Royce Spey RB.168 Mk.807 Turbofan',
     armamentoFixo: '2 × Canhões DEFA 554 (Mk.164) de 30 mm',
     armamentosCompativeis: 'Mísseis Ar-Ar, Mísseis Ar-Superfície, Bombas Convencionais, Bombas Guiadas e Foguetes',
+    operadaPor: '1º/10º GAv - Esquadrão Poker; 3º/10º GAv - Esquadrão Centauro',
     sketchfabModelId: 'cb85ef04082148bb9e93374a209c00f0',
     overviewModels: [
       { label: 'Visão geral', sketchfabModelId: 'cb85ef04082148bb9e93374a209c00f0' },

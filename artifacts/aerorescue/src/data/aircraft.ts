@@ -59,6 +59,7 @@ export type Aircraft = {
   motor?: string;
   armamentoFixo?: string;
   armamentosCompativeis?: string;
+  operadaPor?: string;
   sketchfabModelId?: string;
   overviewModels?: AircraftVisualization[];
   technicalVariants?: Record<string, AircraftTechnicalVariant>;
@@ -99,6 +100,7 @@ export const aircraftCatalog: Aircraft[] = [
     motor: '1 × Rolls-Royce Spey RB.168 Mk.807 Turbofan',
     armamentoFixo: '2 × Canhões DEFA 554 (Mk.164) de 30 mm',
     armamentosCompativeis: 'Mísseis Ar-Ar, Mísseis Ar-Superfície, Bombas Convencionais, Bombas Guiadas e Foguetes',
+    operadaPor: '1º/10º GAv - Esquadrão Poker; 3º/10º GAv - Esquadrão Centauro',
     sketchfabModelId: 'c776611d54b9490ebd088415fc44bd4a',
     overviewModels: [
       { label: 'Visão geral', sketchfabModelId: 'c776611d54b9490ebd088415fc44bd4a' },
@@ -284,6 +286,7 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'Jet A-1 / JP-8 para operação militar',
     quantidadeSaidas: '02 (rampa e acessos laterais)',
     motor: '2 × turbofans IAE V2500-E5',
+    operadaPor: '1º GTT - Esquadrão Zeus; 1º/1º GT - Esquadrão Gordo',
     armamentoFixo: 'Não dotada de armamento fixo',
     armamentosCompativeis: 'Cargas, veículos, tropas e suporte tático de transporte',
     sistemaDefesa: 'Sistemas de navegação, proteção eletrônica e operação de carga com apoio de missão',
@@ -330,6 +333,7 @@ export const aircraftCatalog: Aircraft[] = [
     motor: 'Motor de combustão interna de baixo consumo com acionamento de roto',
     armamentoFixo: 'Sem armamento fixo embarcado',
     armamentosCompativeis: 'Carga de sensores, câmeras, acessórios ISR e pacote de missão',
+    operadaPor: '1º/12º GAV - Esquadrão Hórus',
     sistemaDefesa: 'Enlace de dados, controle remoto e recuperação automática',
     sketchfabModelId: '6f240fa4bc654c32a81702ad5b00b0e8',
     overviewModels: [
@@ -373,6 +377,7 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'JP-4 / Jet A para operação de caça leve',
     quantidadeSaidas: '01 (cabo e acesso de tripulação)',
     motor: '2 × turbojatos General Electric J85-GE-21A',
+    operadaPor: '1º GAVCA - Esquadrões Jambock / Pif-Paf; 1º/14º GAV - Esquadrão Pampa',
     armamentoFixo: '2 × canhões M39 de 20 mm',
     armamentosCompativeis: 'Mísseis ar-ar, bombas convencionais e foguetes de apoio',
     sistemaDefesa: 'Radar de aeronave, sistemas de aviação e proteção de cabine',
@@ -562,6 +567,7 @@ export const aircraftCatalog: Aircraft[] = [
     armamentoFixo: '2 × canhões leves de apoio, configuração variável',
     armamentosCompativeis: 'Bombas, rockets, kits de tiro e apoio leve ao solo',
     sistemaDefesa: 'Sistemas de apoio de navegação e suporte de missão',
+    operadaPor: '2º/5º GAv - Esquadrão Joker; 1º/3º GAv - Esquadrão Escorpião; 2º/3º GAv - Esquadrão Grifo; 3º/3º GAv - Esquadrão Flecha; EDA - Esquadrilha da Fumaça',
     sketchfabModelId: '987ef78a923941f7bed9b306f37513ca',
     overviewModels: [
       { label: 'Ilustração 1 (Padrão)', sketchfabModelId: '987ef78a923941f7bed9b306f37513ca' },
@@ -625,6 +631,7 @@ export const aircraftCatalog: Aircraft[] = [
     armamentoFixo: '2 × canhões leves de apoio, configuração variável',
     armamentosCompativeis: 'Bombas, rockets, câmera e apoio vigilância de baixa intensidade',
     sistemaDefesa: 'Sistemas de navegação, comunicação e missão de vigilância',
+    operadaPor: '2º/5º GAv - Esquadrão Joker; 1º/3º GAv - Esquadrão Escorpião; 2º/3º GAv - Esquadrão Grifo; 3º/3º GAv - Esquadrão Flecha; EDA - Esquadrilha da Fumaça',
     sketchfabModelId: 'b8121278dc4d4ef6b969efff5b813b92',
     coverImage: 'covers/a29biplace(cover).jpg',
     overviewModels: [
@@ -783,6 +790,7 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'Combustível turboélice de treinamento/ataque leve',
     quantidadeSaidas: '01 escotilha e acesso de cabine dupla',
     motor: '1 × turbopropulsor Pratt & Whitney Canada PT6A-25C',
+    operadaPor: '1º EIA - Esquadrão de Instrução Aérea – AFA',
     armamentoFixo: 'Sem canhão fixo em configuração padrão',
     armamentosCompativeis: 'Rockets, bombas leves e carga de treinamento',
     sistemaDefesa: 'Sistemas básicos de segurança, cockpit e suporte de navegação',
@@ -828,6 +836,7 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'Combustível de turbofan para operação tática',
     quantidadeSaidas: '01 ejetor com acesso à cabine',
     motor: '1 × turbofan General Electric F404-GE-39 com pós-combustão',
+    operadaPor: '1º GDA - Primeiro Grupo de Defesa Aérea Jaguar',
     armamentoFixo: '1 × canhão de 27 mm (configuração operacional específica)',
     armamentosCompativeis: 'Mísseis ar-ar, bombas e sistemas de apoio de combate',
     sistemaDefesa: 'Radar avançado, blindagem mínima e proteção eletrônica de missão',
@@ -898,6 +907,7 @@ export const aircraftCatalog: Aircraft[] = [
     motor: '2 × motores turboshaft General Electric T700-GE-701C',
     armamentoFixo: 'Configuração utilitária sem armamento fixo embarcado',
     armamentosCompativeis: 'Metralhadoras M240, M134 e lança-foguetes sob demanda',
+    operadaPor: '2º/10º GAv - Esquadrão Pelicano; 5º/8º GAv - Esquadrão Pantera; 7º/8º GAV - Esquadrão Harpia',
     sketchfabModelId: '4682e6566cee481cb94d387fb7845243',
     coverImage: 'covers/h60(cover).png',
     overviewModels: [
@@ -1001,6 +1011,7 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'QAV-1 (Querosene de Aviação)',
     quantidadeSaidas: '01 porta de acesso lateral',
     motor: '2 × Pratt & Whitney Canada PT6A-34 turbopropulsores',
+    operadaPor: '1º/5º GAv - Esquadrão Rumba; 1º ETA - Esquadrão Tracajá; 2º ETA - Esquadrão Pastor; 3º ETA - Esquadrão Pioneiro; 5º ETA - Esquadrão Pégaso; 6º ETA - Esquadrão Guará; 7º ETA - Esquadrão Cobra',
     coverImage: 'covers/c95(cover).jpg',
     overviewModels: [
       { label: 'Ilustração 1', sketchfabModelId: 'd289489ea7414189b06e44699b90a1d7', url: 'https://sketchfab.com/3d-models/c-115-buffalo-dhc-5-d289489ea7414189b06e44699b90a1d7' },
@@ -1054,6 +1065,7 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'QAV-1 (Querosene de Aviação)',
     quantidadeSaidas: '01 porta de acesso lateral',
     motor: '2 × Pratt & Whitney Canada PT6A turbopropulsores',
+    operadaPor: '3º ETA - Esquadrão Pioneiro; 5º ETA - Esquadrão Pégaso; 6º ETA - Esquadrão Guará; 7º ETA - Esquadrão Cobra; PAMA-SP',
     coverImage: 'covers/c97(cover).jpg',
     sketchfabModelId: '64e0e5daa0974e60ad686d4a2db0402c',
     notes: [
@@ -1091,25 +1103,26 @@ export const aircraftCatalog: Aircraft[] = [
   {
     id: 'c-98-fab',
     name: 'C-98 (Caravan / Cessna 208)',
-    manufacturer: 'Embraer',
+    manufacturer: 'Cessna',
     category: 'Transporte militar',
     role: 'Transporte de carga e apoio tático',
-    origin: 'Brasil',
+    origin: 'Estados Unidos',
     status: 'Operacional',
     year: '1976',
-    length: '15,10 m',
-    wingspan: '15,10 m',
-    height: '4,34 m',
-    maxSpeed: '470 km/h',
-    range: '2.100 km',
+    length: '11,46 m',
+    wingspan: '15,88 m',
+    height: '4,53 m',
+    maxSpeed: '344 km/h',
+    range: '~1.982 km',
     crew: '02 tripulantes',
-    weight: '9.200 kg (MTOW)',
-    pobMax: '20 pessoas a bordo',
+    weight: '3.629 kg (MTOW)',
+    pobMax: '11 pessoas (9 passageiros + 2 tripulantes)',
     categoriaContraIncendio: '02',
     designacaoFab: 'C-98',
     combustivel: 'QAV-1 (Querosene de Aviação)',
     quantidadeSaidas: '01 porta de acesso lateral',
-    motor: '2 × Pratt & Whitney Canada PT6A turbopropulsores',
+    motor: '1 × Pratt & Whitney Canada PT6A-114A',
+    operadaPor: '1º ETA - Esquadrão Tracajá; 2º ETA - Esquadrão Pastor; 5º ETA - Esquadrão Pégaso; 6º ETA - Esquadrão Guará; 7º ETA - Esquadrão Cobra; 1/5º GAv - Esquadrão Rumba; CINDACTA II; PAMA-LS',
     coverImage: 'covers/c98(cover).jpeg',
     sketchfabModelId: '22c48cda6fd34ebca6264c3ca11a7936',
     notes: [
@@ -1173,6 +1186,91 @@ export const aircraftCatalog: Aircraft[] = [
     ],
   },
   {
+    id: 'c-98a-fab',
+    name: 'C-98A/C-98B (Grand Caravan / Cessna 208B)',
+    manufacturer: 'Cessna',
+    category: 'Transporte militar',
+    role: 'Transporte de carga e apoio tático',
+    origin: 'Estados Unidos',
+    status: 'Operacional',
+    year: '1985',
+    length: '12,67 m',
+    wingspan: '15,87 m',
+    height: '4,71 m',
+    maxSpeed: '324 km/h',
+    range: '~1.700 km',
+    crew: '02 tripulantes',
+    weight: '3.993 kg (MTOW)',
+    pobMax: 'até 16 pessoas (9-14 passageiros + 2 tripulantes, conforme configuração)',
+    categoriaContraIncendio: '03',
+    designacaoFab: 'C-98A/C-98B',
+    combustivel: 'QAV-1 (Querosene de Aviação)',
+    quantidadeSaidas: '01 porta de acesso lateral',
+    motor: '1 × Pratt & Whitney Canada PT6A-114A',
+    operadaPor: '1º ETA - Esquadrão Tracajá; 2º ETA - Esquadrão Pastor; 5º ETA - Esquadrão Pégaso; 6º ETA - Esquadrão Guará; 7º ETA - Esquadrão Cobra; 1/5º GAv - Esquadrão Rumba; CINDACTA II; PAMA-LS',
+    coverImage: 'covers/c98(cover).jpeg',
+    sketchfabModelId: '22c48cda6fd34ebca6264c3ca11a7936',
+    notes: [
+      'O C-98A/C-98B é uma variante melhorada do C-98 com aprimoramentos na capacidade operacional e conforto da tripulação',
+      'As inspeções de pré-voo devem focar nas superfícies de controle e no sistema de combustível.',
+      'Valide a documentação de carga e os limites de passageiros antes do voo.',
+    ],
+    procedures: [
+      { title: 'Preparação de missão', body: 'Defina o perfil de voo e confirme as restrições operacionais antes da partida.' },
+      { title: 'Verificação de carga', body: 'Assegure que a carga esteja bem presa e balanceada para evitar deslocamentos em voo.' },
+    ],
+    manuals: [
+      { name: 'Instrução C-98 Caravan.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1jHbkE1B_5SUqKX6cRVcm03UlgLJW0Z-D/view?usp=drive_link' },
+      { name: 'Procedimentos de abordagens de aeronaves - C-98 Caravan.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/13LRQM5mFImWJ-c6G0Z2G3D-cLCO3gZ8I/view?usp=drive_link' },
+      { name: 'Conhecimentos C-98 Caravan.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1jZnnVVX174GwcgCo0Nn_FagjRBdpZfo0/view?usp=drive_link' },
+      { name: 'Extrato do Manual de Resgate e Salvamento do Galpão de SBO da EEAR (C-98).pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1Isn-_XK3cSTNA9MpsO2e6QLXjC09-zXy/view?usp=drive_link' },
+      { name: 'Procedimentos C-98 (Gran Caravan).pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1iU_K55ZYqdNPBhDEx6hyQzP357hGzYZd/view?usp=drive_link' },
+    ],
+    gallery: [
+      { title: '20141023_100929.jpg', url: 'https://drive.google.com/uc?export=view&id=1VZSBWUk8oNsIeeaEHX5_IiM1Ibv0lC0B' },
+      { title: '20141023_100951.jpg', url: 'https://drive.google.com/uc?export=view&id=1mtjnUv-YcdEqg-yUyZf0HbHbAvMCZP7N' },
+      { title: '20141023_100959.jpg', url: 'https://drive.google.com/uc?export=view&id=1DPqKgR0kaoSjcAUUZvGC73GPuMykdWcc' },
+      { title: '20141023_101023.jpg', url: 'https://drive.google.com/uc?export=view&id=1f_oKWap5FQ9Qia31TqsOxmCJgS4dysU-' },
+      { title: '20141023_101031.jpg', url: 'https://drive.google.com/uc?export=view&id=1tiETdgxCkk9iuc9lFS08Ie-U9E9xk9mp' },
+      { title: '20141023_101035.jpg', url: 'https://drive.google.com/uc?export=view&id=1QiWSwJSL-SMAj6XEH9fJ0BTnX5M7rXB7' },
+      { title: '20141023_101113.jpg', url: 'https://drive.google.com/uc?export=view&id=1qxCcWEOas9S7OYlPjbQFz3zvSTl-492p' },
+      { title: '20141023_101117.jpg', url: 'https://drive.google.com/uc?export=view&id=1kV7zLtIl7Y4NEEhsM3sHLjUdLGegWzVe' },
+      { title: '20141023_101132.jpg', url: 'https://drive.google.com/uc?export=view&id=1UVwODu3V8bRIzVGGEvdHbF9Pma_bOOL8' },
+      { title: '20141023_101143.jpg', url: 'https://drive.google.com/uc?export=view&id=1cwDbBxYKp6GHKG8GJ0ahEvRhgYwisVSV' },
+      { title: '20141023_101224.jpg', url: 'https://drive.google.com/uc?export=view&id=1K-7JDY9_HUjDxq-LpibAIWhAuGNN62_2' },
+      { title: '20141104_134301.jpg', url: 'https://drive.google.com/uc?export=view&id=1FPRz-1NbfFA5TVm_2LYUjIuBSt8ayWMJ' },
+      { title: '20141104_140946.jpg', url: 'https://drive.google.com/uc?export=view&id=1gWp-mPclphc4U1v_jHvC0W7HaxJUm1Xm' },
+      { title: '20141104_141039.jpg', url: 'https://drive.google.com/uc?export=view&id=1Syv2z35cYmpvTnPUR9DXBNCn1phbp5q6' },
+      { title: '20141104_141053.jpg', url: 'https://drive.google.com/uc?export=view&id=18eq6HjiRpfFQzf3Vu_1l6LC4brVoQ1c9' },
+      { title: '20141104_141241.jpg', url: 'https://drive.google.com/uc?export=view&id=1BcaVHYA7I_LYVLSQzmMHFAodrbHJCHRh' },
+      { title: '20141104_141425.jpg', url: 'https://drive.google.com/uc?export=view&id=1kZMZJMjrJNPX3JTv5rBdjbCkyT3DBeES' },
+      { title: '20141104_141451.jpg', url: 'https://drive.google.com/uc?export=view&id=1HLsAhUEn-beZDlhWF-B6XUXCxW5nnFes' },
+      { title: '20141104_141519.jpg', url: 'https://drive.google.com/uc?export=view&id=1kFQ9QwhMc6SckGSnb536SukGtR1eXIdE' },
+      { title: '20141104_141623.jpg', url: 'https://drive.google.com/uc?export=view&id=1EUpBZy4o5A2KK9Ce3NpiDbQVOLM8bB1r' },
+      { title: '20141104_141633.jpg', url: 'https://drive.google.com/uc?export=view&id=1-dRrnUhJz1CgS1tA5w21_wmjaIdi3I_d' },
+      { title: '20141104_141648.jpg', url: 'https://drive.google.com/uc?export=view&id=1R2gvSzfcZ2tCUIycqFIl7kUcbaeaH2OU' },
+      { title: '20141104_141820.jpg', url: 'https://drive.google.com/uc?export=view&id=18GtvBK4_Akpo7TQFXgRnBE843qLgXsKf' },
+      { title: '20141104_141821.jpg', url: 'https://drive.google.com/uc?export=view&id=1e5P3ryWVa9s0vrVMdCDejKe1mznavdh4' },
+      { title: '20141104_141903.jpg', url: 'https://drive.google.com/uc?export=view&id=1CB0el5yd5XLK5ren7PR_89of2VfvF2t7' },
+      { title: '20141104_141909.jpg', url: 'https://drive.google.com/uc?export=view&id=1I8yK1dYk32aLjIU_bw8IVkbXJkMSj_Pd' },
+      { title: '20141104_141914.jpg', url: 'https://drive.google.com/uc?export=view&id=1FreQQ7O76iVh05AtG70d4LzX1HZJSoCJ' },
+      { title: '20141104_141918.jpg', url: 'https://drive.google.com/uc?export=view&id=1mkx2qSmasBxfCALeEawJJV1OIhgBdVVW' },
+      { title: '20141104_141927.jpg', url: 'https://drive.google.com/uc?export=view&id=1s2ZA78eLVH8AHyDoc51BW20NMWwRhyQl' },
+      { title: '20141104_141929.jpg', url: 'https://drive.google.com/uc?export=view&id=1J7jQnG1EHyT8j9jeoag6o6NwuHCRsiVP' },
+      { title: '20141104_142009.jpg', url: 'https://drive.google.com/uc?export=view&id=1EwqV9vPbfDbYSPPrdcy24qMvdWQiFEz9' },
+      { title: '20141104_142316.jpg', url: 'https://drive.google.com/uc?export=view&id=1QTbUeiulKnO_Xmqh0206AVADqZ4UEwNC' },
+      { title: '20141104_142956.jpg', url: 'https://drive.google.com/uc?export=view&id=1Es5j8yZsZpZxiSmOlLuEUUubIU8vs2vK' },
+    ],
+    videos: [
+      { title: 'Cessna 208 (C-98 Grand Caravan ) da FAB, decolagem da Base Aérea dos Afonsos!!!😛', url: 'https://www.youtube.com/watch?v=i0fSmyktDO4' },
+      { title: 'Aeronave (c-98)(208)caravan da FAB chega a Mossoró pra fazer testes no aeroporto', url: 'https://www.youtube.com/watch?v=fUQk41asZZ8' },
+      { title: 'C-98 Caravan', url: 'https://www.youtube.com/shorts/tMQsWtMtP1k' },
+      { title: 'Pouso na pista da Marambaia!! 600 metros de grama!! C-98 Caravan! Força Aérea Brasileira.', url: 'https://www.youtube.com/watch?v=ni3BA4a52Os' },
+      { title: 'CESSNA C-98A GRAND CARAVAN DA FAB', url: 'https://www.youtube.com/shorts/7fOI2D5w4yM' },
+      { title: 'C-98 Grand Caravan', url: 'https://www.youtube.com/watch?v=snnRAqCDINo' },
+    ],
+  },
+  {
     id: 'c-105-amazonas',
     name: 'C-105 (Amazonas / C-295)',
     manufacturer: 'CASA / Embraer',
@@ -1194,6 +1292,7 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'Jet A-1 / QAV-1',
     quantidadeSaidas: '02 portas de passageiros e rampa de carga',
     motor: '2 × turbopropulsores General Electric CT7-9C',
+    operadaPor: '1º/15º GAv - Esquadrão Onça; 1º/9º GAv - Esquadrão Arara',
     coverImage: 'covers/c105(cover).jpg',
     sketchfabModelId: '53d19a021b224151bc5e7cc01a96eb77',
     notes: [
@@ -1345,6 +1444,7 @@ export const aircraftCatalog: Aircraft[] = [
     categoriaContraIncendio: '06',
     designacaoFab: 'E-99M',
     fabricanteDetalhe: 'Embraer / Operado pela FAB',
+    operadaPor: '2º/6º GAV - Esquadrão Guardião',
     technicalVariants: {
       e99m: {
         label: 'E-99M',
@@ -1444,6 +1544,7 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'Jet A-1 / QAV-1',
     quantidadeSaidas: '02 portas laterais',
     motor: '2 × turbofans Honeywell TFE731-20',
+    operadaPor: '2º/6º GAV - Esquadrão Guardião',
     sketchfabModelId: '952a9403acd7409991f2ae35b46ddd19',
     overviewModels: [
       { label: 'Visão geral', sketchfabModelId: '952a9403acd7409991f2ae35b46ddd19' },
@@ -1489,6 +1590,7 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'QAV-1 (Querosene de Aviação)',
     quantidadeSaidas: '01 porta lateral',
     motor: '2 × turbopropulsores Pratt & Whitney Canada PT6A-34',
+    operadaPor: '2º/7º GAV - Esquadrão Phoenix; 3º/7º GAV - Esquadrão Netuno',
     sketchfabModelId: '57bab3431a4d4e36861959011460fee4',
     overviewModels: [
       { label: 'Visão geral 1', sketchfabModelId: '57bab3431a4d4e36861959011460fee4' },
@@ -1583,6 +1685,7 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'Jet A-1 / QAV-1',
     quantidadeSaidas: '03 portas laterais / escotilhas',
     motor: '4 × turbopropulsores Allison T56-A-14',
+    operadaPor: '1º/7º GAV - Esquadrão Orungan',
     sketchfabModelId: 'be11ab6c970741d78e62c9d8ff2e33e8',
     overviewModels: [
       { label: 'Ilustração 1', sketchfabModelId: 'bb77ab3003db4acdb342dd95f9e2b1bf', url: 'https://sketchfab.com/3d-models/p-3am-orion-bb77ab3003db4acdb342dd95f9e2b1bf' },
@@ -1754,6 +1857,7 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'JP-8 / combustível para motores a pistão',
     quantidadeSaidas: 'Lançamento por catapulta e recuperação por gancho / plataforma',
     motor: '1 × motor Rotax 915 iS',
+    operadaPor: '1º/12º GAV - Esquadrão Hórus',
     overviewModels: [
       { label: 'Ilustração 1', sketchfabModelId: 'c5893c7368714cb48c26f7e34f081a62' },
       { label: 'Ilustração 2', sketchfabModelId: 'd565b366cdc0449f98eb4aab0df7927a' },
@@ -1795,6 +1899,7 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'Gasolina de Aviação / Mogas especial',
     quantidadeSaidas: '01 porta lateral',
     motor: '1 × Lycoming O-540-A4B5',
+    operadaPor: '2º EIA - Esquadrão de Instrução Aérea (AFA)',
     overviewModels: [
       { label: 'Ilustração 1', sketchfabModelId: '50d925350623484f9aaa90cf07a9cb34' },
     ],
@@ -1834,6 +1939,7 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'Jet A-1 / QAV-1',
     quantidadeSaidas: '04 portas laterais / saídas de emergência',
     motor: '2 × turbofans CFM International CFM56-5B',
+    operadaPor: 'GTE - Grupo de Transporte Especial',
     overviewModels: [
       { label: 'Ilustração 1', sketchfabModelId: '63dd40226ad04c1eb13342e95608c0b9' },
     ],
@@ -1876,6 +1982,7 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'Jet A-1 / QAV-1',
     quantidadeSaidas: '04 portas laterais / saídas de emergência',
     motor: '2 × turbofans General Electric CF34-10E',
+    operadaPor: 'GTE - Grupo de Transporte Especial',
     overviewModels: [
       { label: 'Ilustração 1', sketchfabModelId: 'e8d2d2c6742945bf9423494a78e33886' },
     ],
@@ -1970,6 +2077,7 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'JP-8 / Turbina a combustível de aviação',
     quantidadeSaidas: '02 saídas principais de cabine',
     motor: '2 × turboshafts Turbomeca Makila 2A1',
+    operadaPor: '1º/8º GAV - Esquadrão Falcão; 3º/8º GAV - Esquadrão Puma',
     sketchfabModelId: 'dcf40e814e3a4f559644d97d6e286dfa',
     technicalVariants: {
       h36: {
@@ -2044,6 +2152,7 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'JP-8 / Turbina a combustível de aviação',
     quantidadeSaidas: '01 porta de serviço lateral',
     motor: '1 × turboshaft Turbomeca Arriel 2D',
+    operadaPor: '1º/11º GAv - Esquadrão Gavião',
     sketchfabModelId: 'a80dc0bd142342fe897681ee317d2e30',
     overviewModels: [
       { label: 'Ilustração 1', sketchfabModelId: '472223f9f0464fc3894efe28a659e6c8' },
@@ -2085,6 +2194,7 @@ export const aircraftCatalog: Aircraft[] = [
     fabricanteDetalhe: 'Airbus Helicopters / Operado pela FAB',
     combustivel: 'JP-8 / Turbina a combustível de aviação',
     quantidadeSaidas: '01 porta de serviço lateral',
+    operadaPor: '1º/11º GAV - Esquadrão Gavião; AFA - Academia da Força Aérea',
     motor: '1 × turboshaft Turbomeca Arriel 2D',
     sketchfabModelId: '032bc23309b3407b97c83858026f0615',
     overviewModels: [
@@ -2139,6 +2249,7 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'Jet A-1 / QAV-1',
     quantidadeSaidas: '02 portas laterais',
     motor: '2 × turbopropulsores Pratt & Whitney Canada PT6A-34',
+    operadaPor: '1º/2º GT - Esquadrão Condor',
     coverImage: 'covers/c99(cover).jpg',
     overviewModels: [
       { label: 'Ilustração 1', sketchfabModelId: '4a4ed06cc3c346be99e617da397fcd55' },
@@ -2188,6 +2299,7 @@ export const aircraftCatalog: Aircraft[] = [
     combustivel: 'Jet A-1 / JP-8',
     quantidadeSaidas: '06 portas laterais / escotilhas de emergência',
     motor: '4 × turbofans Rolls-Royce Trent 772',
+    operadaPor: '2º/2º GT - Esquadrão Corsário',
     overviewModels: [
       { label: 'Ilustração 1', sketchfabModelId: '6ddf28b593ce49e1aeb4a5f948fd740f' },
       { label: 'Ilustração 2', sketchfabModelId: '06ece1b188994bce9ad1040c6c51761b' },
@@ -2228,6 +2340,7 @@ export const aircraftCatalog: Aircraft[] = [
     fabricanteDetalhe: 'Embraer / Aviação executiva',
     combustivel: 'Jet A-1',
     quantidadeSaidas: '02 portas de passageiros',
+    operadaPor: '6º ETA - Esquadrão Guará; IPEV - Instituto de Pesquisas e Ensaios em Voo',
     motor: '2 × turbofans Pratt & Whitney Canada PW617F-E',
     sketchfabModelId: '2b204e1be23c4f1ea85da6a80d9ddd89',
     overviewModels: [
@@ -2269,6 +2382,7 @@ export const aircraftCatalog: Aircraft[] = [
     fabricanteDetalhe: 'Embraer / Aviação executiva',
     combustivel: 'Jet A-1',
     quantidadeSaidas: '04 portas de passageiros',
+    operadaPor: 'GEIV - Grupo Especial de Inspeção em Voo',
     motor: '2 × turbofans Pratt & Whitney Canada PW305A',
     sketchfabModelId: '83682910f6364b77b67e6e9fbb2de170',
     overviewModels: [
@@ -2310,6 +2424,7 @@ export const aircraftCatalog: Aircraft[] = [
     fabricanteDetalhe: 'Hawker Beechcraft / Aviação executiva',
     combustivel: 'Jet A-1',
     quantidadeSaidas: '02 portas de passageiros',
+    operadaPor: 'GEIV - Grupo Especial de Inspeção em Voo',
     motor: '2 × turbofans Honeywell TFE731-5BR',
     coverImage: 'covers/iu93-hawker(cover).jpg',
     overviewModels: [
@@ -2350,7 +2465,8 @@ export const aircraftCatalog: Aircraft[] = [
     designacaoFab: 'VC-1',
     fabricanteDetalhe: 'Embraer / Força Aérea Brasileira',
     combustivel: 'Jet A-1',
-    quantidadeSaidas: '02 portas laterais',
+    qperadaPor: 'GTE - Grupo de Transporte Especial',
+    ouantidadeSaidas: '02 portas laterais',
     motor: '2 × turbofans Pratt & Whitney Canada PW535E',
     overviewModels: [
       { label: 'Ilustração 1', sketchfabModelId: 'e6e6b69ce1444592a4562735c88955a4' },
@@ -2392,7 +2508,8 @@ export const aircraftCatalog: Aircraft[] = [
     fabricanteDetalhe: 'Sikorsky Aircraft / Operado pela FAB',
     combustivel: 'JP-8 / Turbina a combustível de aviação',
     quantidadeSaidas: '02 portas laterais',
-    motor: '2 × turboshafts General Electric T700',
+    mperadaPor: 'GTE - Grupo de Transporte Especial',
+    ootor: '2 × turboshafts General Electric T700',
     overviewModels: [
       { label: 'Ilustração 1', sketchfabModelId: 'b080957ef2dd4717a4b29e20818c62a7', url: 'https://sketchfab.com/3d-models/vh-35-h135-b080957ef2dd4717a4b29e20818c62a7' },
       { label: 'Ilustração 2', sketchfabModelId: '90841db777b4436b86af02431939982e', url: 'https://sketchfab.com/3d-models/vh-35-ec135-90841db777b4436b86af02431939982e' },
@@ -2451,6 +2568,7 @@ export const aircraftCatalog: Aircraft[] = [
     designacaoFab: 'VH-36',
     fabricanteDetalhe: 'Airbus Helicopters / Operado pela FAB',
     combustivel: 'JP-8 / Turbina a combustível de aviação',
+    operadaPor: 'GTE - Grupo de Transporte Especial',
     quantidadeSaidas: '02 portas laterais',
     motor: '2 × turboshafts Turbomeca Makila 2A1',
     sketchfabModelId: 'dcf40e814e3a4f559644d97d6e286dfa',

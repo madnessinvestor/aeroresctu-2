@@ -143,6 +143,13 @@ function getAircraftSummaryLabel(aircraft: Aircraft) {
   return `${aircraft.category} - ${aircraft.role}`;
 }
 
+function getCatalogOperator(aircraft: Aircraft) {
+  if (aircraft.id === 'a-4-skyhawk-marinha' || aircraft.id === 'rq-1-marinha') return 'MB';
+  if (['atr-72-600', 'cirrus-sr22', 'cessna-172', 'aero-boero-ab-115'].includes(aircraft.id)) return 'Civil';
+  if (['c-212-aviocar', 'c-212-400-aviocar'].includes(aircraft.id)) return 'FAP';
+  return 'FAB';
+}
+
 function getFireCategoryRank(value?: string) {
   if (!value) return -1;
 
@@ -485,7 +492,11 @@ function AircraftCard({
             </div>
             <div className="list-identity-row">
               <h2 className="card-title">{aircraft.name}</h2>
-              <div className="card-meta">{aircraft.manufacturer} · {aircraft.origin}</div>
+              <div className="card-meta">
+                <span>Fabricante: {aircraft.manufacturer}</span>
+                <span>Origem: {aircraft.origin}</span>
+                <span>Operado por: {getCatalogOperator(aircraft)}</span>
+              </div>
             </div>
             <div className="list-metrics">
               <span><em>tripulação</em><strong>{formatCompactMetric(aircraft.crew)}</strong></span>
@@ -523,7 +534,11 @@ function AircraftCard({
             <span style={{ color: '#5a9b7a', fontSize: 10 }}>{getAircraftSummaryLabel(aircraft)}</span>
           </div>
           <h2 className="card-title">{aircraft.name}</h2>
-          <div className="card-meta">{aircraft.manufacturer} · {aircraft.origin}</div>
+          <div className="card-meta">
+            <span>Fabricante: {aircraft.manufacturer}</span>
+            <span>Origem: {aircraft.origin}</span>
+            <span>Operado por: {getCatalogOperator(aircraft)}</span>
+          </div>
           <div className="card-specs">
             <div className="spec-item">
               <span className="spec-label">tripulação</span>
@@ -1030,7 +1045,8 @@ function DetailPage() {
   };
 
   const overviewAndGalleryOnly = new Set(['uh-1h']);
-  const tabs = overviewAndGalleryOnly.has(aircraft.id) ? ['Visão geral', 'Galeria'] : ['Visão geral', 'Material', 'Galeria', 'Vídeos'];
+  const videoTabLabel = 'Vídeos';
+  const tabs = overviewAndGalleryOnly.has(aircraft.id) ? ['Visão geral', 'Galeria'] : ['Visão geral', 'Material', 'Galeria', videoTabLabel];
   const coverUrl = aircraft.coverImage ? `${import.meta.env.BASE_URL}${aircraft.coverImage}` : undefined;
   const galleryItems = aircraft.gallery && aircraft.gallery.length > 0 ? aircraft.gallery : [{ title: aircraft.name, url: coverUrl }];
   const videoItems = aircraft.videos && aircraft.videos.length > 0 ? aircraft.videos : [];
@@ -1488,7 +1504,7 @@ function DetailPage() {
           </div>
         )}
 
-        {activeTab === 'Vídeos' && (
+        {activeTab === videoTabLabel && (
           <div className="text-card" id="videos-section">
             <h3>Vídeos</h3>
             <div className="video-player-mold">

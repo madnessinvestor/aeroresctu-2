@@ -541,7 +541,8 @@ a { color: inherit; text-decoration: none; }
 .card-topline { display:flex; justify-content:space-between; align-items:center; }
 .card-tag { border-radius:4px; padding:4px 6px; font:9px var(--app-font-mono); color:#2e6972; background:#dceae6; text-transform:uppercase; letter-spacing:.06em; }
 .card-title { font-family:var(--font-display); color:#173c4d; font-size:25px; margin:9px 0 2px; }
-.card-meta { font-size:11px; color:#76878b; }
+.card-meta { display:flex; flex-wrap:wrap; gap:0 10px; font-size:11px; color:#76878b; line-height:1.35; }
+.card-meta span { display:inline; }
 .card-specs { display:flex; flex-wrap:wrap; gap:12px 14px; border-top:1px solid #dde3dd; margin-top:13px; padding-top:11px; }
 .spec-item { display:flex; flex-direction:column; gap:4px; min-width:0; }
 .spec-val { display:block; color:#234a5d; font:11px var(--app-font-mono); font-weight:700; }

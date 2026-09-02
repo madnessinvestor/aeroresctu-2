@@ -1108,6 +1108,7 @@ function DetailPage() {
   const technicalQuantidadeSaidas = technicalVariant ? (technicalVariant.quantidadeSaidas ?? aircraft.quantidadeSaidas) : aircraft.quantidadeSaidas;
   const technicalRampaTraseira = technicalVariant ? (technicalVariant.rampaTraseira ?? aircraft.rampaTraseira ?? '') : (aircraft.rampaTraseira ?? '');
   const technicalMotor = technicalVariant ? (technicalVariant.motor ?? aircraft.motor) : aircraft.motor;
+  const technicalPotencia = aircraft.potencia;
   const technicalOperadaPor = technicalVariant ? (technicalVariant.operadaPor ?? aircraft.operadaPor) : aircraft.operadaPor;
   const technicalCapacidadeAeromedica = technicalVariant ? (technicalVariant.capacidadeAeromedica ?? aircraft.capacidadeAeromedica ?? '') : (aircraft.capacidadeAeromedica ?? '');
   const selectedAircraftName = aircraft.id === 'e-99m'
@@ -1329,6 +1330,14 @@ function DetailPage() {
               {aircraft.assentoEjetavel && <div className="metric"><span className="metric-label">Assento ejetável</span><span className="metric-value">{aircraft.assentoEjetavel}</span></div>}
               {(technicalVariant?.sistemaMissao || aircraft.sistemaMissao || technicalVariant?.sistemaDefesa || aircraft.sistemaDefesa) && <div className="metric"><span className="metric-label">Sistema de missão</span><span className="metric-value">{technicalVariant?.sistemaMissao || technicalVariant?.sistemaDefesa || aircraft.sistemaMissao || aircraft.sistemaDefesa}</span></div>}
               {technicalMotor && <div className="metric"><span className="metric-label">Motor</span><span className="metric-value">{technicalMotor}</span></div>}
+              {aircraft.id === 'c-212-aviocar' ? (
+                (technicalPotencia || aircraft.tipoMotor) && <div className="metric"><span className="metric-label">Potência / Tipo de motor</span><span className="metric-value">{[technicalPotencia, aircraft.tipoMotor].filter(Boolean).join(' · ')}</span></div>
+              ) : (
+                <>
+                  {technicalPotencia && <div className="metric"><span className="metric-label">Potência</span><span className="metric-value">{technicalPotencia}</span></div>}
+                  {aircraft.tipoMotor && <div className="metric"><span className="metric-label">Tipo de motor</span><span className="metric-value">{aircraft.tipoMotor}</span></div>}
+                </>
+              )}
               {technicalCapacidadeAeromedica && <div className="metric"><span className="metric-label">Capacidade aeromédica</span><span className="metric-value">{technicalCapacidadeAeromedica}</span></div>}
               {aircraft.armamentoFixo && <div className="metric"><span className="metric-label">Armamento fixo</span><span className="metric-value">{aircraft.armamentoFixo}</span></div>}
               {aircraft.armamentosCompativeis && <div className="metric"><span className="metric-label">Armamentos compatíveis</span><span className="metric-value">{aircraft.armamentosCompativeis}</span></div>}
@@ -1336,7 +1345,8 @@ function DetailPage() {
               {aircraft.sistemasInspecao && <div className="metric"><span className="metric-label">Sistemas de inspeção</span><span className="metric-value">{aircraft.sistemasInspecao}</span></div>}
               {aircraft.capacidades && <div className="metric"><span className="metric-label">Capacidades</span><span className="metric-value">{aircraft.capacidades}</span></div>}
               {aircraft.sensores && <div className="metric"><span className="metric-label">Sensores</span><span className="metric-value">{aircraft.sensores}</span></div>}
-              {technicalOperadaPor && <div className="metric"><span className="metric-label">Operada por</span><span className="metric-value">{technicalOperadaPor}</span></div>}
+              {technicalOperadaPor && <div className="metric"><span className="metric-label">Operador</span><span className="metric-value">{technicalOperadaPor}</span></div>}
+              {aircraft.unidade && <div className="metric"><span className="metric-label">Unidade</span><span className="metric-value">{aircraft.unidade}</span></div>}
             </div>
           </div>
 

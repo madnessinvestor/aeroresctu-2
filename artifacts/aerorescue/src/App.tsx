@@ -135,6 +135,7 @@ function getAircraftTypeLabel(aircraft: Aircraft) {
 }
 
 function getAircraftIdentificationLabel(aircraft: Aircraft) {
+  if (aircraft.id === 'rq-1-marinha') return 'Designação MB';
   return isCivilAircraft(aircraft.category) ? 'Nome Comercial' : 'Designação FAB';
 }
 
@@ -1097,6 +1098,7 @@ function DetailPage() {
   const technicalHeight = technicalVariant?.height ?? aircraft.height;
   const technicalMaxSpeed = technicalVariant?.maxSpeed ?? aircraft.maxSpeed;
   const technicalRange = technicalVariant?.range ?? aircraft.range;
+  const technicalAutonomia = technicalVariant?.autonomia ?? aircraft.autonomia;
   const technicalWeight = technicalVariant?.weight ?? aircraft.weight;
   const technicalYear = technicalVariant?.year ?? aircraft.year;
   const technicalOrigin = technicalVariant?.origin ?? aircraft.origin;
@@ -1312,7 +1314,8 @@ function DetailPage() {
               <div className="metric"><span className="metric-label">envergadura</span><span className="metric-value">{technicalWingspan}</span></div>
               <div className="metric"><span className="metric-label">altura</span><span className="metric-value">{technicalHeight}</span></div>
               <div className="metric"><span className="metric-label">velocidade máx.</span><span className="metric-value">{technicalMaxSpeed}</span></div>
-              <div className="metric"><span className="metric-label">alcance</span><span className="metric-value">{technicalRange}</span></div>
+              {technicalRange && <div className="metric"><span className="metric-label">alcance</span><span className="metric-value">{technicalRange}</span></div>}
+              {technicalAutonomia && <div className="metric"><span className="metric-label">autonomia</span><span className="metric-value">{technicalAutonomia}</span></div>}
               <div className="metric"><span className="metric-label">peso máx. decolagem</span><span className="metric-value">{technicalWeight}</span></div>
               {technicalManufacturer && <div className="metric"><span className="metric-label">Fabricante</span><span className="metric-value">{technicalManufacturer}</span></div>}
               {aircraft.alturaSoloCockpit && <div className="metric"><span className="metric-label">Altura solo ao cockpit</span><span className="metric-value">{aircraft.alturaSoloCockpit}</span></div>}
@@ -1324,7 +1327,7 @@ function DetailPage() {
               {(aircraft.guinchoResgate || aircraft.ganchoCarga) && <div className="metric"><span className="metric-label">Guincho de resgate / Gancho de carga</span><span className="metric-value">{[aircraft.guinchoResgate, aircraft.ganchoCarga].filter(Boolean).join(' · ')}</span></div>}
               {technicalRampaTraseira && <div className="metric"><span className="metric-label">Rampa traseira</span><span className="metric-value">{technicalRampaTraseira}</span></div>}
               {aircraft.assentoEjetavel && <div className="metric"><span className="metric-label">Assento ejetável</span><span className="metric-value">{aircraft.assentoEjetavel}</span></div>}
-              {(technicalVariant?.sistemaDefesa || aircraft.sistemaDefesa) && <div className="metric"><span className="metric-label">Sistema de defesa</span><span className="metric-value">{technicalVariant?.sistemaDefesa || aircraft.sistemaDefesa}</span></div>}
+              {(technicalVariant?.sistemaMissao || aircraft.sistemaMissao || technicalVariant?.sistemaDefesa || aircraft.sistemaDefesa) && <div className="metric"><span className="metric-label">Sistema de missão</span><span className="metric-value">{technicalVariant?.sistemaMissao || technicalVariant?.sistemaDefesa || aircraft.sistemaMissao || aircraft.sistemaDefesa}</span></div>}
               {technicalMotor && <div className="metric"><span className="metric-label">Motor</span><span className="metric-value">{technicalMotor}</span></div>}
               {technicalCapacidadeAeromedica && <div className="metric"><span className="metric-label">Capacidade aeromédica</span><span className="metric-value">{technicalCapacidadeAeromedica}</span></div>}
               {aircraft.armamentoFixo && <div className="metric"><span className="metric-label">Armamento fixo</span><span className="metric-value">{aircraft.armamentoFixo}</span></div>}

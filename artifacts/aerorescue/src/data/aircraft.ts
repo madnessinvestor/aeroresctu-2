@@ -612,6 +612,7 @@ export const aircraftCatalog: Aircraft[] = [
       { name: 'InstrucÌ§aÌo F5 EM (NT).pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1K_BZ7-ib2SIyT8DtNacC2esiDXNbEhEU/view?usp=drive_link' },
       { name: 'Manual de Resgate F5-EM.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1IPuLGa5kHzUJLnZN1HV6f6GGz0nNLdRO/view?usp=drive_link' },
       { name: 'Procedimentos F-5.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1LIY-UI1_dFrxPu3PXM5pRKc1K20ArrK-/view?usp=drive_link' },
+      { name: 'Material adicional do F-5E Tiger II.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1DlxQM5mZmuzD3Nx-HI-TA68Di3e0H5B_/view?usp=drive_link' },
   ],
   videos: [
     { title: 'Abordagem F5 Wide (SO Rudmar Sales).wmv', url: 'https://drive.google.com/file/d/1MRcuY_XQhjx0CiCgpqrlHTMvSDGSfhP_/view?usp=drive_link' },
@@ -739,6 +740,7 @@ export const aircraftCatalog: Aircraft[] = [
       { name: 'Slide de Instrução do A4.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/15GCTaiE_kHAWv6zMj52EaxgvTpEES56m/view?usp=drive_link' },
       { name: 'A-4B Skyhawk (Manual 1).pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/15yeeU5IxBUtMPh9Q389ljtD7p3lW0Vdt/view?usp=drive_link' },
       { name: 'A-4B Skyhawk (Manual 2).pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1CdUJcOvlOJWGJlpRf4zONqB82xx61UbL/view?usp=drive_link' },
+      { name: 'Material adicional do A-4 Skyhawk.pdf', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1rwh2TBNYS76Avlg-XA64oN-f7ZjOEMMK/view?usp=drive_link' },
     ],
     videos: [
       { title: 'VIDEO 1 - HOT BREAK.mp4', url: 'https://drive.google.com/file/d/18HAQP62ZzaIpjpCAI6CIGZjZ573bWgxn/view?usp=drive_link' },

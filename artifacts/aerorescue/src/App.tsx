@@ -148,7 +148,9 @@ function getAircraftSummaryLabel(aircraft: Aircraft) {
 function getCatalogOperator(aircraft: Aircraft) {
   if (aircraft.id === 'a-4-skyhawk-marinha' || aircraft.id === 'rq-1-marinha') return 'MB';
   if (['atr-72-600', 'cirrus-sr22', 'cessna-172', 'aero-boero-ab-115'].includes(aircraft.id)) return 'Civil';
-  if (aircraft.id === 'f-16-block-70-peruvian' || ['c-212-aviocar', 'c-212-400-aviocar'].includes(aircraft.id)) return 'FAP';
+  if (aircraft.id === 'f-16-block-70-peruvian') return 'FAP';
+  if (aircraft.id === 'f-16-block-50-chile') return 'FACh';
+  if (['c-212-aviocar', 'c-212-400-aviocar'].includes(aircraft.id)) return 'FAP';
   if (aircraft.id === 'ia-63-pampa-iii') return 'FAA';
   return 'FAB';
 }
@@ -1130,6 +1132,7 @@ function DetailPage() {
   const technicalPotencia = aircraft.potencia;
   const technicalOperadaPor = technicalVariant ? (technicalVariant.operadaPor ?? aircraft.operadaPor) : aircraft.operadaPor;
   const technicalCapacidadeAeromedica = technicalVariant ? (technicalVariant.capacidadeAeromedica ?? aircraft.capacidadeAeromedica ?? '') : (aircraft.capacidadeAeromedica ?? '');
+  const isF16PeruvianOrChilean = aircraft.id === 'f-16-block-70-peruvian' || aircraft.id === 'f-16-block-50-chile';
   const selectedAircraftName = aircraft.id === 'e-99m'
     ? (selectedTechnicalVariant === 'e99m'
       ? 'E-99M (EMB 145 AEW&C)'
@@ -1331,14 +1334,20 @@ function DetailPage() {
               <div className="metric"><span className="metric-label">papel operacional</span><span className="metric-value">{technicalRole}</span></div>
               <div className="metric"><span className="metric-label">origem</span><span className="metric-value">{technicalOrigin}</span></div>
               <div className="metric"><span className="metric-label">entrada em serviço</span><span className="metric-value">{technicalYear}</span></div>
-              {aircraft.statusDetail && <div className="metric"><span className="metric-label">status na FAB</span><span className="metric-value">{aircraft.statusDetail}</span></div>}
+              {aircraft.statusDetail && <div className="metric"><span className="metric-label">{aircraft.id === 'f-16-block-50-chile' ? 'status na FACh' : 'status na FAB'}</span><span className="metric-value">{aircraft.statusDetail}</span></div>}
               <div className="metric"><span className="metric-label">comprimento</span><span className="metric-value">{technicalLength}</span></div>
               <div className="metric"><span className="metric-label">envergadura</span><span className="metric-value">{technicalWingspan}</span></div>
               <div className="metric"><span className="metric-label">altura</span><span className="metric-value">{technicalHeight}</span></div>
-              <div className="metric"><span className="metric-label">velocidade máx.</span><span className="metric-value">{technicalMaxSpeed}</span></div>
-              {technicalRange && <div className="metric"><span className="metric-label">alcance</span><span className="metric-value">{technicalRange}</span></div>}
+              {aircraft.id === 'f-16-block-50-chile' ? (
+                <div className="metric"><span className="metric-label">Velocidade máx. / Alcance</span><span className="metric-value">{[technicalMaxSpeed, technicalRange].filter(Boolean).join(' · ')}</span></div>
+              ) : (
+                <>
+                  <div className="metric"><span className="metric-label">velocidade máx.</span><span className="metric-value">{technicalMaxSpeed}</span></div>
+                  {technicalRange && <div className="metric"><span className="metric-label">alcance</span><span className="metric-value">{technicalRange}</span></div>}
+                </>
+              )}
               {technicalAutonomia && <div className="metric"><span className="metric-label">autonomia</span><span className="metric-value">{technicalAutonomia}</span></div>}
-              {aircraft.id === 'f-16-block-70-peruvian' ? (
+              {isF16PeruvianOrChilean ? (
                 <div className="metric">
                   <span className="metric-label">Peso vazio / Peso máx. decolagem</span>
                   <span className="metric-value">{[aircraft.pesoVazio, technicalWeight].filter(Boolean).join(' · ')}</span>
@@ -1359,10 +1368,10 @@ function DetailPage() {
               {(aircraft.guinchoResgate || aircraft.ganchoCarga) && <div className="metric"><span className="metric-label">Guincho de resgate / Gancho de carga</span><span className="metric-value">{[aircraft.guinchoResgate, aircraft.ganchoCarga].filter(Boolean).join(' · ')}</span></div>}
               {technicalRampaTraseira && <div className="metric"><span className="metric-label">Rampa traseira</span><span className="metric-value">{technicalRampaTraseira}</span></div>}
               {aircraft.assentoEjetavel && <div className="metric"><span className="metric-label">Assento ejetável</span><span className="metric-value">{aircraft.assentoEjetavel}</span></div>}
-              {aircraft.id === 'f-16-block-70-peruvian' ? (
+              {isF16PeruvianOrChilean ? (
                 <div className="metric">
                   <span className="metric-label">Sistema de missão e defesa</span>
-                  <span className="metric-value">AESA, IRST, datalink, Auto-GCAS e Viper Shield.</span>
+                  <span className="metric-value">{aircraft.id === 'f-16-block-70-peruvian' ? 'AESA, IRST, datalink, Auto-GCAS e Viper Shield.' : [aircraft.sistemaMissao, aircraft.sistemaDefesa].filter(Boolean).join(' · ')}</span>
                 </div>
               ) : (
                 <>
@@ -1371,7 +1380,9 @@ function DetailPage() {
                   {aircraft.sistemaAlerta && <div className="metric"><span className="metric-label">Sistema de alerta</span><span className="metric-value">{aircraft.sistemaAlerta}</span></div>}
                 </>
               )}
-              {aircraft.id === 'f-16-block-70-peruvian' ? (
+              {aircraft.id === 'f-16-block-50-chile' ? (
+                (technicalMotor || technicalPotencia || aircraft.tipoMotor || technicalCombustivel) && <div className="metric"><span className="metric-label">Motor e combustível</span><span className="metric-value">{[technicalMotor, technicalPotencia, aircraft.tipoMotor, technicalCombustivel].filter(Boolean).join(' · ')}</span></div>
+              ) : aircraft.id === 'f-16-block-70-peruvian' ? (
                 (technicalMotor || technicalPotencia || aircraft.tipoMotor) && <div className="metric"><span className="metric-label">Motor / Potência / Tipo de motor</span><span className="metric-value">{[technicalMotor, technicalPotencia, aircraft.tipoMotor].filter(Boolean).join(' · ')}</span></div>
               ) : aircraft.id === 'ia-63-pampa-iii' ? (
                 (technicalMotor || aircraft.tipoMotor || technicalPotencia) && <div className="metric"><span className="metric-label">Motor / Tipo de motor / Potência</span><span className="metric-value">{[technicalMotor, aircraft.tipoMotor, technicalPotencia].filter(Boolean).join(' · ')}</span></div>
@@ -1388,7 +1399,14 @@ function DetailPage() {
                 </>
               )}
               {technicalCapacidadeAeromedica && <div className="metric"><span className="metric-label">Capacidade aeromédica</span><span className="metric-value">{technicalCapacidadeAeromedica}</span></div>}
-              {aircraft.id === 'f-16-block-70-peruvian' ? (
+              {aircraft.id === 'f-16-block-50-chile' ? (
+                (aircraft.armamentoFixo || aircraft.armamentosCompativeis) && (
+                  <div className="metric">
+                    <span className="metric-label">Armamento fixo / Armamentos compatíveis</span>
+                    <span className="metric-value">{[aircraft.armamentoFixo, aircraft.armamentosCompativeis].filter(Boolean).join(' · ')}</span>
+                  </div>
+                )
+              ) : aircraft.id === 'f-16-block-70-peruvian' ? (
                 (aircraft.armamentoFixo || aircraft.armamentosCompativeis) && (
                   <div className="metric">
                     <span className="metric-label">Armamento</span>

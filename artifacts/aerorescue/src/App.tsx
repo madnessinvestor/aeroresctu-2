@@ -131,7 +131,7 @@ function isFixedWingAircraft(category: string) {
 }
 
 function getAircraftTypeLabel(aircraft: Aircraft) {
-  return isCivilAircraft(aircraft.category) ? 'Civil' : 'Militar';
+  return aircraft.catalogCategory ?? (isCivilAircraft(aircraft.category) ? 'Civil' : 'Militar');
 }
 
 function getAircraftIdentificationLabel(aircraft: Aircraft) {
@@ -141,13 +141,14 @@ function getAircraftIdentificationLabel(aircraft: Aircraft) {
 
 function getAircraftSummaryLabel(aircraft: Aircraft) {
   if (aircraft.id === 'ia-63-pampa-iii') return 'FAdeA – Fábrica Argentina de Aviones · Treinamento avançado e ataque leve';
+  if (aircraft.catalogDescription) return aircraft.catalogDescription;
   return `${aircraft.category} - ${aircraft.role}`;
 }
 
 function getCatalogOperator(aircraft: Aircraft) {
   if (aircraft.id === 'a-4-skyhawk-marinha' || aircraft.id === 'rq-1-marinha') return 'MB';
   if (['atr-72-600', 'cirrus-sr22', 'cessna-172', 'aero-boero-ab-115'].includes(aircraft.id)) return 'Civil';
-  if (['c-212-aviocar', 'c-212-400-aviocar'].includes(aircraft.id)) return 'FAP';
+  if (aircraft.id === 'f-16-block-70-peruvian' || ['c-212-aviocar', 'c-212-400-aviocar'].includes(aircraft.id)) return 'FAP';
   if (aircraft.id === 'ia-63-pampa-iii') return 'FAA';
   return 'FAB';
 }
@@ -1337,7 +1338,17 @@ function DetailPage() {
               <div className="metric"><span className="metric-label">velocidade máx.</span><span className="metric-value">{technicalMaxSpeed}</span></div>
               {technicalRange && <div className="metric"><span className="metric-label">alcance</span><span className="metric-value">{technicalRange}</span></div>}
               {technicalAutonomia && <div className="metric"><span className="metric-label">autonomia</span><span className="metric-value">{technicalAutonomia}</span></div>}
-              <div className="metric"><span className="metric-label">peso máx. decolagem</span><span className="metric-value">{technicalWeight}</span></div>
+              {aircraft.id === 'f-16-block-70-peruvian' ? (
+                <div className="metric">
+                  <span className="metric-label">Peso vazio / Peso máx. decolagem</span>
+                  <span className="metric-value">{[aircraft.pesoVazio, technicalWeight].filter(Boolean).join(' · ')}</span>
+                </div>
+              ) : (
+                <>
+                  <div className="metric"><span className="metric-label">peso máx. decolagem</span><span className="metric-value">{technicalWeight}</span></div>
+                  {aircraft.pesoVazio && <div className="metric"><span className="metric-label">peso vazio</span><span className="metric-value">{aircraft.pesoVazio}</span></div>}
+                </>
+              )}
               {technicalManufacturer && <div className="metric"><span className="metric-label">Fabricante</span><span className="metric-value">{technicalManufacturer}</span></div>}
               {aircraft.alturaSoloCockpit && <div className="metric"><span className="metric-label">Altura solo ao cockpit</span><span className="metric-value">{aircraft.alturaSoloCockpit}</span></div>}
               {technicalCombustivel && <div className="metric"><span className="metric-label">Combustível</span><span className="metric-value">{technicalCombustivel}</span></div>}
@@ -1348,8 +1359,21 @@ function DetailPage() {
               {(aircraft.guinchoResgate || aircraft.ganchoCarga) && <div className="metric"><span className="metric-label">Guincho de resgate / Gancho de carga</span><span className="metric-value">{[aircraft.guinchoResgate, aircraft.ganchoCarga].filter(Boolean).join(' · ')}</span></div>}
               {technicalRampaTraseira && <div className="metric"><span className="metric-label">Rampa traseira</span><span className="metric-value">{technicalRampaTraseira}</span></div>}
               {aircraft.assentoEjetavel && <div className="metric"><span className="metric-label">Assento ejetável</span><span className="metric-value">{aircraft.assentoEjetavel}</span></div>}
-              {(technicalVariant?.sistemaMissao || aircraft.sistemaMissao || technicalVariant?.sistemaDefesa || aircraft.sistemaDefesa) && <div className="metric"><span className="metric-label">Sistema de missão</span><span className="metric-value">{technicalVariant?.sistemaMissao || technicalVariant?.sistemaDefesa || aircraft.sistemaMissao || aircraft.sistemaDefesa}</span></div>}
-              {aircraft.id === 'ia-63-pampa-iii' ? (
+              {aircraft.id === 'f-16-block-70-peruvian' ? (
+                <div className="metric">
+                  <span className="metric-label">Sistema de missão e defesa</span>
+                  <span className="metric-value">AESA, IRST, datalink, Auto-GCAS e Viper Shield.</span>
+                </div>
+              ) : (
+                <>
+                  {(technicalVariant?.sistemaMissao || aircraft.sistemaMissao) && <div className="metric"><span className="metric-label">Sistema de missão</span><span className="metric-value">{technicalVariant?.sistemaMissao || aircraft.sistemaMissao}</span></div>}
+                  {(technicalVariant?.sistemaDefesa || aircraft.sistemaDefesa) && <div className="metric"><span className="metric-label">Sistema de guerra eletrônica</span><span className="metric-value">{technicalVariant?.sistemaDefesa || aircraft.sistemaDefesa}</span></div>}
+                  {aircraft.sistemaAlerta && <div className="metric"><span className="metric-label">Sistema de alerta</span><span className="metric-value">{aircraft.sistemaAlerta}</span></div>}
+                </>
+              )}
+              {aircraft.id === 'f-16-block-70-peruvian' ? (
+                (technicalMotor || technicalPotencia || aircraft.tipoMotor) && <div className="metric"><span className="metric-label">Motor / Potência / Tipo de motor</span><span className="metric-value">{[technicalMotor, technicalPotencia, aircraft.tipoMotor].filter(Boolean).join(' · ')}</span></div>
+              ) : aircraft.id === 'ia-63-pampa-iii' ? (
                 (technicalMotor || aircraft.tipoMotor || technicalPotencia) && <div className="metric"><span className="metric-label">Motor / Tipo de motor / Potência</span><span className="metric-value">{[technicalMotor, aircraft.tipoMotor, technicalPotencia].filter(Boolean).join(' · ')}</span></div>
               ) : aircraft.id === 'c-212-aviocar' ? (
                 <>
@@ -1364,9 +1388,34 @@ function DetailPage() {
                 </>
               )}
               {technicalCapacidadeAeromedica && <div className="metric"><span className="metric-label">Capacidade aeromédica</span><span className="metric-value">{technicalCapacidadeAeromedica}</span></div>}
-              {aircraft.armamentoFixo && <div className="metric"><span className="metric-label">Armamento fixo</span><span className="metric-value">{aircraft.armamentoFixo}</span></div>}
-              {aircraft.armamentosCompativeis && <div className="metric"><span className="metric-label">Armamentos compatíveis</span><span className="metric-value">{aircraft.armamentosCompativeis}</span></div>}
-              {aircraft.capacidadeCargaExterna && <div className="metric"><span className="metric-label">Capacidade de carga externa</span><span className="metric-value">{aircraft.capacidadeCargaExterna}</span></div>}
+              {aircraft.id === 'f-16-block-70-peruvian' ? (
+                (aircraft.armamentoFixo || aircraft.armamentosCompativeis) && (
+                  <div className="metric">
+                    <span className="metric-label">Armamento</span>
+                    <span className="metric-value">M61A1 Vulcan 20 mm + mísseis ar-ar e armamentos ar-solo</span>
+                  </div>
+                )
+              ) : (
+                <>
+                  {aircraft.armamentoFixo && <div className="metric"><span className="metric-label">Armamento fixo</span><span className="metric-value">{aircraft.armamentoFixo}</span></div>}
+                  {aircraft.armamentosCompativeis && <div className="metric"><span className="metric-label">Armamentos compatíveis</span><span className="metric-value">{aircraft.armamentosCompativeis}</span></div>}
+                </>
+              )}
+              {aircraft.id === 'f-16-block-70-peruvian' ? (
+                (aircraft.capacidadeCargaExterna || aircraft.tanquesConformais) && (
+                  <div className="metric">
+                    <span className="metric-label">Capacidade de carga externa / Tanques conformais</span>
+                    <span className="metric-value">{[aircraft.capacidadeCargaExterna, aircraft.tanquesConformais].filter(Boolean).join(' · ')}</span>
+                  </div>
+                )
+              ) : (
+                <>
+                  {aircraft.capacidadeCargaExterna && <div className="metric"><span className="metric-label">Capacidade de carga externa</span><span className="metric-value">{aircraft.capacidadeCargaExterna}</span></div>}
+                  {aircraft.tanquesConformais && <div className="metric"><span className="metric-label">Tanques conformais</span><span className="metric-value">{aircraft.tanquesConformais}</span></div>}
+                </>
+              )}
+              {aircraft.vidaEstrutural && <div className="metric"><span className="metric-label">Vida estrutural</span><span className="metric-value">{aircraft.vidaEstrutural}</span></div>}
+              {aircraft.quantidadeAdquirida && <div className="metric"><span className="metric-label">Quantidade adquirida</span><span className="metric-value">{aircraft.quantidadeAdquirida}</span></div>}
               {aircraft.pontosFixacao && <div className="metric"><span className="metric-label">Pontos de fixação</span><span className="metric-value">{aircraft.pontosFixacao}</span></div>}
               {aircraft.armamento && <div className="metric"><span className="metric-label">Armamento</span><span className="metric-value">{aircraft.armamento}</span></div>}
               {aircraft.sistemasInspecao && <div className="metric"><span className="metric-label">Sistemas de inspeção</span><span className="metric-value">{aircraft.sistemasInspecao}</span></div>}

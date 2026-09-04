@@ -60,6 +60,8 @@ export type Aircraft = {
   name: string;
   manufacturer: string;
   nomeComercial?: string;
+  catalogCategory?: string;
+  catalogDescription?: string;
   category: string;
   role: string;
   origin: string;
@@ -75,6 +77,7 @@ export type Aircraft = {
   autonomia?: string;
   crew: string;
   weight: string;
+  pesoVazio?: string;
   pobMax: string;
   designacaoFab?: string;
   fabricanteDetalhe?: string;
@@ -93,6 +96,10 @@ export type Aircraft = {
   assentoEjetavel?: string;
   sistemaMissao?: string;
   sistemaDefesa?: string;
+  sistemaAlerta?: string;
+  tanquesConformais?: string;
+  vidaEstrutural?: string;
+  quantidadeAdquirida?: string;
   motor?: string;
   potencia?: string;
   tipoMotor?: string;
@@ -1230,6 +1237,93 @@ export const aircraftCatalog: Aircraft[] = [
         { title: 'Passagem baixa do caça F-39 Gripen no Domingo Aéreo PAMA 2025', url: 'https://www.youtube.com/shorts/9VYyOPENwt4' },
         { title: 'Walkaround F-39E Gripen @forcaaereatv @SaabBrasil #fab #gripen #f39 #jetfighter', url: 'https://www.youtube.com/shorts/OxlxzwNb5_I' },
       ],
+  },
+  {
+    id: 'f-16-block-70-peruvian',
+    name: 'F-16 Block 70 – Peruvian',
+    manufacturer: 'Lockheed Martin',
+    catalogCategory: 'Militar',
+    catalogDescription: 'Caça multifunção destinado à defesa aérea, superioridade aérea, interceptação e missões de ataque.',
+    category: 'Caça multifunção',
+    role: 'Defesa aérea, superioridade aérea, ataque e missões táticas',
+    origin: 'Estados Unidos',
+    status: 'Entrada em serviço prevista',
+    statusDetail: 'Entrada em serviço prevista',
+    year: 'Prevista a partir de 2029',
+    length: '15,03 m',
+    wingspan: '9,45 m',
+    height: '5,09 m',
+    maxSpeed: 'Mach 2+',
+    crew: '01 piloto (F-16C) / 02 tripulantes (F-16D)',
+    weight: '21.772 kg (MTOW)',
+    pesoVazio: '9.207 kg',
+    pobMax: '01 pessoa a bordo',
+    designacaoFab: 'F-16C/D Block 70',
+    nomeComercial: 'F-16 Fighting Falcon',
+    fabricanteDetalhe: 'Lockheed Martin',
+    categoriaContraIncendio: 'CAT-AV 2',
+    combustivel: 'JP-8',
+    assentoEjetavel: '01 por assento',
+    sistemaMissao: 'AESA, IRST, datalink, Auto-GCAS e Viper Shield.',
+    sistemaDefesa: 'AN/ALQ-254 Viper Shield',
+    sistemaAlerta: 'Sistema de alerta de mísseis e contramedidas',
+    motor: '01 × General Electric F110-GE-129',
+    tipoMotor: 'Turbofan com pós-combustão',
+    potencia: '29.000 lbf',
+    armamentoFixo: '01 × M61A1 Vulcan, calibre 20 mm',
+    armamentosCompativeis: 'AIM-120C-8 AMRAAM, AIM-9X Block II, bombas guiadas e não guiadas, armamentos ar-solo e pods',
+    pontosFixacao: '11 estações',
+    capacidadeCargaExterna: 'Variável conforme configuração e limites operacionais',
+    tanquesConformais: 'Aumento de alcance conforme a missão',
+    vidaEstrutural: '12.000 horas',
+    quantidadeAdquirida: '12 aeronaves — 10 F-16C Block 70 e 2 F-16D Block 70',
+    capacidades: 'Defesa aérea, ataque e emprego multifunção.',
+    operadaPor: 'Fuerza Aérea del Perú (FAP)',
+    sketchfabModelId: 'ede4702441f04453b34483d3626c94ac',
+    overviewModels: [
+      { label: 'Ilustração 1', sketchfabModelId: 'ede4702441f04453b34483d3626c94ac', url: 'https://sketchfab.com/3d-models/f-16-block-70-peruvian-ede4702441f04453b34483d3626c94ac' },
+      { label: 'Ilustração 2', sketchfabModelId: 'b034850b9fb14bee8f6c5fc5c74ce37c', url: 'https://sketchfab.com/3d-models/f-16-d-block-70-animations-pilot-design-3-b034850b9fb14bee8f6c5fc5c74ce37c' },
+      { label: 'Ilustração 3 (Cockpit)', sketchfabModelId: '6dd1d601d380413f9cb452a58aed90dc', url: 'https://sketchfab.com/3d-models/f16-cockpit-6dd1d601d380413f9cb452a58aed90dc' },
+      { label: 'Ilustração 4', sketchfabModelId: '6fa810bb258c4a688bd4a5c860d04f3c', url: 'https://sketchfab.com/3d-models/f16-block-70-design-2-6fa810bb258c4a688bd4a5c860d04f3c' },
+      { label: 'Ilustração 5 (Biposto)', sketchfabModelId: '0f82622411744d1bb4ebc63b9eb0ca50', url: 'https://sketchfab.com/3d-models/lockheed-f-16d-0f82622411744d1bb4ebc63b9eb0ca50' },
+    ],
+    coverImage: 'covers/f16peru(cover).jpg',
+    notes: [
+      'A entrada em serviço no Peru está prevista a partir de 2029.',
+      'Considere a configuração monoposto ou biposto antes de planejar o atendimento à tripulação.',
+      'Trate os assentos ejetáveis, o armamento e os sistemas de guerra eletrônica como áreas de risco.',
+    ],
+    procedures: [
+      { title: 'Aproximação segura', body: 'Confirme motor desligado, bateria isolada e armamento seguro antes de acessar a aeronave.' },
+      { title: 'Acesso à cabine', body: 'Identifique a configuração F-16C ou F-16D e mantenha a equipe afastada do assento ejetável até sua neutralização.' },
+      { title: 'Atendimento à tripulação', body: 'Priorize a comunicação com o piloto ou a tripulação e coordene a extração conforme a configuração da cabine.' },
+    ],
+    manuals: [],
+    gallery: [
+      { title: 'F-16 Block 70 – Galeria 01', url: 'https://drive.google.com/file/d/1qyihPtejHO4t5RTSpuQWUqMIqdkQGi5S/view?usp=drive_link' },
+      { title: 'F-16 Block 70 – Galeria 02', url: 'https://drive.google.com/file/d/1ja1v9NQu7aN0B0duYkUrk7N2Qui5P9oF/view?usp=drive_link' },
+      { title: 'F-16 Block 70 – Galeria 03', url: 'https://drive.google.com/file/d/17ksYzomYqpA854xjWsXQqaCGouNPlA9T/view?usp=drive_link' },
+      { title: 'F-16 Block 70 – Galeria 04', url: 'https://drive.google.com/file/d/1Jj9NnW2O2fKHwdWPil11xeJRFoMUIN43/view?usp=drive_link' },
+      { title: 'F-16 Block 70 – Galeria 05', url: 'https://drive.google.com/file/d/1CvoIWFi9xQaMIf5ZhCPFAM2YCNrVPJiy/view?usp=drive_link' },
+      { title: 'F-16 Block 70 – Galeria 06', url: 'https://drive.google.com/file/d/1sgabpZ-66eHrBRD1uS5LoJJ1jhR95T5U/view?usp=drive_link' },
+      { title: 'F-16 Block 70 – Galeria 07', url: 'https://drive.google.com/file/d/1qQxfHKYEp9NMSl5MfRSjZwhJkeFsWTbs/view?usp=drive_link' },
+      { title: 'F-16 Block 70 – Galeria 08', url: 'https://drive.google.com/file/d/1N_aX3ZqDmOv1JRj_LCNVu6eywD8NE523/view?usp=drive_link' },
+      { title: 'F-16 Block 70 – Galeria 09', url: 'https://drive.google.com/file/d/1nzyuqmPot524vW0rEnwU4S3ng3QxKkRE/view?usp=drive_link' },
+      { title: 'F-16 Block 70 – Galeria 10', url: 'https://drive.google.com/file/d/14orJeNs4GoDHoLKbpPWqPVlLAMGdJCm6/view?usp=drive_link' },
+    ],
+    videos: [
+      { title: 'F-16 Block 70 – Vídeo 01', url: 'https://drive.google.com/file/d/14Axid7SIxQzNQJUqllgqoNlHkct5nV6t/view?usp=drive_link' },
+      { title: 'F-16 Block 70 – Vídeo 02', url: 'https://drive.google.com/file/d/1vhtBkBd_6aem84QAY4mR5cFaPf3KoUp3/view?usp=drive_link' },
+      { title: 'F-16 Block 70 – Vídeo 03', url: 'https://drive.google.com/file/d/1STgoioYpEWVApMBvkeFDF029eym8zOsx/view?usp=drive_link' },
+      { title: 'F-16 Block 70 – Vídeo 04', url: 'https://drive.google.com/file/d/1aOe80D0FLNd-nOdo-jihP6zSEDGn50bl/view?usp=drive_link' },
+      { title: 'F-16 Block 70 – Vídeo 05', url: 'https://www.youtube.com/watch?v=69MzNNv98yg' },
+      { title: 'F-16 Block 70 – Vídeo 06', url: 'https://www.youtube.com/watch?v=BUU8inCpo78' },
+      { title: 'F-16 Block 70 – Vídeo 07', url: 'https://www.youtube.com/shorts/w13yjUfE7pA' },
+      { title: 'F-16 Block 70 – Vídeo 08', url: 'https://www.youtube.com/watch?v=xzLpvr8GU_k' },
+      { title: 'F-16 Block 70 – Vídeo 09', url: 'https://www.youtube.com/watch?v=B_rIikCkDZY' },
+      { title: 'F-16 Block 70 – Vídeo 10', url: 'https://www.youtube.com/shorts/g6xEoG-c14Q' },
+      { title: 'F-16 Block 70 – Vídeo 11', url: 'https://www.youtube.com/watch?v=VdxizIwfkxM' },
+    ],
   },
   {
     id: 'uh-60-black-hawk',

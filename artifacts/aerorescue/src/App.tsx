@@ -1357,6 +1357,8 @@ function DetailPage() {
               {technicalCapacidadeAeromedica && <div className="metric"><span className="metric-label">Capacidade aeromédica</span><span className="metric-value">{technicalCapacidadeAeromedica}</span></div>}
               {aircraft.armamentoFixo && <div className="metric"><span className="metric-label">Armamento fixo</span><span className="metric-value">{aircraft.armamentoFixo}</span></div>}
               {aircraft.armamentosCompativeis && <div className="metric"><span className="metric-label">Armamentos compatíveis</span><span className="metric-value">{aircraft.armamentosCompativeis}</span></div>}
+              {aircraft.capacidadeCargaExterna && <div className="metric"><span className="metric-label">Capacidade de carga externa</span><span className="metric-value">{aircraft.capacidadeCargaExterna}</span></div>}
+              {aircraft.pontosFixacao && <div className="metric"><span className="metric-label">Pontos de fixação</span><span className="metric-value">{aircraft.pontosFixacao}</span></div>}
               {aircraft.armamento && <div className="metric"><span className="metric-label">Armamento</span><span className="metric-value">{aircraft.armamento}</span></div>}
               {aircraft.sistemasInspecao && <div className="metric"><span className="metric-label">Sistemas de inspeção</span><span className="metric-value">{aircraft.sistemasInspecao}</span></div>}
               {aircraft.capacidades && <div className="metric"><span className="metric-label">Capacidades</span><span className="metric-value">{aircraft.capacidades}</span></div>}

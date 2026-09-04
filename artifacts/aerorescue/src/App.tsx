@@ -147,6 +147,7 @@ function getCatalogOperator(aircraft: Aircraft) {
   if (aircraft.id === 'a-4-skyhawk-marinha' || aircraft.id === 'rq-1-marinha') return 'MB';
   if (['atr-72-600', 'cirrus-sr22', 'cessna-172', 'aero-boero-ab-115'].includes(aircraft.id)) return 'Civil';
   if (['c-212-aviocar', 'c-212-400-aviocar'].includes(aircraft.id)) return 'FAP';
+  if (aircraft.id === 'ia-63-pampa-iii') return 'FAA';
   return 'FAB';
 }
 

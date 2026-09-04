@@ -140,6 +140,7 @@ function getAircraftIdentificationLabel(aircraft: Aircraft) {
 }
 
 function getAircraftSummaryLabel(aircraft: Aircraft) {
+  if (aircraft.id === 'ia-63-pampa-iii') return 'FAdeA – Fábrica Argentina de Aviones · Treinamento avançado e ataque leve';
   return `${aircraft.category} - ${aircraft.role}`;
 }
 
@@ -1244,7 +1245,9 @@ function DetailPage() {
           <div>
             <h1 className="page-title">{selectedAircraftName}</h1>
             <p className="page-lede">
-              {aircraft.manufacturer} · {technicalCategory} - {technicalRole}
+              {aircraft.id === 'ia-63-pampa-iii'
+                ? getAircraftSummaryLabel(aircraft)
+                : `${aircraft.manufacturer} · ${technicalCategory} - ${technicalRole}`}
             </p>
           </div>
 
@@ -1346,11 +1349,16 @@ function DetailPage() {
               {technicalRampaTraseira && <div className="metric"><span className="metric-label">Rampa traseira</span><span className="metric-value">{technicalRampaTraseira}</span></div>}
               {aircraft.assentoEjetavel && <div className="metric"><span className="metric-label">Assento ejetável</span><span className="metric-value">{aircraft.assentoEjetavel}</span></div>}
               {(technicalVariant?.sistemaMissao || aircraft.sistemaMissao || technicalVariant?.sistemaDefesa || aircraft.sistemaDefesa) && <div className="metric"><span className="metric-label">Sistema de missão</span><span className="metric-value">{technicalVariant?.sistemaMissao || technicalVariant?.sistemaDefesa || aircraft.sistemaMissao || aircraft.sistemaDefesa}</span></div>}
-              {technicalMotor && <div className="metric"><span className="metric-label">Motor</span><span className="metric-value">{technicalMotor}</span></div>}
-              {aircraft.id === 'c-212-aviocar' ? (
-                (technicalPotencia || aircraft.tipoMotor) && <div className="metric"><span className="metric-label">Potência / Tipo de motor</span><span className="metric-value">{[technicalPotencia, aircraft.tipoMotor].filter(Boolean).join(' · ')}</span></div>
+              {aircraft.id === 'ia-63-pampa-iii' ? (
+                (technicalMotor || aircraft.tipoMotor || technicalPotencia) && <div className="metric"><span className="metric-label">Motor / Tipo de motor / Potência</span><span className="metric-value">{[technicalMotor, aircraft.tipoMotor, technicalPotencia].filter(Boolean).join(' · ')}</span></div>
+              ) : aircraft.id === 'c-212-aviocar' ? (
+                <>
+                  {technicalMotor && <div className="metric"><span className="metric-label">Motor</span><span className="metric-value">{technicalMotor}</span></div>}
+                  {(technicalPotencia || aircraft.tipoMotor) && <div className="metric"><span className="metric-label">Potência / Tipo de motor</span><span className="metric-value">{[technicalPotencia, aircraft.tipoMotor].filter(Boolean).join(' · ')}</span></div>}
+                </>
               ) : (
                 <>
+                  {technicalMotor && <div className="metric"><span className="metric-label">Motor</span><span className="metric-value">{technicalMotor}</span></div>}
                   {technicalPotencia && <div className="metric"><span className="metric-label">Potência</span><span className="metric-value">{technicalPotencia}</span></div>}
                   {aircraft.tipoMotor && <div className="metric"><span className="metric-label">Tipo de motor</span><span className="metric-value">{aircraft.tipoMotor}</span></div>}
                 </>

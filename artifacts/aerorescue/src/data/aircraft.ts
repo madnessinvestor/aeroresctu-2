@@ -1068,7 +1068,7 @@ export const aircraftCatalog: Aircraft[] = [
     capacidadeCargaExterna: 'Até 1.200 kg',
     pontosFixacao: '05 pontos externos',
     sistemaMissao: 'Aviônicos digitais, Full Glass Cockpit, sistemas de treinamento virtual, simulação de radar e Data Link',
-    capacidades: 'Treinamento avançado, conversão operacional, treinamento tático, ataque leve, operações ar-ar/ar-solo e interceptação de aeronaves de baixo desempenho',
+    capacidades: 'Treinamento avançado, ataque leve e missões táticas',
     operadaPor: 'Fuerza Aérea Argentina (FAA)',
     overviewModels: [
       { label: 'Ilustração 1', sketchfabModelId: '7fcd6704ade445a5b5ca3ce1df403430', url: 'https://sketchfab.com/3d-models/ia-63-pampa-iii-7fcd6704ade445a5b5ca3ce1df403430' },

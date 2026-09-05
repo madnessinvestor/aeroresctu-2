@@ -3479,7 +3479,10 @@ export const aircraftCatalog: Aircraft[] = [
       { title: 'Checklist executivo', body: 'Verifique instrumentos, sistemas de navegação e conforto da cabine antes do embarque.' },
       { title: 'Planejamento de rota', body: 'Confirme alternates e autorizações para aeroportos de chegada e partida.' },
     ],
-    manuals: [],
+    manuals: [
+      { name: 'Informações Básicas do IU-93 Hawker 800XP', meta: 'Google Drive · material anexado', url: 'https://drive.google.com/file/d/19NaDyOOnVaFXp4yOXZs6RAn4YBbbEmb3/view?usp=drive_link' },
+      { name: 'Emergency Safety Card Hawker 800', meta: 'Google Drive · material anexado', url: 'https://drive.google.com/file/d/1INRf6hyc3HTDSQKBP46BuC84fafgQOyF/view?usp=drive_link' },
+    ],
     gallery: [
       { title: 'Hawker 800 - foto 1', url: 'https://drive.google.com/file/d/160_dqAX9KuPAK2C-PwDC4X-U7aMBvuHH/view?usp=drive_link' },
       { title: 'Hawker 800 - foto 2', url: 'https://drive.google.com/file/d/1J74YJP_NxNrBTw3C6DrJa8vzfgwDGMpv/view?usp=drive_link' },
@@ -3506,7 +3509,7 @@ export const aircraftCatalog: Aircraft[] = [
       { title: 'Hawker 800 - foto 23', url: 'https://drive.google.com/file/d/1Vfw9SiSTiCtWK8oXrRcwSlvEP9cJi2D8/view?usp=drive_link' },
     ],
     videos: [
-      { title: 'Hawker 800XP (IU-93) - vídeo no Google Drive', url: 'https://drive.google.com/file/d/1GVaDafCsn1NpNwevHrA0kPslqk7RP6GO/view?usp=drive_link' },
+      { title: 'Abrir e Fechar Porta do Hawker 800', url: 'https://drive.google.com/file/d/1GVaDafCsn1NpNwevHrA0kPslqk7RP6GO/view?usp=drive_link' },
       { title: 'Hawker IU-93 pousando em CGR', url: 'https://www.youtube.com/watch?v=p7QK-1jrSdY' },
       { title: 'Hawker 800 series flight review | Hawker 750', url: 'https://www.youtube.com/watch?v=G_qvC3FrIW0&t=139s' },
       { title: 'Raytheon Hawker 800 XP IU-93A (6053)', url: 'https://www.youtube.com/shorts/8oM01Ra0SMY' },

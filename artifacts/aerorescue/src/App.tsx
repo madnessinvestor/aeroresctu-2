@@ -1073,7 +1073,7 @@ function DetailPage() {
   const coverUrl = aircraft.coverImage ? `${import.meta.env.BASE_URL}${aircraft.coverImage}` : undefined;
   const galleryItems = [
     ...(coverUrl ? [{ title: `${aircraft.name} - Capa`, url: coverUrl }] : []),
-    ...(aircraft.gallery ?? []).filter((item) => item.url !== coverUrl),
+    ...(aircraft.gallery ?? []).filter((item) => !item.url || getGalleryImageUrl(item.url) !== coverUrl),
   ];
   const videoItems = aircraft.videos && aircraft.videos.length > 0 ? aircraft.videos : [];
   const driveVideoItems = videoItems.filter((video) => video.url.includes('drive.google.com'));

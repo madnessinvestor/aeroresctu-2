@@ -3261,6 +3261,7 @@ export const aircraftCatalog: Aircraft[] = [
       { label: 'Ilustração 1', sketchfabModelId: '63dd40226ad04c1eb13342e95608c0b9' },
     ],
     gallery: [
+      { title: 'Capa - VC-2 (Embraer 190)', url: '/covers/vc2(cover).jpg' },
       { title: 'Ilustração 1', url: 'https://sketchfab.com/3d-models/vc-2-br-63dd40226ad04c1eb13342e95608c0b9' },
       { title: 'VC-2 Embraer 190 - Galeria 02', url: 'https://drive.google.com/file/d/1abJeA3ZX5hf7VbZDn7ZlnsA7A_GTPamc/view?usp=drive_link' },
       { title: 'VC-2 Embraer 190 - Galeria 03', url: 'https://drive.google.com/file/d/1COBMLCTgMrQHc9Zng1YvFf3tma9z_X3i/view?usp=drive_link' },
@@ -3327,6 +3328,7 @@ export const aircraftCatalog: Aircraft[] = [
       { label: 'Ilustração 1', sketchfabModelId: 'e8d2d2c6742945bf9423494a78e33886' },
     ],
     gallery: [
+      { title: 'Capa - VC-99A (EMBRAER 145)', url: '/covers/vc99(cover).jpg' },
       { title: 'Ilustração 1', url: 'https://sketchfab.com/3d-models/vc-99a-br-e8d2d2c6742945bf9423494a78e33886' },
       { title: 'VC-99A Embraer 145 - Galeria 02', url: 'https://drive.google.com/file/d/1k6qVxsEMmB056CblO8Rs6zCc89x1R2Qq/view?usp=drive_link' },
       { title: 'VC-99A Embraer 145 - Galeria 03', url: 'https://drive.google.com/file/d/1LgUmSvvCe3lh5jAwIBcU77RZ8u95Knqj/view?usp=drive_link' },
@@ -3383,6 +3385,7 @@ export const aircraftCatalog: Aircraft[] = [
       { label: 'Ilustração 1', sketchfabModelId: '2532cdf1dbe84d0685c7ffec4046477c' },
     ],
     gallery: [
+      { title: 'Capa - VC-99B (Legacy 600)', url: '/covers/vc99(cover).jpg' },
       { title: 'Ilustração 1', url: 'https://sketchfab.com/3d-models/vc-99b-erj-135-emb-135bj-legacy-600-2532cdf1dbe84d0685c7ffec4046477c' },
       { title: 'VC-99B Embraer 145 - Galeria 02', url: 'https://drive.google.com/file/d/1zXb62ofoF4jHIll98HGglZy4NLo3BYq8/view?usp=drive_link' },
       { title: 'VC-99B Embraer 145 - Galeria 03', url: 'https://drive.google.com/file/d/1F9Zab6BWHUQoogjWLvuqSBNDvvmkWSZT/view?usp=drive_link' },
@@ -4034,6 +4037,7 @@ export const aircraftCatalog: Aircraft[] = [
       { label: 'Ilustração 1', sketchfabModelId: 'e6e6b69ce1444592a4562735c88955a4' },
     ],
     gallery: [
+      { title: 'Capa - VC-1 (Airbus A319CJ)', url: '/covers/vc1(cover).avif' },
       { title: 'Ilustração 1', url: 'https://sketchfab.com/3d-models/vc-1-br-e6e6b69ce1444592a4562735c88955a4' },
       { title: 'VC-1 Airbus A319CJ - Galeria 02', url: 'https://drive.google.com/file/d/1nVMu9983v8UiBsQJYBkL_-RNIaEwMkk1/view?usp=drive_link' },
       { title: 'VC-1 Airbus A319CJ - Galeria 03', url: 'https://drive.google.com/file/d/1V4qYrdh5CSOCxHXMwsqfa4rWTnPIeJTD/view?usp=drive_link' },

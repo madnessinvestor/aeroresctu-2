@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useRef, useState, type ReactNode, type TouchEvent } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Link, Route, Router as WouterRouter, Switch, useLocation, useParams } from 'wouter';
-import { ArrowRight, BookOpen, Check, ChevronDown, CircleHelp, ClipboardList, Crosshair, FileText, Flame, Gauge, Heart, History, Layers3, Maximize2, Menu, Minimize2, Moon, Move3d, Plane, Play, Rotate3d, Search, SlidersHorizontal, Sparkles, Sun, X, ZoomIn, ZoomOut } from 'lucide-react';
+import { ArrowLeft, ArrowRight, BookOpen, Check, ChevronDown, CircleHelp, ClipboardList, Crosshair, FileText, Flame, Gauge, Heart, History, Layers3, Maximize2, Menu, Minimize2, Moon, Move3d, Plane, Play, Rotate3d, Search, SlidersHorizontal, Sparkles, Sun, X, ZoomIn, ZoomOut } from 'lucide-react';
 import NotFound from '@/pages/not-found';
 import { aircraftCatalog, quickFilters, type Aircraft, type GalleryItem, type VideoLink } from '@/data/aircraft';
 
@@ -1073,7 +1073,9 @@ function DetailPage() {
   const materialItems = aircraft.manuals && aircraft.manuals.length > 0 ? aircraft.manuals : [];
   const [selectedVideoIndex, setSelectedVideoIndex] = useState<number | null>(null);
   const [selectedMaterialIndex, setSelectedMaterialIndex] = useState<number | null>(null);
-  const [expandedGalleryItem, setExpandedGalleryItem] = useState<GalleryItem | null>(null);
+  const [expandedGalleryIndex, setExpandedGalleryIndex] = useState<number | null>(null);
+  const galleryTouchStartX = useRef<number | null>(null);
+  const expandedGalleryItem = expandedGalleryIndex === null ? null : galleryItems[expandedGalleryIndex] || null;
   const selectedVideo = selectedVideoIndex === null ? null : videoItems[selectedVideoIndex] || null;
   const selectedMaterial = selectedMaterialIndex === null ? null : materialItems[selectedMaterialIndex] || null;
   const selectedVideoEmbedUrl = selectedVideo
@@ -1200,13 +1202,38 @@ function DetailPage() {
   );
 
   useEffect(() => {
-    if (!expandedGalleryItem) return;
+    if (expandedGalleryIndex === null) return;
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setExpandedGalleryItem(null);
+      if (event.key === 'Escape') {
+        setExpandedGalleryIndex(null);
+      } else if (event.key === 'ArrowLeft' && galleryItems.length > 1) {
+        setExpandedGalleryIndex((currentIndex) => currentIndex === null ? null : (currentIndex - 1 + galleryItems.length) % galleryItems.length);
+      } else if (event.key === 'ArrowRight' && galleryItems.length > 1) {
+        setExpandedGalleryIndex((currentIndex) => currentIndex === null ? null : (currentIndex + 1) % galleryItems.length);
+      }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [expandedGalleryItem]);
+  }, [expandedGalleryIndex, galleryItems.length]);
+
+  const moveGallery = (direction: -1 | 1) => {
+    setExpandedGalleryIndex((currentIndex) => currentIndex === null || galleryItems.length < 2
+      ? currentIndex
+      : (currentIndex + direction + galleryItems.length) % galleryItems.length);
+  };
+
+  const handleGalleryTouchStart = (event: TouchEvent<HTMLImageElement>) => {
+    galleryTouchStartX.current = event.touches[0]?.clientX ?? null;
+  };
+
+  const handleGalleryTouchEnd = (event: TouchEvent<HTMLImageElement>) => {
+    const startX = galleryTouchStartX.current;
+    galleryTouchStartX.current = null;
+    if (startX === null) return;
+
+    const distance = event.changedTouches[0]?.clientX - startX;
+    if (Math.abs(distance) >= 45) moveGallery(distance < 0 ? 1 : -1);
+  };
 
   const handlePrint = () => {
     const originalTitle = document.title;
@@ -1624,19 +1651,55 @@ function DetailPage() {
                   className="gallery-tile"
                   key={`${item.title}-${index}`}
                   data-testid={`gallery-image-${index + 1}`}
-                  onClick={() => item.url && setExpandedGalleryItem(item)}
+                  onClick={() => item.url && setExpandedGalleryIndex(index)}
                   aria-label={`Ampliar ${item.title}`}
                 >
                   {item.url && <img className="gallery-image" src={getDriveImageUrl(item.url)} alt={item.title} />}
                 </button>
               ))}
             </div>
-            {expandedGalleryItem?.url && (
-              <div className="gallery-lightbox" role="dialog" aria-modal="true" aria-label={expandedGalleryItem.title} onClick={() => setExpandedGalleryItem(null)}>
-                <button type="button" className="gallery-lightbox-close" aria-label="Fechar imagem ampliada" onClick={() => setExpandedGalleryItem(null)}>
+            {expandedGalleryItem?.url && expandedGalleryIndex !== null && (
+              <div className="gallery-lightbox" role="dialog" aria-modal="true" aria-label={expandedGalleryItem.title} onClick={() => setExpandedGalleryIndex(null)}>
+                <button type="button" className="gallery-lightbox-close" aria-label="Fechar imagem ampliada" onClick={() => setExpandedGalleryIndex(null)}>
                   <X size={20} />
                 </button>
-                <img className="gallery-lightbox-image" src={getDriveImageUrl(expandedGalleryItem.url)} alt={expandedGalleryItem.title} onClick={(event) => event.stopPropagation()} />
+                {galleryItems.length > 1 && (
+                  <>
+                    <button
+                      type="button"
+                      className="gallery-lightbox-nav gallery-lightbox-prev"
+                      aria-label="Imagem anterior"
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        moveGallery(-1);
+                      }}
+                    >
+                      <ArrowLeft size={24} />
+                    </button>
+                    <button
+                      type="button"
+                      className="gallery-lightbox-nav gallery-lightbox-next"
+                      aria-label="Próxima imagem"
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        moveGallery(1);
+                      }}
+                    >
+                      <ArrowRight size={24} />
+                    </button>
+                    <div className="gallery-lightbox-counter" aria-live="polite">
+                      {expandedGalleryIndex + 1} / {galleryItems.length}
+                    </div>
+                  </>
+                )}
+                <img
+                  className="gallery-lightbox-image"
+                  src={getDriveImageUrl(expandedGalleryItem.url)}
+                  alt={expandedGalleryItem.title}
+                  onClick={(event) => event.stopPropagation()}
+                  onTouchStart={handleGalleryTouchStart}
+                  onTouchEnd={handleGalleryTouchEnd}
+                />
               </div>
             )}
           </div>

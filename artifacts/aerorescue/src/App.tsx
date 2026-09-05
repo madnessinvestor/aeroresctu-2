@@ -1138,6 +1138,7 @@ function DetailPage() {
   const technicalWeight = technicalVariant?.weight ?? aircraft.weight;
   const technicalPesoVazio = technicalVariant?.pesoVazio ?? aircraft.pesoVazio;
   const technicalYear = technicalVariant?.year ?? aircraft.year;
+  const technicalStatusDetail = technicalVariant?.statusDetail ?? aircraft.statusDetail;
   const technicalOrigin = technicalVariant?.origin ?? aircraft.origin;
   const technicalFireCategory = technicalVariant?.categoriaContraIncendio ?? aircraft.categoriaContraIncendio;
   const technicalManufacturer = technicalVariant?.fabricanteDetalhe ?? aircraft.fabricanteDetalhe;
@@ -1148,6 +1149,9 @@ function DetailPage() {
   const technicalSistemaMissao = technicalVariant?.sistemaMissao ?? aircraft.sistemaMissao;
   const technicalRampaTraseira = technicalVariant ? (technicalVariant.rampaTraseira ?? aircraft.rampaTraseira ?? '') : (aircraft.rampaTraseira ?? '');
   const technicalMotor = technicalVariant ? (technicalVariant.motor ?? aircraft.motor) : aircraft.motor;
+  const technicalTipoMotor = technicalVariant?.tipoMotor ?? aircraft.tipoMotor;
+  const technicalSistemasInspecao = technicalVariant?.sistemasInspecao ?? aircraft.sistemasInspecao;
+  const technicalAvionicos = technicalVariant?.avionicos;
   const technicalPotencia = technicalVariant?.potencia ?? aircraft.potencia;
   const technicalCapacidades = technicalVariant?.capacidades ?? aircraft.capacidades;
   const technicalOperadaPor = technicalVariant ? (technicalVariant.operadaPor ?? aircraft.operadaPor) : aircraft.operadaPor;

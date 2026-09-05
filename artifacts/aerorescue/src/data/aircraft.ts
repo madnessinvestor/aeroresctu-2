@@ -37,6 +37,7 @@ export type AircraftTechnicalVariant = {
   weight?: string;
   pesoVazio?: string;
   year?: string;
+  statusDetail?: string;
   origin?: string;
   categoriaContraIncendio?: string;
   fabricanteDetalhe?: string;
@@ -59,6 +60,9 @@ export type AircraftTechnicalVariant = {
   sistemaMissao?: string;
   sistemaDefesa?: string;
   motor?: string;
+  tipoMotor?: string;
+  sistemasInspecao?: string;
+  avionicos?: string;
   potencia?: string;
   operadaPor?: string;
   capacidadeAeromedica?: string;
@@ -3396,17 +3400,75 @@ export const aircraftCatalog: Aircraft[] = [
     weight: 'Aproximadamente 12.700 kg (MTOW)',
     pobMax: 'Até 08 pessoas a bordo, conforme configuração operacional',
     categoriaContraIncendio: '03',
-    designacaoFab: 'IU-93A',
+    designacaoFab: 'IU-93A/ IU-93M',
     fabricanteDetalhe: 'Hawker Beechcraft',
     combustivel: 'Jet A-1 / QAV-1',
     quantidadeSaidas: '02 saídas (01 porta principal + 01 saída de emergência)',
     operadaPor: 'GEIV - Grupo Especial de Inspeção em Voo',
     motor: '2 × turbofans Honeywell TFE731-5BR',
     sistemasInspecao: 'AFIS / UNIFIS 3000 para inspeção e calibração de auxílios à navegação aérea',
+    technicalVariants: {
+      iu93a: {
+        label: 'IU-93A',
+        designacaoFab: 'IU-93A',
+        nomeComercial: 'Hawker 800XP',
+        crew: '02 pilotos + especialistas/inspetores, conforme configuração',
+        pobMax: 'Até 08 pessoas a bordo, conforme configuração operacional',
+        category: 'Aeronave de inspeção em voo',
+        role: 'Inspeção em voo e calibração de auxílios à navegação aérea',
+        origin: 'Estados Unidos',
+        year: '2000 (FAB)',
+        statusDetail: 'Em serviço / configuração original',
+        length: '15,62 m',
+        wingspan: '15,67 m',
+        height: '5,74 m',
+        maxSpeed: 'Aproximadamente 828 km/h',
+        range: 'Aproximadamente 4.682 km',
+        weight: 'Aproximadamente 12.700 kg',
+        categoriaContraIncendio: 'CAT-AV 3',
+        fabricanteDetalhe: 'Hawker Beechcraft',
+        combustivel: 'Jet A-1 / QAV-1',
+        assentoEjetavel: 'Não possui',
+        motor: '02 × Honeywell TFE731-5BR',
+        tipoMotor: 'Turbofan',
+        sistemasInspecao: 'AFIS – Automatic Flight Inspection System',
+        sistemaMissao: 'Sistema de inspeção em voo para aferição e calibração de auxílios à navegação aérea',
+        operadaPor: 'GEIV – Grupo Especial de Inspeção em Voo',
+      },
+      iu93m: {
+        label: 'IU-93M',
+        designacaoFab: 'IU-93M',
+        nomeComercial: 'Hawker 800XP',
+        crew: '02 pilotos + especialistas/inspetores, conforme configuração',
+        pobMax: 'Até 08 pessoas a bordo, conforme configuração operacional',
+        category: 'Aeronave de inspeção em voo',
+        role: 'Inspeção em voo e calibração de auxílios à navegação aérea',
+        origin: 'Estados Unidos',
+        year: 'Modernização da frota',
+        statusDetail: 'Em serviço / modernizado',
+        length: '15,62 m',
+        wingspan: '15,67 m',
+        height: '5,74 m',
+        maxSpeed: 'Aproximadamente 828 km/h',
+        range: 'Aproximadamente 4.682 km',
+        weight: 'Aproximadamente 12.700 kg',
+        categoriaContraIncendio: 'CAT-AV 3',
+        fabricanteDetalhe: 'Hawker Beechcraft',
+        combustivel: 'Jet A-1 / QAV-1',
+        assentoEjetavel: 'Não possui',
+        motor: '02 × Honeywell TFE731-5BR',
+        tipoMotor: 'Turbofan',
+        sistemasInspecao: 'UNIFIS 3000',
+        avionicos: 'Collins Pro Line 21',
+        sistemaMissao: 'Sistema de inspeção em voo integrado para aferição e calibração de auxílios à navegação aérea',
+        operadaPor: 'GEIV – Grupo Especial de Inspeção em Voo',
+      },
+    },
     coverImage: 'covers/iu93-hawker(cover).jpg',
     overviewModels: [
       { label: 'Ilustração 1', sketchfabModelId: 'a4fa3f83d0814a708b06a8054b146aa5' },
       { label: 'Ilustração 2', sketchfabModelId: '73f446e055bf47a0920312a6c8e0156d' },
+      { label: 'Tour Virtual em Hawker 800', url: 'https://my.matterport.com/show/?m=Gy1VTngg6TG' },
     ],
     notes: [
       'O IU-93 Hawker é um jato executivo de médio porte usado para transporte de autoridades e missões de estado.',
@@ -3417,8 +3479,46 @@ export const aircraftCatalog: Aircraft[] = [
       { title: 'Checklist executivo', body: 'Verifique instrumentos, sistemas de navegação e conforto da cabine antes do embarque.' },
       { title: 'Planejamento de rota', body: 'Confirme alternates e autorizações para aeroportos de chegada e partida.' },
     ],
-    manuals: [
-      { name: 'Hawker 800XP Operations Manual', meta: 'Manual de voo', url: 'https://example.com/hawker-800xp-manual.pdf' },
+    manuals: [],
+    gallery: [
+      { title: 'Hawker 800 - foto 1', url: 'https://drive.google.com/file/d/160_dqAX9KuPAK2C-PwDC4X-U7aMBvuHH/view?usp=drive_link' },
+      { title: 'Hawker 800 - foto 2', url: 'https://drive.google.com/file/d/1J74YJP_NxNrBTw3C6DrJa8vzfgwDGMpv/view?usp=drive_link' },
+      { title: 'Hawker 800 - foto 3', url: 'https://drive.google.com/file/d/1xI6i2UWuEIuyqQ6gL6EGAjt4ZNdLYpti/view?usp=drive_link' },
+      { title: 'Hawker 800 - foto 4', url: 'https://drive.google.com/file/d/15oEipIX70KN5Or6A9VV8Ge_EiyXYxNbR/view?usp=drive_link' },
+      { title: 'Hawker 800 - foto 5', url: 'https://drive.google.com/file/d/1v4IV0fArvsXHUZGAnk8hp5lwRhTfXTqk/view?usp=drive_link' },
+      { title: 'Hawker 800 - foto 6', url: 'https://drive.google.com/file/d/1GR1BBvcmJGab1mhckdmh34g48wrs4oue/view?usp=drive_link' },
+      { title: 'Hawker 800 - foto 7', url: 'https://drive.google.com/file/d/1_Z70x9Vsl8lM_nxL68Uf0w4CZwsaxo8A/view?usp=drive_link' },
+      { title: 'Hawker 800 - foto 8', url: 'https://drive.google.com/file/d/1ZJss75Sx1L7veCAzFrb1vF2SCEohNDwv/view?usp=drive_link' },
+      { title: 'Hawker 800 - foto 9', url: 'https://drive.google.com/file/d/1aCyGQBQDXXM97jhqXEGLXOoK0MPA8hEl/view?usp=drive_link' },
+      { title: 'Hawker 800 - foto 10', url: 'https://drive.google.com/file/d/1jSey3eS5HfUGYRMHZh6AFA-G5dM1SLbV/view?usp=drive_link' },
+      { title: 'Hawker 800 - foto 11', url: 'https://drive.google.com/file/d/1DR6iYPSwAAqxSUtlQZKHJB7OAJoWLzLb/view?usp=drive_link' },
+      { title: 'Hawker 800 - foto 12', url: 'https://drive.google.com/file/d/162KJlQUjr0cLqIdIEHMFwUeVS37u5nrm/view?usp=drive_link' },
+      { title: 'Hawker 800 - foto 13', url: 'https://drive.google.com/file/d/15vgSQHh0BAi_wUwnL-HztHqHxcYb-plO/view?usp=drive_link' },
+      { title: 'Hawker 800 - foto 14', url: 'https://drive.google.com/file/d/1DLtcZpbSb7UQ3Xv0LiuhFKMXBOKbXvr3/view?usp=drive_link' },
+      { title: 'Hawker 800 - foto 15', url: 'https://drive.google.com/file/d/1NxKLXFaRa8lPZ1LVfv3J95ky3moGv2aE/view?usp=drive_link' },
+      { title: 'Hawker 800 - foto 16', url: 'https://drive.google.com/file/d/1biH08vFzsvf8EokGYUHWHlZxcI6RYSA9/view?usp=drive_link' },
+      { title: 'Hawker 800 - foto 17', url: 'https://drive.google.com/file/d/10LUIkj7BsuwbEue-_PfjLZh_v7sgoZ7d/view?usp=drive_link' },
+      { title: 'Hawker 800 - foto 18', url: 'https://drive.google.com/file/d/1eIrq8-5f8NfFqBMr9_3gyahRGxLje0Qr/view?usp=drive_link' },
+      { title: 'Hawker 800 - foto 19', url: 'https://drive.google.com/file/d/190Pb4DE-ffyd2ETt8bhjcLQiExsqzWpw/view?usp=drive_link' },
+      { title: 'Hawker 800 - foto 20', url: 'https://drive.google.com/file/d/1PiVyl8zOB2bza1hJd-g4YDh8u_A0Bup6/view?usp=drive_link' },
+      { title: 'Hawker 800 - foto 21', url: 'https://drive.google.com/file/d/1g40H2tZGflaL5d40eFAq8YOuUsiy2e7G/view?usp=drive_link' },
+      { title: 'Hawker 800 - foto 22', url: 'https://drive.google.com/file/d/1ZuZvTmavE77qesvdfMVGBLrsjSkEZRBb/view?usp=drive_link' },
+      { title: 'Hawker 800 - foto 23', url: 'https://drive.google.com/file/d/1Vfw9SiSTiCtWK8oXrRcwSlvEP9cJi2D8/view?usp=drive_link' },
+    ],
+    videos: [
+      { title: 'Hawker 800XP (IU-93) - vídeo no Google Drive', url: 'https://drive.google.com/file/d/1GVaDafCsn1NpNwevHrA0kPslqk7RP6GO/view?usp=drive_link' },
+      { title: 'Hawker IU-93 pousando em CGR', url: 'https://www.youtube.com/watch?v=p7QK-1jrSdY' },
+      { title: 'Hawker 800 series flight review | Hawker 750', url: 'https://www.youtube.com/watch?v=G_qvC3FrIW0&t=139s' },
+      { title: 'Raytheon Hawker 800 XP IU-93A (6053)', url: 'https://www.youtube.com/shorts/8oM01Ra0SMY' },
+      { title: 'Hawker 800XP da FAB (IU-93M 6051 GEIV) no Aeroporto da Pampulha', url: 'https://www.youtube.com/shorts/5Or9ri5rxck' },
+      { title: 'Hawker 800XP 2005 à venda no Brasil | Conheça este jato executivo premium', url: 'https://www.youtube.com/watch?v=neOX5SyVtXE' },
+      { title: 'Incrível rasante do Hawker IU-93M da FAB (GEIV)', url: 'https://www.youtube.com/watch?v=y84IR6xau3c' },
+      { title: '[SBFZ/FOR] Decolagem RWY13 Raytheon Hawker IU-93A FAB6050 05/05/2016', url: 'https://www.youtube.com/watch?v=HwSMlkNp9Mw' },
+      { title: 'Saída do Hawker 800XP da FAB (IU-93M 6052 GEIV) no Aeroporto da Pampulha', url: 'https://www.youtube.com/shorts/lIs_2rImlRU' },
+      { title: 'FAB 6050 Hawker 800XP IU-93A em missão de calibração de radares do Aeroporto de Londrina', url: 'https://www.youtube.com/watch?v=p0-T1KJTZUk' },
+      { title: 'Hawker 800XP (IU-93A) do GEIV em Sinop - vistoria do PAPI', url: 'https://www.youtube.com/watch?v=25Ft8k3RHWg' },
+      { title: 'Hawker 800XP Tour - Leather, Wood & Pure Luxury', url: 'https://www.youtube.com/watch?v=lyGT3P_ZVP8' },
+      { title: 'GEIV - Hawker 800XP (IU-93A) FAB 6052 - inspeção no Aeroporto de Sinop', url: 'https://www.youtube.com/watch?v=q7k0NTuM-tw' },
     ],
   },
   {

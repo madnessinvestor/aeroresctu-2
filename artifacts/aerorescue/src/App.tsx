@@ -148,7 +148,7 @@ function getAircraftSummaryLabel(aircraft: Aircraft) {
 function getCatalogOperator(aircraft: Aircraft) {
   if (aircraft.id === 'a-4-skyhawk-marinha' || aircraft.id === 'rq-1-marinha') return 'MB';
   if (['atr-72-600', 'cirrus-sr22', 'cessna-172', 'aero-boero-ab-115'].includes(aircraft.id)) return 'Civil';
-  if (aircraft.id === 'f-16-block-70-peruvian') return 'FAP';
+  if (['f-16-block-70-peruvian', 'kt-1p-peru'].includes(aircraft.id)) return 'FAP';
   if (aircraft.id === 'f-16-block-50-chile') return 'FACh';
   if (['c-212-aviocar', 'c-212-400-aviocar'].includes(aircraft.id)) return 'FAP';
   if (aircraft.id === 'ia-63-pampa-iii') return 'FAA';
@@ -1328,6 +1328,7 @@ function DetailPage() {
                   <span className="metric-value">{aircraft.nomeComercial}</span>
                 </div>
               )}
+              {aircraft.apelido && <div className="metric"><span className="metric-label">Apelido</span><span className="metric-value">{aircraft.apelido}</span></div>}
               <div className="metric"><span className="metric-label">tripulação</span><span className="metric-value">{technicalCrew}</span></div>
               <div className="metric"><span className="metric-label">POB max.</span><span className="metric-value">{technicalPobMax}</span></div>
               <div className="metric"><span className="metric-label">categoria</span><span className="metric-value">{technicalCategory}</span></div>
@@ -1344,7 +1345,7 @@ function DetailPage() {
               <div className="metric"><span className="metric-label">comprimento</span><span className="metric-value">{technicalLength}</span></div>
               <div className="metric"><span className="metric-label">envergadura</span><span className="metric-value">{technicalWingspan}</span></div>
               <div className="metric"><span className="metric-label">altura</span><span className="metric-value">{technicalHeight}</span></div>
-              {aircraft.id === 'f-16-block-50-chile' ? (
+              {['f-16-block-50-chile', 'kt-1p-peru'].includes(aircraft.id) ? (
                 <div className="metric"><span className="metric-label">Velocidade máx. / Alcance</span><span className="metric-value">{[technicalMaxSpeed, technicalRange].filter(Boolean).join(' · ')}</span></div>
               ) : (
                 <>
@@ -1365,6 +1366,7 @@ function DetailPage() {
                 </>
               )}
               {technicalManufacturer && <div className="metric"><span className="metric-label">Fabricante</span><span className="metric-value">{technicalManufacturer}</span></div>}
+              {aircraft.coproducao && <div className="metric"><span className="metric-label">Coprodução</span><span className="metric-value">{aircraft.coproducao}</span></div>}
               {aircraft.alturaSoloCockpit && <div className="metric"><span className="metric-label">Altura solo ao cockpit</span><span className="metric-value">{aircraft.alturaSoloCockpit}</span></div>}
               {technicalCombustivel && <div className="metric"><span className="metric-label">Combustível</span><span className="metric-value">{technicalCombustivel}</span></div>}
               {technicalQuantidadeSaidas && <div className="metric"><span className="metric-label">Quantidade de saídas</span><span className="metric-value">{technicalQuantidadeSaidas}</span></div>}
@@ -1405,7 +1407,7 @@ function DetailPage() {
                 </>
               )}
               {technicalCapacidadeAeromedica && <div className="metric"><span className="metric-label">Capacidade aeromédica</span><span className="metric-value">{technicalCapacidadeAeromedica}</span></div>}
-              {aircraft.id === 'f-16-block-50-chile' ? (
+              {['f-16-block-50-chile', 'kt-1p-peru'].includes(aircraft.id) ? (
                 (aircraft.armamentoFixo || aircraft.armamentosCompativeis) && (
                   <div className="metric">
                     <span className="metric-label">Armamento fixo / Armamentos compatíveis</span>

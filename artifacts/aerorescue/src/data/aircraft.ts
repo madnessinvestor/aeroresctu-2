@@ -60,6 +60,8 @@ export type Aircraft = {
   name: string;
   manufacturer: string;
   nomeComercial?: string;
+  apelido?: string;
+  coproducao?: string;
   catalogCategory?: string;
   catalogDescription?: string;
   category: string;
@@ -998,6 +1000,56 @@ export const aircraftCatalog: Aircraft[] = [
       { title: 'Chegada do MIRAGE 2000', url: 'https://www.youtube.com/watch?v=F1d57UEpIIk' },
       { title: 'Por que o Mirage 2000 foi aposentado?', url: 'https://www.youtube.com/watch?v=KH5e8ziK9Sg' },
     ],
+  },
+  {
+    id: 'kt-1p-peru',
+    name: 'KT-1P – Peru',
+    manufacturer: 'Korea Aerospace Industries (KAI)',
+    catalogCategory: 'Militar',
+    catalogDescription: 'Aeronave de treinamento militar para instrução básica, treinamento avançado e apoio tático.',
+    category: 'Aeronave de treinamento militar',
+    role: 'Instrução básica, treinamento avançado e apoio tático',
+    origin: 'Coreia do Sul / Peru',
+    status: 'Em serviço',
+    statusDetail: 'Em serviço',
+    year: '2014',
+    length: '10,26 m',
+    wingspan: '10,59 m',
+    height: '3,68 m',
+    maxSpeed: '648 km/h',
+    range: '1.700 km',
+    crew: '02 pilotos',
+    weight: '2.500 kg (MTOW)',
+    pobMax: '02 pessoas',
+    designacaoFab: 'KT-1P',
+    nomeComercial: 'KT-1 Woongbi',
+    apelido: 'Torito',
+    fabricanteDetalhe: 'Korea Aerospace Industries (KAI)',
+    coproducao: 'SEMAN Perú / KAI',
+    categoriaContraIncendio: 'CAT-AV 2',
+    combustivel: 'Jet A-1',
+    assentoEjetavel: 'Não possui',
+    sistemaMissao: 'Aviônicos digitais, MFD, computador de missão e OBOGS',
+    motor: '01 × Pratt & Whitney PT6A-62 · 950 shp · Turboélice',
+    armamentoFixo: 'Não possui',
+    armamentosCompativeis: 'Pods, bombas, foguetes e tanques externos',
+    pontosFixacao: '05',
+    capacidades: 'Treinamento e apoio tático',
+    operadaPor: 'Fuerza Aérea del Perú (FAP)',
+    quantidadeAdquirida: '20 aeronaves',
+    coverImage: 'covers/ktp1cover.jpg',
+    notes: [
+      'Confirme a configuração de treinamento e a presença de armamentos ou tanques externos antes da aproximação.',
+      'Considere a ocupação dos dois assentos durante o atendimento à tripulação.',
+    ],
+    procedures: [
+      { title: 'Aproximação segura', body: 'Confirme motor desligado, bateria isolada e ausência de armamento ativo antes de acessar a aeronave.' },
+      { title: 'Acesso à cabine', body: 'Verifique a presença dos dois pilotos e utilize os acessos previstos para a configuração KT-1P.' },
+      { title: 'Atendimento à tripulação', body: 'Priorize a comunicação com os pilotos e coordene a extração conforme a situação da cabine.' },
+    ],
+    manuals: [],
+    gallery: [],
+    videos: [],
   },
   {
     id: 't-27m-tucano',

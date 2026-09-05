@@ -3308,6 +3308,7 @@ export const aircraftCatalog: Aircraft[] = [
     sketchfabModelId: '83682910f6364b77b67e6e9fbb2de170',
     overviewModels: [
       { label: 'Visão geral 1', sketchfabModelId: '83682910f6364b77b67e6e9fbb2de170' },
+      { label: 'Tour Virtual em Legacy 500', url: 'https://www.360virtualtours.co.uk/legacy-500-by-saxonair-360-virtual-tour/' },
     ],
     coverImage: 'covers/iu50-legacy-500(cover).jpg',
     notes: [
@@ -3348,6 +3349,11 @@ export const aircraftCatalog: Aircraft[] = [
       { title: 'Legacy 500 - foto 25', url: 'https://drive.google.com/file/d/1wdhfdjyUvMN0hqi5453-M1NArUps_Z8j/view?usp=drive_link' },
       { title: 'Legacy 500 - foto 26', url: 'https://drive.google.com/file/d/1YwUFgaDReGDLNjjSfhZ__TcH1t90R4KY/view?usp=drive_link' },
       { title: 'Legacy 500 - foto 27', url: 'https://drive.google.com/file/d/1PE5ZE4U_Toiu9DwNQeln3kXrLL--bbW0/view?usp=drive_link' },
+      { title: 'Legacy 500 - foto 28', url: 'https://drive.google.com/file/d/1CIGJeXzUmXbULXDE53wX6tsRrARQK_48/view?usp=drive_link' },
+      { title: 'Legacy 500 - foto 29', url: 'https://drive.google.com/file/d/1LVaNVD5eucupWgR7ktTH393vuB8P27kw/view?usp=drive_link' },
+      { title: 'Legacy 500 - foto 30', url: 'https://drive.google.com/file/d/1CThGb78yYsGq9iXXRwgK3gQ0CiPw4s68/view?usp=drive_link' },
+      { title: 'Legacy 500 - foto 31', url: 'https://drive.google.com/file/d/1iwpdnlIsgmuSa6GQ8NZKAzXJj9hE1gVn/view?usp=drive_link' },
+      { title: 'Legacy 500 - foto 32', url: 'https://drive.google.com/file/d/1FQWK9bOzhRkzTBpkSCQg1OJBOY9QLetn/view?usp=drive_link' },
     ],
     videos: [
       { title: 'Legacy 500 - vídeo 1', url: 'https://www.youtube.com/watch?v=rX6122H-QHY' },

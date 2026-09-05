@@ -23,6 +23,7 @@ export type AircraftVisualization = {
 export type AircraftTechnicalVariant = {
   label: string;
   designacaoFab?: string;
+  nomeComercial?: string;
   category?: string;
   role?: string;
   crew?: string;
@@ -34,12 +35,15 @@ export type AircraftTechnicalVariant = {
   range?: string;
   autonomia?: string;
   weight?: string;
+  pesoVazio?: string;
   year?: string;
   origin?: string;
   categoriaContraIncendio?: string;
   fabricanteDetalhe?: string;
   combustivel?: string;
   quantidadeSaidas?: string;
+  assentoEjetavel?: string;
+  radar?: string;
   rotor?: string;
   navegacao?: string;
   comunicacaoESistemas?: string;
@@ -47,10 +51,15 @@ export type AircraftTechnicalVariant = {
   ganchoCarga?: string;
   capacidades?: string;
   armamento?: string;
+  armamentoFixo?: string;
+  armamentosCompativeis?: string;
+  pontosFixacao?: string;
+  capacidadeCargaExterna?: string;
   rampaTraseira?: string;
   sistemaMissao?: string;
   sistemaDefesa?: string;
   motor?: string;
+  potencia?: string;
   operadaPor?: string;
   capacidadeAeromedica?: string;
 };
@@ -96,6 +105,7 @@ export type Aircraft = {
   armamento?: string;
   rampaTraseira?: string;
   assentoEjetavel?: string;
+  radar?: string;
   sistemaMissao?: string;
   sistemaDefesa?: string;
   sistemaAlerta?: string;
@@ -1289,6 +1299,230 @@ export const aircraftCatalog: Aircraft[] = [
         { title: 'Passagem baixa do caça F-39 Gripen no Domingo Aéreo PAMA 2025', url: 'https://www.youtube.com/shorts/9VYyOPENwt4' },
         { title: 'Walkaround F-39E Gripen @forcaaereatv @SaabBrasil #fab #gripen #f39 #jetfighter', url: 'https://www.youtube.com/shorts/OxlxzwNb5_I' },
       ],
+  },
+  {
+    id: 'f-15-usa',
+    name: 'F-15 (USA)',
+    manufacturer: 'McDonnell Douglas / Boeing',
+    catalogCategory: 'Militar',
+    catalogDescription: 'Caça de superioridade aérea e multifunção da United States Air Force.',
+    category: 'Caça de superioridade aérea',
+    role: 'Superioridade aérea, defesa aérea e interceptação',
+    origin: 'Estados Unidos',
+    status: 'Em serviço',
+    statusDetail: 'Em serviço',
+    year: '1979',
+    length: '19,44 m',
+    wingspan: '13,05 m',
+    height: '5,63 m',
+    maxSpeed: 'Mach 2,5+',
+    range: 'Aproximadamente 5.500 km com tanques externos, dependendo da configuração',
+    crew: '01 piloto',
+    weight: 'Aproximadamente 30.845 kg',
+    pesoVazio: 'Aproximadamente 12.700 kg',
+    pobMax: '01 pessoa a bordo',
+    designacaoFab: 'F-15C Eagle',
+    nomeComercial: 'F-15 Eagle',
+    fabricanteDetalhe: 'McDonnell Douglas / Boeing',
+    categoriaContraIncendio: 'CAT-AV 4',
+    combustivel: 'JP-8',
+    assentoEjetavel: '01 assento ejetável',
+    radar: 'AN/APG-63 / variantes modernizadas',
+    sistemaMissao: 'Radar multimodo, aviônicos digitais e guerra eletrônica',
+    motor: '02 × Pratt & Whitney F100-PW-220/229 · Turbofan com pós-combustão',
+    armamentoFixo: '01 × M61A1 Vulcan, 20 mm',
+    armamentosCompativeis: 'Mísseis ar-ar, bombas e armamentos ar-solo',
+    pontosFixacao: '9',
+    capacidadeCargaExterna: 'Variável conforme configuração',
+    capacidades: 'Superioridade aérea, defesa aérea e interceptação',
+    operadaPor: 'United States Air Force (USAF)',
+    coverImage: 'covers/f15c(cover).jpg',
+    sketchfabModelId: 'adedc9d76cc0474989357460d76e7a3b',
+    overviewModels: [
+      { label: 'Ilustração 1 · F-15C Eagle', sketchfabModelId: 'adedc9d76cc0474989357460d76e7a3b', url: 'https://sketchfab.com/3d-models/f-15-eagle-jet-fighter-aircraft-adedc9d76cc0474989357460d76e7a3b' },
+      { label: 'Ilustração 2 · F-15C Eagle', sketchfabModelId: '2ba8289816584e97875c3a8e058108b5', url: 'https://sketchfab.com/3d-models/f-15c-eagle-usa-2ba8289816584e97875c3a8e058108b5' },
+      { label: 'Ilustração 3 · F-15C Eagle', sketchfabModelId: 'f0b55aedc154463186e1c97a4dc6e965', url: 'https://sketchfab.com/3d-models/war-thunder-f-15c-golden-eagle-f0b55aedc154463186e1c97a4dc6e965' },
+      { label: 'Ilustração 4 · F-15D Eagle', sketchfabModelId: 'fe22f6f146994c8c8eb8a11f10ec2536', url: 'https://sketchfab.com/3d-models/f-15-stolmtd-fe22f6f146994c8c8eb8a11f10ec2536' },
+      { label: 'Ilustração 5 · F-15E Strike Eagle', sketchfabModelId: '2807bfc9c8364da4bd6bb732c8122bd7', url: 'https://sketchfab.com/3d-models/war-thunder-f-15e-strike-eagle-2807bfc9c8364da4bd6bb732c8122bd7' },
+      { label: 'Ilustração 6 · F-15E Strike Eagle', sketchfabModelId: '2807bfc9c8364da4bd6bb732c8122bd710', url: 'https://sketchfab.com/3d-models/war-thunder-f-15e-strike-eagle-2807bfc9c8364da4bd6bb732c8122bd710' },
+      { label: 'Ilustração 7 · F-15E Strike Eagle', sketchfabModelId: 'fff7d75490474e9b964d90cc031c8d01', url: 'https://sketchfab.com/3d-models/f-15e-strike-eagle-fighter-jet-free-fff7d75490474e9b964d90cc031c8d01' },
+      { label: 'Tour 360º', url: 'https://starbasela.org/360/F15/' },
+    ],
+    technicalVariants: {
+      f15c: {
+        label: 'F-15C Eagle',
+        designacaoFab: 'F-15C Eagle',
+        category: 'Caça de superioridade aérea',
+        role: 'Superioridade aérea, defesa aérea e interceptação',
+        crew: '01 piloto',
+        pobMax: '01 pessoa a bordo',
+        length: '19,44 m',
+        wingspan: '13,05 m',
+        height: '5,63 m',
+        maxSpeed: 'Mach 2,5+',
+        range: 'Aproximadamente 5.500 km com tanques externos, dependendo da configuração',
+        weight: 'Aproximadamente 30.845 kg',
+        pesoVazio: 'Aproximadamente 12.700 kg',
+        year: '1979',
+        origin: 'Estados Unidos',
+        categoriaContraIncendio: 'CAT-AV 4',
+        fabricanteDetalhe: 'McDonnell Douglas / Boeing',
+        combustivel: 'JP-8',
+        assentoEjetavel: '01 assento ejetável',
+        radar: 'AN/APG-63 / variantes modernizadas',
+        sistemaMissao: 'Radar multimodo, aviônicos digitais e guerra eletrônica',
+        motor: '02 × Pratt & Whitney F100-PW-220/229 · Turbofan com pós-combustão',
+        armamentoFixo: '01 × M61A1 Vulcan, 20 mm',
+        armamentosCompativeis: 'Mísseis ar-ar, bombas e armamentos ar-solo',
+        pontosFixacao: '9',
+        capacidadeCargaExterna: 'Variável conforme configuração',
+        capacidades: 'Superioridade aérea, defesa aérea e interceptação',
+        operadaPor: 'United States Air Force (USAF)',
+      },
+      f15d: {
+        label: 'F-15D Eagle',
+        designacaoFab: 'F-15D Eagle',
+        category: 'Caça de superioridade aérea',
+        role: 'Superioridade aérea, defesa aérea, interceptação e treinamento',
+        crew: '02 tripulantes',
+        pobMax: '02 pessoas a bordo',
+        length: '19,44 m',
+        wingspan: '13,05 m',
+        height: '5,63 m',
+        maxSpeed: 'Mach 2,5+',
+        range: 'Aproximadamente 5.500 km com tanques externos, dependendo da configuração',
+        weight: 'Aproximadamente 30.845 kg',
+        pesoVazio: 'Aproximadamente 12.700 kg',
+        year: '1979',
+        origin: 'Estados Unidos',
+        categoriaContraIncendio: 'CAT-AV 4',
+        fabricanteDetalhe: 'McDonnell Douglas / Boeing',
+        combustivel: 'JP-8',
+        assentoEjetavel: '02 assentos ejetáveis',
+        radar: 'AN/APG-63 / variantes modernizadas',
+        sistemaMissao: 'Radar multimodo, aviônicos digitais e guerra eletrônica',
+        motor: '02 × Pratt & Whitney F100-PW-220/229 · Turbofan com pós-combustão',
+        armamentoFixo: '01 × M61A1 Vulcan, 20 mm',
+        armamentosCompativeis: 'Mísseis ar-ar, bombas e armamentos ar-solo',
+        pontosFixacao: '9',
+        capacidadeCargaExterna: 'Variável conforme configuração',
+        capacidades: 'Superioridade aérea, defesa aérea, interceptação e treinamento',
+        operadaPor: 'United States Air Force (USAF)',
+      },
+      f15e: {
+        label: 'F-15E Strike Eagle',
+        designacaoFab: 'F-15E Strike Eagle',
+        nomeComercial: 'F-15E Strike Eagle',
+        category: 'Caça multifunção',
+        role: 'Ataque, interdição, apoio aéreo e superioridade aérea',
+        crew: '02 tripulantes',
+        pobMax: '02 pessoas a bordo',
+        length: '19,44 m',
+        wingspan: '13,05 m',
+        height: '5,63 m',
+        maxSpeed: 'Mach 2,5+',
+        range: 'Aproximadamente 3.900 km, dependendo da configuração',
+        weight: 'Aproximadamente 36.700 kg',
+        pesoVazio: 'Aproximadamente 14.300 kg',
+        year: '1988',
+        origin: 'Estados Unidos',
+        categoriaContraIncendio: 'CAT-AV 4',
+        fabricanteDetalhe: 'McDonnell Douglas / Boeing',
+        combustivel: 'JP-8',
+        assentoEjetavel: '02 assentos ejetáveis',
+        radar: 'AN/APG-70 / AN/APG-82(V)1, conforme modernização',
+        sistemaMissao: 'Radar multimodo, aviônicos digitais, navegação, designação de alvos e guerra eletrônica',
+        motor: '02 × Pratt & Whitney F100-PW-229 · Turbofan com pós-combustão',
+        potencia: '29.000 lbf por motor',
+        armamentoFixo: '01 × M61A1 Vulcan, 20 mm',
+        armamentosCompativeis: 'Mísseis ar-ar, bombas, mísseis ar-solo e pods',
+        pontosFixacao: '9',
+        capacidadeCargaExterna: 'Até aproximadamente 11.000 kg, conforme configuração e limites operacionais',
+        capacidades: 'Ataque, interdição, superioridade aérea e emprego multifunção',
+        operadaPor: 'United States Air Force (USAF)',
+      },
+    },
+    notes: [
+      'Confirmar a variante, a configuração de armamento e o número de ocupantes antes da aproximação.',
+      'Tratar assentos ejetáveis, motores, armamento e sistemas de guerra eletrônica como áreas de risco.',
+    ],
+    procedures: [
+      { title: 'Aproximação segura', body: 'Confirme motor desligado, bateria isolada e armamento seguro antes de acessar a aeronave.' },
+      { title: 'Identificação da variante', body: 'Confirme se a aeronave é F-15C, F-15D ou F-15E e considere a ocupação correspondente da cabine.' },
+      { title: 'Atendimento à tripulação', body: 'Mantenha a equipe afastada dos assentos ejetáveis até a neutralização e coordene a extração.' },
+    ],
+    manuals: [
+      { name: 'Material F-15', meta: 'Google Drive · link oficial', url: 'https://drive.google.com/file/d/1pzevU7C4OXBqwQr1jSmlO-q7PKYt2ICv/view?usp=drive_link' },
+    ],
+    gallery: [
+      { title: 'F-15 · Galeria 01', url: 'https://drive.google.com/file/d/1kw0I4GRMUVF48fXGhxmr3jLHDOjCOG8I/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 02', url: 'https://drive.google.com/file/d/1Exi8psU7TUy0VDZwQ-TSWClco8f74opg/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 03', url: 'https://drive.google.com/file/d/1g2dF7YF0xXN7z1TlVX8A1-NyW_4qNXRN/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 04', url: 'https://drive.google.com/file/d/1-gnccwNVYQrPfZwd1B_Ym2AklSEiHL4D/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 05', url: 'https://drive.google.com/file/d/1bjJDsLIAF2xLvWuaes_Ug8X5eLE2QUHG/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 06', url: 'https://drive.google.com/file/d/1OpIO-PpxHlHw3eEn4zj8KXsSyGab8ZLF/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 07', url: 'https://drive.google.com/file/d/1_eeTzYSNH95jV25T5945_qnmNgPXL_h3/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 08', url: 'https://drive.google.com/file/d/1p2aCIgQiw2Jn37Km36JEJZCPcAwMTbGw/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 09', url: 'https://drive.google.com/file/d/1JsQwnLHSGWpCmfDmyAoQYVjJzu_jARUM/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 10', url: 'https://drive.google.com/file/d/1DKhRIKGctriBop_Ff4_ed-JtJ_9Eu3ew/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 11', url: 'https://drive.google.com/file/d/1PLda64BTH0wz61asEfobTNvwta1-3MsL/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 12', url: 'https://drive.google.com/file/d/1Vg6nUcx2b5nONYVbbdE8RiltGdmsl64v/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 13', url: 'https://drive.google.com/file/d/1H9SiqCtD4Ualb5ZRxOljTea7GsdzAopj/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 14', url: 'https://drive.google.com/file/d/1EyA-OddWsmiii0FTVCPYyXNj0h5UJHsV/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 15', url: 'https://drive.google.com/file/d/18bdlhnj9vZgDKvHvWeS38_aPOVAw-W5P/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 16', url: 'https://drive.google.com/file/d/1YLR9J537QyLMgRSPaC6nIcg2kEnhsHez/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 17', url: 'https://drive.google.com/file/d/1FQbCIDyDI3xWX0SzBo74a84DppBmMTJ0/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 18', url: 'https://drive.google.com/file/d/1qt8YttvHzlDY1B2UW3KeM6IsRD3RY5K8/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 19', url: 'https://drive.google.com/file/d/1qYp_6ZZiseZ2hGlubk6Ul7u6b6C3wgQN/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 20', url: 'https://drive.google.com/file/d/1KZulWXrcM_ZORjMpDGs_aRYViWVT8X4J/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 21', url: 'https://drive.google.com/file/d/1v1PLXAHCdLeLMDPoXrXHXdjz2VMNqH4C/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 22', url: 'https://drive.google.com/file/d/1nvmdvGWdDZXTY7qOGyAgNPoEGc8Bmk2F/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 23', url: 'https://drive.google.com/file/d/1Ie1MAgfOrsAUqpNjE1K_dlRWVIOMV-pr/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 24', url: 'https://drive.google.com/file/d/1xJBpTvVQZm-fNEAjbn5p9VZVJoXn_lP5/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 25', url: 'https://drive.google.com/file/d/1MuAglT5AG1ynMkUFuVwUERR2kjq-JqLg/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 26', url: 'https://drive.google.com/file/d/1liDuSTZgMIvEf8Tbv06Iizb9MymDC51j/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 27', url: 'https://drive.google.com/file/d/13I0_DOiPu6E5CLzT1wvFg5h1HuMAdxaF/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 28', url: 'https://drive.google.com/file/d/1KuN0UnAMCw7rscrRLh5fc2dODKF1pEsI/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 29', url: 'https://drive.google.com/file/d/1LqRKbLuoIuPZ7r-JD3269c9mVrQAyrl8/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 30', url: 'https://drive.google.com/file/d/1VBPfVDPKOGSOmG9NgqBSSG6AswsWPeVG/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 31', url: 'https://drive.google.com/file/d/1LnUiWA6vW3AVEZQxiqd5krxjHioFkG1q/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 32', url: 'https://drive.google.com/file/d/11LQvn1slrzFKdHh2eUzOqJvePl8d5HIO/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 33', url: 'https://drive.google.com/file/d/1HNQrdrYKwCqWx4j36TAddTO-aq9CgHDK/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 34', url: 'https://drive.google.com/file/d/1JfcTQmr9p6kx67sgiOh5S7LWUQcNOjmR/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 35', url: 'https://drive.google.com/file/d/127hQFWj3nMqmvHaoB_ybzxq3HMk1UZmg/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 36', url: 'https://drive.google.com/file/d/1HDJ69MD-jlApnu0GnbOWgtkGa_cfTcNl/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 37', url: 'https://drive.google.com/file/d/1R3H3fCjNz5DBtRrM1z0svBICJ2BoMT2h/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 38', url: 'https://drive.google.com/file/d/1RgjIZXJpRoSpNuFMIpI-rsab7-DhQVMG/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 39', url: 'https://drive.google.com/file/d/1QG0Gs-VBPIZWcJkH0eH9eBAIAsB7LA3I/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 40', url: 'https://drive.google.com/file/d/15F4xuhryYRtXYp2DPfqyZ_MfrI80ZQ_K/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 41', url: 'https://drive.google.com/file/d/1J2eJwUXL5gwisgk0heQU-MRUotou_kSs/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 42', url: 'https://drive.google.com/file/d/1RPgv46WaKWOrNkiPPfiTcVcxicXM7B-2/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 43', url: 'https://drive.google.com/file/d/1zrggVUV2ukH7_A0Y1uL3C7unTbcRb0cq/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 44', url: 'https://drive.google.com/file/d/1if0rQ3YwxrukD1-Wn2vk0XJk5EciOSUZ/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 45', url: 'https://drive.google.com/file/d/1JyQmZ4wKA3CKsf6jb7PHOo4aFcovHvcK/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 46', url: 'https://drive.google.com/file/d/12doe0aOV0UrOeSHpPaveqDgmeeALGrf6/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 47', url: 'https://drive.google.com/file/d/1tMBRjub4edMcvmHgq_Tbx0EfBcUZdx3h/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 48', url: 'https://drive.google.com/file/d/1gNh4wNZMJKVKscmf4s7n5OLdNKWvHa_y/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 49', url: 'https://drive.google.com/file/d/1kif-df3lXXK-vN7WY8wL-OMyj2Fdwoi4/view?usp=drive_link' },
+      { title: 'F-15 · Galeria 50', url: 'https://drive.google.com/file/d/1FjSE0bryZyQv6JjZn7cFr3lrkuUc5Pto/view?usp=drive_link' },
+    ],
+    videos: [
+      { title: 'F-15 Eagle · vídeo 1', url: 'https://www.youtube.com/watch?v=wQqghVqCH2o' },
+      { title: 'F-15 Eagle · vídeo 2', url: 'https://www.youtube.com/watch?v=P8v_IbNgLds' },
+      { title: 'F-15 Eagle · short 1', url: 'https://www.youtube.com/shorts/jKqmFMiNf_A' },
+      { title: 'F-15 Eagle · vídeo 3', url: 'https://www.youtube.com/watch?v=P8rHdPQGmOw' },
+      { title: 'F-15 Eagle · vídeo 4', url: 'https://www.youtube.com/watch?v=HEiWYN9ImBk' },
+      { title: 'F-15 Eagle · short 2', url: 'https://www.youtube.com/shorts/emI-NctY6QU' },
+      { title: 'F-15 Eagle · vídeo 5', url: 'https://www.youtube.com/watch?v=KYIBX2n9TPs' },
+      { title: 'F-15 Eagle · vídeo 6', url: 'https://www.youtube.com/watch?v=2eG0ZBD2p-4' },
+      { title: 'F-15 Eagle · vídeo 7', url: 'https://www.youtube.com/watch?v=4TS-bM51as4' },
+      { title: 'F-15 Eagle · short 3', url: 'https://www.youtube.com/shorts/Awo-UuE_opo' },
+      { title: 'F-15 Eagle · short 4', url: 'https://www.youtube.com/shorts/feV8uhULczA' },
+      { title: 'F-15 Eagle · vídeo 8', url: 'https://www.youtube.com/watch?v=dIwpdwVUL5Y&t=3s' },
+      { title: 'F-15 Eagle · short 5', url: 'https://www.youtube.com/shorts/WE77n0ctTp8' },
+      { title: 'F-15 Eagle · vídeo 9', url: 'https://www.youtube.com/watch?v=084VQVj5d_E' },
+      { title: 'F-15 Eagle · short 6', url: 'https://www.youtube.com/shorts/Z6nrWMZe8OU' },
+    ],
   },
   {
     id: 'f-16-block-50-chile',

@@ -77,6 +77,7 @@ export type Aircraft = {
   coproducao?: string;
   catalogCategory?: string;
   catalogDescription?: string;
+  operationalProfile?: string;
   category: string;
   role: string;
   origin: string;
@@ -913,6 +914,70 @@ export const aircraftCatalog: Aircraft[] = [
       { title: 'Qual é o Segredo por trás do Sucesso do Embraer EMB Super Tucano?', url: 'https://www.youtube.com/shorts/oHp9tbyT5eI' },
       { title: 'Rasante mais baixo Esquadrilha da Fumaça Domingo Aéreo 2023 AFA Portões Abertos A29 Super Tucano', url: 'https://www.youtube.com/shorts/ReJSZdPjKtY' },
       { title: 'Amazing Aerobatics: The Brazilian Smoke Squadron in Action with A-29 Super Tucano', url: 'https://www.youtube.com/watch?v=IQgVCTVXsUA' },
+    ],
+  },
+  {
+    id: 'at-26-xavante',
+    name: 'AT-26 Xavante',
+    manufacturer: 'Embraer / Aermacchi',
+    nomeComercial: 'MB-326 / Xavante',
+    category: 'Aeronave de treinamento a jato e ataque leve',
+    role: 'Treinamento avançado, ataque ao solo e reconhecimento',
+    origin: 'Itália / Brasil',
+    status: 'Desativado',
+    statusDetail: 'Desativado definitivamente em dezembro de 2013',
+    year: '1971 (FAB)',
+    length: '10,67 m',
+    wingspan: '10,85 m',
+    height: '3,72 m',
+    maxSpeed: 'Aproximadamente 806 km/h',
+    range: 'Aproximadamente 1.700 km',
+    crew: '02 pilotos',
+    weight: 'Aproximadamente 5.443 kg (MTOW)',
+    pobMax: '02 pessoas a bordo',
+    designacaoFab: 'AT-26',
+    categoriaContraIncendio: 'CAT-AV 2',
+    fabricanteDetalhe: 'Embraer, sob licença da Aermacchi',
+    combustivel: 'Jet A-1 / QAV-1',
+    assentoEjetavel: '02 assentos ejetáveis',
+    motor: '01 × Rolls-Royce Viper 632-43',
+    tipoMotor: 'Turbojato',
+    potencia: 'Aproximadamente 1.814 kgf',
+    armamentoFixo: '02 × canhões de 30 mm',
+    armamentosCompativeis: 'Bombas, foguetes e cargas externas',
+    pontosFixacao: '06',
+    capacidades: 'Treinamento avançado, ataque ao solo e reconhecimento',
+    operadaPor: 'Força Aérea Brasileira (FAB)',
+    operationalProfile: 'Introduzido na FAB em 1971, o Xavante foi empregado por mais de quatro décadas na formação e qualificação de pilotos de caça e ataque, além de atuar em missões de ataque, reconhecimento e ensaio em voo. Foi um dos principais jatos de treinamento da FAB e contribuiu para a formação de grande parte dos pilotos de caça brasileiros. A operação em esquadrões terminou em 2010, mas exemplares continuaram no IPEV para ensaios em voo até a desativação definitiva em dezembro de 2013.',
+    sketchfabModelId: '6470ca8002c6447387c88a12675bdf87',
+    overviewModels: [
+      { label: 'Ilustração 1', sketchfabModelId: '6470ca8002c6447387c88a12675bdf87', url: 'https://sketchfab.com/3d-models/at-26-xavante-6470ca8002c6447387c88a12675bdf87' },
+    ],
+    coverImage: 'covers/at26cover.jpg',
+    notes: [
+      'Aeronave desativada; considerar a condição do exemplar antes de qualquer abordagem.',
+      'A configuração histórica inclui assentos ejetáveis e armamento fixo de 30 mm.',
+    ],
+    procedures: [
+      { title: 'Abordagem de aeronave desativada', body: 'Confirme a condição do exemplar, o isolamento dos sistemas e a autorização para acesso antes da aproximação.' },
+      { title: 'Acesso à cabine', body: 'Considere a presença dos dois assentos ejetáveis e mantenha a equipe afastada dos mecanismos até a aeronave estar segura.' },
+    ],
+    manuals: [
+      { name: 'Material AT-26 Xavante', meta: 'Google Drive · material anexado', url: 'https://drive.google.com/file/d/1D_U8YxVC28Dopua0PAn526Jup6vyDnNi/view?usp=drive_link' },
+    ],
+    gallery: [
+      { title: 'AT-26 Xavante - Galeria 01', url: 'https://drive.google.com/file/d/1t2S-ysnxPx-ueE9bUGlx-Jki7afUdjTY/view?usp=drive_link' },
+      { title: 'AT-26 Xavante - Galeria 02', url: 'https://drive.google.com/file/d/1t7sAdnPaSysKKobEez9yv9lq84ggDoJv/view?usp=drive_link' },
+      { title: 'AT-26 Xavante - Galeria 03', url: 'https://drive.google.com/file/d/12ZJDM_-eHxsVH67v6t0ELBWII8Rza5vy/view?usp=drive_link' },
+    ],
+    videos: [
+      { title: 'Xavante (AT-26), o primeiro avião a jato fabricado em série no Brasil', url: 'https://www.youtube.com/watch?v=ovvW1rdGox8' },
+      { title: 'ASAS E HISTÓRIAS - 23 - EMBRAER EMB-326GB (AT-26) XAVANTE', url: 'https://www.youtube.com/watch?v=qxZih1ZYVTI&t=25s' },
+      { title: 'Rasante do caça Xavante AT26 no Campo de Marte', url: 'https://www.youtube.com/watch?v=mt_Z_5VAM8k' },
+      { title: 'Xavante - FAB.MP4', url: 'https://www.youtube.com/watch?v=sVuQKBzA0oQ' },
+      { title: 'ASAS E HISTÓRIAS - 23 - EMBRAER EMB-326GB (AT-26) XAVANTE', url: 'https://www.youtube.com/watch?v=qxZih1ZYVTI' },
+      { title: 'Os aviões AT-26 Xavante fabricados pela Embraer.', url: 'https://www.youtube.com/shorts/poUp3QEesDo' },
+      { title: 'AT-26 Xavante e B-17 Fortaleza Voadora na Base Aérea de Recife PE.', url: 'https://www.youtube.com/shorts/2wdb1wYkRN0' },
     ],
   },
   {
@@ -3367,7 +3432,7 @@ export const aircraftCatalog: Aircraft[] = [
     crew: '02 pilotos + operadores de sistemas/inspetores, conforme configuração',
     weight: 'Aproximadamente 17.000 kg (MTOW)',
     pobMax: 'Até 08 pessoas a bordo (configuração padrão: 02 pilotos + até 03 operadores de sistemas/inspetores do GEIV)',
-    categoriaContraIncendio: '03',
+    categoriaContraIncendio: 'CAT-AV 4',
     designacaoFab: 'IU-50',
     fabricanteDetalhe: 'Embraer',
     combustivel: 'Jet A-1 / QAV-1',

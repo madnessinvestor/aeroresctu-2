@@ -1527,7 +1527,7 @@ function DetailPage() {
           <div className="text-card">
             <h3>Perfil operacional</h3>
             <p>
-              {aircraft.name} é uma {technicalCategory.toLowerCase()} com {technicalRole.toLowerCase()}. A configuração operacional atual está alinhada com {aircraft.origin} e com {technicalCrew.toLowerCase()} na tripulação.
+              {aircraft.operationalProfile ?? `${aircraft.name} é uma ${technicalCategory.toLowerCase()} com ${technicalRole.toLowerCase()}. A configuração operacional atual está alinhada com ${aircraft.origin} e com ${technicalCrew.toLowerCase()} na tripulação.`}
             </p>
           </div>
         )}

@@ -36,6 +36,11 @@ function getDriveImageUrl(url: string) {
   return match ? `https://drive.google.com/thumbnail?id=${match[1]}&sz=w2000` : url;
 }
 
+function getGalleryImageUrl(url: string) {
+  if (/^(?:https?:)?\/\//i.test(url) || url.startsWith('/')) return url;
+  return `${import.meta.env.BASE_URL}${url}`;
+}
+
 function getYoutubeEmbedUrl(url: string) {
   try {
     const parsed = new URL(url);
@@ -1657,7 +1662,7 @@ function DetailPage() {
                   onClick={() => item.url && setExpandedGalleryIndex(index)}
                   aria-label={`Ampliar ${item.title}`}
                 >
-                  {item.url && <img className="gallery-image" src={getDriveImageUrl(item.url)} alt={item.title} />}
+                  {item.url && <img className="gallery-image" src={getGalleryImageUrl(getDriveImageUrl(item.url))} alt={item.title} />}
                 </button>
               ))}
             </div>
@@ -1697,7 +1702,7 @@ function DetailPage() {
                 )}
                 <img
                   className="gallery-lightbox-image"
-                  src={getDriveImageUrl(expandedGalleryItem.url)}
+                  src={getGalleryImageUrl(getDriveImageUrl(expandedGalleryItem.url))}
                   alt={expandedGalleryItem.title}
                   onClick={(event) => event.stopPropagation()}
                   onTouchStart={handleGalleryTouchStart}

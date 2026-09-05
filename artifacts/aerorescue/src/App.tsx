@@ -800,7 +800,6 @@ function CreditsPage() {
   return (
     <main className="page-wrap credits-page">
       <div className="credits-hero fade-in">
-        <div className="eyebrow">Reconhecimento institucional</div>
         <h1 className="page-title">Créditos e Agradecimentos</h1>
         <p className="page-lede">
           Nosso agradecimento aos Bombeiros de Aeródromo que contribuíram com conhecimentos, materiais, referências e apoio para o desenvolvimento deste projeto:
